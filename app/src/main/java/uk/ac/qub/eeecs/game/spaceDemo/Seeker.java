@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.spaceDemo;
 
+import java.util.Random;
+
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.particle.Emitter;
 import uk.ac.qub.eeecs.gage.engine.particle.ParticleSystemManager;
@@ -60,20 +62,24 @@ public class Seeker extends SpaceEntity {
      * @param startY        y location of the AI spaceship
      * @param gameScreen    Gamescreen to which AI belongs
      */
-    public Seeker(float startX, float startY, SpaceshipDemoScreen gameScreen) {
-        super(startX, startY, DEFAULT_RADIUS*2.0f, DEFAULT_RADIUS*2.0f, null, gameScreen);
+    public Seeker(float startX, float startY, SpaceshipDemoScreen gameScreen , int size) {
+        super(startX, startY, (DEFAULT_RADIUS+size)*2.0f, (DEFAULT_RADIUS+size)*2.0f, null, gameScreen);
 
         // Define movement variables for the seeker
-        maxAcceleration = 30.0f;
-        maxVelocity = 50.0f;
-        maxAngularVelocity = 150.0f;
-        maxAngularAcceleration = 300.0f;
+        //Change the movement to be more responsive
+        maxAcceleration = 30.0f * 2;
+        maxVelocity = 50.0f*2 ;
+        maxAngularVelocity = 180.0f;
+        maxAngularAcceleration = 350.0f;
 
-        mRadius = DEFAULT_RADIUS;
+        float shipsze = (float) size;
+        mRadius = DEFAULT_RADIUS+shipsze;
         mMass = 10.0f;
 
+        Random random = new Random();
+
         // Define the appearance of the seeker
-        mBitmap = gameScreen.getGame().getAssetManager().getBitmap("Spaceship2");
+        mBitmap = gameScreen.getGame().getAssetManager().getBitmap(random.nextBoolean()? "Spaceship2" : "Spaceship3");
 
         // Create an offset for the movement emitter based on the size of the spaceship
         movementEmitterOffset = new Vector2(-DEFAULT_RADIUS, 0.0f);
@@ -83,8 +89,7 @@ public class Seeker extends SpaceEntity {
         // Create and add a particle effect for the movement of the ship
         ParticleSystemManager particleSystemManager =
                 ((SpaceshipDemoScreen) mGameScreen).getParticleSystemManager();
-        movementEmitter = new Emitter(
-                particleSystemManager, "txt/particle/ThrusterEmitter.JSON",
+        movementEmitter = new Emitter(particleSystemManager, "txt/particle/ThrusterEmitter.JSON",
                 movementEmitterLocation);
         particleSystemManager.addEmitter(movementEmitter);
     }

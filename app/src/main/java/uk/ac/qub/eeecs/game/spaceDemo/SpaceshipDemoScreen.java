@@ -159,14 +159,23 @@ public class SpaceshipDemoScreen extends GameScreen {
 
         // Create a number of randomly positioned asteroids
         Random random = new Random();
-        for (int idx = 0; idx < NUM_ASTEROIDS; idx++)
+        for (int idx = 0; idx < NUM_ASTEROIDS; idx++) {
+
+
+            int size = random.nextInt(31) ;
+
             mSpaceEntities.add(new Asteroid(random.nextFloat() * LEVEL_WIDTH,
-                    random.nextFloat() * LEVEL_HEIGHT, this));
+                    random.nextFloat() * LEVEL_HEIGHT, this,size));
+        }
 
         // Create a number of randomly positioned AI controlled seekers
-        for (int idx = 0; idx < NUM_SEEKERS; idx++)
+        for (int idx = 0; idx < NUM_SEEKERS; idx++) {
+
+            int size = random.nextInt(10);
+
             mSpaceEntities.add(new Seeker(random.nextFloat() * LEVEL_WIDTH,
-                    random.nextFloat() * LEVEL_HEIGHT, this));
+                    random.nextFloat() * LEVEL_HEIGHT, this,size));
+        }
 
         // Create a number of randomly positioned AI controlled turrets
         for (int idx = 0; idx < NUM_TURRETS; idx++)
