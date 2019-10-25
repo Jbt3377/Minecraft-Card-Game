@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.gage.ui.ThumbStick;
 import uk.ac.qub.eeecs.gage.util.MathsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 
 /**
@@ -44,6 +45,17 @@ public class PlayerSpaceship extends SpaceEntity {
     private Vector2 mMovementEmitterOffsetRight;
     private Vector2 mMovementEmitterOffsetMiddle;
     private Vector2 mMovementEmitterLocation;
+
+    /**
+     * For Sound Control
+     * Added AudioManger object
+     */
+
+    private AudioManager audioManager = getGameScreen().getGame().getAudioManager();
+
+    private float volume_of_soundx;
+    private float volume_of_soundy;
+    private float volume_of_sound = 1;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -123,6 +135,9 @@ public class PlayerSpaceship extends SpaceEntity {
             acceleration.y = movementThumbstick.getYMagnitude() * maxAcceleration;
         }
 
+        //Method for playing sound when ship is moving
+        ShipMoving( acceleration.x, acceleration.y);
+
         // Ensure that the ships points in the direction of movement
         angularAcceleration = SteeringBehaviours.alignWithMovement(this);
 
@@ -154,5 +169,32 @@ public class PlayerSpaceship extends SpaceEntity {
         mMovementEmitterRight.getEmitterSettings().maxParticleDensity = (int) (1.2f * velocity.length());
         mMovementEmitterMiddle.getEmitterSettings().minParticleDensity = (int) velocity.length();
         mMovementEmitterMiddle.getEmitterSettings().maxParticleDensity = (int) (1.2f * velocity.length());
+    }
+
+
+    private void ShipMoving(float acceleration_x, float acceleration_y){
+
+        if (acceleration_x +acceleration_y > 1 || acceleration_x +acceleration_y < -1 ){
+
+            if(acceleration_x >= 0){
+                volume_of_soundx = acceleration_x;
+            }
+            else {
+                volume_of_soundx = acceleration_x *-1;
+            }
+
+            if(acceleration_y >= 0){
+                volume_of_soundy = acceleration_y;
+            }
+            else {
+                volume_of_soundy = acceleration_y *-1;
+            }
+
+            volume_of_sound  =   ((volume_of_soundx +  volume_of_soundy) /2 )  /maxAcceleration ;
+
+            //Sets the volume of Sfx
+            audioManager.setSfxVolume(volume_of_sound);
+            audioManager.play(getGameScreen().getGame().getAssetManager().getSound("ShipMoving"));
+        }
     }
 }

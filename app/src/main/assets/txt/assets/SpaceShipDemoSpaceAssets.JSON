@@ -44,6 +44,11 @@
       "type": "Music",
       "name": "space_music",
       "file": "sound/space_music.mp3"
+    },
+    {
+      "type": "Sound",
+      "name": "ShipMoving",
+      "file": "sound/ShipSounds/ShipMoving.mp3"
     }
   ]
 }
