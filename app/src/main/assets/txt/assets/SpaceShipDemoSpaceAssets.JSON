@@ -39,6 +39,11 @@
       "type": "Music",
       "name": "SpaceBackgroundMusic",
       "file": "sound/InPursuitOfSilence.mp3"
+    },
+    {
+      "type": "Music",
+      "name": "space_music",
+      "file": "sound/space_music.mp3"
     }
   ]
 }

@@ -282,7 +282,8 @@ public class SpaceshipDemoScreen extends GameScreen {
         AudioManager audioManager = getGame().getAudioManager();
         if(!audioManager.isMusicPlaying())
             audioManager.playMusic(
-                    getGame().getAssetManager().getMusic("SpaceBackgroundMusic"));
+                    //Changed string name to new background music
+                    getGame().getAssetManager().getMusic("space_music"));
     }
 
     /**
