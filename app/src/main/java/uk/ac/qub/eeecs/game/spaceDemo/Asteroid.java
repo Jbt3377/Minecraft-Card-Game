@@ -24,12 +24,16 @@ public class Asteroid extends SpaceEntity {
      */
     private static final float DEFAULT_RADIUS = 20;
 
+    private static String[] asteroid_image_names = {"Asteroid1", "Asteroid2", "Asteroid3",
+            "Asteroid4", "Asteroid5"};
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
     /**
-     * Create an asteroid
+     * Create an .asteroid
      *
      * @param startX     x location of the asteroid
      * @param startY     y location of the asteroid
@@ -42,8 +46,27 @@ public class Asteroid extends SpaceEntity {
 
         int r = random.nextInt(4);
 
+        /*
         mBitmap = gameScreen.getGame().getAssetManager()
                 .getBitmap(random.nextBoolean() ? "Asteroid1" : "Asteroid2");
+
+         */
+
+        // Pick a random asteroid image from a set. Set used is determined by the size of the
+
+        String asteroidName;
+        float radius = DEFAULT_RADIUS + size;
+        System.out.println(radius);
+        if (radius <= 25) {
+            asteroidName = random.nextBoolean() ? "AsteroidLowRes1" : "AsteroidLowRes2";
+        }else if(radius <=50){
+            asteroidName = random.nextBoolean() ? "AsteroidMedRes1" : "AsteroidMedRes2";
+        }else{
+            asteroidName = random.nextBoolean() ? "AsteroidHighRes1" : "AsteroidHighRes2";
+        }
+
+        mBitmap = gameScreen.getGame().getAssetManager()
+                .getBitmap(asteroidName);
 
         mRadius = DEFAULT_RADIUS + size;
         mMass = 1000.0f;

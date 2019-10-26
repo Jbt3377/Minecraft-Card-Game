@@ -162,10 +162,10 @@ public class SpaceshipDemoScreen extends GameScreen {
         for (int idx = 0; idx < NUM_ASTEROIDS; idx++) {
 
 
-            int size = random.nextInt(31) ;
+            int size = random.nextInt(50) ;
 
             mSpaceEntities.add(new Asteroid(random.nextFloat() * LEVEL_WIDTH,
-                    random.nextFloat() * LEVEL_HEIGHT, this,size));
+                    random.nextFloat() * LEVEL_HEIGHT, this, size));
         }
 
         // Create a number of randomly positioned AI controlled seekers
@@ -174,7 +174,7 @@ public class SpaceshipDemoScreen extends GameScreen {
             int size = random.nextInt(10);
 
             mSpaceEntities.add(new Seeker(random.nextFloat() * LEVEL_WIDTH,
-                    random.nextFloat() * LEVEL_HEIGHT, this,size));
+                    random.nextFloat() * LEVEL_HEIGHT, this, size));
         }
 
         // Create a number of randomly positioned AI controlled turrets

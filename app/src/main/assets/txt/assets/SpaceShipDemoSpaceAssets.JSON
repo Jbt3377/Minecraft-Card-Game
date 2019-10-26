@@ -7,13 +7,33 @@
     },
     {
       "type": "Bitmap",
-      "name": "Asteroid1",
-      "file": "img/Asteroid1.png"
+      "name": "AsteroidLowRes1",
+      "file": "img/AsteroidLowRes1.png"
     },
     {
       "type": "Bitmap",
-      "name": "Asteroid2",
-      "file": "img/Asteroid2.png"
+      "name": "AsteroidLowRes2",
+      "file": "img/AsteroidLowRes2.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "AsteroidMedRes1",
+      "file": "img/AsteroidMedRes1.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "AsteroidMedRes2",
+      "file": "img/AsteroidMedRes2.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "AsteroidHighRes1",
+      "file": "img/AsteroidHighRes1.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "AsteroidHighRes2",
+      "file": "img/AsteroidHighRes2.png"
     },
     {
       "type": "Bitmap",
