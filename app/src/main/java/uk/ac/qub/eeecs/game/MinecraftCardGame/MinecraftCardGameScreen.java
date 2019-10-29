@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.cardDemo;
+package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Color;
 
@@ -13,7 +13,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
  *
  * @version 1.0
  */
-public class CardDemoScreen extends GameScreen {
+public class MinecraftCardGameScreen extends GameScreen {
 
     // /////////////////////////////////////////////////////////////////////////
     // Properties
@@ -31,7 +31,7 @@ public class CardDemoScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public CardDemoScreen(Game game) {
+    public MinecraftCardGameScreen(Game game) {
         super("CardScreen", game);
 
         // Load the various images used by the cards
