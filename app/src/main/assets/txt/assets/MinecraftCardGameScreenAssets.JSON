@@ -12,8 +12,13 @@
     },
     {
       "type": "Bitmap",
-      "name": "CardBackGround",
-      "file": "img/CardViewPort.png"
+      "name": "EndTurnDefault",
+      "file": "img/BlueButton.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "EndTurnActive",
+      "file": "img/BlueButtonActive.png"
     },
     {
       "type": "Bitmap",

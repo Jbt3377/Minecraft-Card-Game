@@ -6,6 +6,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
@@ -29,6 +30,9 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     //Define the background image GameObject
     private GameObject boardBackground;
+
+    //Define pushButtons for the game
+    private PushButton endTurnButton;
 
     // Define a card to be displayed
     private Card card;
@@ -75,13 +79,16 @@ public class MinecraftCardGameScreen extends GameScreen {
     }
 
     private void setupBoardGameObjects() {
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
         // Create a new, centered card
         card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
 
-        //Setup backGround image for board - MMC
-        int screenWidth = mGame.getScreenWidth();
-        int screenHeight = mGame.getScreenHeight();
+        //Setup boardBackGround image for board - MMC
         boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
+        //Setup endTurnButton image for the board - MMC
+        endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
+                "EndTurnDefault", "EndTurnActive", this);
 
     }
 
@@ -98,8 +105,10 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         // Update the card
         card.angularVelocity = 40.0f;
-
         card.update(elapsedTime);
+
+        //Update the endTurnButton - MMC
+        endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
     }
 
     /**
@@ -120,6 +129,11 @@ public class MinecraftCardGameScreen extends GameScreen {
          //Draw the card into cardLayerViewport - MMC
         card.draw(elapsedTime, graphics2D,
                 cardLayerViewport,
+                mDefaultScreenViewport);
+
+        //Draw endTurnButton into boardLayerViewport - MMC
+        endTurnButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
                 mDefaultScreenViewport);
     }
 }
