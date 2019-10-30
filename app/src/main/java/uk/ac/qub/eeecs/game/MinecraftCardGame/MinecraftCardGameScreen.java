@@ -59,8 +59,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     /**
      * Setup a full screen viewport for drawing to the entire screen and then
-     * a resized HUD viewport (for drawing controls, etc.). Finally setup
-     * a board game viewport into the 'world' of the created game objects.
+     * setup a board game viewport into the 'world' of the created game objects.
+     * Also created a cardLayerViewport for future use
      */
 
     private void setupViewPorts() {
