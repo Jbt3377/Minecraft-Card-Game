@@ -104,7 +104,6 @@ public class MinecraftCardGameScreen extends GameScreen {
         Input input = mGame.getInput();
 
         // Update the card
-        card.angularVelocity = 40.0f;
         card.update(elapsedTime);
 
         //Update the endTurnButton - MMC
