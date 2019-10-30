@@ -6,7 +6,9 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
 
 /**
  * Starter class for Card game stories
@@ -18,6 +20,15 @@ public class MinecraftCardGameScreen extends GameScreen {
     // /////////////////////////////////////////////////////////////////////////
     // Properties
     // /////////////////////////////////////////////////////////////////////////
+
+    //Define a viewport for the board
+    private LayerViewport boardLayerViewport;
+
+    //Define a viewport for cards
+    private LayerViewport cardLayerViewport;
+
+    //Define the background image GameObject
+    private GameObject boardBackground;
 
     // Define a card to be displayed
     private Card card;
@@ -35,15 +46,45 @@ public class MinecraftCardGameScreen extends GameScreen {
         super("CardScreen", game);
 
         // Load the various images used by the cards
-        mGame.getAssetManager().loadAssets("txt/assets/CardDemoScreenAssets.JSON");
+        mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
-        // Create a new, centered card
-        card = new Card(mDefaultLayerViewport.x, mDefaultLayerViewport.y, this);
+        setupViewPorts();
+
+        setupBoardGameObjects();
     }
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
     // /////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Setup a full screen viewport for drawing to the entire screen and then
+     * a resized HUD viewport (for drawing controls, etc.). Finally setup
+     * a board game viewport into the 'world' of the created game objects.
+     */
+
+    private void setupViewPorts() {
+        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
+
+        //Setup boardLayerViewport and cardLayerViewport - MMC
+        float screenWidth = mGame.getScreenWidth();
+        float screenHeight = mGame.getScreenHeight();
+        boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
+        cardLayerViewport = new LayerViewport(screenWidth/2, screenWidth/2,screenWidth/4,screenHeight/4);
+
+    }
+
+    private void setupBoardGameObjects() {
+        // Create a new, centered card
+        card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
+
+        //Setup backGround image for board - MMC
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
+        boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
+
+    }
+
 
     /**
      * Update the card demo screen
@@ -71,8 +112,14 @@ public class MinecraftCardGameScreen extends GameScreen {
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         graphics2D.clear(Color.WHITE);
 
-        // Draw the card
+        //Draw the background image into boardLayerViewport - MMC
+        boardBackground.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+         //Draw the card into cardLayerViewport - MMC
         card.draw(elapsedTime, graphics2D,
-                mDefaultLayerViewport, mDefaultScreenViewport);
+                cardLayerViewport,
+                mDefaultScreenViewport);
     }
 }

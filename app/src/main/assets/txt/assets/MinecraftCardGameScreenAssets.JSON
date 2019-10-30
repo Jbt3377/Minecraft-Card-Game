@@ -7,6 +7,16 @@
     },
     {
       "type": "Bitmap",
+      "name": "BoardBackGround",
+      "file": "img/CoolBoardGameImage.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "CardBackGround",
+      "file": "img/CardViewPort.png"
+    },
+    {
+      "type": "Bitmap",
       "name": "CardPortrait",
       "file": "img/CardPortrait.png"
     },
