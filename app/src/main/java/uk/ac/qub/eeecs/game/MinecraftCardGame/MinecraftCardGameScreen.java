@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.MinecraftCardGame;
 import android.graphics.Color;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
@@ -10,6 +11,7 @@ import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.game.miscDemos.GameScreenDemoSubScreen;
 
 /**
  * Starter class for Card game stories
@@ -34,6 +36,12 @@ public class MinecraftCardGameScreen extends GameScreen {
     //Define pushButtons for the game
     private PushButton endTurnButton;
 
+    //OptionsScreen Buttons
+    private PushButton OptionsScreenButton;
+
+    private OptionsScreen mRightScreen;
+
+
     // Define a card to be displayed
     private Card card;
 
@@ -52,6 +60,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
+        mRightScreen = new OptionsScreen("RightScreen", game);
         setupViewPorts();
 
         setupBoardGameObjects();
@@ -81,6 +90,8 @@ public class MinecraftCardGameScreen extends GameScreen {
     private void setupBoardGameObjects() {
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
+
+
         // Create a new, centered card
         card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
 
@@ -89,6 +100,12 @@ public class MinecraftCardGameScreen extends GameScreen {
         //Setup endTurnButton image for the board - MMC
         endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
+        //set up a button to the options screen
+        OptionsScreenButton = new PushButton(screenWidth * 0.80f, screenHeight/3,screenWidth/8,screenHeight/8,
+                "EndTurnDefault", "EndTurnActive", this);
+
+
+
 
     }
 
@@ -108,6 +125,13 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Update the endTurnButton - MMC
         endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
+
+
+        OptionsScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
+        OptionsScreenButton.update(elapsedTime);
+        if (OptionsScreenButton.isPushTriggered()) {
+            mGame.getScreenManager().addScreen(mRightScreen);
+        }
     }
 
     /**
@@ -132,6 +156,11 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Draw endTurnButton into boardLayerViewport - MMC
         endTurnButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+    //Draw OptionsScreenButton into boardLayerViewport - MMC
+        OptionsScreenButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
     }
