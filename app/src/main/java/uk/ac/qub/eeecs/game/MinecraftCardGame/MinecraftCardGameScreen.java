@@ -39,7 +39,7 @@ public class MinecraftCardGameScreen extends GameScreen {
     //OptionsScreen Buttons
     private PushButton OptionsScreenButton;
 
-    private OptionsScreen mRightScreen;
+    //private OptionsScreen mRightScreen;
 
 
     // Define a card to be displayed
@@ -60,7 +60,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
-        mRightScreen = new OptionsScreen("RightScreen", game);
+       // mRightScreen = new OptionsScreen("RightScreen", game);
         setupViewPorts();
 
         setupBoardGameObjects();
@@ -130,7 +130,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         OptionsScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
         OptionsScreenButton.update(elapsedTime);
         if (OptionsScreenButton.isPushTriggered()) {
-            mGame.getScreenManager().addScreen(mRightScreen);
+         //   mGame.getScreenManager().addScreen(mRightScreen);
         }
     }
 

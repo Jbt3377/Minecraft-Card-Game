@@ -69,6 +69,16 @@
       "type": "Sound",
       "name": "ShipMoving",
       "file": "sound/ShipSounds/ShipMoving.mp3"
+    },
+    {
+      "type": "Sound",
+      "name": "ShipStart",
+      "file": "sound/ShipSounds/ShipStart.mp3"
+    },
+    {
+      "type": "Sound",
+      "name": "ShipStop",
+      "file": "sound/ShipSounds/ShipStop.mp3"
     }
   ]
 }

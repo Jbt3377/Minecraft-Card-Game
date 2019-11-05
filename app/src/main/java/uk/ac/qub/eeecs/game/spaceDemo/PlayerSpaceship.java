@@ -55,7 +55,9 @@ public class PlayerSpaceship extends SpaceEntity {
 
     private float volume_of_soundx;
     private float volume_of_soundy;
-    private float volume_of_sound = 1;
+    private float volume_of_sound = 1.0f;
+
+    private boolean OneTime = true;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -81,6 +83,8 @@ public class PlayerSpaceship extends SpaceEntity {
 
         mRadius = DEFAULT_RADIUS;
         mMass = 1000.0f;
+
+
 
         // Create an offset for the movement emitters based on the size of the spaceship
         mMovementEmitterOffsetLeft = new Vector2(-20.0f, 20.0f);
@@ -135,8 +139,11 @@ public class PlayerSpaceship extends SpaceEntity {
             acceleration.y = movementThumbstick.getYMagnitude() * maxAcceleration;
         }
 
+        //Plays Sound and checks ship status stopped or moving
+        ShipStatus();
+
         //Method for playing sound when ship is moving
-        ShipMoving( acceleration.x, acceleration.y);
+        ShipMoving();
 
         // Ensure that the ships points in the direction of movement
         angularAcceleration = SteeringBehaviours.alignWithMovement(this);
@@ -172,29 +179,37 @@ public class PlayerSpaceship extends SpaceEntity {
     }
 
 
-    private void ShipMoving(float acceleration_x, float acceleration_y){
+    private void ShipMoving(){
 
-        if (acceleration_x +acceleration_y > 1 || acceleration_x +acceleration_y < -1 ){
+        if (velocity.length()>1){
 
-            if(acceleration_x >= 0){
-                volume_of_soundx = acceleration_x;
-            }
-            else {
-                volume_of_soundx = acceleration_x *-1;
-            }
-
-            if(acceleration_y >= 0){
-                volume_of_soundy = acceleration_y;
-            }
-            else {
-                volume_of_soundy = acceleration_y *-1;
-            }
-
-            volume_of_sound  =   ((volume_of_soundx +  volume_of_soundy) /2 )  /maxAcceleration ;
+            volume_of_sound  =   velocity.length()/maxVelocity;
 
             //Sets the volume of Sfx
             audioManager.setSfxVolume(volume_of_sound);
             audioManager.play(getGameScreen().getGame().getAssetManager().getSound("ShipMoving"));
+        }
+        else {
+            audioManager.setSfxVolume(1);
+        }
+    }
+
+
+    /*
+        When it's starts to move play the sound and change a value to played false;
+        When it's stops play the sound and change it to true
+    */
+    private void ShipStatus(){
+        if((velocity.length()>1) && OneTime){
+            audioManager.setSfxVolume(1);
+            OneTime = false;
+            audioManager.play(getGameScreen().getGame().getAssetManager().getSound("ShipStart"));
+        }
+
+        if ((velocity.length()<=1) && !OneTime){
+            audioManager.setSfxVolume(1);
+            OneTime = true;
+            audioManager.play(getGameScreen().getGame().getAssetManager().getSound("ShipStop"));
         }
     }
 }
