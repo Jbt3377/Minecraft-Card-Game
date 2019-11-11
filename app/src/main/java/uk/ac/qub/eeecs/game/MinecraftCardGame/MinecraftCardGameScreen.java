@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
+import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
@@ -56,6 +57,8 @@ public class MinecraftCardGameScreen extends GameScreen {
     private ArrayList<Card> cardCollection = new ArrayList<>();
 
 
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -70,6 +73,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
+
+        mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
 
        // mRightScreen = new OptionsScreen("RightScreen", game);
         setupViewPorts();
@@ -104,7 +109,7 @@ public class MinecraftCardGameScreen extends GameScreen {
 
 
         // Create a new, centered card
-        card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
+        card = new Card(cardLayerViewport.x, cardLayerViewport.y, this,0);
 
         //Creates a list of card objects
         addCardsToList();
@@ -121,9 +126,6 @@ public class MinecraftCardGameScreen extends GameScreen {
         //set up a button to the options screen
         OptionsScreenButton = new PushButton(screenWidth * 0.80f, screenHeight/3,screenWidth/8,screenHeight/8,
                 "EndTurnDefault", "EndTurnActive", this);
-
-
-
 
     }
 
@@ -198,8 +200,10 @@ public class MinecraftCardGameScreen extends GameScreen {
     Adds cards objects to the array list of "cardCollection" - AB
      */
     private void addCardsToList(){
-        for(int i = 0; i < numberOfCards; i++){
-            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
+        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
+
+        for(int i = 0; i < cards.size(); i++){
+            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
             cardCollection.add(card);
         }
     }

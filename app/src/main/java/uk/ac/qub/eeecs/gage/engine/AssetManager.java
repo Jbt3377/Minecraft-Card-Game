@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -60,6 +61,11 @@ public class AssetManager {
     private HashMap<String, AnimationSettings> mAnimations;
 
     /**
+     * Bitmap asset store
+     */
+    private ArrayList<CardInformation> mCards;
+
+    /**
      * File IO
      */
     private FileIO mFileIO;
@@ -89,6 +95,8 @@ public class AssetManager {
         mSounds = new HashMap<>();
         mFonts = new HashMap<>();
         mAnimations = new HashMap<>();
+        mCards = new ArrayList<>();
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -174,6 +182,7 @@ public class AssetManager {
         mAnimations.put(assetName, asset);
         return true;
     }
+
 
     /**
      * Load and add the specified bitmap asset to the manager
@@ -344,6 +353,42 @@ public class AssetManager {
         }
     }
 
+    //Loading Cards
+    public void loadCard(String assetsToLoadJSONFile) {
+        // Attempt to load in the JSON asset details
+        String loadedJSON;
+        try {
+            loadedJSON = mFileIO.loadJSON(assetsToLoadJSONFile);
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "AssetManager.constructor: Cannot load JSON [" + assetsToLoadJSONFile + "]");
+        }
+
+        // Attempt to extract the JSON information
+        try {
+            JSONObject settings = new JSONObject(loadedJSON);
+            JSONArray assets = settings.getJSONArray("assets");
+
+            // Load in each asset
+            for (int idx = 0; idx < assets.length(); idx++){
+
+                String assetName = assets.getJSONObject(idx).getString("assets");
+                String name = assets.getJSONObject(idx).getString("name");
+                String description = assets.getJSONObject(idx).getString("description");
+                int attack = assets.getJSONObject(idx).getInt("attack");
+                int defence = assets.getJSONObject(idx).getInt("defence");
+
+                CardInformation card = new CardInformation(assetName, name, description, attack, defence);
+
+                mCards.add(card);
+            }
+
+        } catch (JSONException | IllegalArgumentException e) {
+            throw new RuntimeException(
+                    "AssetManager.constructor: JSON parsing error [" + e.getMessage() + "]");
+        }
+    }
+
     /**
      * Retrieve the specified bitmap asset from the manager
      *
@@ -414,6 +459,9 @@ public class AssetManager {
         return mAnimations.get(assetName);
     }
 
+    public ArrayList<CardInformation> getCards() {
+        return mCards;
+    }
 
     // /////////////////////////////////////////////////////////////////////////
     // Misc

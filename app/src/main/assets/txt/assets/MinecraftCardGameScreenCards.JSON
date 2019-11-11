@@ -1,0 +1,36 @@
+{
+  "assets": [
+    {
+      "type": "Card",
+      "assets": "cow",
+      "name": "Creeper",
+      "description": "I go boom",
+      "attack": 1,
+      "defence": 1
+    },
+    {
+      "type": "Card",
+      "assets": "dragon",
+      "name": "I am dragon",
+      "description": "This is a very powerful card",
+      "attack": 2,
+      "defence": 2
+    },
+    {
+      "type": "Card",
+      "assets": "creeper",
+      "name": "Ender Dragon",
+      "description": "This is a very powerful card",
+      "attack": 3,
+      "defence": 3
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    }
+    ]
+}

@@ -2,6 +2,8 @@ package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -68,24 +70,25 @@ public class Card extends Sprite {
      * @param y          Centre x location of the platform
      * @param gameScreen Gamescreen to which this platform belongs
      */
-    public Card(float x, float y, GameScreen gameScreen) {
+    public Card(float x, float y, GameScreen gameScreen, int index) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
 
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
+
 
         // Store the common card base image
         mCardBase = assetManager.getBitmap("CardBackground");
 
         // Store the card portrait image
-        mCardPortrait = assetManager.getBitmap("CardPortrait");
+        mCardPortrait = assetManager.getBitmap(assetManager.getCards().get(index).getAssetName());
 
         // Store each of the damage/health digits
         for(int digit = 0; digit <= 9; digit++)
             mCardDigits[digit] = assetManager.getBitmap(String.valueOf(digit));
 
         // Set default attack and health values
-        mAttack = 1;
-        mHealth = 2;
+        mAttack = assetManager.getCards().get(index).getAttack();
+        mHealth = assetManager.getCards().get(index).getDefence();
     }
 
     // /////////////////////////////////////////////////////////////////////////
