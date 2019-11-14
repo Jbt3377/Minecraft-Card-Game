@@ -131,8 +131,7 @@ public class AssetDemoScreen extends GameScreen {
         // Change the bitmap associated with the arrow reference every second.
         // Note: the code is inefficient as it gets the bitmap each frame.
         mArrow = mGame.getAssetManager().getBitmap(
-                ((int) (elapsedTime.totalTime / 2.0f)) % 2 == 0 ?
-                        "UpArrow" : "UpArrowSelected");
+                ((int) (elapsedTime.totalTime / 2.0f)) % 2 == 0 ? "UpArrow" : "UpArrowSelected");
 
         // Select the colour tint to be applied to the sprite sheet
         mColour = mColourChoices[(int) (elapsedTime.totalTime % mColourChoices.length)];

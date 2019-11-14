@@ -4,8 +4,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import uk.ac.qub.eeecs.gage.Game;
+import android.graphics.Bitmap;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -47,6 +49,9 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     //private OptionsScreen mRightScreen;
 
+    //private pig :)
+    private GameObject pig;
+    private int con = 0;
 
     // Define a card to be displayed
     private Card card;
@@ -76,6 +81,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
+
 
        // mRightScreen = new OptionsScreen("RightScreen", game);
         setupViewPorts();
@@ -118,6 +124,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         // Create a new, centered card
         card = new Card(cardLayerViewport.x, cardLayerViewport.y, this,0);
+        //pig
+        pig = new GameObject(screenWidth /3, screenHeight/3, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
         //Creates a list of card objects
         addCardsToList();
@@ -135,6 +143,8 @@ public class MinecraftCardGameScreen extends GameScreen {
         OptionsScreenButton = new PushButton(screenWidth * 0.80f, screenHeight/3,screenWidth/8,screenHeight/8,
                 "EndTurnDefault", "EndTurnActive", this);
 
+
+
     }
 
 
@@ -150,6 +160,10 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         // Update the card
         card.update(elapsedTime);
+
+        if(mGame.getScreenManager().getCurrentScreen().getName().equalsIgnoreCase("CardScreen")){
+            con = 1;
+        }
 
         // Update All Cards on screen
         for(int i = 0; i < numberOfCards; i++){
@@ -186,6 +200,8 @@ public class MinecraftCardGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
+
+
         //Draw the card into cardLayerViewport - MMC
         card.draw(elapsedTime, graphics2D,
                 cardLayerViewport,
@@ -200,13 +216,6 @@ public class MinecraftCardGameScreen extends GameScreen {
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-
-    //Draw OptionsScreenButton into boardLayerViewport - MMC
-        OptionsScreenButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
-
-
 
         //Draw text that was loaded
         Paint textPaint = new Paint();
@@ -249,6 +258,16 @@ public class MinecraftCardGameScreen extends GameScreen {
         for(int i = 0; i < numberOfCards; i++){
             cardCollection.get(i).draw(elapsedTime, graphics2D,
                     cardLayerViewport,
+                    mDefaultScreenViewport);
+        }
+
+
+
+        if(elapsedTime.totalTime < 5.0 && con == 1) {
+
+
+            pig.draw(elapsedTime, graphics2D,
+                    boardLayerViewport,
                     mDefaultScreenViewport);
         }
     }

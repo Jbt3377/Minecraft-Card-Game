@@ -94,6 +94,12 @@
       "type": "Bitmap",
       "name": "sword",
       "file": "img/card_sword.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "PIG",
+      "file": "img/PIG.png"
     }
   ]
 }
