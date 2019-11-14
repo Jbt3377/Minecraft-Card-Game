@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 
@@ -80,6 +81,13 @@ public class MinecraftCardGameScreen extends GameScreen {
         setupViewPorts();
 
         setupBoardGameObjects();
+
+        //Loading font
+        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
+
+
+
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -167,6 +175,10 @@ public class MinecraftCardGameScreen extends GameScreen {
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        int width = mGame.getScreenWidth();
+        int height = mGame.getScreenHeight();
+
         graphics2D.clear(Color.WHITE);
 
         //Draw the background image into boardLayerViewport - MMC
@@ -193,6 +205,17 @@ public class MinecraftCardGameScreen extends GameScreen {
         OptionsScreenButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
+
+
+
+        //Draw text that was loaded
+        Paint textPaint = new Paint();
+        textPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        textPaint.setTextSize(height / 16);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
+
     }
 
 
@@ -229,4 +252,6 @@ public class MinecraftCardGameScreen extends GameScreen {
                     mDefaultScreenViewport);
         }
     }
+
+
 }
