@@ -108,8 +108,11 @@ public class MenuScreen extends GameScreen {
 
             if (mSpaceshipDemoButton.isPushTriggered())
                 mGame.getScreenManager().addScreen(new SpaceshipDemoScreen(mGame));
-            else if (mCardDemoButton.isPushTriggered())
+            else if (mCardDemoButton.isPushTriggered()){
+               mGame.MenuScreentime = elapsedTime.totalTime;
                 mGame.getScreenManager().addScreen(new MinecraftCardGameScreen(mGame));
+            }
+
             else if (mPlatformDemoButton.isPushTriggered())
                 mGame.getScreenManager().addScreen(new PlatformDemoScreen(mGame));
             else if (mDemosButton.isPushTriggered())

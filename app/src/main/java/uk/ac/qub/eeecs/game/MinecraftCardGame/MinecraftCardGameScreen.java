@@ -17,6 +17,7 @@ import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.game.MenuScreen;
 import uk.ac.qub.eeecs.game.miscDemos.GameScreenDemoSubScreen;
 import uk.ac.qub.eeecs.game.platformDemo.Player;
 
@@ -51,7 +52,7 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     //private pig :)
     private GameObject pig;
-    private int con = 0;
+
 
     // Define a card to be displayed
     private Card card;
@@ -125,7 +126,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         // Create a new, centered card
         card = new Card(cardLayerViewport.x, cardLayerViewport.y, this,0);
         //pig
-        pig = new GameObject(screenWidth /3, screenHeight/3, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
+        pig = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
         //Creates a list of card objects
         addCardsToList();
@@ -153,6 +154,8 @@ public class MinecraftCardGameScreen extends GameScreen {
      *
      * @param elapsedTime Elapsed time information
      */
+
+
     @Override
     public void update(ElapsedTime elapsedTime) {
         // Process any touch events occurring since the last update
@@ -161,9 +164,11 @@ public class MinecraftCardGameScreen extends GameScreen {
         // Update the card
         card.update(elapsedTime);
 
-        if(mGame.getScreenManager().getCurrentScreen().getName().equalsIgnoreCase("CardScreen")){
-            con = 1;
-        }
+        pig.update(elapsedTime);
+
+
+
+
 
         // Update All Cards on screen
         for(int i = 0; i < numberOfCards; i++){
@@ -176,9 +181,9 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         OptionsScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
         OptionsScreenButton.update(elapsedTime);
-        if (OptionsScreenButton.isPushTriggered()) {
-         //   mGame.getScreenManager().addScreen(mRightScreen);
-        }
+
+
+
     }
 
     /**
@@ -188,6 +193,9 @@ public class MinecraftCardGameScreen extends GameScreen {
      * @param graphics2D  Graphics instance
      */
     @Override
+
+
+
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
         int width = mGame.getScreenWidth();
@@ -212,6 +220,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
 
 
+
+
         //Draw endTurnButton into boardLayerViewport - MMC
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
@@ -225,6 +235,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
 
+        //dispplay pig 5 secs
+        displayPig(elapsedTime , graphics2D);
     }
 
 
@@ -262,15 +274,16 @@ public class MinecraftCardGameScreen extends GameScreen {
         }
 
 
+    }
 
-        if(elapsedTime.totalTime < 5.0 && con == 1) {
-
-
+    private void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+        if(elapsedTime.totalTime < mGame.MenuScreentime + 5.0) {
             pig.draw(elapsedTime, graphics2D,
                     boardLayerViewport,
                     mDefaultScreenViewport);
         }
     }
+
 
 
 }
