@@ -117,7 +117,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-
+        cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/4,screenHeight/4);
     }
 
     private void setupBoardGameObjects() {
