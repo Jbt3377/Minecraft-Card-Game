@@ -2,11 +2,16 @@ package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Color;
 
+import java.util.List;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.util.Vector2;
+import uk.ac.qub.eeecs.gage.util.ViewportHelper;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
@@ -25,8 +30,7 @@ public class MinecraftCardGameScreen extends GameScreen {
     //Define a viewport for the board
     private LayerViewport boardLayerViewport;
 
-    //Define a viewport for cards
-    private LayerViewport cardLayerViewport;
+    private Vector2 touchPosition = new Vector2();
 
     //Define the background image GameObject
     private GameObject boardBackground;
@@ -70,11 +74,10 @@ public class MinecraftCardGameScreen extends GameScreen {
     private void setupViewPorts() {
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
 
-        //Setup boardLayerViewport and cardLayerViewport - MMC
+        //Setup boardLayerViewport - MMC
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-        cardLayerViewport = new LayerViewport(screenWidth/2, screenWidth/2,screenWidth/4,screenHeight/4);
 
     }
 
@@ -82,7 +85,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
         // Create a new, centered card
-        card = new Card(cardLayerViewport.x, cardLayerViewport.y, this);
+        card = new Card(450, 600, this);
 
         //Setup boardBackGround image for board - MMC
         boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
@@ -102,9 +105,15 @@ public class MinecraftCardGameScreen extends GameScreen {
     public void update(ElapsedTime elapsedTime) {
         // Process any touch events occurring since the last update
         Input input = mGame.getInput();
+        List<TouchEvent> touchEventList = input.getTouchEvents();
+        //Process card touch events
+        card.processCardTouchEvents(touchEventList, mGame);
+
 
         // Update the card
         card.update(elapsedTime);
+        //ViewportHelper.convertScreenPosIntoLayer(mDefaultScreenViewport, card.position, boardLayerViewport, touchPosition);
+
 
         //Update the endTurnButton - MMC
         endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
@@ -127,7 +136,7 @@ public class MinecraftCardGameScreen extends GameScreen {
 
          //Draw the card into cardLayerViewport - MMC
         card.draw(elapsedTime, graphics2D,
-                cardLayerViewport,
+                boardLayerViewport,
                 mDefaultScreenViewport);
 
         //Draw endTurnButton into boardLayerViewport - MMC
