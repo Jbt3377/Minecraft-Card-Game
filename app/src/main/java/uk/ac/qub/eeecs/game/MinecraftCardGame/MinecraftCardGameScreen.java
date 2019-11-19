@@ -67,8 +67,7 @@ public class MinecraftCardGameScreen extends GameScreen {
     //Defined an arraylist for the collection of cards
     private ArrayList<Card> cardCollection = new ArrayList<>();
 
-
-
+    private LayerViewport cardLayerViewport;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -136,8 +135,6 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Sets the position of cards
         setPositionCards();
-
-        card = new Card(450, 600, this);
 
         //Setup boardBackGround image for board - MMC
         boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
