@@ -10,5 +10,4 @@ public class Utilities {
         return screenHeight - yInputFromScreenView;
     }
 
-
 }

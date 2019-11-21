@@ -196,10 +196,14 @@ public class Card extends Sprite {
             graphics2D.drawBitmap(bitmap, drawMatrix, null);
         }
     }
+            //Card card = new Card("hiya");
 
+
+    //Processes all touch events for the card
     public void processCardTouchEvents(List<TouchEvent> input, Game mGame) {
-        for (TouchEvent t : input) {
+        this.ensureObjectStaysInView(mGame);
 
+        for (TouchEvent t : input) {
             float x_cor = t.x;
             float y_cor = Utilities.convertYAxisToLayerView(t.y, mGame);
 
@@ -207,12 +211,10 @@ public class Card extends Sprite {
                 selected = true;
                 touchOffsetX = x_cor - position.x;
                 touchOffsetY = y_cor - position.y;
-
             }
 
 
             if(t.type == TouchEvent.TOUCH_DRAGGED && selected){
-                //System.out.println("Dragged x pos: " + t.x + "Dragged y pos: " + t.y);
                 setPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
             }

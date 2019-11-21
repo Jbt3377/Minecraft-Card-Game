@@ -23,6 +23,7 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.game.MenuScreen;
+import uk.ac.qub.eeecs.game.Utilities.Utilities;
 import uk.ac.qub.eeecs.game.miscDemos.GameScreenDemoSubScreen;
 import uk.ac.qub.eeecs.game.platformDemo.Player;
 
@@ -162,20 +163,14 @@ public class MinecraftCardGameScreen extends GameScreen {
         // Process any touch events occurring since the last update
         Input input = mGame.getInput();
         List<TouchEvent> touchEventList = input.getTouchEvents();
+
         //Process card touch events
         card.processCardTouchEvents(touchEventList, mGame);
 
-
         // Update the card
         card.update(elapsedTime);
-        //ViewportHelper.convertScreenPosIntoLayer(mDefaultScreenViewport, card.position, boardLayerViewport, touchPosition);
-
 
         pig.update(elapsedTime);
-
-
-
-
 
         // Update All Cards on screen
         for(int i = 0; i < numberOfCards; i++){

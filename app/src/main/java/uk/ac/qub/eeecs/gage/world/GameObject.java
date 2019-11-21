@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.gage.world;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
+import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
@@ -239,6 +240,26 @@ public class GameObject {
                 screenViewport, drawSourceRect, drawScreenRect)) {
             graphics2D
                     .drawBitmap(mBitmap, drawSourceRect, drawScreenRect, null);
+        }
+    }
+
+    //Ensures that the GameObject stays within the bounds of the GameScreen - MMC
+    public void ensureObjectStaysInView(Game mGame){
+        //Checks if the GameObject has passed the bottom boundary
+        if(this.getBound().getBottom() < 0){
+            this.setPosition(this.position.x, + (this.getHeight()/2));
+        }
+        //Checks if the GameObject has passed the top boundary
+        if(this.getBound().getTop() > mGame.getScreenHeight()){
+            this.setPosition(this.position.x, (mGame.getScreenHeight() - (this.getHeight()/2)));
+        }
+        //Checks if the GameObject has passed the left boundary
+        if(this.getBound().getLeft() < 0){
+            this.setPosition((0 + (this.getWidth()/2)), this.position.y);
+        }
+        //Checks if the GameObject has passed the right boundary
+        if(this.getBound().getRight() > mGame.getScreenWidth()){
+            this.setPosition(mGame.getScreenWidth() - (this.getWidth()/2), this.position.y);
         }
     }
 }
