@@ -304,4 +304,8 @@ public class PushButton extends Button {
     public boolean isPushed() {
         return mButtonState == ButtonState.PUSHED;
     }
+    //need this here in order to set the status of the button to then use it in test.
+    public void buttonPushed(boolean pushed) {
+        this.mPushTriggered = pushed;
+    }
 }

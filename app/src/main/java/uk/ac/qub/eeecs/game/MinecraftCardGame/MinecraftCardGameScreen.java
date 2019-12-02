@@ -52,8 +52,9 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     //OptionsScreen Buttons
     private PushButton OptionsScreenButton;
+    private OptionsScreen Options;
 
-    //private OptionsScreen mRightScreen;
+
 
     //private pig :)
     private GameObject pig;
@@ -97,9 +98,19 @@ public class MinecraftCardGameScreen extends GameScreen {
         mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
 
 
+        //has to be inside the Constructor to create a game screen
+        Options = new OptionsScreen("Options", game);
+
+
 
 
     }
+
+    //getters for the buttons (using in unit test)
+    public PushButton getOptionsScreenButton() { return OptionsScreenButton; }
+    public PushButton endTurnButton() { return endTurnButton; }
+
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
@@ -143,8 +154,9 @@ public class MinecraftCardGameScreen extends GameScreen {
         endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
         //set up a button to the options screen
-        OptionsScreenButton = new PushButton(screenWidth * 0.80f, screenHeight/3,screenWidth/8,screenHeight/8,
-                "EndTurnDefault", "EndTurnActive", this);
+        OptionsScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
+                "Redbutton", "Red-Button-Active", this);
+
 
 
 
@@ -179,10 +191,10 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Update the endTurnButton - MMC
         endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-
-
+        //update OptionsScreenButton
         OptionsScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-        OptionsScreenButton.update(elapsedTime);
+        //method to call options button to update it
+        optionsButton();
 
 
 
@@ -228,6 +240,11 @@ public class MinecraftCardGameScreen extends GameScreen {
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
+        OptionsScreenButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+
 
         //Draw text that was loaded
         Paint textPaint = new Paint();
@@ -239,6 +256,8 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //dispplay pig 5 secs
         displayPig(elapsedTime , graphics2D);
+
+
     }
 
 
@@ -286,6 +305,14 @@ public class MinecraftCardGameScreen extends GameScreen {
         }
     }
 
+    public void optionsButton() {
+            if (OptionsScreenButton.isPushTriggered()) {
+                mGame.getScreenManager().addScreen(Options);
+            }
+        }
+
+    }
 
 
-}
+
+

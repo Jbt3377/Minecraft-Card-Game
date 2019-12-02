@@ -15,6 +15,26 @@
       "name": "EndTurnDefault",
       "file": "img/BlueButton.png"
     },
+
+
+    {
+      "type": "Bitmap",
+      "name": "Redbutton",
+      "file": "img/RedButton.png"
+    },
+
+
+
+
+    {
+      "type": "Bitmap",
+      "name": "Red-Button-Active",
+      "file": "img/RedButtonActive.png"
+    },
+
+
+
+
     {
       "type": "Bitmap",
       "name": "EndTurnActive",
