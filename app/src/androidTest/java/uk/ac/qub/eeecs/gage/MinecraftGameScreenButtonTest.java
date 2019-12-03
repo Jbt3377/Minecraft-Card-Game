@@ -1,4 +1,5 @@
 package uk.ac.qub.eeecs.gage;
+/*
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -42,12 +43,14 @@ public class MinecraftGameScreenButtonTest {
 
     }
 
-/*
+
     @Test
     public void optionsButtonPushedTrue() {
         mainScreen.getOptionsScreenButton().buttonPushed(true);
         mainScreen.optionsButton();
         assertTrue(game.getScreenManager().getCurrentScreen().getName() == "Options");
-    }*/
+    }
 }
+*/
+
 

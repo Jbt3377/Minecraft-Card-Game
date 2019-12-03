@@ -110,8 +110,9 @@ public class MinecraftCardGameScreen extends GameScreen {
     public PushButton getOptionsScreenButton() { return OptionsScreenButton; }
     public PushButton endTurnButton() { return endTurnButton; }
 
-
-
+    public GameObject getPig() {
+        return pig;
+    }
     // /////////////////////////////////////////////////////////////////////////
     // Methods
     // /////////////////////////////////////////////////////////////////////////
@@ -297,7 +298,7 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     }
 
-    private void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+    public void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         if(elapsedTime.totalTime < mGame.MenuScreentime + 5.0) {
             pig.draw(elapsedTime, graphics2D,
                     boardLayerViewport,
