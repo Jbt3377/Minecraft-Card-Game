@@ -14,7 +14,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 
 
-public class OptionsScreen  extends GameScreen {
+public class RulesScreen extends GameScreen {
 //Variables
 //to get back to the main screen
     private PushButton mBackButton;
@@ -24,8 +24,8 @@ public class OptionsScreen  extends GameScreen {
     // /////////////////////////////////////////////////////////////////////////
 
 
-    public OptionsScreen(String screenName, Game game) {
-        super("Options", game);
+    public RulesScreen(String screenName, Game game) {
+        super("Rules", game);
 
         // Create and position a small back button in the lower-right hand corner
         // of the screen. Also, enable click sounds on press/release interactions.
@@ -103,7 +103,7 @@ public class OptionsScreen  extends GameScreen {
         // size of the text and then this drawn centered.
 
         graphics2D.drawText(
-                "Options" ,
+                "Rules" ,
                 mDefaultScreenViewport.centerX(),
                 mDefaultScreenViewport.centerY() * 1.2f, textPaint);
 

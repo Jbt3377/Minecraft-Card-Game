@@ -4,13 +4,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
-import android.graphics.Bitmap;
-import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -18,14 +15,9 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.util.Vector2;
-import uk.ac.qub.eeecs.gage.util.ViewportHelper;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.game.MenuScreen;
-import uk.ac.qub.eeecs.game.Utilities.Utilities;
-import uk.ac.qub.eeecs.game.miscDemos.GameScreenDemoSubScreen;
-import uk.ac.qub.eeecs.game.platformDemo.Player;
 
 
 /**
@@ -50,9 +42,9 @@ public class MinecraftCardGameScreen extends GameScreen {
     //Define pushButtons for the game
     private PushButton endTurnButton;
 
-    //OptionsScreen Buttons
-    private PushButton OptionsScreenButton;
-    private OptionsScreen Options;
+    //RulesScreen Buttons
+    private PushButton RulesScreenButton;
+    private RulesScreen Rules;
 
 
 
@@ -89,7 +81,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
 
 
-       // mRightScreen = new OptionsScreen("RightScreen", game);
+       // mRightScreen = new RulesScreen("RightScreen", game);
         setupViewPorts();
 
         setupBoardGameObjects();
@@ -99,7 +91,7 @@ public class MinecraftCardGameScreen extends GameScreen {
 
 
         //has to be inside the Constructor to create a game screen
-        Options = new OptionsScreen("Options", game);
+        Rules = new RulesScreen("Rules", game);
 
 
 
@@ -107,7 +99,7 @@ public class MinecraftCardGameScreen extends GameScreen {
     }
 
     //getters for the buttons (using in unit test)
-    public PushButton getOptionsScreenButton() { return OptionsScreenButton; }
+    public PushButton getRulesScreenButtonScreenButton() { return RulesScreenButton; }
     public PushButton endTurnButton() { return endTurnButton; }
 
     public GameObject getPig() {
@@ -154,9 +146,10 @@ public class MinecraftCardGameScreen extends GameScreen {
         //Setup endTurnButton image for the board - MMC
         endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
-        //set up a button to the options screen
-        OptionsScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
+        //set up a button to the Rules screen
+        RulesScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
                 "Redbutton", "Red-Button-Active", this);
+
 
 
 
@@ -192,10 +185,10 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Update the endTurnButton - MMC
         endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-        //update OptionsScreenButton
-        OptionsScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-        //method to call options button to update it
-        optionsButton();
+        //update RulesScreenButton
+        RulesScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
+        //method to call Rules button to update it
+        RulesButton();
 
 
 
@@ -241,7 +234,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-        OptionsScreenButton.draw(elapsedTime, graphics2D,
+        RulesScreenButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
@@ -306,9 +299,9 @@ public class MinecraftCardGameScreen extends GameScreen {
         }
     }
 
-    public void optionsButton() {
-            if (OptionsScreenButton.isPushTriggered()) {
-                mGame.getScreenManager().addScreen(Options);
+    public void RulesButton() {
+            if (RulesScreenButton.isPushTriggered()) {
+                mGame.getScreenManager().addScreen(Rules);
             }
         }
 

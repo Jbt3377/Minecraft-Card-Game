@@ -1,5 +1,5 @@
 package uk.ac.qub.eeecs.gage;
-/*
+
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,48 +25,47 @@ import static org.junit.Assert.assertTrue;
 public class CheckGameObject {
 
 
-        private Context context;
-        private DemoGame game;
-        private MinecraftCardGameScreen mainScreen;
+    private Context context;
+    private DemoGame game;
+    private MinecraftCardGameScreen mainScreen;
 
-        @Before
-        public void setup() {
+    @Before
+    public void setup() {
 
-            context = InstrumentationRegistry.getTargetContext();
-            game = new DemoGame();
-            game.mFileIO = new FileIO(context);
-            game.mAssetManager = new AssetManager(game);
-            game.mScreenManager = new ScreenManager(game);
-            mainScreen = new MinecraftCardGameScreen(game);
-            game.mScreenManager.addScreen(mainScreen);
+        context = InstrumentationRegistry.getTargetContext();
+        game = new DemoGame();
+        game.mFileIO = new FileIO(context);
+        game.mAssetManager = new AssetManager(game);
+        game.mScreenManager = new ScreenManager(game);
+        mainScreen = new MinecraftCardGameScreen(game);
+        game.mScreenManager.addScreen(mainScreen);
+    }
+
+
+    @Test
+    public void CheckGameObjectIsCorrectBitmap() {
+
+        //gets a game object pig
+        GameObject gameobject = mainScreen.getPig();
+
+        Bitmap bitmap = gameobject.getBitmap();
+
+        //if bitmap IS EQUAL TO THE PIG BITMAP THEN GOOD pass
+        Bitmap storedbitmap = game.getAssetManager().getBitmap("PIG");
+
+        boolean istrue;
+
+        if (storedbitmap == bitmap) {
+            istrue = true;
+        } else {
+            istrue = false;
         }
 
 
+        assertTrue(istrue);
+    }
 
-        @Test
-        public void CheckGameObjectIsCorrectBitmap(){
-
-            //gets a game object pig
-          GameObject gameobject = mainScreen.getPig();
-
-           Bitmap bitmap = gameobject.getBitmap();
-
-           //if bitmP IS EQUAL TO THE PIG BITMAP THEN GOOD pass
-           Bitmap Storedbitmap = game.getAssetManager().getBitmap("PIG") ;
-
-                boolean istrue;
-
-                if(Storedbitmap == bitmap){
-                istrue = true;
-            } else {
-                    istrue = false;
-                }
-
-
-            assertTrue(istrue);
-        }
-
-*/
+}
 
 /*
     public boolean CheckGameObjectIsCorrectBitmap(){

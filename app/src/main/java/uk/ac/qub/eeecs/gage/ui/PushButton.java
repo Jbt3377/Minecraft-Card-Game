@@ -189,24 +189,26 @@ public class PushButton extends Button {
      * @param releaseSound Release sound to use (can be null)
      */
     private void setupSounds(String pushSound, String releaseSound) {
-        // Load in the default button sounds
-        AssetManager assetManager = mGameScreen.getGame().getAssetManager();
-        assetManager.loadAndAddSound(
-                "ButtonDefaultPush",
-                "sound/gage/button/ButtonPush.wav");
-        assetManager.loadAndAddSound(
-                "ButtonDefaultRelease",
-                "sound/gage/button/ButtonRelease.wav");
+        if (pushSound != null || releaseSound != null) {
+            // Load in the default button sounds
+            AssetManager assetManager = mGameScreen.getGame().getAssetManager();
+            assetManager.loadAndAddSound(
+                    "ButtonDefaultPush",
+                    "sound/gage/button/ButtonPush.wav");
+            assetManager.loadAndAddSound(
+                    "ButtonDefaultRelease",
+                    "sound/gage/button/ButtonRelease.wav");
 
-        // Set appropriate sound
-        mPushSound = assetManager.getSound(
-                (pushSound == null) ? "ButtonDefaultPush" : pushSound);
-        mReleaseSound = assetManager.getSound(
-                (releaseSound == null) ? "ButtonDefaultRelease" : releaseSound);
+            // Set appropriate sound
+            mPushSound = assetManager.getSound(
+                    (pushSound == null) ? "ButtonDefaultPush" : pushSound);
+            mReleaseSound = assetManager.getSound(
+                    (releaseSound == null) ? "ButtonDefaultRelease" : releaseSound);
 
-        // If specific sounds have been specified then assume sounds are to be played
-        mPlayPushSound = pushSound != null;
-        mPlayReleaseSound = releaseSound != null;
+            // If specific sounds have been specified then assume sounds are to be played
+            mPlayPushSound = pushSound != null;
+            mPlayReleaseSound = releaseSound != null;
+        }
     }
 
 

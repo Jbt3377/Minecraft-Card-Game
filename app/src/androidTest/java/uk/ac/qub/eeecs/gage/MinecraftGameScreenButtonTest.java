@@ -1,5 +1,5 @@
 package uk.ac.qub.eeecs.gage;
-/*
+
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -9,13 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.MinecraftCardGame.MinecraftCardGameScreen;
-
-import uk.ac.qub.eeecs.game.MinecraftCardGame.OptionsScreen;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -36,6 +35,7 @@ public class MinecraftGameScreenButtonTest {
         game = new DemoGame();
         game.mFileIO = new FileIO(context);
         game.mAssetManager = new AssetManager(game);
+        game.mAudioManager = new AudioManager(game);
         game.mScreenManager = new ScreenManager(game);
         mainScreen = new MinecraftCardGameScreen(game);
         game.mScreenManager.addScreen(mainScreen);
@@ -46,11 +46,10 @@ public class MinecraftGameScreenButtonTest {
 
     @Test
     public void optionsButtonPushedTrue() {
-        mainScreen.getOptionsScreenButton().buttonPushed(true);
-        mainScreen.optionsButton();
-        assertTrue(game.getScreenManager().getCurrentScreen().getName() == "Options");
+        mainScreen.getRulesScreenButtonScreenButton().buttonPushed(true);
+        mainScreen.update(new ElapsedTime());
+        assertTrue(game.getScreenManager().getCurrentScreen().getName() == "Rules");
     }
 }
-*/
 
 
