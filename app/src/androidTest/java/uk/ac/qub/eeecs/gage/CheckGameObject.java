@@ -64,29 +64,8 @@ public class CheckGameObject {
 
         assertTrue(istrue);
     }
-
 }
 
-/*
-    public boolean CheckGameObjectIsCorrectBitmap(){
-
-        //gets a game object pig
-        GameObject gameobject = mainScreen.getPig();
-
-        Bitmap bitmap = gameobject.getBitmap();
-
-        //if bitmP IS EQUAL TO THE PIG BITMAP THEN GOOD pass
-        Bitmap res = game.getAssetManager().getBitmap("PIG") ;
-
-        if(bitmap == res){
-            return true;
-        }
-        return false;
-    }
 
 
 
-
-}
-
- */

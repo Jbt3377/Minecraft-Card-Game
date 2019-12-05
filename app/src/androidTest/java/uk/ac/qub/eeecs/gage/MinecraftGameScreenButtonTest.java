@@ -13,6 +13,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.MinecraftCardGame.MinecraftCardGameScreen;
 
@@ -43,12 +44,19 @@ public class MinecraftGameScreenButtonTest {
 
     }
 
-
+/*
     @Test
     public void optionsButtonPushedTrue() {
         mainScreen.getRulesScreenButtonScreenButton().buttonPushed(true);
         mainScreen.update(new ElapsedTime());
         assertTrue(game.getScreenManager().getCurrentScreen().getName() == "Rules");
+    }
+*/
+    @Test
+    public void CheckIfWeCanGetGameObject(){
+
+        GameObject obj = mainScreen.getPig();
+        assertNotNull(obj);
     }
 }
 
