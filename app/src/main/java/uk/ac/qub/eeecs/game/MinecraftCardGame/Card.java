@@ -293,7 +293,7 @@ public class Card extends Sprite {
             float y_cor = convertYAxisToLayerView(t.y);
 
             //Changes the cardFaceUp boolean if the card is single tapped - MMC
-            if(t.type == TouchEvent.TOUCH_SINGLE_TAP){
+            if(t.type == TouchEvent.TOUCH_SINGLE_TAP  && mBound.contains(x_cor,y_cor)){
                 flipTimer = FLIP_TIME;
             }
 
