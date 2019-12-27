@@ -89,6 +89,9 @@ public class Card extends Sprite {
     //Define if a card has been selected
     private boolean selected;
     private boolean cardFaceUp;
+    public final int FLIP_TIME = 15;
+    private int flipTimer;
+    private float scale;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -130,7 +133,7 @@ public class Card extends Sprite {
         cardDescText.setTextSize(this.getBound().getWidth()/12);
         cardDescText.setARGB(255, 255, 255, 255);
         cardDescText.setTypeface(assetManager.getFont("MinecraftFont"));
-
+        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
     }
 
@@ -149,6 +152,7 @@ public class Card extends Sprite {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
+        flipAnimation();
         if(cardFaceUp) {
             // Draw the portrait
             drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
@@ -224,8 +228,6 @@ public class Card extends Sprite {
     };
 
 
-
-
     /**
      * Method to draw out a specified bitmap using a specific offset (relative to the
      * position of this game object) and scaling (relative to the size of this game
@@ -292,7 +294,7 @@ public class Card extends Sprite {
 
             //Changes the cardFaceUp boolean if the card is single tapped - MMC
             if(t.type == TouchEvent.TOUCH_SINGLE_TAP){
-                cardFaceUp = !cardFaceUp;
+                flipTimer = FLIP_TIME;
             }
 
             if(mBound.contains(x_cor,y_cor) && t.type == TouchEvent.TOUCH_DOWN){
@@ -313,5 +315,30 @@ public class Card extends Sprite {
 
         }
     }
+
+    public void flipAnimation(){
+        //If no animation
+        if(flipTimer == 0){
+            setWidth(DEFAULT_CARD_WIDTH);
+            return;
+        }
+        //First half of animation
+        else if(flipTimer > FLIP_TIME/2){
+            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - flipTimer)));
+        }
+        //Middle of animation, flip card over
+        else if(flipTimer == FLIP_TIME/2){
+            cardFaceUp = !cardFaceUp;
+        }
+
+        //Second half of the animation
+        else if(flipTimer > 0 && flipTimer < FLIP_TIME/2){
+            setWidth(scale * (FLIP_TIME/2 - flipTimer));
+        }
+        flipTimer--;
+
+        cardDescText.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
+    }
+
 
 }
