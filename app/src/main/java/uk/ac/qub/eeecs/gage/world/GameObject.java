@@ -262,4 +262,10 @@ public class GameObject {
             this.setPosition(mGame.getScreenWidth() - (this.getWidth()/2), this.position.y);
         }
     }
+
+    public float convertYAxisToLayerView(float yInputFromScreenView){
+        float screenHeight = mGameScreen.getGame().getScreenHeight();
+        return screenHeight - yInputFromScreenView;
+    }
+
 }

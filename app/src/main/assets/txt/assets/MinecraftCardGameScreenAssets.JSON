@@ -6,6 +6,13 @@
       "file": "img/CardBackground.png"
     },
     {
+      "type": "Font",
+      "name": "MinecraftFont",
+      "file": "font/Minecrafter.ttf"
+
+    },
+
+    {
       "type": "Bitmap",
       "name": "BoardBackGround",
       "file": "img/CoolBoardGameImage.png"

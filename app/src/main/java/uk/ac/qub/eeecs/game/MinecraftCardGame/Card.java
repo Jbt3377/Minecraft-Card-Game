@@ -1,6 +1,8 @@
 package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.method.Touch;
@@ -41,8 +43,10 @@ public class Card extends Sprite {
     // /////////////////////////////////////////////////////////////////////////
 
     // Define the default card width and height
+    //Changed the default width and height. The original values were 180 and 260 respectively - MMC
     private static final int DEFAULT_CARD_WIDTH = 180;
     private static final int DEFAULT_CARD_HEIGHT = 260;
+    private static final int TEXT_MAX_LINE_LENGTH = 9;
 
     // Define the common card base
     private Bitmap mCardBase;
@@ -66,9 +70,12 @@ public class Card extends Sprite {
     private Vector2 mPortraitOffset = new Vector2(0.0f, 0.3f);
     private Vector2 mPortraitScale = new Vector2(0.55f, 0.55f);
 
+
+
     // Define the health and attack values
     private int mAttack;
     private int mHealth;
+
 
     private Paint cardDescText;
 
@@ -111,10 +118,11 @@ public class Card extends Sprite {
         mAttack = assetManager.getCards().get(index).getAttack();
         mHealth = assetManager.getCards().get(index).getDefence();
 
+
         cardDescText = new Paint();
-        cardDescText.setTextSize(this.getBound().getWidth()/7);
+        cardDescText.setTextSize(this.getBound().getWidth()/12);
         cardDescText.setARGB(255, 255, 255, 255);
-        cardDescText.setTypeface(Typeface.MONOSPACE);
+        cardDescText.setTypeface(assetManager.getFont("MinecraftFont"));
 
 
     }
@@ -150,16 +158,57 @@ public class Card extends Sprite {
         // Draw the attack value
         drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
                 graphics2D, layerViewport, screenViewport);
-
         drawTextOnCard(graphics2D);
+
 
     }
 
     private BoundingBox bound = new BoundingBox();
 
+    public String insertNewLines(String text){
+        StringBuilder textBuilder = new StringBuilder("");
+
+        // Split string into words
+        String[] words = text.split(" ");
+
+        int lineLength = 0;
+        for (String word : words)
+        {
+            // Return null if a word exceeds the maximum limit.
+            if (word.length() > TEXT_MAX_LINE_LENGTH)
+            {
+                return null;
+            }
+
+            // If appending this word will exceed the max length, take a new line.
+            if ((lineLength + word.length()) > TEXT_MAX_LINE_LENGTH)
+            {
+                textBuilder.append("\n");
+                lineLength = 0;
+            }
+            // If not appending the first word, add a space first.
+            else if (lineLength > 0)
+            {
+                textBuilder.append(" ");
+            }
+            textBuilder.append(word);
+            lineLength += (word.length() + 1);
+        }
+
+        return textBuilder.toString();
+    }
+
     public void drawTextOnCard(IGraphics2D graphics2D){
-        String testText = "This is some text";
-        graphics2D.drawText(testText, position.x - (mBound.getWidth() * 14/30), position.y + (mBound.getHeight() * 5 / 30), cardDescText);
+        float y = position.y + (getHeight() * 1/10) ;
+        float convertedY = convertYAxisToLayerView(y - (mBound.getHeight() * 5 / 20));
+        String testText = insertNewLines("Example Text");
+        for(String line : testText.split("\n")) {
+
+            graphics2D.drawText(line,
+                    position.x - (mBound.getWidth() * 14 / 43),
+                    convertedY += (cardDescText.getTextSize() + 8),
+                    cardDescText);
+        }
 
     };
 
@@ -228,7 +277,7 @@ public class Card extends Sprite {
 
         for (TouchEvent t : input) {
             float x_cor = t.x;
-            float y_cor = Utilities.convertYAxisToLayerView(t.y, mGame);
+            float y_cor = convertYAxisToLayerView(t.y);
 
             if(mBound.contains(x_cor,y_cor) && t.type == TouchEvent.TOUCH_DOWN){
                 selected = true;
@@ -248,4 +297,5 @@ public class Card extends Sprite {
 
         }
     }
+
 }

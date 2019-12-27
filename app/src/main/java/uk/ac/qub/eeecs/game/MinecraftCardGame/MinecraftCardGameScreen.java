@@ -122,7 +122,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-        cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/4,screenHeight/4);
+        cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
     }
 
     private void setupBoardGameObjects() {
@@ -220,11 +220,11 @@ public class MinecraftCardGameScreen extends GameScreen {
 
         //Draw the card into cardLayerViewport - MMC
         card.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
+                cardLayerViewport,
                 mDefaultScreenViewport);
 
         //Displays Cards
-        displayCards(elapsedTime, graphics2D);
+        //displayCards(elapsedTime, graphics2D);
 
 
 
@@ -249,7 +249,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
 
         //dispplay pig 5 secs
-        displayPig(elapsedTime , graphics2D);
+        //displayPig(elapsedTime , graphics2D);
 
 
     }
