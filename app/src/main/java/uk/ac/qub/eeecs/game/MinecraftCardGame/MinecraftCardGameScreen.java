@@ -34,8 +34,6 @@ public class MinecraftCardGameScreen extends GameScreen {
     //Define a viewport for the board
     private LayerViewport boardLayerViewport;
 
-    private Vector2 touchPosition = new Vector2();
-
     //Define the background image GameObject
     private GameObject boardBackground;
 
@@ -46,14 +44,9 @@ public class MinecraftCardGameScreen extends GameScreen {
     private PushButton RulesScreenButton;
     private RulesScreen Rules;
 
-
-
     //private pig :)
     private GameObject pig;
 
-
-    // Define a card to be displayed
-    private Card card;
 
     //Defined a number for the number of cards
     private int numberOfCards = 4;
@@ -129,9 +122,6 @@ public class MinecraftCardGameScreen extends GameScreen {
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
 
-
-        // Create a new, centered card
-        card = new Card(cardLayerViewport.x, cardLayerViewport.y, this,0);
         //pig
         pig = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
@@ -171,17 +161,17 @@ public class MinecraftCardGameScreen extends GameScreen {
         List<TouchEvent> touchEventList = input.getTouchEvents();
 
         //Process card touch events
-        card.processCardTouchEvents(touchEventList, mGame);
+        //card.processCardTouchEvents(touchEventList, mGame);
 
-        // Update the card
-        card.update(elapsedTime);
+        for(Card c : cardCollection){
+            c.processCardTouchEvents(touchEventList, mGame);
+        }
 
-        pig.update(elapsedTime);
-
-        // Update All Cards on screen
         for(int i = 0; i < numberOfCards; i++){
             cardCollection.get(i).update(elapsedTime);
         }
+
+        pig.update(elapsedTime);
 
         //Update the endTurnButton - MMC
         endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
@@ -217,17 +207,8 @@ public class MinecraftCardGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
 
-
-        //Draw the card into cardLayerViewport - MMC
-        card.draw(elapsedTime, graphics2D,
-                cardLayerViewport,
-                mDefaultScreenViewport);
-
         //Displays Cards
         displayCards(elapsedTime, graphics2D);
-
-
-
 
 
         //Draw endTurnButton into boardLayerViewport - MMC
@@ -249,7 +230,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
 
         //dispplay pig 5 secs
-        displayPig(elapsedTime , graphics2D);
+        //displayPig(elapsedTime , graphics2D);
 
 
     }
