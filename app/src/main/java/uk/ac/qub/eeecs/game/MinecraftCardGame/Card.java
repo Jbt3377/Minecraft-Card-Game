@@ -51,6 +51,9 @@ public class Card extends Sprite {
     // Define the common card base
     private Bitmap mCardBase;
 
+    //Define card reverse
+    private Bitmap mCardReverse;
+
     // Define the card portrait image
     private Bitmap mCardPortrait;
 
@@ -84,8 +87,8 @@ public class Card extends Sprite {
     private float touchOffsetX;
     private float touchOffsetY;
     //Define if a card has been selected
-    boolean selected;
-
+    private boolean selected;
+    private boolean cardFaceUp;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -103,9 +106,13 @@ public class Card extends Sprite {
 
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
 
+        cardFaceUp = true;
 
         // Store the common card base image
         mCardBase = assetManager.getBitmap("CardBackground");
+
+        //Store the common card reverse image
+        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
 
         // Store the card portrait image
         mCardPortrait = assetManager.getBitmap(assetManager.getCards().get(index).getAssetName());
@@ -142,24 +149,28 @@ public class Card extends Sprite {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
+        if(cardFaceUp) {
+            // Draw the portrait
+            drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
+                    graphics2D, layerViewport, screenViewport);
 
-        // Draw the portrait
-        drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-                graphics2D, layerViewport, screenViewport);
+            // Draw the card base background
+            mBitmap = mCardBase;
+            super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 
-        // Draw the card base background
-        mBitmap = mCardBase;
-        super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+            // Draw the attack value
+            drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
+                    graphics2D, layerViewport, screenViewport);
 
-        // Draw the attack value
-        drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
-                graphics2D, layerViewport, screenViewport);
-
-        // Draw the attack value
-        drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
-                graphics2D, layerViewport, screenViewport);
-        drawTextOnCard(graphics2D);
-
+            // Draw the attack value
+            drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
+                    graphics2D, layerViewport, screenViewport);
+            drawTextOnCard(graphics2D);
+        }
+        else{
+            mBitmap = mCardReverse;
+            super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        }
 
     }
 
@@ -278,6 +289,11 @@ public class Card extends Sprite {
         for (TouchEvent t : input) {
             float x_cor = t.x;
             float y_cor = convertYAxisToLayerView(t.y);
+
+            //Changes the cardFaceUp boolean if the card is single tapped - MMC
+            if(t.type == TouchEvent.TOUCH_SINGLE_TAP){
+                cardFaceUp = !cardFaceUp;
+            }
 
             if(mBound.contains(x_cor,y_cor) && t.type == TouchEvent.TOUCH_DOWN){
                 selected = true;

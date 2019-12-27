@@ -6,6 +6,11 @@
       "file": "img/CardBackground.png"
     },
     {
+      "type": "Bitmap",
+      "name": "CardBackgroundReverse",
+      "file": "img/CardBackground1.png"
+    },
+    {
       "type": "Font",
       "name": "MinecraftFont",
       "file": "font/Minecrafter.ttf"
