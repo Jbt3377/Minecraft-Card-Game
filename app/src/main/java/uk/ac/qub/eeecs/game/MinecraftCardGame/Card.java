@@ -1,6 +1,8 @@
 package uk.ac.qub.eeecs.game.MinecraftCardGame;
 
 import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.method.Touch;
 import android.view.View;
 
@@ -68,6 +70,9 @@ public class Card extends Sprite {
     private int mAttack;
     private int mHealth;
 
+    private Paint cardDescText;
+
+
     //Define offsets for moving card
     private float touchOffsetX;
     private float touchOffsetY;
@@ -105,6 +110,13 @@ public class Card extends Sprite {
         // Set default attack and health values
         mAttack = assetManager.getCards().get(index).getAttack();
         mHealth = assetManager.getCards().get(index).getDefence();
+
+        cardDescText = new Paint();
+        cardDescText.setTextSize(this.getBound().getWidth()/7);
+        cardDescText.setARGB(255, 255, 255, 255);
+        cardDescText.setTypeface(Typeface.MONOSPACE);
+
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -139,9 +151,20 @@ public class Card extends Sprite {
         drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
                 graphics2D, layerViewport, screenViewport);
 
+        drawTextOnCard(graphics2D);
+
     }
 
     private BoundingBox bound = new BoundingBox();
+
+    public void drawTextOnCard(IGraphics2D graphics2D){
+        String testText = "This is some text";
+        graphics2D.drawText(testText, position.x - (mBound.getWidth() * 14/30), position.y + (mBound.getHeight() * 5 / 30), cardDescText);
+
+    };
+
+
+
 
     /**
      * Method to draw out a specified bitmap using a specific offset (relative to the
