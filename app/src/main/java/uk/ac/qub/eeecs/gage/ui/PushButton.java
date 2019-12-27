@@ -189,7 +189,7 @@ public class PushButton extends Button {
      * @param releaseSound Release sound to use (can be null)
      */
     private void setupSounds(String pushSound, String releaseSound) {
-        if (pushSound != null || releaseSound != null) {
+        //if (pushSound != null || releaseSound != null) {
             // Load in the default button sounds
             AssetManager assetManager = mGameScreen.getGame().getAssetManager();
             assetManager.loadAndAddSound(
@@ -208,7 +208,7 @@ public class PushButton extends Button {
             // If specific sounds have been specified then assume sounds are to be played
             mPlayPushSound = pushSound != null;
             mPlayReleaseSound = releaseSound != null;
-        }
+        //}
     }
 
 
