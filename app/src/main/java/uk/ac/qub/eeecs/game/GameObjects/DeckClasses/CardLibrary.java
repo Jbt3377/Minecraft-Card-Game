@@ -27,7 +27,7 @@ public class CardLibrary {
         return allCardsInLibrary;
     }
 
-    public Stack<CardDetails> getCharcterCardDeck(int deckCompositionCode) {
+    public Stack<CardDetails> getCharacterCardDeck(int deckCompositionCode) {
         if (deckCompositionCode == 1) {
             //TODO: Implement functionality for different deck types
         }

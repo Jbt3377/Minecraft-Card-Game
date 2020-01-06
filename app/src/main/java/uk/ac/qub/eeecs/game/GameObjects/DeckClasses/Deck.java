@@ -11,7 +11,7 @@ public class Deck {
 
 
     public Deck(int deckCompositionCode, GameScreen game){
-        characterCardStack = game.getGame().getCardLibrary().getCharcterCardDeck(0);
+        characterCardStack = game.getGame().getCardLibrary().getCharacterCardDeck(0);
         specialCardStack = game.getGame().getCardLibrary().getSpecialCardDeck(0);
     }
 
