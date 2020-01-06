@@ -50,6 +50,7 @@ public class ScreenManager {
     // Methods
     // /////////////////////////////////////////////////////////////////////////
 
+
     /**
      * Add the specified game screen to the manager.
      * <p>

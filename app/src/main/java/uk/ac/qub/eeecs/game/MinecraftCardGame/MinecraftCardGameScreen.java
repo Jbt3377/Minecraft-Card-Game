@@ -149,7 +149,6 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     }
 
-
     /**
      * Update the card demo screen
      *
