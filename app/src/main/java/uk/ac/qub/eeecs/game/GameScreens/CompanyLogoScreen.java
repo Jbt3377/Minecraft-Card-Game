@@ -10,25 +10,28 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 
 public class CompanyLogoScreen extends GameScreen {
 
     private PushButton mBackground;
-
+    private LayerViewport logoLayerViewPort;
+    private ScreenViewport logoScreenViewport;
     public CompanyLogoScreen(Game game) {
         super("CompanyLogoScreen", game);
 
         //TODO: Add music to the splash screen.
 
-
-
         int screenHeight = game.getScreenHeight();
         int screenWidth = game.getScreenWidth();
 
+       logoLayerViewPort = new LayerViewport(screenWidth/2,screenHeight/2.0f,screenWidth/2.0f,screenHeight/2);
+       logoScreenViewport = new ScreenViewport(0,0,screenWidth,screenHeight);
 
 
         AssetManager assetManager = mGame.getAssetManager();
-        assetManager.loadAndAddBitmap("SplashScreenBackground", "img/SpaceBackground.png");
+        assetManager.loadAndAddBitmap("SplashScreenBackground", "img/SplashScreenBackground.png");
 
 
         mBackground = new PushButton(screenWidth/2, screenHeight/2, screenWidth,screenHeight, "SplashScreenBackground", this);
@@ -66,6 +69,6 @@ public class CompanyLogoScreen extends GameScreen {
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        mBackground.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
+        mBackground.draw(elapsedTime, graphics2D, logoLayerViewPort, logoScreenViewport);
     }
 }

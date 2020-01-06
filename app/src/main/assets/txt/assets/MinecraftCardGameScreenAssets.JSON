@@ -72,6 +72,12 @@
     },
 
     {
+      "type": "Music",
+      "name": "MinecraftMusic",
+      "file": "sound/MinecraftMusic.mp3"
+    },
+
+    {
       "type": "Bitmap",
       "name": "EndTurnDefault",
       "file": "img/BlueButton.png"

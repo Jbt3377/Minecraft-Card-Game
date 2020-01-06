@@ -7,6 +7,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -61,6 +62,7 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddBitmap("StartButton", "img/StartButton.png");
         assetManager.loadAndAddBitmap("OptionsButton", "img/OptionsButton.png");
         assetManager.loadAndAddBitmap("RulesButton", "img/RulesButton.png");
+        assetManager.loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
         // Define the spacing that will be used to position the buttons
@@ -109,6 +111,8 @@ public class StartScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
+        playBackgroundMusic();
+
         // Process any touch events occurring since the update
         Input input = mGame.getInput();
 
@@ -121,8 +125,11 @@ public class StartScreen extends GameScreen {
 
             if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
+               stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
             }
+
+
 
 
         }
@@ -143,5 +150,18 @@ public class StartScreen extends GameScreen {
         mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
         mOptionsButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
         mRulesButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
+    }
+
+    private void playBackgroundMusic() {
+        AudioManager audioManager = getGame().getAudioManager();
+        if(!audioManager.isMusicPlaying())
+            audioManager.playMusic(
+                    //Changed string name to new background music
+                    getGame().getAssetManager().getMusic("MinecraftMusic"));
+    }
+
+    private void stopBackGroundMusic(){
+        AudioManager audioManager = getGame().getAudioManager();
+        audioManager.stopMusic();
     }
 }
