@@ -46,6 +46,18 @@
 
     {
       "type": "Bitmap",
+      "name": "StartScreenBackground",
+      "file": "img/StartScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "imageTest",
+      "file": "img/imageTest.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "EndTurnDefault",
       "file": "img/BlueButton.png"
     },

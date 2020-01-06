@@ -11,7 +11,10 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import uk.ac.qub.eeecs.game.miscDemos.DemoMenuScreen;
 import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
@@ -35,6 +38,9 @@ public class StartScreen extends GameScreen {
     private PushButton mPlatformDemoButton;
     private PushButton mCardDemoButton;
     private PushButton mDemosButton;
+    private GameObject mBackgroundImage;
+    private LayerViewport backgroundLayerViewport;
+    private ScreenViewport backgroundScreenViewport;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -58,10 +64,20 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddBitmap("PlatformDemoIconSelected", "img/PlatformDemoIconSelected.png");
         assetManager.loadAndAddBitmap("DemosIcon", "img/DemosIcon.png");
         assetManager.loadAndAddBitmap("DemosIconSelected", "img/DemosIconSelected.png");
+        assetManager.loadAndAddBitmap("StartScreenBackground", "img/StartScreenBackground.png");
 
         // Define the spacing that will be used to position the buttons
         int spacingX = (int)mDefaultLayerViewport.getWidth() / 5;
         int spacingY = (int)mDefaultLayerViewport.getHeight() / 3;
+
+
+        float screenWidth = mGame.getScreenWidth();
+        float screenHeight = mGame.getScreenHeight();
+
+        backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
+        backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
+
+
 
         // Create the trigger buttons
         mSpaceshipDemoButton = new PushButton(
@@ -80,6 +96,10 @@ public class StartScreen extends GameScreen {
                 spacingX * 4.50f, spacingY * 1.5f, spacingX, spacingY,
                 "DemosIcon", "DemosIconSelected", this);
         mDemosButton.setPlaySounds(true, true);
+
+        mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
+                assetManager.getBitmap("StartScreenBackground"), this);
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -131,7 +151,7 @@ public class StartScreen extends GameScreen {
 
         // Clear the screen and draw the buttons
         graphics2D.clear(Color.WHITE);
-
+        mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
         mSpaceshipDemoButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
         mPlatformDemoButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
         mDemosButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
