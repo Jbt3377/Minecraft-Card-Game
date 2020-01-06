@@ -5,6 +5,12 @@
       "name": "CardBackground",
       "file": "img/CardBackground.png"
     },
+
+    {
+      "type": "Bitmap",
+      "name": "SplashScreenBackground",
+      "file": "img/SpaceBackground.png"
+    },
     {
       "type": "Bitmap",
       "name": "CardBackgroundReverse",
