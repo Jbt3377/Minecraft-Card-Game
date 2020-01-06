@@ -71,21 +71,25 @@ public class StartScreen extends GameScreen {
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
 
+        float layerWidth = mDefaultLayerViewport.getWidth();
+        float layerHeight = mDefaultLayerViewport.getHeight();
+
+
         backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2.0f,screenWidth/2.0f,screenHeight/2);
         backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
 
         // Create the trigger buttons
 
         //Button to start the game
-        mCardDemoButton = new PushButton(screenWidth/9.5f,screenHeight/14,screenWidth/18.0f,screenWidth/60.0f, "StartButton", "StartButton", this);
+        mCardDemoButton = new PushButton(layerWidth/2,layerHeight/4,layerWidth/5.0f,layerHeight/10.0f, "StartButton", "StartButton", this);
         mCardDemoButton.setPlaySounds(true, true);
 
         //Button to view options
-        mOptionsButton = new PushButton(screenWidth/7.0f,screenHeight/30,screenWidth/18.0f,screenWidth/60.0f, "OptionsButton", "OptionsButton", this);
+        mOptionsButton = new PushButton(layerWidth/2.6f,layerHeight/7.1f,layerWidth/5.0f,layerHeight/10.0f, "OptionsButton", "OptionsButton", this);
         mOptionsButton.setPlaySounds(true, true);
 
         //Button to view rules
-        mRulesButton= new PushButton(screenWidth/15.5f,screenHeight/30,screenWidth/18.0f,screenWidth/60.0f, "RulesButton", "RulesButton", this);
+        mRulesButton= new PushButton(layerWidth/1.65f,layerHeight/7.1f,layerWidth/5.0f,layerHeight/10.0f, "RulesButton", "RulesButton", this);
         mRulesButton.setPlaySounds(true, true);
 
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
