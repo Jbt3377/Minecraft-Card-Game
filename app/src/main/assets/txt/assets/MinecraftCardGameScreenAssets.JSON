@@ -55,6 +55,11 @@
       "name": "imageTest",
       "file": "img/imageTest.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "StartButton",
+      "file": "img/StartButton.png"
+    },
 
     {
       "type": "Bitmap",

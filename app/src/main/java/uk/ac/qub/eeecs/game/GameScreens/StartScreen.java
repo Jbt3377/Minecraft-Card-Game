@@ -34,13 +34,12 @@ public class StartScreen extends GameScreen {
     /**
      * Define the buttons for playing the 'games'
      */
-    private PushButton mSpaceshipDemoButton;
-    private PushButton mPlatformDemoButton;
+
     private PushButton mCardDemoButton;
-    private PushButton mDemosButton;
     private GameObject mBackgroundImage;
     private LayerViewport backgroundLayerViewport;
     private ScreenViewport backgroundScreenViewport;
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -56,15 +55,9 @@ public class StartScreen extends GameScreen {
 
         // Load in the bitmaps used on the main menu screen
         AssetManager assetManager = mGame.getAssetManager();
-        assetManager.loadAndAddBitmap("SpaceDemoIcon", "img/SpaceDemoIcon.png");
-        assetManager.loadAndAddBitmap("SpaceDemoIconSelected", "img/SpaceDemoIconSelected.png");
-        assetManager.loadAndAddBitmap("CardDemoIcon", "img/CardDemoIcon.png");
-        assetManager.loadAndAddBitmap("CardDemoIconSelected", "img/CardDemoIconSelected.png");
-        assetManager.loadAndAddBitmap("PlatformDemoIcon", "img/PlatformDemoIcon.png");
-        assetManager.loadAndAddBitmap("PlatformDemoIconSelected", "img/PlatformDemoIconSelected.png");
-        assetManager.loadAndAddBitmap("DemosIcon", "img/DemosIcon.png");
-        assetManager.loadAndAddBitmap("DemosIconSelected", "img/DemosIconSelected.png");
         assetManager.loadAndAddBitmap("StartScreenBackground", "img/StartScreenBackground.png");
+        assetManager.loadAndAddBitmap("StartButton", "img/StartButton.png");
+
 
         // Define the spacing that will be used to position the buttons
         int spacingX = (int)mDefaultLayerViewport.getWidth() / 5;
@@ -74,28 +67,13 @@ public class StartScreen extends GameScreen {
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
 
-        backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
+        backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2.0f,screenWidth/2.0f,screenHeight/2);
         backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
 
-
-
         // Create the trigger buttons
-        mSpaceshipDemoButton = new PushButton(
-                spacingX * 0.50f, spacingY * 1.5f, spacingX, spacingY,
-                "SpaceDemoIcon", "SpaceDemoIconSelected",this);
-        mSpaceshipDemoButton.setPlaySounds(true, true);
-        mPlatformDemoButton = new PushButton(
-                spacingX * 1.83f, spacingY * 1.5f, spacingX, spacingY,
-                "PlatformDemoIcon", "PlatformDemoIconSelected", this);
-        mPlatformDemoButton.setPlaySounds(true, true);
-        mCardDemoButton = new PushButton(
-                spacingX * 3.17f, spacingY * 1.5f, spacingX, spacingY,
-                "CardDemoIcon", "CardDemoIconSelected", this);
+
+        mCardDemoButton = new PushButton(screenWidth/9.5f,screenHeight/14,screenWidth/18.0f,screenWidth/60.0f, "StartButton", "StartButton", this);
         mCardDemoButton.setPlaySounds(true, true);
-        mDemosButton = new PushButton(
-                spacingX * 4.50f, spacingY * 1.5f, spacingX, spacingY,
-                "DemosIcon", "DemosIconSelected", this);
-        mDemosButton.setPlaySounds(true, true);
 
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
                 assetManager.getBitmap("StartScreenBackground"), this);
@@ -119,24 +97,18 @@ public class StartScreen extends GameScreen {
 
         List<TouchEvent> touchEvents = input.getTouchEvents();
         if (touchEvents.size() > 0) {
-
+            System.out.println("Touch input detected");
             // Update each button and transition if needed
-            mSpaceshipDemoButton.update(elapsedTime);
-            mCardDemoButton.update(elapsedTime);
-            mPlatformDemoButton.update(elapsedTime);
-            mDemosButton.update(elapsedTime);
 
-            if (mSpaceshipDemoButton.isPushTriggered())
-                mGame.getScreenManager().addScreen(new SpaceshipDemoScreen(mGame));
-            else if (mCardDemoButton.isPushTriggered()){
+            mCardDemoButton.update(elapsedTime);
+
+
+            if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
                 mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
             }
 
-            else if (mPlatformDemoButton.isPushTriggered())
-                mGame.getScreenManager().addScreen(new PlatformDemoScreen(mGame));
-            else if (mDemosButton.isPushTriggered())
-                mGame.getScreenManager().addScreen(new DemoMenuScreen(mGame));
+
         }
     }
 
@@ -152,9 +124,6 @@ public class StartScreen extends GameScreen {
         // Clear the screen and draw the buttons
         graphics2D.clear(Color.WHITE);
         mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
-        mSpaceshipDemoButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
-        mPlatformDemoButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
-        mDemosButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
-        mCardDemoButton.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
+        mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
     }
 }
