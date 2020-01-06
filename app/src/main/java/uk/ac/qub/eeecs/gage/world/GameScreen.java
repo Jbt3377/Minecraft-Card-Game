@@ -1,9 +1,15 @@
 package uk.ac.qub.eeecs.gage.world;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.ViewportHelper;
+import uk.ac.qub.eeecs.game.MinecraftCardGame.PopUpObject;
+
 
 /**
  * Game screen class acting as a container for a coherent section of the game (a
@@ -21,6 +27,11 @@ public abstract class GameScreen {
      * Name that is given to this game screen
      */
     protected final String mName;
+
+    /**
+     * List of popup objects to be drawn to game screen
+     */
+    public CopyOnWriteArrayList<PopUpObject> popUpObjects;
 
     /**
      * Return the name of this game screen
@@ -88,6 +99,8 @@ public abstract class GameScreen {
         ViewportHelper.createDefaultLayerViewport(mDefaultLayerViewport);
         ViewportHelper.create3To2AspectRatioScreenViewport(
                 game, mDefaultScreenViewport);
+
+        popUpObjects = new CopyOnWriteArrayList<>();
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -132,5 +145,20 @@ public abstract class GameScreen {
      * Invoked automatically by the game whenever the app is disposed.
      */
     public void dispose() {
+    }
+
+
+    protected void updatePopUps(ElapsedTime elapsedTime) {
+        if (!popUpObjects.isEmpty()) {
+            for(PopUpObject popup: popUpObjects)
+                popup.update(elapsedTime);
+        }
+    }
+
+    protected void drawPopUps(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        if (!popUpObjects.isEmpty()) {
+            for(PopUpObject popup: popUpObjects)
+                popup.draw(elapsedTime, graphics2D);
+        }
     }
 }

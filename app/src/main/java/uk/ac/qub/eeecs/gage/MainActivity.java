@@ -4,6 +4,7 @@ import uk.ac.qub.eeecs.game.DemoGame;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
      * Game fragment instance
      */
     private Game mGame;
+    public static Typeface minecraftRegFont;
 
     /*
      * (non-Javadoc)
@@ -28,6 +30,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Accessible Font
+        minecraftRegFont = Typeface.createFromAsset(getAssets(),"font/Minecraftia.ttf");
+        //minecraftRegFont = Typeface.createFromAsset()mGame.getAssetManager().getFont("fonts/MinecrafterFont")
 
         // Setup the window as suitable for a game, namely: full screen
         // with no title and a request to keep the screen on. The changes

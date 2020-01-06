@@ -606,7 +606,9 @@ public abstract class Game extends Fragment {
                 // Log any runtime exceptions and throw onwards
                 String errorTag = getActivity().getResources().getString(
                         R.string.ERROR_TAG);
-                Log.e(errorTag, e.getMessage());
+                //Log.e(errorTag, e.getMessage());
+                e.printStackTrace();
+                System.out.println(e);
                 throw e;
             }
         }

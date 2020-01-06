@@ -166,7 +166,7 @@ public class Card extends Sprite {
             drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
                     graphics2D, layerViewport, screenViewport);
 
-            // Draw the attack value
+            // Draw the health value
             drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
                     graphics2D, layerViewport, screenViewport);
             drawTextOnCard(graphics2D);

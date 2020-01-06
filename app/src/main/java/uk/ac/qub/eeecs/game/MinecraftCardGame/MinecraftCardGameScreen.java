@@ -56,6 +56,9 @@ public class MinecraftCardGameScreen extends GameScreen {
 
     private LayerViewport cardLayerViewport;
 
+    private Paint dialogueTextPaint;
+    private Vector2 textPosition;
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -92,8 +95,8 @@ public class MinecraftCardGameScreen extends GameScreen {
     }
 
     //getters for the buttons (using in unit test)
-    public PushButton getRulesScreenButtonScreenButton() { return RulesScreenButton; }
-    public PushButton endTurnButton() { return endTurnButton; }
+    public PushButton getRulesScreenButton() { return RulesScreenButton; }
+    public PushButton getEndTurnButton() { return endTurnButton; }
 
     public GameObject getPig() {
         return pig;
@@ -179,8 +182,9 @@ public class MinecraftCardGameScreen extends GameScreen {
         RulesScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
         //method to call Rules button to update it
         RulesButton();
+        EndTurn();
 
-
+        updatePopUps(elapsedTime);
 
     }
 
@@ -232,6 +236,7 @@ public class MinecraftCardGameScreen extends GameScreen {
         //dispplay pig 5 secs
         //displayPig(elapsedTime , graphics2D);
 
+        drawPopUps(elapsedTime, graphics2D);
 
     }
 
@@ -284,9 +289,19 @@ public class MinecraftCardGameScreen extends GameScreen {
             if (RulesScreenButton.isPushTriggered()) {
                 mGame.getScreenManager().addScreen(Rules);
             }
-        }
-
     }
+
+
+    public void EndTurn() {
+        if (endTurnButton.isPushTriggered()) {
+            new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
+        }
+    }
+
+
+}
+
+
 
 
 
