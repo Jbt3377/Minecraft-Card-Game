@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game;
+package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 
@@ -12,7 +12,7 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.MinecraftCardGame.MinecraftCardGameScreen;
+import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import uk.ac.qub.eeecs.game.miscDemos.DemoMenuScreen;
 import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
 import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
@@ -22,7 +22,7 @@ import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
  *
  * @version 1.0
  */
-public class MenuScreen extends GameScreen {
+public class StartScreen extends GameScreen {
 
     // /////////////////////////////////////////////////////////////////////////
     // Properties
@@ -45,8 +45,8 @@ public class MenuScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public MenuScreen(Game game) {
-        super("MenuScreen", game);
+    public StartScreen(Game game) {
+        super("StartScreen", game);
 
         // Load in the bitmaps used on the main menu screen
         AssetManager assetManager = mGame.getAssetManager();
@@ -110,7 +110,7 @@ public class MenuScreen extends GameScreen {
                 mGame.getScreenManager().addScreen(new SpaceshipDemoScreen(mGame));
             else if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
-                mGame.getScreenManager().addScreen(new MinecraftCardGameScreen(mGame));
+                mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
             }
 
             else if (mPlatformDemoButton.isPushTriggered())

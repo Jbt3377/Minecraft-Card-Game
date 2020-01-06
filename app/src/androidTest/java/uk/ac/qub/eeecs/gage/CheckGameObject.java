@@ -15,7 +15,7 @@ import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.game.DemoGame;
-import uk.ac.qub.eeecs.game.MinecraftCardGame.MinecraftCardGameScreen;
+import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +27,7 @@ public class CheckGameObject {
 
     private Context context;
     private DemoGame game;
-    private MinecraftCardGameScreen mainScreen;
+    private MainGameScreen mainScreen;
 
     @Before
     public void setup() {
@@ -37,7 +37,7 @@ public class CheckGameObject {
         game.mFileIO = new FileIO(context);
         game.mAssetManager = new AssetManager(game);
         game.mScreenManager = new ScreenManager(game);
-        mainScreen = new MinecraftCardGameScreen(game);
+        mainScreen = new MainGameScreen(game);
         game.mScreenManager.addScreen(mainScreen);
     }
 

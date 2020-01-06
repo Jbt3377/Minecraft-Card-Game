@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.game.GameScreens.CompanyLogoScreen;
+import uk.ac.qub.eeecs.game.GameScreens.StartScreen;
 
 /**
  * Sample demo game that is create within the MainActivity class
@@ -47,7 +48,7 @@ public class DemoGame extends Game {
         // will layout the buttons based on the size of the view.
 
 
-        //MenuScreen stubMenuScreen = new MenuScreen(this);
+        //StartScreen stubMenuScreen = new StartScreen(this);
         //mScreenManager.addScreen(stubMenuScreen);
 
         CompanyLogoScreen logoSplashScreen = new CompanyLogoScreen(this);
@@ -61,7 +62,7 @@ public class DemoGame extends Game {
     @Override
     public boolean onBackPressed() {
         // If we are already at the menu screen then exit
-        if (mScreenManager.getCurrentScreen().getName().equals("MenuScreen"))
+        if (mScreenManager.getCurrentScreen().getName().equals("StartScreen"))
             return false;
 
         // Stop any playing music
@@ -70,8 +71,8 @@ public class DemoGame extends Game {
 
         // Go back to the menu screen
         getScreenManager().removeAllScreens();
-        MenuScreen menuScreen = new MenuScreen(this);
-        getScreenManager().addScreen(menuScreen);
+        StartScreen startScreen = new StartScreen(this);
+        getScreenManager().addScreen(startScreen);
         return true;
     }
 }

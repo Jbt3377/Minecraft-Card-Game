@@ -1,14 +1,12 @@
 package uk.ac.qub.eeecs.gage.world;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.ViewportHelper;
-import uk.ac.qub.eeecs.game.MinecraftCardGame.PopUpObject;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
 /**

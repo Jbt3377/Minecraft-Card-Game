@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.MinecraftCardGame;
+package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;

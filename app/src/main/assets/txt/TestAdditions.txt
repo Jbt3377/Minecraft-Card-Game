@@ -26,8 +26,8 @@
         when(game.getScreenManager()).thenReturn(screenManager);
 
         // Create a menu screen and call the update method
-        MenuScreen menuScreen = new MenuScreen(game);
-        menuScreen.update(new ElapsedTime());
+        MenuScreen startScreen = new MenuScreen(game);
+        startScreen.update(new ElapsedTime());
 
         // Asset that the current screen is now the spaceship demo
         assertEquals(screenManager.getCurrentScreen().getName(), spaceshipDemoScreen.getName());

@@ -9,13 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
-import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.game.DemoGame;
-import uk.ac.qub.eeecs.game.MinecraftCardGame.MinecraftCardGameScreen;
+import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -27,7 +26,7 @@ public class MinecraftGameScreenButtonTest {
 
     private Context context;
     private DemoGame game;
-    private MinecraftCardGameScreen mainScreen;
+    private MainGameScreen mainScreen;
 
     @Before
     public void setup(){
@@ -38,7 +37,7 @@ public class MinecraftGameScreenButtonTest {
         game.mAssetManager = new AssetManager(game);
         game.mAudioManager = new AudioManager(game);
         game.mScreenManager = new ScreenManager(game);
-        mainScreen = new MinecraftCardGameScreen(game);
+        mainScreen = new MainGameScreen(game);
         game.mScreenManager.addScreen(mainScreen);
 
 

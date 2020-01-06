@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.Utilities;
+package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 
 import uk.ac.qub.eeecs.gage.Game;

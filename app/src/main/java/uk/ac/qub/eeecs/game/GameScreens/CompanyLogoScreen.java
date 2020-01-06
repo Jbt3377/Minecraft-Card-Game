@@ -1,7 +1,5 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
-import android.view.Menu;
-
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -12,8 +10,6 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.gage.world.LayerViewport;
-import uk.ac.qub.eeecs.game.MenuScreen;
 
 public class CompanyLogoScreen extends GameScreen {
 
@@ -42,7 +38,7 @@ public class CompanyLogoScreen extends GameScreen {
     public void backgroundTriggered(){
         if(mBackground.isPushTriggered()){
             mGame.getScreenManager().removeAllScreens();
-            mGame.getScreenManager().addScreen(new MenuScreen(mGame));
+            mGame.getScreenManager().addScreen(new StartScreen(mGame));
         }
     }
 
@@ -62,7 +58,7 @@ public class CompanyLogoScreen extends GameScreen {
         if(elapsedTime.totalTime >= 3.00){
             mBackground.update(elapsedTime);
             mGame.getScreenManager().removeAllScreens();
-            mGame.getScreenManager().addScreen(new MenuScreen(mGame));
+            mGame.getScreenManager().addScreen(new StartScreen(mGame));
         }
 
 

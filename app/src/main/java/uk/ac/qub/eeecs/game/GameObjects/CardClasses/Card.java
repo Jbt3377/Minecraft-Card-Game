@@ -1,32 +1,24 @@
-package uk.ac.qub.eeecs.game.MinecraftCardGame;
+package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.text.method.Touch;
-import android.view.View;
 
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
-import java.util.ArrayList;
 
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
 import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
 import uk.ac.qub.eeecs.gage.util.Vector2;
-import uk.ac.qub.eeecs.gage.util.ViewportHelper;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.Utilities.Utilities;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Utilities;
 
 /**
  * Card class that can be drawn using a number of overlapping images.

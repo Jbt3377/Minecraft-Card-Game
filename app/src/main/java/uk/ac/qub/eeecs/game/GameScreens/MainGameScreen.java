@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.MinecraftCardGame;
+package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,6 +18,8 @@ import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
 /**
@@ -25,7 +27,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
  *
  * @version 1.0
  */
-public class MinecraftCardGameScreen extends GameScreen {
+public class MainGameScreen extends GameScreen {
 
     // /////////////////////////////////////////////////////////////////////////
     // Properties
@@ -68,7 +70,7 @@ public class MinecraftCardGameScreen extends GameScreen {
      *
      * @param game Game to which this screen belongs
      */
-    public MinecraftCardGameScreen(Game game) {
+    public MainGameScreen(Game game) {
         super("CardScreen", game);
 
         // Load the various images used by the cards
