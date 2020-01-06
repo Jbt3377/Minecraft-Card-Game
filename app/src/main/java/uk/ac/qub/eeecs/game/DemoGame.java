@@ -54,8 +54,6 @@ public class DemoGame extends Game {
         CompanyLogoScreen logoSplashScreen = new CompanyLogoScreen(this);
         mScreenManager.addScreen(logoSplashScreen);
 
-
-
         return view;
     }
 
