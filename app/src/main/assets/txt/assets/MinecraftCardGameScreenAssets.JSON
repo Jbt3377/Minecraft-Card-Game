@@ -60,6 +60,16 @@
       "name": "StartButton",
       "file": "img/StartButton.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "OptionsButton",
+      "file": "img/OptionsButton.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "RulesButton",
+      "file": "img/RulesButton.png"
+    },
 
     {
       "type": "Bitmap",

@@ -36,6 +36,8 @@ public class StartScreen extends GameScreen {
      */
 
     private PushButton mCardDemoButton;
+    private PushButton mRulesButton;
+    private PushButton mOptionsButton;
     private GameObject mBackgroundImage;
     private LayerViewport backgroundLayerViewport;
     private ScreenViewport backgroundScreenViewport;
@@ -57,6 +59,8 @@ public class StartScreen extends GameScreen {
         AssetManager assetManager = mGame.getAssetManager();
         assetManager.loadAndAddBitmap("StartScreenBackground", "img/StartScreenBackground.png");
         assetManager.loadAndAddBitmap("StartButton", "img/StartButton.png");
+        assetManager.loadAndAddBitmap("OptionsButton", "img/OptionsButton.png");
+        assetManager.loadAndAddBitmap("RulesButton", "img/RulesButton.png");
 
 
         // Define the spacing that will be used to position the buttons
@@ -72,8 +76,17 @@ public class StartScreen extends GameScreen {
 
         // Create the trigger buttons
 
+        //Button to start the game
         mCardDemoButton = new PushButton(screenWidth/9.5f,screenHeight/14,screenWidth/18.0f,screenWidth/60.0f, "StartButton", "StartButton", this);
         mCardDemoButton.setPlaySounds(true, true);
+
+        //Button to view options
+        mOptionsButton = new PushButton(screenWidth/7.0f,screenHeight/30,screenWidth/18.0f,screenWidth/60.0f, "OptionsButton", "OptionsButton", this);
+        mOptionsButton.setPlaySounds(true, true);
+
+        //Button to view rules
+        mRulesButton= new PushButton(screenWidth/15.5f,screenHeight/30,screenWidth/18.0f,screenWidth/60.0f, "RulesButton", "RulesButton", this);
+        mRulesButton.setPlaySounds(true, true);
 
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
                 assetManager.getBitmap("StartScreenBackground"), this);
@@ -97,11 +110,10 @@ public class StartScreen extends GameScreen {
 
         List<TouchEvent> touchEvents = input.getTouchEvents();
         if (touchEvents.size() > 0) {
-            System.out.println("Touch input detected");
+            //System.out.println("Touch input detected");
             // Update each button and transition if needed
 
             mCardDemoButton.update(elapsedTime);
-
 
             if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
@@ -125,5 +137,7 @@ public class StartScreen extends GameScreen {
         graphics2D.clear(Color.WHITE);
         mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
         mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
+        mOptionsButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
+        mRulesButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
     }
 }
