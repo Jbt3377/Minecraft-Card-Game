@@ -333,4 +333,21 @@ public class Card extends Sprite {
     }
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters & Setters
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public Bitmap getmCardPortrait() {
+        return mCardPortrait;
+    }
+
+    public int getmAttack() {
+        return mAttack;
+    }
+
+    public int getmHealth() {
+        return mHealth;
+    }
+
 }

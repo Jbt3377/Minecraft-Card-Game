@@ -25,32 +25,43 @@ public class PopUpObject extends Sprite {
     private int displayTime;
     private String textInput;
     private Paint textPaint;
+    private boolean movingPopUp;
+    private int movementSpeed = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor - Bitmap Image
+    // Constructors
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Constructor for image popup
+     * @param bitmap - popup image
+     */
     public PopUpObject(float x, float y, Bitmap bitmap, GameScreen gameScreen, int displayTime) {
         super(x, y, bitmap, gameScreen);
 
         this.displayTime = displayTime;
+        this.textInput = null;
+        this.movingPopUp = false;
 
         setupTextPaint(gameScreen);
         gameScreen.popUpObjects.add(this);
 
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor - Bitmap Image and Text
-    ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+    /**
+     * Constructor for image popup with overlaying text
+     * @param bitmap - popup image
+     * @param textInput - overlaying text
+     */
     public PopUpObject(float x, float y, Bitmap bitmap, GameScreen gameScreen, int displayTime,
                        String textInput) {
+
         super(x, y, bitmap, gameScreen);
 
         this.displayTime = displayTime;
         this.textInput = textInput;
+        this.movingPopUp = false;
 
         setupTextPaint(gameScreen);
         gameScreen.popUpObjects.add(this);
@@ -58,36 +69,78 @@ public class PopUpObject extends Sprite {
     }
 
 
+    /**
+     * Constructor for moving text
+     * @param textInput - text to display on screen
+     * @param goingUp - bool determines direction of movement
+     */
+    public PopUpObject(float x, float y, GameScreen gameScreen, int displayTime, String textInput,
+                       int movementSpeed, boolean goingUp) {
+
+        // Bitmap temporary - testing
+        super(x, y, gameScreen.getGame().getAssetManager().getBitmap("potion_of_healing"), gameScreen);
+
+        this.displayTime = displayTime;
+        this.textInput = textInput;
+        this.movingPopUp = true;
+
+        setupTextPaint(gameScreen);
+
+        //Depending on goingUp set move speed
+        if (goingUp)
+            this.movementSpeed = -movementSpeed;
+        else
+            this.movementSpeed = movementSpeed;
+
+        gameScreen.popUpObjects.add(this);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Update method for PopUps - Removes them if displayTime expires
+    // Update & Draw Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @Override
     public void update(ElapsedTime elapsedTime) {
         super.update(elapsedTime);
         displayTime--;
 
+        // Remove popup if display time has expired
         if (displayTime <= 0)
             mGameScreen.popUpObjects.remove(this);
 
+        // Move popup position on y axis
+        position.add(0, movementSpeed);
     }
+
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-          super.draw(elapsedTime, graphics2D);
-          if(textInput != null)
-              graphics2D.drawText(textInput, position.x, position.y, textPaint);
+        if (!movingPopUp) {
+
+            // Draw: Image
+            super.draw(elapsedTime, graphics2D);
+
+            if (textInput != null)
+                // Draw: Text
+                graphics2D.drawText(textInput, position.x, position.y, textPaint);
+
+        }else
+            // Draw: Moving Text
+            graphics2D.drawText(textInput, position.x, position.y, textPaint);
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Update the card demo screen
-     *
+     * Method used to setup text paint
      * @param gameScreen Used for accessing gameScreen dimensions
      */
-
     public void setupTextPaint(GameScreen gameScreen){
 
         textPaint = new Paint();

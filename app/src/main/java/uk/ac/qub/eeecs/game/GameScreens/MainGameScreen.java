@@ -145,10 +145,6 @@ public class MainGameScreen extends GameScreen {
         RulesScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
                 "Redbutton", "Red-Button-Active", this);
 
-
-
-
-
     }
 
     /**

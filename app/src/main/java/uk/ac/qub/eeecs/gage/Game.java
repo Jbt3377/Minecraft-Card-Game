@@ -28,6 +28,20 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
+    // /////////////////////////////////////////////////////////////////////////
+    // Adjustable Settings
+    // /////////////////////////////////////////////////////////////////////////
+
+    private float volume;
+
+
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
 
     public double MenuScreentime;
     // /////////////////////////////////////////////////////////////////////////
@@ -234,6 +248,9 @@ public abstract class Game extends Fragment {
 
         // Create a new game loop
         mLoop = new GameLoop();
+
+        // Set Default Volume
+        volume = 1;
 
         // ////////////////////////////////////////////////////////
         // Manager/Service Creation : None-view/context dependent
