@@ -61,6 +61,7 @@ public class MainGameScreen extends GameScreen {
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
 
+    private int turnNumber = 1;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -72,6 +73,8 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
+
+
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
@@ -183,6 +186,7 @@ public class MainGameScreen extends GameScreen {
 
         updatePopUps(elapsedTime);
 
+
     }
 
     /**
@@ -216,19 +220,30 @@ public class MainGameScreen extends GameScreen {
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
+        endTurnButton.setPlaySounds(true, true);
+
+
         RulesScreenButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
 
-
         //Draw text that was loaded
-        Paint textPaint = new Paint();
-        textPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        textPaint.setTextSize(height / 16);
-        textPaint.setTextAlign(Paint.Align.CENTER);
+        Paint gameTitle = new Paint();
+        gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        gameTitle.setTextSize(height / 16);
+        gameTitle.setTextAlign(Paint.Align.CENTER);
 
-        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
+        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, gameTitle);
+
+        //Draw turn timer text
+
+        //Load text and font information
+        Paint turnText = new Paint();
+        turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        turnText.setTextSize(height / 32);
+        turnText.setTextAlign(Paint.Align.CENTER);
+        graphics2D.drawText("Turn Number: " + turnNumber, width * 0.1f, height * 0.05f, turnText);
 
         //dispplay pig 5 secs
         //displayPig(elapsedTime , graphics2D);
@@ -291,6 +306,7 @@ public class MainGameScreen extends GameScreen {
 
     public void EndTurn() {
         if (endTurnButton.isPushTriggered()) {
+            turnNumber++;
             new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
         }
     }
