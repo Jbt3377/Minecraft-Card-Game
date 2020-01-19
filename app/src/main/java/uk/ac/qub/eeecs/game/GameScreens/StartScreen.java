@@ -38,6 +38,7 @@ public class StartScreen extends GameScreen {
 
     private PushButton mCardDemoButton;
     private PushButton mRulesButton;
+    private RulesScreen Rules;
     private PushButton mOptionsButton;
     private GameObject mBackgroundImage;
     private LayerViewport backgroundLayerViewport;
@@ -94,8 +95,13 @@ public class StartScreen extends GameScreen {
         mRulesButton= new PushButton(layerWidth/1.65f,layerHeight/7.1f,layerWidth/5.0f,layerHeight/10.0f, "RulesButton", "RulesButton", this);
         mRulesButton.setPlaySounds(true, true);
 
+        //has to be inside the Constructor to create a game screen
+        Rules = new RulesScreen("Rules", game);
+
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
                 assetManager.getBitmap("StartScreenBackground"), this);
+
+
 
     }
 
@@ -113,6 +119,7 @@ public class StartScreen extends GameScreen {
 
         playBackgroundMusic();
 
+
         // Process any touch events occurring since the update
         Input input = mGame.getInput();
 
@@ -122,11 +129,18 @@ public class StartScreen extends GameScreen {
             // Update each button and transition if needed
 
             mCardDemoButton.update(elapsedTime);
+            mRulesButton.update(elapsedTime);
 
             if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
                stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
+            }
+
+            if (mRulesButton.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(Rules);
             }
 
 
@@ -149,6 +163,7 @@ public class StartScreen extends GameScreen {
         mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
         mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
         mOptionsButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
+
         mRulesButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
     }
 

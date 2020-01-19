@@ -57,6 +57,17 @@ public abstract class Game extends Fragment {
     // Properties: Frames per Second
     // /////////////////////////////////////////////////////////////////////////
 
+//added in to create an fps counter
+    private boolean fpsDrawn;
+
+    public boolean isFpsDrawn() {
+        return fpsDrawn;
+    }
+
+    public void setFpsDrawn(boolean fpsDrawn) {
+        this.fpsDrawn = fpsDrawn;
+    }
+
     /**
      * Variable used to record the target number of update/draw iterations in a
      * one second interval. The game thread will sleep between iterations if

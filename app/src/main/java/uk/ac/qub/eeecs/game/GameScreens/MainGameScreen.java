@@ -8,18 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
+
+
 
 
 /**
@@ -41,15 +46,9 @@ public class MainGameScreen extends GameScreen {
 
     //Define pushButtons for the game
     private PushButton endTurnButton;
-
-    //RulesScreen Buttons
-    private PushButton RulesScreenButton;
-    private RulesScreen Rules;
-
     //private pig :)
     private GameObject pig;
-
-
+    private PushButton pauseButton;
     //Defined a number for the number of cards
     private int numberOfCards = 4;
 
@@ -61,7 +60,16 @@ public class MainGameScreen extends GameScreen {
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
 
-    private int turnNumber = 1;
+    //Pause menu
+    private PushButton unpauseButton, exitButton;
+    private ToggleButton fpsToggle;
+    private int fps;
+    public boolean displayfps;
+    private Sprite pauseScreen;
+    private Paint pausePaint, pausePaint2;
+    public boolean gamePaused;
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -74,33 +82,29 @@ public class MainGameScreen extends GameScreen {
     public MainGameScreen(Game game) {
         super("CardScreen", game);
 
-
-
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
 
 
-       // mRightScreen = new RulesScreen("RightScreen", game);
+        fps = (int) mGame.getAverageFramesPerSecond();
+         gamePaused = false;
+         displayfps = false;
+
         setupViewPorts();
+        //creating the actual pause menu
+        createPauseWindow();
 
         setupBoardGameObjects();
 
         //Loading font
         mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
 
-
-        //has to be inside the Constructor to create a game screen
-        Rules = new RulesScreen("Rules", game);
-
-
-
-
     }
 
+
     //getters for the buttons (using in unit test)
-    public PushButton getRulesScreenButton() { return RulesScreenButton; }
     public PushButton getEndTurnButton() { return endTurnButton; }
 
     public GameObject getPig() {
@@ -144,10 +148,69 @@ public class MainGameScreen extends GameScreen {
         //Setup endTurnButton image for the board - MMC
         endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
-        //set up a button to the Rules screen
-        RulesScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
-                "Redbutton", "Red-Button-Active", this);
 
+        pauseButton = new PushButton(screenWidth * 0.10f, screenHeight/1.2f,screenWidth/10,screenHeight/10,
+                "EndTurnDefault", "EndTurnActive", this);
+
+
+
+
+
+    }
+
+
+    private void createPauseWindow() {
+//set up fresh variables to use within this method of screen sizes
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
+
+//loading in pause screen and buttons
+
+        pauseScreen =  new Sprite(screenWidth / 2, screenHeight / 2, screenWidth / 1.1f,
+                screenHeight / 1.1f, getGame().getAssetManager().getBitmap("PauseMenu"), this);
+
+        unpauseButton = new PushButton((int) (screenWidth / 2.5), (int) (screenHeight * 0.2500f), screenWidth * 0.208f,
+                screenHeight * 0.231f, "EndTurnDefault", this);
+
+        exitButton = new PushButton((int) (screenWidth / 1.6), (int) (screenHeight * 0.2500f), screenWidth * 0.208f,
+                screenHeight * 0.231f, "Redbutton", this);
+
+        fpsToggle = new ToggleButton(screenWidth  / 1.3f, screenHeight * 0.6700f, screenWidth * 0.23f, screenHeight * 0.18f,
+                "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+
+
+
+
+        //Setting up some paints
+        pausePaint = new Paint();
+        pausePaint.setTextSize(screenWidth * 0.0469f);
+        pausePaint.setARGB(255, 255, 255, 255);
+        pausePaint.setTypeface(MainActivity.minecraftRegFont);
+        pausePaint.setColor(Color.BLACK);
+
+
+        pausePaint2 = new Paint();
+        pausePaint2.setTextSize(screenWidth * 0.0365f);
+        pausePaint2.setARGB(255, 255, 255, 255);
+        pausePaint2.setTypeface(MainActivity.minecraftRegFont);
+        pausePaint.setColor(Color.BLACK);
+
+    }
+
+//Method to draw the pause menu created to keep code simpla and not as messy
+    public void drawPauseMenu(ElapsedTime elapsedTime,IGraphics2D graphics2D){
+    //variables of screen size
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
+
+
+        pauseScreen.draw(elapsedTime, graphics2D);
+        graphics2D.drawText("GAME PAUSED", (int) (screenWidth / 2.75), screenHeight * 0.2037f, pausePaint);
+        graphics2D.drawText("FPS Counter:", (int) (screenWidth / 3.3), screenHeight * 0.35f, pausePaint2);
+
+        fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+        unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
+        exitButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
     }
 
     /**
@@ -159,32 +222,38 @@ public class MainGameScreen extends GameScreen {
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-        // Process any touch events occurring since the last update
-        Input input = mGame.getInput();
-        List<TouchEvent> touchEventList = input.getTouchEvents();
 
-        //Process card touch events
-        //card.processCardTouchEvents(touchEventList, mGame);
+        if (!gamePaused) {
 
-        for(Card c : cardCollection){
-            c.processCardTouchEvents(touchEventList, mGame);
-        }
+            // Process any touch events occurring since the last update
+            Input input = mGame.getInput();
+            List<TouchEvent> touchEventList = input.getTouchEvents();
 
-        for(int i = 0; i < numberOfCards; i++){
-            cardCollection.get(i).update(elapsedTime);
-        }
+            pauseButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+            if (pauseButton.isPushTriggered()){
+                gamePaused = true;
+            }
+            //Process card touch events
+            //card.processCardTouchEvents(touchEventList, mGame);
 
-        pig.update(elapsedTime);
+            for (Card c : cardCollection) {
+                c.processCardTouchEvents(touchEventList, mGame);
+            }
 
-        //Update the endTurnButton - MMC
-        endTurnButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-        //update RulesScreenButton
-        RulesScreenButton.update(elapsedTime, boardLayerViewport,mDefaultScreenViewport);
-        //method to call Rules button to update it
-        RulesButton();
-        EndTurn();
+            for (int i = 0; i < numberOfCards; i++) {
+                cardCollection.get(i).update(elapsedTime);
+            }
+            //checks if the pause button was pressed and if it was changes the control variable
 
-        updatePopUps(elapsedTime);
+
+            //Update the endTurnButton - MMC
+            endTurnButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+            EndTurn();
+
+            updatePopUps(elapsedTime);
+        } else
+            pauseMenuUpdate(elapsedTime);
 
 
     }
@@ -220,35 +289,38 @@ public class MainGameScreen extends GameScreen {
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-        endTurnButton.setPlaySounds(true, true);
-
-
-        RulesScreenButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
 
 
         //Draw text that was loaded
-        Paint gameTitle = new Paint();
-        gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        gameTitle.setTextSize(height / 16);
-        gameTitle.setTextAlign(Paint.Align.CENTER);
+        Paint textPaint = new Paint();
+        textPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        textPaint.setTextSize(height / 16);
+        textPaint.setTextAlign(Paint.Align.CENTER);
 
-        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, gameTitle);
+        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
 
-        //Draw turn timer text
 
-        //Load text and font information
-        Paint turnText = new Paint();
-        turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        turnText.setTextSize(height / 32);
-        turnText.setTextAlign(Paint.Align.CENTER);
-        graphics2D.drawText("Turn Number: " + turnNumber, width * 0.1f, height * 0.05f, turnText);
+        Paint fpsPaint = new Paint();
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(height / 30);
+        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        if(displayfps)
+        graphics2D.drawText("fps: " + fps, width * 1f, height * 0.05f, fpsPaint);
 
         //dispplay pig 5 secs
         //displayPig(elapsedTime , graphics2D);
 
         drawPopUps(elapsedTime, graphics2D);
+
+
+        //making use of the control variable defined
+        if (gamePaused)
+            drawPauseMenu(elapsedTime,graphics2D);
+        else
+            pauseButton.draw(elapsedTime, graphics2D,
+                    boardLayerViewport,
+                    mDefaultScreenViewport);
+
 
     }
 
@@ -297,22 +369,43 @@ public class MainGameScreen extends GameScreen {
         }
     }
 
-    public void RulesButton() {
-            if (RulesScreenButton.isPushTriggered()) {
-                mGame.getScreenManager().addScreen(Rules);
-            }
-    }
 
 
     public void EndTurn() {
         if (endTurnButton.isPushTriggered()) {
-            turnNumber++;
             new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
         }
     }
+    private void pauseMenuUpdate(ElapsedTime elapsedTime) {
+        if (mGame.getInput().getTouchEvents().size() > 0) {
+
+            fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
+            unpauseButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
+            exitButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
+
+            if (unpauseButton.isPushTriggered())
+                gamePaused = false;
+
+            if (exitButton.isPushTriggered()) {
+                mGame.getAudioManager().stopMusic();
+                mGame.getScreenManager().removeScreen(this);
+            }
+
+            if (fpsToggle.isToggledOn()) {
+               displayfps = true;
+            }else
+                displayfps =false;
+        }
+        }
 
 
-}
+
+
+    }
+
+
+
+
 
 
 

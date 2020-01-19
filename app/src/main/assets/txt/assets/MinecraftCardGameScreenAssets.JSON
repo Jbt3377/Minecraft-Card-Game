@@ -46,8 +46,50 @@
 
     {
       "type": "Bitmap",
-      "name": "BoardBackGround",
-      "file": "img/CoolBoardGameImage.png"
+    "name": "BoardBackGround",
+    "file": "img/CoolBoardGameImage.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RulesScreenBackground",
+      "file": "img/RulesScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "PauseButton",
+      "file": "img/PauseButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "PauseMenu",
+      "file": "img/PauseMenu.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ToggleOn",
+      "file": "img/ToggleOn.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ToggleOff",
+      "file": "img/ToggleOff.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ToggleOff1",
+      "file": "img/ToggleOff1.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ToggleOn1",
+      "file": "img/ToggleOn1.png"
     },
 
     {
