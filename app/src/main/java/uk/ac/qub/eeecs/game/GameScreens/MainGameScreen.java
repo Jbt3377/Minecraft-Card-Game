@@ -25,8 +25,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
-
-
 /**
  * Starter class for Card game stories
  *
@@ -46,6 +44,12 @@ public class MainGameScreen extends GameScreen {
 
     //Define pushButtons for the game
     private PushButton endTurnButton;
+    private PushButton magnificationButton;
+
+    //RulesScreen Buttons
+    private PushButton RulesScreenButton;
+    private RulesScreen Rules;
+
     //private pig :)
     private GameObject pig;
     private PushButton pauseButton;
@@ -59,6 +63,8 @@ public class MainGameScreen extends GameScreen {
 
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
+
+    private int turnNumber = 1;
 
     //Pause menu
     private PushButton unpauseButton, exitButton;
@@ -81,6 +87,8 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
+
+
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
@@ -152,7 +160,9 @@ public class MainGameScreen extends GameScreen {
         pauseButton = new PushButton(screenWidth * 0.10f, screenHeight/1.2f,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
 
-
+        //Setup magnification button for the board
+        magnificationButton = new PushButton(screenWidth * 0.06f, screenHeight/10,screenWidth/10,screenHeight /8,
+                "magnifyIcon", this);
 
 
 
@@ -177,6 +187,8 @@ public class MainGameScreen extends GameScreen {
 
         fpsToggle = new ToggleButton(screenWidth  / 1.3f, screenHeight * 0.6700f, screenWidth * 0.23f, screenHeight * 0.18f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+
+
 
 
 
@@ -291,21 +303,34 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
 
+        //Draw magnification button
+        magnificationButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
         //Draw text that was loaded
-        Paint textPaint = new Paint();
-        textPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        textPaint.setTextSize(height / 16);
-        textPaint.setTextAlign(Paint.Align.CENTER);
+        Paint gameTitle = new Paint();
+        gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        gameTitle.setTextSize(height / 16);
+        gameTitle.setTextAlign(Paint.Align.CENTER);
 
-        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
+        graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, gameTitle);
 
+
+
+        //Load text and font information
+        Paint turnText = new Paint();
+        turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        turnText.setTextSize(height / 32);
+        turnText.setTextAlign(Paint.Align.CENTER);
+        graphics2D.drawText("Turn Number: " + turnNumber, width * 0.1f, height * 0.05f, turnText);
 
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         fpsPaint.setTextSize(height / 30);
         fpsPaint.setTextAlign(Paint.Align.RIGHT);
         if(displayfps)
-        graphics2D.drawText("fps: " + fps, width * 1f, height * 0.05f, fpsPaint);
+            graphics2D.drawText("fps: " + fps, width * 1f, height * 0.05f, fpsPaint);
 
         //dispplay pig 5 secs
         //displayPig(elapsedTime , graphics2D);
@@ -369,10 +394,16 @@ public class MainGameScreen extends GameScreen {
         }
     }
 
+    public void RulesButton() {
+            if (RulesScreenButton.isPushTriggered()) {
+                mGame.getScreenManager().addScreen(Rules);
+            }
+    }
 
 
     public void EndTurn() {
         if (endTurnButton.isPushTriggered()) {
+            turnNumber++;
             new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
         }
     }

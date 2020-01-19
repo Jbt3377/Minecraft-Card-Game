@@ -148,6 +148,18 @@
 
     {
       "type": "Bitmap",
+      "name": "magnifyIcon",
+      "file": "img/GameButtons/magnifyIcon.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "magnifyIcon-active",
+      "file": "img/GameButtons/magnifyIcon-active.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "EndTurnActive",
       "file": "img/BlueButtonActive.png"
     },
