@@ -41,6 +41,7 @@ public class MainGameScreen extends GameScreen {
 
     //Define pushButtons for the game
     private PushButton endTurnButton;
+    private PushButton magnificationButton;
 
     //RulesScreen Buttons
     private PushButton RulesScreenButton;
@@ -148,6 +149,10 @@ public class MainGameScreen extends GameScreen {
         RulesScreenButton = new PushButton(screenWidth * 0.90f, screenHeight/5,screenWidth/10,screenHeight /10,
                 "Redbutton", "Red-Button-Active", this);
 
+        //Setup magnification button for the board
+        magnificationButton = new PushButton(screenWidth * 0.06f, screenHeight/10,screenWidth/10,screenHeight /8,
+                "magnifyIcon", this);
+
     }
 
     /**
@@ -228,6 +233,11 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
 
+        //Draw magnification button
+        magnificationButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
         //Draw text that was loaded
         Paint gameTitle = new Paint();
         gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -236,7 +246,7 @@ public class MainGameScreen extends GameScreen {
 
         graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, gameTitle);
 
-        //Draw turn timer text
+
 
         //Load text and font information
         Paint turnText = new Paint();
