@@ -234,9 +234,6 @@ public class MainGameScreen extends GameScreen {
 
         graphics2D.drawText("Minecraft Card Game", width * 0.5f, height * 0.1f, textPaint);
 
-        //dispplay pig 5 secs
-        //displayPig(elapsedTime , graphics2D);
-
         drawPopUps(elapsedTime, graphics2D);
 
     }
