@@ -353,9 +353,6 @@ public class MainGameScreen extends GameScreen {
         if(displayfps)
             graphics2D.drawText("fps: " + fps, width * 1f, height * 0.05f, fpsPaint);
 
-        //dispplay pig 5 secs
-        //displayPig(elapsedTime , graphics2D);
-
         drawPopUps(elapsedTime, graphics2D);
 
 
