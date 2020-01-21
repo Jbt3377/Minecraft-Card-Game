@@ -143,9 +143,6 @@ public class StartScreen extends GameScreen {
                 mGame.getScreenManager().addScreen(Rules);
             }
 
-
-
-
         }
     }
 

@@ -31,7 +31,94 @@
       "description": "very strong sword",
       "attack": 4,
       "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
+    },
+    {
+      "type": "Card",
+      "assets": "sword",
+      "name": "Sword",
+      "description": "very strong sword",
+      "attack": 4,
+      "defence": 4
     }
-
     ]
 }

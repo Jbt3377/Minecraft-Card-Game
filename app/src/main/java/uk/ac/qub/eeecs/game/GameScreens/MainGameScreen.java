@@ -50,6 +50,10 @@ public class MainGameScreen extends GameScreen {
     private PushButton RulesScreenButton;
     private RulesScreen Rules;
 
+    //displayAllCards Buttons
+    private PushButton displayAllCardsButton;
+    private DisplayCardsScreen ViewCards;
+
     //private pig :)
     private GameObject pig;
     private PushButton pauseButton;
@@ -165,6 +169,11 @@ public class MainGameScreen extends GameScreen {
                 "magnifyIcon", this);
 
 
+        //Setup displayCards  button for the board
+        displayAllCardsButton = new PushButton(screenWidth * 0.06f, screenHeight/3,screenWidth/10,screenHeight /8,
+                "EndTurnDefault", this);
+
+
 
     }
 
@@ -245,6 +254,15 @@ public class MainGameScreen extends GameScreen {
             if (pauseButton.isPushTriggered()){
                 gamePaused = true;
             }
+
+            displayAllCardsButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+            if (displayAllCardsButton.isPushTriggered()){
+                //Game Screen Display
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
+
+            }
+
             //Process card touch events
             //card.processCardTouchEvents(touchEventList, mGame);
 
@@ -307,6 +325,9 @@ public class MainGameScreen extends GameScreen {
         magnificationButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
+
+
+        displayCardsButton(elapsedTime, graphics2D);
 
         //Draw text that was loaded
         Paint gameTitle = new Paint();
@@ -382,8 +403,6 @@ public class MainGameScreen extends GameScreen {
                     cardLayerViewport,
                     mDefaultScreenViewport);
         }
-
-
     }
 
     public void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
@@ -427,12 +446,20 @@ public class MainGameScreen extends GameScreen {
             }else
                 displayfps =false;
         }
-        }
-
-
-
-
     }
+
+    private void displayCardsButton(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+
+        //Draw displayAllCards button
+        displayAllCardsButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+    }
+
+
+}
+
+
 
 
 
