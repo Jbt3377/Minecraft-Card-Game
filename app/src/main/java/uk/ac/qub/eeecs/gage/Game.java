@@ -32,16 +32,22 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
-    //Properties
+    //Team Defined Properties
+    /**
+     * The Game has two Players who play the game.
+     */
+    private Player human, ai;
+
+    /**
+     * The Game has a CardLibrary that stores all the cards available in the game.
+     */
+    private CardLibrary cardLibrary;
 
 
-
-    //The Game object has to two players
-    Player human, ai;
+    //Team Defined Getters and Setters
     public Player getHuman() {
         return human;
     }
-
     public void setHuman(Player human) {
         this.human = human;
     }
@@ -49,15 +55,13 @@ public abstract class Game extends Fragment {
     public Player getAi() {
         return ai;
     }
-
     public void setAi(Player ai) {
         this.ai = ai;
     }
 
-
-
-    private static final int PLAYER_STARTING_HEALTH = 20;
-    private static final int PLAYER_STARTING_MANA = 2;
+    public CardLibrary getCardLibrary(){
+        return cardLibrary;
+    }
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -146,19 +150,6 @@ public abstract class Game extends Fragment {
     // /////////////////////////////////////////////////////////////////////////
     // Properties: Managers and Services
     // /////////////////////////////////////////////////////////////////////////
-
-    /**
-     * CardLibrary Manager
-     */
-    protected CardLibrary mCardLibrary;
-
-    public CardLibrary getCardLibrary(){
-        return mCardLibrary;
-    }
-
-    public void setCardLibrary() {
-        this.mCardLibrary = new CardLibrary();
-    }
 
     /**
      * Asset Manager
@@ -310,11 +301,12 @@ public abstract class Game extends Fragment {
         // Create the screen manager
         mScreenManager = new ScreenManager(this);
 
-        setCardLibrary();
+        //Create CardLibrary for the game. The players decks are then created using the cards in this library.
+        cardLibrary = new CardLibrary();
 
         //Create the two players for the game
-        human  = new Human(PLAYER_STARTING_HEALTH, PLAYER_STARTING_MANA, new Deck(mCardLibrary));
-        ai = new Ai(PLAYER_STARTING_HEALTH, PLAYER_STARTING_MANA, new Deck(mCardLibrary));
+        human  = new Human(new Deck(cardLibrary));
+        ai = new Ai(new Deck(cardLibrary));
     }
 
     /*

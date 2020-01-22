@@ -18,7 +18,6 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Utilities;
 
 /**
  * Card class that can be drawn using a number of overlapping images.
@@ -217,7 +216,7 @@ public class Card extends Sprite {
                     cardDescText);
         }
 
-    };
+    }
 
 
     /**

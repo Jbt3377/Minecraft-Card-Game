@@ -9,7 +9,6 @@ import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
-import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
@@ -22,7 +21,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
-import uk.ac.qub.eeecs.game.GameObjects.Gameboard;
+import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -92,7 +91,7 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
-        Gameboard gameboard = new Gameboard(game.getHuman(), game.getAi());
+        GameBoard gameboard = new GameBoard(game.getHuman(), game.getAi());
 
 
         // Load the various images used by the cards

@@ -1,16 +1,13 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
-import android.graphics.Bitmap;
-
-
 /*
 This class is used to store the details for any given card
  */
-public class CardDetails {
+public class CardStats {
     int cardID, attackPoints, healthPoints, manaCost;
-    String cardName, cardType, cardText, cardPortraitAssetName;
+    String cardName, cardType, cardText;
 
-    public CardDetails(int cardID, int attackPoints, int healthPoints, int manaCost, String cardName, String cardType, String cardText, String cardPortraitAssetName) {
+    public CardStats(int cardID, int attackPoints, int healthPoints, int manaCost, String cardName, String cardType, String cardText) {
         this.cardID = cardID;
         this.attackPoints = attackPoints;
         this.healthPoints = healthPoints;
@@ -18,7 +15,6 @@ public class CardDetails {
         this.cardName = cardName;
         this.cardType = cardType;
         this.cardText = cardText;
-        this.cardPortraitAssetName = cardPortraitAssetName;
     }
 
     public String getCardType() {

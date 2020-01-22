@@ -2,16 +2,17 @@ package uk.ac.qub.eeecs.game.GameObjects;
 
 import java.util.ArrayList;
 
-import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.ui.Button;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
-public class Gameboard {
+public class GameBoard {
 
+    ////////////
     //Properties
+    ////////////
 
     //Two players 'sit down' at the board
     Player human;
@@ -21,18 +22,19 @@ public class Gameboard {
     Deck humanDeck;
     Deck aiDeck;
 
-    //Two hands for each player, the cards the currently have in their hand.
+    //Each of the player's places their current hand on the GameBoard
     ArrayList<Card> humanHand;
     ArrayList<Card> aiHand;
 
+    //Each of the player's card current 'in play'
     ArrayList<Card> humanCardsOnTheField;
     ArrayList<Card> aiCardsOnTheField;
 
-    //Two display boxes to display each players lifePoints
+    //Two display boxes to display each player's lifePoints
     GameObject humanLifePointsDisplayBox;
     GameObject aiLifePointsDisplayBox;
 
-    //Two display boxes to display each players manaPoints
+    //Two display boxes to display each player's manaPoints
     GameObject humanManaPointsDisplayBox;
     GameObject aiManaPointsDisplayBox;
 
@@ -50,12 +52,14 @@ public class Gameboard {
     One container for special cards to be placed
      */
 
-
-    //Methods
-
+    //////////////
     //Constructor
-    public Gameboard(Player human, Player ai) {
+    /////////////
+
+    public GameBoard(Player human, Player ai) {
         this.human = human;
         this.ai = ai;
+        this.humanDeck = human.getPlayerDeck();
+        this.aiDeck = ai.getPlayerDeck();
     }
 }
