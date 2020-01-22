@@ -11,6 +11,10 @@ import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.CardLibrary;
+import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -28,12 +32,39 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
+    //Properties
+
+
+
+    //The Game object has to two players
+    Player human, ai;
+    public Player getHuman() {
+        return human;
+    }
+
+    public void setHuman(Player human) {
+        this.human = human;
+    }
+
+    public Player getAi() {
+        return ai;
+    }
+
+    public void setAi(Player ai) {
+        this.ai = ai;
+    }
+
+
+
+    private static final int PLAYER_STARTING_HEALTH = 20;
+    private static final int PLAYER_STARTING_MANA = 2;
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Adjustable Settings
     // /////////////////////////////////////////////////////////////////////////
 
     private float volume;
-
 
     public float getVolume() {
         return volume;
@@ -280,6 +311,10 @@ public abstract class Game extends Fragment {
         mScreenManager = new ScreenManager(this);
 
         setCardLibrary();
+
+        //Create the two players for the game
+        human  = new Human(PLAYER_STARTING_HEALTH, PLAYER_STARTING_MANA, new Deck(mCardLibrary));
+        ai = new Ai(PLAYER_STARTING_HEALTH, PLAYER_STARTING_MANA, new Deck(mCardLibrary));
     }
 
     /*

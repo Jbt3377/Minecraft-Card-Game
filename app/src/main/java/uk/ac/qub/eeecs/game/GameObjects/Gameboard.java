@@ -22,15 +22,18 @@ public class Gameboard {
     Deck aiDeck;
 
     //Two hands for each player, the cards the currently have in their hand.
-    ArrayList<Card> playerHand;
+    ArrayList<Card> humanHand;
     ArrayList<Card> aiHand;
 
+    ArrayList<Card> humanCardsOnTheField;
+    ArrayList<Card> aiCardsOnTheField;
+
     //Two display boxes to display each players lifePoints
-    GameObject playerLifePointsDisplayBox;
+    GameObject humanLifePointsDisplayBox;
     GameObject aiLifePointsDisplayBox;
 
     //Two display boxes to display each players manaPoints
-    GameObject playerManaPointsDisplayBox;
+    GameObject humanManaPointsDisplayBox;
     GameObject aiManaPointsDisplayBox;
 
     //Button to end the turn
@@ -39,11 +42,12 @@ public class Gameboard {
     //TODO: Want to add containers to this objects properties. Places where cards are placed etc.
     /*
     Five containers on the field for human cards in play
-    Five containers on the field for ai cards in play
+    Five containers on the field for Ai cards in play
     Seven containers for players hand, 5 for character cards, 2 for special cards
-    Seven containers for ai hand, 5 for character cards, 2 for special cards
+    Seven containers for Ai hand, 5 for character cards, 2 for special cards
     One container to place the players deck
-    One container to place ai deck
+    One container to place Ai deck
+    One container for special cards to be placed
      */
 
 

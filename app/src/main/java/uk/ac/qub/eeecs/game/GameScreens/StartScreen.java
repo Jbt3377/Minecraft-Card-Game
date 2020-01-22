@@ -19,6 +19,7 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import uk.ac.qub.eeecs.game.miscDemos.DemoMenuScreen;
 import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
+import uk.ac.qub.eeecs.game.platformDemo.Player;
 import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
 
 /**
@@ -66,14 +67,8 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
-        // Define the spacing that will be used to position the buttons
-        int spacingX = (int)mDefaultLayerViewport.getWidth() / 5;
-        int spacingY = (int)mDefaultLayerViewport.getHeight() / 3;
-
-
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
-
         float layerWidth = mDefaultLayerViewport.getWidth();
         float layerHeight = mDefaultLayerViewport.getHeight();
 
@@ -160,7 +155,6 @@ public class StartScreen extends GameScreen {
         mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
         mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
         mOptionsButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
-
         mRulesButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
     }
 
