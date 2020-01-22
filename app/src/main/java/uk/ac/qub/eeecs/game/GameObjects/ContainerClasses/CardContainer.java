@@ -4,28 +4,29 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 
-public class MobContainer extends Sprite implements Container {
+public class CardContainer extends Sprite implements Container {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private boolean isEmpty;
-    private Mob containedMob;
+    private Card containedCard;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public MobContainer(float x, float y, GameScreen gameScreen){
+
+    public CardContainer(float x, float y, GameScreen gameScreen){
 
         // Not ready for use: need to create graphics for field/slot
         super(x, y,
                 gameScreen.getGame().getScreenWidth() * 0.104f,
                 gameScreen.getGame().getScreenHeight() * 0.185f,
-                gameScreen.getGame().getAssetManager().getBitmap("redstone_lamp_off"), gameScreen);
+                gameScreen.getGame().getAssetManager().getBitmap("CharacterSlot"), gameScreen);
         this.isEmpty = true;
-        this.containedMob = null;
+        this.containedCard = null;
 
     }
 
@@ -33,42 +34,17 @@ public class MobContainer extends Sprite implements Container {
     // Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Method to occupy Container with placed Card. Creates Mob for Card.
-     * @param placedCard - Card dragged and dropped into container
-     * @return - Indicates if Card can be dropped inside the container
-     */
-    public boolean placeCard(Card placedCard){
-
-        if (isEmpty) {
-            containedMob = new Mob(placedCard.getmHealth(), placedCard.getmAttack(), mBound.x,
-                    mBound.y, placedCard.getmCardPortrait(), mGameScreen);
-            isEmpty = false;
-            return true;
-        } else
-            return false;
-
-    }
-
-    /**
-     * Method clears container of held mob
-     */
     public void emptyContainer() {
         this.isEmpty = true;
-        this.containedMob = null;
+        this.containedCard = null;
     }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Getters
-    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean isEmpty() {
         return isEmpty;
     }
 
-    public Mob getContents() {
-        return containedMob;
+    public Card getContents() {
+        return containedCard;
     }
 
 }

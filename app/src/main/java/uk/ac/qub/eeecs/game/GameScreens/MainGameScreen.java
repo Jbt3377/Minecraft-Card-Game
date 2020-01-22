@@ -173,7 +173,7 @@ public class MainGameScreen extends GameScreen {
         displayAllCardsButton = new PushButton(screenWidth * 0.06f, screenHeight/3,screenWidth/10,screenHeight /8,
                 "EndTurnDefault", this);
 
-
+        
 
     }
 
