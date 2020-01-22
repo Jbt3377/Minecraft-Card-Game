@@ -22,6 +22,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.Gameboard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -87,7 +88,7 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
-
+        Gameboard gameboard = new Gameboard(game.getHuman(), game.getAi());
 
 
         // Load the various images used by the cards
@@ -146,10 +147,10 @@ public class MainGameScreen extends GameScreen {
         pig = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
         //Creates a list of card objects
-        addCardsToList();
+        //addCardsToList();
 
         //Sets the position of cards
-        setPositionCards();
+        //setPositionCards();
 
         //Setup boardBackGround image for board - MMC
         boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
@@ -163,7 +164,6 @@ public class MainGameScreen extends GameScreen {
         //Setup magnification button for the board
         magnificationButton = new PushButton(screenWidth * 0.06f, screenHeight/10,screenWidth/10,screenHeight /8,
                 "magnifyIcon", this);
-
 
 
     }
@@ -248,13 +248,13 @@ public class MainGameScreen extends GameScreen {
             //Process card touch events
             //card.processCardTouchEvents(touchEventList, mGame);
 
-            for (Card c : cardCollection) {
-                c.processCardTouchEvents(touchEventList, mGame);
-            }
+//            for (Card c : cardCollection) {
+//                c.processCardTouchEvents(touchEventList, mGame);
+//            }
 
-            for (int i = 0; i < numberOfCards; i++) {
-                cardCollection.get(i).update(elapsedTime);
-            }
+//            for (int i = 0; i < numberOfCards; i++) {
+//                cardCollection.get(i).update(elapsedTime);
+//            }
             //checks if the pause button was pressed and if it was changes the control variable
 
 
@@ -294,7 +294,7 @@ public class MainGameScreen extends GameScreen {
 
 
         //Displays Cards
-        displayCards(elapsedTime, graphics2D);
+        //displayCards(elapsedTime, graphics2D);
 
 
         //Draw endTurnButton into boardLayerViewport - MMC
@@ -350,38 +350,38 @@ public class MainGameScreen extends GameScreen {
     /*
     Adds cards objects to the array list of "cardCollection" - AB
      */
-    private void addCardsToList(){
-        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
+//    private void addCardsToList(){
+//        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
+//
+//        for(int i = 0; i < cards.size(); i++){
+//            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
+//            cardCollection.add(card);
+//        }
+//    }
 
-        for(int i = 0; i < cards.size(); i++){
-            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
-            cardCollection.add(card);
-        }
-    }
-
-    //Sets position of cards within cardCollection- AB
-    private void setPositionCards(){
-        //View Port is set to centre of screen - Note view port is not screen size calibrated
-        for(int i = 0; i < numberOfCards; i++){
-            int x = i * 200;  //Variable for distance between cards
-            cardCollection.get(i).setPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
-        }
-    }
+//    //Sets position of cards within cardCollection- AB
+//    private void setPositionCards(){
+//        //View Port is set to centre of screen - Note view port is not screen size calibrated
+//        for(int i = 0; i < numberOfCards; i++){
+//            int x = i * 200;  //Variable for distance between cards
+//            cardCollection.get(i).setPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
+//        }
+//    }
 
     /*
     Used to display/draw cards from cardCollection - AB
     Future development - Auto take new line for new row of cards. (Showing deck of cards)
      */
-    private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-        //Draw the cards into cardLayerViewport - AB
-        for(int i = 0; i < numberOfCards; i++){
-            cardCollection.get(i).draw(elapsedTime, graphics2D,
-                    cardLayerViewport,
-                    mDefaultScreenViewport);
-        }
+//    private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+//        //Draw the cards into cardLayerViewport - AB
+//        for(int i = 0; i < numberOfCards; i++){
+//            cardCollection.get(i).draw(elapsedTime, graphics2D,
+//                    cardLayerViewport,
+//                    mDefaultScreenViewport);
+//        }
 
 
-    }
+    //}
 
     public void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         if(elapsedTime.totalTime < mGame.MenuScreentime + 5.0) {

@@ -31,56 +31,28 @@ public class CardLibrary {
         return allCardsInLibrary;
     }
 
-    public Stack<CardDetails> getCharacterCardDeck(int deckCompositionCode) {
-        if (deckCompositionCode == 1) {
-            //TODO: Implement functionality for different deck types
-        }
-        if (deckCompositionCode == 2) {
-            //TODO: Implement functionality for different deck types
-        }
-        if (deckCompositionCode == 3) {
-            //TODO: Implement functionality for different deck types
-        }
-        return getDefaultCharacterCardDeck();
-    }
-
-    public Stack<CardDetails> getSpecialCardDeck(int deckCompositionCode){
-        if (deckCompositionCode == 1) {
-            //TODO: Implement functionality for different deck types
-        }
-        if (deckCompositionCode == 2) {
-            //TODO: Implement functionality for different deck types
-        }
-        if (deckCompositionCode == 3) {
-            //TODO: Implement functionality for different deck types
-        }
-        return getDefaultSpecialCardDeck();
-    }
-
-
-
-    private Stack<CardDetails> getDefaultCharacterCardDeck(){
-        Stack<CardDetails> deck = new Stack<CardDetails>();
+    public Stack<CardDetails> getDefaultCharacterCardStack(){
+        Stack<CardDetails> tempStack = new Stack<CardDetails>();
 
         for (CardDetails cd: allCardsInLibrary) {
             if(cd.getCardType() == "CharacterCard")
-            deck.push(cd);
+            tempStack.push(cd);
         }
 
-        Collections.shuffle(deck);
-        return deck;
+        Collections.shuffle(tempStack);
+        return tempStack;
     }
 
-    private Stack<CardDetails> getDefaultSpecialCardDeck(){
-        Stack<CardDetails> deck = new Stack<CardDetails>();
+    public Stack<CardDetails> getDefaultSpecialCardStack(){
+        Stack<CardDetails> tempStack = new Stack<CardDetails>();
 
         for(CardDetails cd: allCardsInLibrary){
             if(cd.getCardType() == "SpecialCard"){
-                deck.push(cd);
+                tempStack.push(cd);
             }
         }
-        Collections.shuffle(deck);
-        return deck;
+        Collections.shuffle(tempStack);
+        return tempStack;
 
     }
 
