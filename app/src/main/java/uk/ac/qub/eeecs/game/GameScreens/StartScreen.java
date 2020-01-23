@@ -41,6 +41,7 @@ public class StartScreen extends GameScreen {
     private PushButton mRulesButton;
     private RulesScreen Rules;
     private PushButton mOptionsButton;
+    private OptionsScreen Options;
     private GameObject mBackgroundImage;
     private LayerViewport backgroundLayerViewport;
     private ScreenViewport backgroundScreenViewport;
@@ -92,6 +93,7 @@ public class StartScreen extends GameScreen {
 
         //has to be inside the Constructor to create a game screen
         Rules = new RulesScreen("Rules", game);
+        Options = new OptionsScreen("OptionsScreen", game);
 
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
                 assetManager.getBitmap("StartScreenBackground"), this);
@@ -125,6 +127,8 @@ public class StartScreen extends GameScreen {
 
             mCardDemoButton.update(elapsedTime);
             mRulesButton.update(elapsedTime);
+            mOptionsButton.update(elapsedTime);
+
 
             if (mCardDemoButton.isPushTriggered()){
                mGame.MenuScreentime = elapsedTime.totalTime;
@@ -136,6 +140,11 @@ public class StartScreen extends GameScreen {
                 mGame.MenuScreentime = elapsedTime.totalTime;
                 stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(Rules);
+            }
+            if (mOptionsButton.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(Options);
             }
 
         }

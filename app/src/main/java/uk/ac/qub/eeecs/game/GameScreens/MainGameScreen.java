@@ -164,11 +164,11 @@ public class MainGameScreen extends GameScreen {
         endTurnButton = new PushButton(screenWidth * 0.90f, screenHeight/2,screenWidth/10,screenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
 
-        pauseButton = new PushButton(screenWidth * 0.10f, screenHeight/1.2f,screenWidth/10,screenHeight/10,
-                "EndTurnDefault", "EndTurnActive", this);
+        pauseButton = new PushButton(screenWidth * 0.10f, screenHeight/1.2f,screenWidth/10,screenHeight/12,
+                "PauseButton",  this);
 
         //Setup magnification button for the board
-        magnificationButton = new ToggleButton(screenWidth * 0.06f, screenHeight * 0.08f,screenWidth/10,screenHeight /8,
+        magnificationButton = new ToggleButton(screenWidth * 0.06f, screenHeight * 0.08f,screenWidth/20,screenHeight /10,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
 
 
@@ -192,13 +192,13 @@ public class MainGameScreen extends GameScreen {
         pauseScreen =  new Sprite(screenWidth / 2, screenHeight / 2, screenWidth / 1.1f,
                 screenHeight / 1.1f, getGame().getAssetManager().getBitmap("PauseMenu"), this);
 
-        unpauseButton = new PushButton((int) (screenWidth / 2.5), (int) (screenHeight * 0.2500f), screenWidth * 0.208f,
-                screenHeight * 0.231f, "EndTurnDefault", this);
+        unpauseButton = new PushButton((int) (screenWidth / 2.5), (int) (screenHeight * 0.2000f), screenWidth * 0.208f,
+                screenHeight * 0.131f, "BackButton", this);
 
-        exitButton = new PushButton((int) (screenWidth / 1.6), (int) (screenHeight * 0.2500f), screenWidth * 0.208f,
-                screenHeight * 0.231f, "Redbutton", this);
+        exitButton = new PushButton((int) (screenWidth / 1.6), (int) (screenHeight * 0.2000f), screenWidth * 0.208f,
+                screenHeight * 0.131f, "ExitButton", this);
 
-        fpsToggle = new ToggleButton(screenWidth  / 1.3f, screenHeight * 0.6700f, screenWidth * 0.23f, screenHeight * 0.18f,
+        fpsToggle = new ToggleButton(screenWidth  / 1.4f, screenHeight * 0.6700f, screenWidth * 0.23f, screenHeight * 0.18f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
 
 
@@ -230,8 +230,8 @@ public class MainGameScreen extends GameScreen {
 
 
         pauseScreen.draw(elapsedTime, graphics2D);
-        graphics2D.drawText("GAME PAUSED", (int) (screenWidth / 2.75), screenHeight * 0.2037f, pausePaint);
-        graphics2D.drawText("FPS Counter:", (int) (screenWidth / 3.3), screenHeight * 0.35f, pausePaint2);
+        graphics2D.drawText("GAME PAUSED", (int) (screenWidth / 3.3), screenHeight * 0.2037f, pausePaint);
+        graphics2D.drawText("FPS Counter:", (int) (screenWidth / 5.5), screenHeight * 0.35f, pausePaint);
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
