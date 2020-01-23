@@ -29,6 +29,12 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
+    //Feature Properties
+    private boolean magnificationToggle = false;
+
+    public boolean isMagnificationToggled() { return magnificationToggle; }
+    public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
+
     //Team Defined Properties
     /**
      * The Game has two Players who play the game.

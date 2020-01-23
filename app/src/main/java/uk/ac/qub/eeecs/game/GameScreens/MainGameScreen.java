@@ -45,7 +45,7 @@ public class MainGameScreen extends GameScreen {
 
     //Define pushButtons for the game
     private PushButton endTurnButton;
-    private PushButton magnificationButton;
+    private ToggleButton magnificationButton;
 
     //RulesScreen Buttons
     private PushButton RulesScreenButton;
@@ -69,7 +69,9 @@ public class MainGameScreen extends GameScreen {
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
 
+    //Turn Number Counter
     private int turnNumber = 1;
+
 
     //Pause menu
     private PushButton unpauseButton, exitButton;
@@ -166,8 +168,9 @@ public class MainGameScreen extends GameScreen {
                 "EndTurnDefault", "EndTurnActive", this);
 
         //Setup magnification button for the board
-        magnificationButton = new PushButton(screenWidth * 0.06f, screenHeight/10,screenWidth/10,screenHeight /8,
-                "magnifyIcon", this);
+        magnificationButton = new ToggleButton(screenWidth * 0.06f, screenHeight * 0.08f,screenWidth/10,screenHeight /8,
+                "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
+
 
 
         //Setup displayCards  button for the board
@@ -245,6 +248,10 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
+        //Toggle Button Update
+        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+
         if (!gamePaused) {
 
             // Process any touch events occurring since the last update
@@ -298,6 +305,7 @@ public class MainGameScreen extends GameScreen {
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
+
         int width = mGame.getScreenWidth();
         int height = mGame.getScreenHeight();
 
@@ -341,8 +349,8 @@ public class MainGameScreen extends GameScreen {
         Paint turnText = new Paint();
         turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         turnText.setTextSize(height / 32);
-        turnText.setTextAlign(Paint.Align.CENTER);
-        graphics2D.drawText("Turn Number: " + turnNumber, width * 0.1f, height * 0.05f, turnText);
+        turnText.setTextAlign(Paint.Align.LEFT);
+        graphics2D.drawText("Turn Number: " + turnNumber, width * 0.01f, height * 0.05f, turnText);
 
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -421,6 +429,16 @@ public class MainGameScreen extends GameScreen {
     public void RulesButton() {
             if (RulesScreenButton.isPushTriggered()) {
                 mGame.getScreenManager().addScreen(Rules);
+            }
+    }
+
+    public void magnificationButton() {
+            if (magnificationButton.isToggledOn()) {
+                magnificationButton.setToggled(true);
+                mGame.setMagnificationToggled(true);
+            }
+            else {
+                mGame.setMagnificationToggled(false);
             }
     }
 
