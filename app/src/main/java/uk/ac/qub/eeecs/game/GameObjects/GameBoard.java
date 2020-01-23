@@ -59,7 +59,6 @@ public class GameBoard {
     public GameBoard(Player human, Player ai) {
         this.human = human;
         this.ai = ai;
-        this.humanDeck = human.getPlayerDeck();
-        this.aiDeck = ai.getPlayerDeck();
+
     }
 }

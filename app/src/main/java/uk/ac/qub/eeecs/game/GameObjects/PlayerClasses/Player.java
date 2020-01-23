@@ -11,18 +11,17 @@ public abstract class Player {
     private static final int PLAYER_STARTING_HEALTH = 20;
     private static final int PLAYER_STARTING_MANA = 2;
 
-    //Health and Mana attributes
-    int playerHealth, playerMana;
-    //The player's deck
-    Deck playerDeck;
+
+    private int playerHealth, playerMana;
+    //DeckID is the current Deck ch0sen by the player.
+    private int deckID = 0;
 
     /////////////
     //Constructor
     /////////////
-    public Player(Deck standardDeck) {
+    public Player() {
         this.playerHealth = PLAYER_STARTING_HEALTH;
         this.playerMana = PLAYER_STARTING_MANA;
-        this.playerDeck = standardDeck;
     }
 
     /////////
@@ -50,11 +49,11 @@ public abstract class Player {
         this.playerMana = playerMana;
     }
 
-    public Deck getPlayerDeck() {
-        return playerDeck;
+    public int getDeckID() {
+        return deckID;
     }
 
-    public void setPlayerDeck(Deck playerDeck) {
-        this.playerDeck = playerDeck;
+    public void setDeckID(int deckID) {
+        this.deckID = deckID;
     }
 }

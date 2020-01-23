@@ -9,6 +9,7 @@ import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
+import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
@@ -150,10 +151,10 @@ public class MainGameScreen extends GameScreen {
         pig = new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
         //Creates a list of card objects
-        //addCardsToList();
+        addCardsToList();
 
         //Sets the position of cards
-        //setPositionCards();
+        setPositionCards();
 
         //Setup boardBackGround image for board - MMC
         boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
@@ -263,16 +264,13 @@ public class MainGameScreen extends GameScreen {
 
             }
 
-            //Process card touch events
-            //card.processCardTouchEvents(touchEventList, mGame);
+            for (Card c : cardCollection) {
+                c.processCardTouchEvents(touchEventList, mGame);
+            }
 
-//            for (Card c : cardCollection) {
-//                c.processCardTouchEvents(touchEventList, mGame);
-//            }
-
-//            for (int i = 0; i < numberOfCards; i++) {
-//                cardCollection.get(i).update(elapsedTime);
-//            }
+            for (int i = 0; i < numberOfCards; i++) {
+                cardCollection.get(i).update(elapsedTime);
+            }
             //checks if the pause button was pressed and if it was changes the control variable
 
 
@@ -312,7 +310,7 @@ public class MainGameScreen extends GameScreen {
 
 
         //Displays Cards
-        //displayCards(elapsedTime, graphics2D);
+        displayCards(elapsedTime, graphics2D);
 
 
         //Draw endTurnButton into boardLayerViewport - MMC
@@ -371,23 +369,23 @@ public class MainGameScreen extends GameScreen {
     /*
     Adds cards objects to the array list of "cardCollection" - AB
      */
-//    private void addCardsToList(){
-//        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
-//
-//        for(int i = 0; i < cards.size(); i++){
-//            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
-//            cardCollection.add(card);
-//        }
-//    }
+    private void addCardsToList(){
+        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
 
-//    //Sets position of cards within cardCollection- AB
-//    private void setPositionCards(){
-//        //View Port is set to centre of screen - Note view port is not screen size calibrated
-//        for(int i = 0; i < numberOfCards; i++){
-//            int x = i * 200;  //Variable for distance between cards
-//            cardCollection.get(i).setPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
-//        }
-//    }
+        for(int i = 0; i < cards.size(); i++){
+            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
+            cardCollection.add(card);
+        }
+    }
+
+    //Sets position of cards within cardCollection- AB
+    private void setPositionCards(){
+        //View Port is set to centre of screen - Note view port is not screen size calibrated
+        for(int i = 0; i < numberOfCards; i++){
+            int x = i * 200;  //Variable for distance between cards
+            cardCollection.get(i).setPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
+        }
+    }
 
     /*
     Used to display/draw cards from cardCollection - AB
