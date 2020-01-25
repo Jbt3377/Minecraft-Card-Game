@@ -78,6 +78,9 @@ public abstract class GameScreen {
         return mDefaultScreenViewport;
     }
 
+
+    protected float mScreenWidth, mScreenHeight;
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -90,6 +93,9 @@ public abstract class GameScreen {
     public GameScreen(String name, Game game) {
         mName = name;
         mGame = game;
+
+        mScreenWidth = game.getScreenWidth();
+        mScreenHeight = game.getScreenHeight();
 
         // Create the default layer and screen viewports
         mDefaultScreenViewport = new ScreenViewport();

@@ -44,6 +44,9 @@ public class MobContainer extends Sprite implements Container {
             containedMob = new Mob(placedCard.getmHealth(), placedCard.getmAttack(), mBound.x,
                     mBound.y, placedCard.getmCardPortrait(), mGameScreen);
             isEmpty = false;
+
+            // ToDo: Overlay Mob bitmap on container
+
             return true;
         } else
             return false;

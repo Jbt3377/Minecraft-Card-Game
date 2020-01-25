@@ -8,33 +8,44 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 
 public class Gameboard {
 
-    //Properties
+    ////////////////////////////////////////////////////////////////////////////
+    // Properties
+    ////////////////////////////////////////////////////////////////////////////
 
     //Two players 'sit down' at the board
-    Player human;
-    Player ai;
+    private Player human;
+    private Player ai;
 
     //Two deck objects, one from each player
-    Deck humanDeck;
-    Deck aiDeck;
+    private Deck humanDeck;
+    private Deck aiDeck;
 
     //Two hands for each player, the cards the currently have in their hand.
-    ArrayList<Card> playerHand;
-    ArrayList<Card> aiHand;
+    private ArrayList<Card> playerHand;
+    private ArrayList<Card> aiHand;
 
     //Two display boxes to display each players lifePoints
-    GameObject playerLifePointsDisplayBox;
-    GameObject aiLifePointsDisplayBox;
+    private GameObject playerLifePointsDisplayBox;
+    private GameObject aiLifePointsDisplayBox;
 
     //Two display boxes to display each players manaPoints
-    GameObject playerManaPointsDisplayBox;
-    GameObject aiManaPointsDisplayBox;
+    private GameObject playerManaPointsDisplayBox;
+    private GameObject aiManaPointsDisplayBox;
 
     //Button to end the turn
-    Button endTurnButton;
+    private Button endTurnButton;
+
+    // GameScreen to which the board belongs to
+    private GameScreen gameScreen;
+
+    private ArrayList<MobContainer> fieldContainers;
 
     //TODO: Want to add containers to this objects properties. Places where cards are placed etc.
     /*
@@ -47,11 +58,46 @@ public class Gameboard {
      */
 
 
-    //Methods
+    ////////////////////////////////////////////////////////////////////////////
+    // Constructor
+    ////////////////////////////////////////////////////////////////////////////
 
-    //Constructor
-    public Gameboard(Player human, Player ai) {
+    public Gameboard(Player human, Player ai, GameScreen gameScreen) {
         this.human = human;
         this.ai = ai;
+        this.gameScreen = gameScreen;
+
+        this.fieldContainers = new ArrayList<>();
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Methods
+    ////////////////////////////////////////////////////////////////////////////
+
+    private void setupTestContainer() {
+
+        fieldContainers.add(new MobContainer(300, 300, gameScreen));
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Update & Draw Methods
+    ////////////////////////////////////////////////////////////////////////////
+
+
+    public void update() {
+
+        // ToDo: Update Method
+
+    }
+
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+
+        for(MobContainer container: fieldContainers){
+            container.draw(elapsedTime, graphics2D);
+        }
+
+    }
+
 }
