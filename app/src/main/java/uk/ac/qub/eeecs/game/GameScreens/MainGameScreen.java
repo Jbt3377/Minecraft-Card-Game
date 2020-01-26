@@ -248,11 +248,12 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
-        //Toggle Button Update
-        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
 
         if (!gamePaused) {
+
+            //Toggle Button Update
+            magnificationButton(elapsedTime);
 
             // Process any touch events occurring since the last update
             Input input = mGame.getInput();
@@ -332,6 +333,9 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
+        if (mGame.magnifiedCard != null) {
+
+        }
 
         displayCardsButton(elapsedTime, graphics2D);
 
@@ -432,15 +436,20 @@ public class MainGameScreen extends GameScreen {
             }
     }
 
-    public void magnificationButton() {
-            if (magnificationButton.isToggledOn()) {
+    public void magnificationButton(ElapsedTime elapsedTime) {
+        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+        if (magnificationButton.isToggledOn()) {
                 magnificationButton.setToggled(true);
                 mGame.setMagnificationToggled(true);
+
             }
             else {
                 mGame.setMagnificationToggled(false);
             }
     }
+
+
 
 
     public void EndTurn() {

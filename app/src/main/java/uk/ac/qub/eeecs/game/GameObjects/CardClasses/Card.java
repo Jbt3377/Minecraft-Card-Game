@@ -286,8 +286,7 @@ public class Card extends Sprite {
             //Changes the cardFaceUp boolean if the card is single tapped - MMC
             if(t.type == TouchEvent.TOUCH_SINGLE_TAP  && mBound.contains(x_cor,y_cor)){
                 if (mGame.isMagnificationToggled()) {
-
-
+                    mGame.setMagnifiedCard(this);
                 } else {
                     flipTimer = FLIP_TIME;
                 }
@@ -299,8 +298,15 @@ public class Card extends Sprite {
                 touchOffsetY = y_cor - position.y;
             }
 
+            if (t.type ==TouchEvent.TOUCH_LONG_PRESS && mBound.contains(x_cor,y_cor)) {
+                if (mGame.isMagnificationToggled()) {
+                    mGame.setMagnifiedCard(this);
+                }
+            } else {
+                    mGame.setMagnifiedCard(null);
+            }
 
-            if(t.type == TouchEvent.TOUCH_DRAGGED && selected){
+            if(t.type == TouchEvent.TOUCH_DRAGGED && selected && !mGame.isMagnificationToggled()){
                 setPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
             }
