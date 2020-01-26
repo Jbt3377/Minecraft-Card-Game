@@ -3,7 +3,7 @@
     {
       "type": "Card",
       "assets": "cow",
-      "name": "Creeper",
+      "name": "Cow",
       "description": "I go boom",
       "attack": 1,
       "defence": 1
@@ -11,7 +11,7 @@
     {
       "type": "Card",
       "assets": "dragon",
-      "name": "I am dragon",
+      "name": "Dragon",
       "description": "This is a very powerful card",
       "attack": 2,
       "defence": 2
@@ -19,7 +19,7 @@
     {
       "type": "Card",
       "assets": "creeper",
-      "name": "Ender Dragon",
+      "name": "Creeper",
       "description": "This is a very powerful card",
       "attack": 3,
       "defence": 3

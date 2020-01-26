@@ -79,7 +79,7 @@ public class MainGameScreen extends GameScreen {
     private int fps;
     public boolean displayfps;
     private Sprite pauseScreen;
-    private Paint pausePaint, pausePaint2;
+    private Paint pausePaint;
     public boolean gamePaused;
 
 
@@ -168,7 +168,7 @@ public class MainGameScreen extends GameScreen {
                 "PauseButton",  this);
 
         //Setup magnification button for the board
-        magnificationButton = new ToggleButton(screenWidth * 0.06f, screenHeight * 0.08f,screenWidth/20,screenHeight /10,
+        magnificationButton = new ToggleButton(screenWidth * 0.06f, screenHeight * 0.08f,screenWidth/10,screenHeight /8,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
 
 
@@ -213,12 +213,6 @@ public class MainGameScreen extends GameScreen {
         pausePaint.setTypeface(MainActivity.minecraftRegFont);
         pausePaint.setColor(Color.BLACK);
 
-
-        pausePaint2 = new Paint();
-        pausePaint2.setTextSize(screenWidth * 0.0365f);
-        pausePaint2.setARGB(255, 255, 255, 255);
-        pausePaint2.setTypeface(MainActivity.minecraftRegFont);
-        pausePaint.setColor(Color.BLACK);
 
     }
 
@@ -321,7 +315,6 @@ public class MainGameScreen extends GameScreen {
         //Displays Cards
         displayCards(elapsedTime, graphics2D);
 
-
         //Draw endTurnButton into boardLayerViewport - MMC
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
@@ -333,9 +326,8 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
-        if (mGame.magnifiedCard != null) {
 
-        }
+
 
         displayCardsButton(elapsedTime, graphics2D);
 
@@ -440,12 +432,12 @@ public class MainGameScreen extends GameScreen {
         magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
         if (magnificationButton.isToggledOn()) {
-                magnificationButton.setToggled(true);
                 mGame.setMagnificationToggled(true);
 
             }
             else {
                 mGame.setMagnificationToggled(false);
+
             }
     }
 
