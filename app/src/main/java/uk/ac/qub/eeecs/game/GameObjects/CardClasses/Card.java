@@ -310,7 +310,7 @@ public class Card extends Sprite implements Draggable {
             }
 
             if(t.type == TouchEvent.TOUCH_DRAGGED && selected && !mGame.isMagnificationToggled()){
-                setPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
+                setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
             }
 
@@ -351,7 +351,7 @@ public class Card extends Sprite implements Draggable {
 
 
     @Override
-    public void setPosition(float newXPosition, float newYPosition) {
+    public void setNewPosition(float newXPosition, float newYPosition) {
         setPosition(newXPosition, newYPosition);
     }
 

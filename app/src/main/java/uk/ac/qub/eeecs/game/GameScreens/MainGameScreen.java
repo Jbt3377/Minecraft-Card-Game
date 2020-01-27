@@ -25,8 +25,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -359,7 +357,7 @@ public class MainGameScreen extends GameScreen {
         //View Port is set to centre of screen - Note view port is not screen size calibrated
         for(int i = 0; i < numberOfCards; i++){
             int x = i * 200;  //Variable for distance between cards
-            cardCollection.get(i).setPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
+            cardCollection.get(i).setNewPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
         }
     }
 

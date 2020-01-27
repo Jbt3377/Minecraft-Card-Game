@@ -1,13 +1,9 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
-import uk.ac.qub.eeecs.gage.util.ViewportHelper;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 //Newly Added
@@ -131,7 +127,7 @@ public class DisplayCardsScreen extends GameScreen {
 
             for(int j = 0; j < DisplayRow; j++){
                 int x = j * distanceBetweenCards;
-                cardCollection.get(count).setPosition((cardLayerViewport.x/10) + x, (cardLayerViewport.y/2) + y);
+                cardCollection.get(count).setNewPosition((cardLayerViewport.x/10) + x, (cardLayerViewport.y/2) + y);
                 count++;
             }
         }
