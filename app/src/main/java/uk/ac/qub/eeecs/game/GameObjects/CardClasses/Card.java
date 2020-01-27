@@ -18,6 +18,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
 /**
  * Card class that can be drawn using a number of overlapping images.
@@ -27,7 +28,7 @@ import uk.ac.qub.eeecs.gage.world.Sprite;
  *
  * @version 1.0
  */
-public class Card extends Sprite {
+public class Card extends Sprite implements Draggable {
 
     // /////////////////////////////////////////////////////////////////////////
     // Properties:
@@ -336,6 +337,40 @@ public class Card extends Sprite {
         cardDescText.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
     }
 
+    ///////////////////
+    //Interface Methods
+    ///////////////////
+
+
+    @Override
+    public void setPosition(float newXPosition, float newYPosition) {
+        setPosition(newXPosition, newYPosition);
+    }
+
+    @Override
+    public BoundingBox getBoundingBox() {
+        return mBound;
+    }
+
+    @Override
+    public boolean getHasBeenSelected() {
+        return selected;
+    }
+
+    @Override
+    public void setHasBeenSelected(boolean hasBeenTouched) {
+        selected = hasBeenTouched;
+    }
+
+    @Override
+    public float getCurrentXPosition() {
+        return position.x;
+    }
+
+    @Override
+    public float getCurrentYPosition() {
+        return position.y;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters & Setters

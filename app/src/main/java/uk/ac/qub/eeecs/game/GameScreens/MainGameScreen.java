@@ -23,6 +23,8 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -271,9 +273,15 @@ public class MainGameScreen extends GameScreen {
 
             }
 
+            ArrayList<Draggable> draggableArrayList = new ArrayList<>();
+
             for (Card c : cardCollection) {
-                c.processCardTouchEvents(touchEventList, mGame);
+                //c.processCardTouchEvents(touchEventList, mGame);
+                draggableArrayList.add(c);
             }
+
+            Interaction.processDragEvents(touchEventList,draggableArrayList,mGame);
+
 
             for (int i = 0; i < numberOfCards; i++) {
                 cardCollection.get(i).update(elapsedTime);
