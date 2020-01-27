@@ -247,13 +247,13 @@ public class Card extends Sprite implements Draggable {
         // Calculate the center position of the rotated offset point.
         double rotation = Math.toRadians(-this.orientation);
         float diffX = mBound.halfWidth * offset.x;
-        float diffY = mBound.halfHeight * offset.y;
+        float diffY = mBound.halfHeight * offset.y + 11;
         float rotatedX = (float)(Math.cos(rotation) * diffX - Math.sin(rotation) * diffY + position.x);
         float rotatedY = (float)(Math.sin(rotation) * diffX + Math.cos(rotation) * diffY + position.y);
 
         //Calculate portrait width & height
-        cardPortraitWidth = (mBound.halfWidth * scale.x) * 1.78f;
-        cardPortraitHeight = (mBound.halfHeight * scale.y) * 1.25f;
+        cardPortraitWidth = (mBound.halfWidth * scale.x) * 1.76f;
+        cardPortraitHeight = (mBound.halfHeight * scale.y) * 1.10f;
 
         // Calculate a game layer bound for the bitmap to be drawn
         bound.set(rotatedX, rotatedY,
