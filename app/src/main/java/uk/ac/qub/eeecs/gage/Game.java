@@ -13,6 +13,11 @@ import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckStore;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckStore;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -29,11 +34,15 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
-    //Feature Properties
-    private boolean magnificationToggle = false;
+    //Magnification Feature Properties
+    private boolean magnificationToggle;
 
     public boolean isMagnificationToggled() { return magnificationToggle; }
     public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
+
+    public Card magnifiedCard;
+    public Card getMagnifiedCard() { return magnifiedCard; }
+    public void setMagnifiedCard(Card magnifiedCard) {this.magnifiedCard = magnifiedCard;}
 
     //Team Defined Properties
     /**

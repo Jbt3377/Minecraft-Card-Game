@@ -35,6 +35,7 @@ public class GameBoard {
     private ArrayList<Card> playerHand;
     private ArrayList<Card> aiHand;
 
+
     //Two display boxes to display each players lifePoints
     private GameObject playerLifePointsDisplayBox;
     private GameObject aiLifePointsDisplayBox;

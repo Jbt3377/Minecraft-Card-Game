@@ -58,6 +58,10 @@ public class MainGameScreen extends GameScreen {
     private int numberOfCards = 4;
 
     //Turn Number Counter
+    private Paint dialogueTextPaint;
+    private Vector2 textPosition;
+
+    //Turn Number Counter
     private int turnNumber = 1;
 
 
@@ -85,8 +89,9 @@ public class MainGameScreen extends GameScreen {
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
+
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
+
 
         fps = (int) mGame.getAverageFramesPerSecond();
         gamePaused = false;
@@ -97,6 +102,9 @@ public class MainGameScreen extends GameScreen {
         createPauseWindow();
 
         setupBoardGameObjects();
+
+        //Loading font
+        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
 
     }
 
@@ -137,9 +145,10 @@ public class MainGameScreen extends GameScreen {
         pauseButton = new PushButton(mScreenWidth * 0.10f, mScreenHeight/1.2f,mScreenWidth/10, mScreenHeight/12,
                 "PauseButton",  this);
 
-        //Setup magnification button for the board
-        magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/20, mScreenHeight /10,
+
+        magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/10,mScreenHeight /8,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
+
 
 
         displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
@@ -172,13 +181,6 @@ public class MainGameScreen extends GameScreen {
         pausePaint.setTypeface(MainActivity.minecraftRegFont);
         pausePaint.setColor(Color.BLACK);
 
-
-        pausePaint2 = new Paint();
-        pausePaint2.setTextSize(mScreenWidth * 0.0365f);
-        pausePaint2.setARGB(255, 255, 255, 255);
-        pausePaint2.setTypeface(MainActivity.minecraftRegFont);
-        pausePaint.setColor(Color.BLACK);
-
     }
 
 
@@ -186,7 +188,7 @@ public class MainGameScreen extends GameScreen {
 
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
-        graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.35f, pausePaint2);
+        graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.35f, pausePaint);
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
@@ -204,11 +206,12 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
-        //Toggle Button Update
-        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
 
         if (!gamePaused) {
+
+            //Toggle Button Update
+            magnificationButton(elapsedTime);
 
             // Process any touch events occurring since the last update
             Input input = mGame.getInput();
@@ -281,6 +284,8 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
 
+
+
         displayCardsButton(elapsedTime, graphics2D);
 
         // Draw text that was loaded
@@ -297,8 +302,8 @@ public class MainGameScreen extends GameScreen {
         Paint turnText = new Paint();
         turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         turnText.setTextSize(mScreenHeight / 32);
-        turnText.setTextAlign(Paint.Align.CENTER);
-        graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.1f, mScreenHeight * 0.05f, turnText);
+        turnText.setTextAlign(Paint.Align.LEFT);
+        graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.01f, mScreenHeight * 0.05f, turnText);
 
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -352,15 +357,6 @@ public class MainGameScreen extends GameScreen {
      * @param elapsedTime
      * @param graphics2D
      */
-//    private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-//        //Draw the cards into cardLayerViewport - AB
-//        for(int i = 0; i < numberOfCards; i++){
-//            cardCollection.get(i).draw(elapsedTime, graphics2D,
-//                    cardLayerViewport,
-//                    mDefaultScreenViewport);
-//        }
-// }
-
     private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         //Draw the cards into cardLayerViewport - AB
         for(int i = 0; i < numberOfCards; i++){
@@ -371,15 +367,21 @@ public class MainGameScreen extends GameScreen {
     }
 
 
-    public void magnificationButton() {
-            if (magnificationButton.isToggledOn()) {
-                magnificationButton.setToggled(true);
+
+    public void magnificationButton(ElapsedTime elapsedTime) {
+        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+        if (magnificationButton.isToggledOn()) {
                 mGame.setMagnificationToggled(true);
+
             }
             else {
                 mGame.setMagnificationToggled(false);
+
             }
     }
+
+
 
 
     public void EndTurn() {
@@ -422,11 +424,8 @@ public class MainGameScreen extends GameScreen {
     // Getters & Setters
     ////////////////////////////////////////////////////////////////////////////
 
-    public PushButton getEndTurnButton() { return endTurnButton; }
 
     }
-
-
 
 
 
