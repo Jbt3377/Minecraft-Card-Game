@@ -1,18 +1,23 @@
 package uk.ac.qub.eeecs.game.GameObjects.DeckClasses;
 
 import java.util.Stack;
-
-import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CardDetails;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CardStats;
 
 public class Deck {
-    private Stack<CardDetails> characterCardStack;
-    private Stack<CardDetails> specialCardStack;
+
+    ////////////
+    //Properties
+    ////////////
+
+    //A single deck object consists of two stacks that hold two different types of cards
+    //One stack contains the players character cards, and the other stack contains the players special cards
+
+    public Stack<CardStats> characterCardStatsStack;
+    public Stack<CardStats> specialCardStatsStack;
 
 
-    public Deck(int deckCompositionCode, GameScreen game){
-        characterCardStack = game.getGame().getCardLibrary().getCharacterCardDeck(0);
-        specialCardStack = game.getGame().getCardLibrary().getSpecialCardDeck(0);
+    public Deck(){
+
     }
 
 }

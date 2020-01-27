@@ -1,50 +1,59 @@
 package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
-
-import android.graphics.Paint;
-
-import java.util.ArrayList;
-
-import uk.ac.qub.eeecs.gage.engine.audio.Sound;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
-import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 public abstract class Player {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Properties
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////
+    //Properties
+    ////////////
 
-    private final int MAX_EXPERIENCE_POINTS = 20;
-
-    protected int playerNumber;
-    protected MainGameScreen gameScreen;
-    protected Player opponent;
-
-    protected Deck deck;
-    protected int healthPoints, experiencePoints;
-
-    protected ArrayList<String> currentEffects;
-    protected Card tempCard;
+    //Starting Health and Mana values for all players at object creation.
+    private static final int PLAYER_STARTING_HEALTH = 20;
+    private static final int PLAYER_STARTING_MANA = 2;
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    private int playerHealth, playerMana;
+    //DeckID is the current Deck ch0sen by the player.
+    private int deckID = 0;
 
-    public Player(int playerNumber, MainGameScreen gameScreen){
-
-        this.playerNumber = playerNumber;
-        this.gameScreen = gameScreen;
-
-        this.deck = new Deck(playerNumber, gameScreen);
-
-        this.healthPoints = 20;
-        this.experiencePoints = 5;
-
-        currentEffects = new ArrayList<>();
-
-
+    /////////////
+    //Constructor
+    /////////////
+    public Player() {
+        this.playerHealth = PLAYER_STARTING_HEALTH;
+        this.playerMana = PLAYER_STARTING_MANA;
     }
 
+    /////////
+    //Methods
+    /////////
+
+    /////////////////////
+    //Getters and Setters
+    /////////////////////
+
+
+    public int getPlayerHealth() {
+        return playerHealth;
+    }
+
+    public void setPlayerHealth(int playerHealth) {
+        this.playerHealth = playerHealth;
+    }
+
+    public int getPlayerMana() {
+        return playerMana;
+    }
+
+    public void setPlayerMana(int playerMana) {
+        this.playerMana = playerMana;
+    }
+
+    public int getDeckID() {
+        return deckID;
+    }
+
+    public void setDeckID(int deckID) {
+        this.deckID = deckID;
+    }
 }

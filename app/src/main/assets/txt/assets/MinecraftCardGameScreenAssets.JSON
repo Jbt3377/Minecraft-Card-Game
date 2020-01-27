@@ -59,7 +59,22 @@
     {
       "type": "Bitmap",
       "name": "PauseButton",
-      "file": "img/PauseButton.png"
+    "file": "img/PauseButton.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "ResumeButton",
+      "file": "img/ResumeButton.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "ExitButton",
+      "file": "img/ExitButton.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "BackButton",
+      "file": "img/BackButton.png"
     },
 
     {
@@ -264,6 +279,12 @@
       "type": "Bitmap",
       "name": "RedstoneLampOff",
       "file": "img/redstone_lamp_off.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ItemFrame",
+      "file": "img/item_frame.png"
     },
 
     {

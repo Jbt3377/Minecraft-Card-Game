@@ -217,7 +217,7 @@ public class Card extends Sprite {
                     cardDescText);
         }
 
-    };
+    }
 
 
     /**

@@ -1,8 +1,14 @@
 package uk.ac.qub.eeecs.game.GameObjects.ContainerClasses;
 
+import java.util.List;
+
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+
 
 public class MobContainer extends Sprite implements Container {
 
@@ -12,20 +18,23 @@ public class MobContainer extends Sprite implements Container {
 
     private boolean isEmpty;
     private Mob containedMob;
+    public enum ContainerType{ HUMAN, AI }
+    private ContainerType contType;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public MobContainer(float x, float y, GameScreen gameScreen){
+    public MobContainer(float x, float y, ContainerType contType, GameScreen gameScreen){
 
         // Not ready for use: need to create graphics for field/slot
         super(x, y,
                 gameScreen.getGame().getScreenWidth() * 0.104f,
                 gameScreen.getGame().getScreenHeight() * 0.185f,
-                gameScreen.getGame().getAssetManager().getBitmap("redstone_lamp_off"), gameScreen);
+                gameScreen.getGame().getAssetManager().getBitmap("ItemFrame"), gameScreen);
         this.isEmpty = true;
         this.containedMob = null;
+        this.contType = contType;
 
     }
 
@@ -62,6 +71,28 @@ public class MobContainer extends Sprite implements Container {
     }
 
 
+    public void checkForNewContents(List<TouchEvent> input, Game mGame){
+
+        if(this.contType == ContainerType.HUMAN){
+
+            for(TouchEvent event: input){
+
+                float x_cor = event.x;
+                float y_cor = convertYAxisToLayerView(event.y);
+
+//                if(mBound.contains(x_cor,y_cor) && ){
+//
+//                }
+
+            }
+
+        }else{
+            return;
+        }
+
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,5 +104,7 @@ public class MobContainer extends Sprite implements Container {
     public Mob getContents() {
         return containedMob;
     }
+
+    public ContainerType getContType() { return contType; }
 
 }

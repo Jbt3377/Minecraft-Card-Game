@@ -9,13 +9,14 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
-import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.CardLibrary;
+import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckStore;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,49 @@ import android.view.ViewGroup;
  */
 public abstract class Game extends Fragment {
 
+    //Feature Properties
+    private boolean magnificationToggle = false;
+
+    public boolean isMagnificationToggled() { return magnificationToggle; }
+    public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
+
+    //Team Defined Properties
+    /**
+     * The Game has two Players who play the game.
+     */
+    private Player human, ai;
+
+    /**
+     * The Game has a DeckStore that stores all the cards available in the game.
+     */
+    private DeckStore deckStore;
+
+
+    //Team Defined Getters and Setters
+    public Player getHuman() {
+        return human;
+    }
+    public void setHuman(Player human) {
+        this.human = human;
+    }
+
+    public Player getAi() {
+        return ai;
+    }
+    public void setAi(Player ai) {
+        this.ai = ai;
+    }
+
+    public DeckStore getDeckStore(){
+        return deckStore;
+    }
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Adjustable Settings
     // /////////////////////////////////////////////////////////////////////////
 
     private float volume;
-
 
     public float getVolume() {
         return volume;
@@ -115,19 +153,6 @@ public abstract class Game extends Fragment {
     // /////////////////////////////////////////////////////////////////////////
     // Properties: Managers and Services
     // /////////////////////////////////////////////////////////////////////////
-
-    /**
-     * CardLibrary Manager
-     */
-    protected CardLibrary mCardLibrary;
-
-    public CardLibrary getCardLibrary(){
-        return mCardLibrary;
-    }
-
-    public void setCardLibrary() {
-        this.mCardLibrary = new CardLibrary();
-    }
 
     /**
      * Asset Manager
@@ -279,7 +304,12 @@ public abstract class Game extends Fragment {
         // Create the screen manager
         mScreenManager = new ScreenManager(this);
 
-        setCardLibrary();
+        //Create DeckStore for the game. The players decks are then created using the cards in this library.
+        deckStore = new DeckStore();
+
+        //Create the two players for the game
+        human  = new Human();
+        ai = new Ai();
     }
 
     /*

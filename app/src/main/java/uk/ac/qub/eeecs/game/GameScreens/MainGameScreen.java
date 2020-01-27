@@ -22,7 +22,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
-import uk.ac.qub.eeecs.game.GameObjects.Gameboard;
+import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -38,49 +38,35 @@ public class MainGameScreen extends GameScreen {
     ////////////////////////////////////////////////////////////////////////////
 
     // Viewports
-    private LayerViewport boardLayerViewport;
-    private LayerViewport cardLayerViewport;
+    private LayerViewport boardLayerViewport, cardLayerViewport;
 
     // Background Image
     private GameObject boardBackground;
 
-    // Gameboard associated with Card Game
-    private Gameboard gameBoard;
-
-    // Define pushButtons for;
+    // Game Board associated with Card Game
+    private GameBoard gameBoard;
 
     // MainGameScreen
-    private PushButton endTurnButton;
-    private PushButton magnificationButton;
-
-    // RulesScreen
-    private PushButton RulesScreenButton;
-    private RulesScreen Rules;
+    private PushButton endTurnButton, displayAllCardsButton, pauseButton;
+    private ToggleButton magnificationButton, fpsToggle;
 
     // DisplayCardsScreen
-    private PushButton displayAllCardsButton;
     private DisplayCardsScreen ViewCards;
-
-    private PushButton pauseButton;
 
     //Defined an arraylist for the collection of cards
     private ArrayList<Card> cardCollection = new ArrayList<>();
     private int numberOfCards = 4;
 
-
-    // Temp Variables
-    private GameObject pig;
+    //Turn Number Counter
     private int turnNumber = 1;
 
 
     //Pause menu
     private PushButton unpauseButton, exitButton;
-    private ToggleButton fpsToggle;
     private int fps;
     private Sprite pauseScreen;
     private Paint pausePaint, pausePaint2;
-    public boolean gamePaused;
-    public boolean displayfps;
+    public boolean gamePaused, displayfps;
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -94,11 +80,12 @@ public class MainGameScreen extends GameScreen {
     public MainGameScreen(Game game) {
         super("CardScreen", game);
 
-        // Load Card Image JSONs
+        gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
+
+
+        // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-
-        //Loading font
         mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
 
         fps = (int) mGame.getAverageFramesPerSecond();
@@ -110,8 +97,6 @@ public class MainGameScreen extends GameScreen {
         createPauseWindow();
 
         setupBoardGameObjects();
-
-        //this.gameBoard = new Gameboard(human, ai, this);
 
     }
 
@@ -135,11 +120,6 @@ public class MainGameScreen extends GameScreen {
 
 
     private void setupBoardGameObjects() {
-        int screenWidth = mGame.getScreenWidth();
-        int screenHeight = mGame.getScreenHeight();
-
-        //pig
-        pig = new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("PIG"), this);
 
         // Creates list of card objects
         addCardsToList();
@@ -151,16 +131,18 @@ public class MainGameScreen extends GameScreen {
         boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
 
         // Buttons;
-        endTurnButton = new PushButton(mScreenWidth * 0.90f, mScreenHeight/2,mScreenWidth/10,mScreenHeight/10,
+        endTurnButton = new PushButton(mScreenWidth * 0.90f, mScreenHeight/2,mScreenWidth/10, mScreenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
 
-        pauseButton = new PushButton(mScreenWidth * 0.10f, mScreenHeight/1.2f,mScreenWidth/10,mScreenHeight/10,
-                "EndTurnDefault", "EndTurnActive", this);
+        pauseButton = new PushButton(mScreenWidth * 0.10f, mScreenHeight/1.2f,mScreenWidth/10, mScreenHeight/12,
+                "PauseButton",  this);
 
-        magnificationButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/10,mScreenWidth/10,mScreenHeight /8,
-                "magnifyIcon", this);
+        //Setup magnification button for the board
+        magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/20, mScreenHeight /10,
+                "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
 
-        displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10,mScreenHeight /8,
+
+        displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
                 "EndTurnDefault", this);
 
     }
@@ -222,6 +204,10 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
 
+        //Toggle Button Update
+        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+
         if (!gamePaused) {
 
             // Process any touch events occurring since the last update
@@ -254,6 +240,8 @@ public class MainGameScreen extends GameScreen {
             //Update the endTurnButton - MMC
             endTurnButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
+            gameBoard.update(touchEventList, mGame);
+
             EndTurn();
 
             updatePopUps(elapsedTime);
@@ -275,6 +263,7 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
+        gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
         // Displays Cards
         displayCards(elapsedTime, graphics2D);
@@ -363,6 +352,15 @@ public class MainGameScreen extends GameScreen {
      * @param elapsedTime
      * @param graphics2D
      */
+//    private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+//        //Draw the cards into cardLayerViewport - AB
+//        for(int i = 0; i < numberOfCards; i++){
+//            cardCollection.get(i).draw(elapsedTime, graphics2D,
+//                    cardLayerViewport,
+//                    mDefaultScreenViewport);
+//        }
+// }
+
     private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         //Draw the cards into cardLayerViewport - AB
         for(int i = 0; i < numberOfCards; i++){
@@ -372,17 +370,14 @@ public class MainGameScreen extends GameScreen {
         }
     }
 
-    public void displayPig(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-        if(elapsedTime.totalTime < mGame.MenuScreentime + 5.0) {
-            pig.draw(elapsedTime, graphics2D,
-                    boardLayerViewport,
-                    mDefaultScreenViewport);
-        }
-    }
 
-    public void RulesButton() {
-            if (RulesScreenButton.isPushTriggered()) {
-                mGame.getScreenManager().addScreen(Rules);
+    public void magnificationButton() {
+            if (magnificationButton.isToggledOn()) {
+                magnificationButton.setToggled(true);
+                mGame.setMagnificationToggled(true);
+            }
+            else {
+                mGame.setMagnificationToggled(false);
             }
     }
 
@@ -429,12 +424,7 @@ public class MainGameScreen extends GameScreen {
 
     public PushButton getEndTurnButton() { return endTurnButton; }
 
-    public GameObject getPig() { return pig; }
-
-
-}
-
-
+    }
 
 
 
