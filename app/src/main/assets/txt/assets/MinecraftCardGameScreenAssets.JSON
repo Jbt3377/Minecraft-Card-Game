@@ -276,6 +276,24 @@
     },
 
     {
+      "type": "Bitmap",
+      "name": "RedstoneLampOff",
+      "file": "img/redstone_lamp_off.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ItemFrame",
+      "file": "img/item_frame.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedstoneLampOn",
+      "file": "img/redstone_lamp_on.png"
+    },
+
+    {
       "type": "Sound",
       "name": "blaze_attack",
       "file": "sound/mobSoundEffects/blaze_attack.mp3"

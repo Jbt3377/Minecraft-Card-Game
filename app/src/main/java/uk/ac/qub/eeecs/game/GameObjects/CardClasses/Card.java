@@ -84,6 +84,8 @@ public class Card extends Sprite implements Draggable {
     public final int FLIP_TIME = 15;
     private int flipTimer;
     private float scale;
+    private float cardPortraitWidth;
+    private float cardPortraitHeight;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -112,6 +114,7 @@ public class Card extends Sprite implements Draggable {
         // Store the card portrait image
         mCardPortrait = assetManager.getBitmap(assetManager.getCards().get(index).getAssetName());
 
+
         // Store each of the damage/health digits
         for(int digit = 0; digit <= 9; digit++)
             mCardDigits[digit] = assetManager.getBitmap(String.valueOf(digit));
@@ -124,7 +127,7 @@ public class Card extends Sprite implements Draggable {
         cardDescText = new Paint();
         cardDescText.setTextSize(this.getBound().getWidth()/12);
         cardDescText.setARGB(255, 255, 255, 255);
-        cardDescText.setTypeface(assetManager.getFont("MinecraftFont"));
+        cardDescText.setTypeface(assetManager.getFont("MinecraftRegFont"));
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
     }
@@ -207,12 +210,12 @@ public class Card extends Sprite implements Draggable {
 
     public void drawTextOnCard(IGraphics2D graphics2D){
         float y = position.y + (getHeight() * 1/10) ;
-        float convertedY = convertYAxisToLayerView(y - (mBound.getHeight() * 5 / 20));
-        String testText = insertNewLines("Example Text");
+        float convertedY = convertYAxisToLayerView(y - (mBound.getHeight() * 5 / 25));
+        String testText = insertNewLines("[Name Here]");
         for(String line : testText.split("\n")) {
 
             graphics2D.drawText(line,
-                    position.x - (mBound.getWidth() * 14 / 43),
+                    position.x - (mBound.getWidth() * 14 / 36),
                     convertedY += (cardDescText.getTextSize() + 8),
                     cardDescText);
         }
@@ -248,9 +251,13 @@ public class Card extends Sprite implements Draggable {
         float rotatedX = (float)(Math.cos(rotation) * diffX - Math.sin(rotation) * diffY + position.x);
         float rotatedY = (float)(Math.sin(rotation) * diffX + Math.cos(rotation) * diffY + position.y);
 
+        //Calculate portrait width & height
+        cardPortraitWidth = (mBound.halfWidth * scale.x) * 1.78f;
+        cardPortraitHeight = (mBound.halfHeight * scale.y) * 1.25f;
+
         // Calculate a game layer bound for the bitmap to be drawn
         bound.set(rotatedX, rotatedY,
-                mBound.halfWidth * scale.x, mBound.halfHeight * scale.y);
+                cardPortraitWidth, cardPortraitHeight);
 
         // Draw out the specified bitmap using the calculated bound.
         // The following code is based on the Sprite's draw method.
@@ -287,8 +294,7 @@ public class Card extends Sprite implements Draggable {
             //Changes the cardFaceUp boolean if the card is single tapped - MMC
             if(t.type == TouchEvent.TOUCH_SINGLE_TAP  && mBound.contains(x_cor,y_cor)){
                 if (mGame.isMagnificationToggled()) {
-
-
+                    mGame.setMagnifiedCard(this);
                 } else {
                     flipTimer = FLIP_TIME;
                 }
@@ -300,8 +306,10 @@ public class Card extends Sprite implements Draggable {
                 touchOffsetY = y_cor - position.y;
             }
 
+            if (t.type ==TouchEvent.TOUCH_LONG_PRESS && mBound.contains(x_cor,y_cor)) {
+            }
 
-            if(t.type == TouchEvent.TOUCH_DRAGGED && selected){
+            if(t.type == TouchEvent.TOUCH_DRAGGED && selected && !mGame.isMagnificationToggled()){
                 setPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
             }
