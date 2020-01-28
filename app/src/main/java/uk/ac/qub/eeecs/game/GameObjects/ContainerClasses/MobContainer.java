@@ -29,8 +29,8 @@ public class MobContainer extends Sprite implements Container {
 
         // Not ready for use: need to create graphics for field/slot
         super(x, y,
-                gameScreen.getGame().getScreenWidth() * 0.104f,
-                gameScreen.getGame().getScreenHeight() * 0.185f,
+                gameScreen.getGame().getScreenWidth() * 0.104f * 1.2f,
+                gameScreen.getGame().getScreenHeight() * 0.185f * 1.2f,
                 gameScreen.getGame().getAssetManager().getBitmap("ItemFrame"), gameScreen);
         this.isEmpty = true;
         this.containedMob = null;

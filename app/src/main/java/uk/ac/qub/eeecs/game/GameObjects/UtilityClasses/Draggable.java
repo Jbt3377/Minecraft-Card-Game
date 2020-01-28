@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
 
 public interface Draggable {
+
     float getCurrentXPosition();
     /*
     Provide the objects current x position;
@@ -32,4 +33,7 @@ public interface Draggable {
     /*
     Provide a method to change the hasBeenSelected boolean for this object.
      */
+
+
+
 }

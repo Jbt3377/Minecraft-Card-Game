@@ -71,7 +71,7 @@ public class MainGameScreen extends GameScreen {
     private PushButton unpauseButton, exitButton;
     private int fps;
     private Sprite pauseScreen;
-    private Paint pausePaint, pausePaint2;
+    private Paint pausePaint;
     public boolean gamePaused, displayfps;
 
 
@@ -234,14 +234,10 @@ public class MainGameScreen extends GameScreen {
 
             }
 
-            ArrayList<Draggable> draggableArrayList = new ArrayList<>();
-
             for (Card c : cardCollection) {
                 //c.processCardTouchEvents(touchEventList, mGame);
-                draggableArrayList.add(c);
+                Interaction.processDragEvents(touchEventList, c ,mGame);
             }
-
-            Interaction.processDragEvents(touchEventList,draggableArrayList,mGame);
 
 
             for (int i = 0; i < numberOfCards; i++) {
