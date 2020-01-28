@@ -10,6 +10,12 @@ public abstract class Interaction {
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game){
 
 
+<<<<<<< HEAD
+=======
+        boolean cardsSelected = false;
+
+        for (Draggable dObj : draggables) {
+>>>>>>> 09eb2fd24eafe7261ec4b150a137cd066b605c9e
             float touchOffsetX = 0.0f;
             float touchOffsetY = 0.0f;
 
@@ -26,20 +32,23 @@ public abstract class Interaction {
                     }
                 }
 
-                if(dObj.getBoundingBox().contains(x_cor,y_cor) && t.type == TouchEvent.TOUCH_DOWN){
-                    dObj.setHasBeenSelected(true);
-                    touchOffsetX = x_cor - dObj.getCurrentXPosition();
-                    touchOffsetY = y_cor - dObj.getCurrentYPosition();
+                if(dObj.getBoundingBox().contains(x_cor,y_cor)  && (cardsSelected == false)  && t.type == TouchEvent.TOUCH_DOWN){
+                        cardsSelected = true;
+                        dObj.setHasBeenSelected(true);
+                        touchOffsetX = x_cor - dObj.getCurrentXPosition();
+                        touchOffsetY = y_cor - dObj.getCurrentYPosition();
+
                 }
 
 
-                if(t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()){
+                if(t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected() && !game.isMagnificationToggled()){
                     dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
                 }
 
                 if(t.type == TouchEvent.TOUCH_UP){
-                    dObj.setHasBeenSelected(false);
+                        cardsSelected = false;
+                        dObj.setHasBeenSelected(false);
                 }
 
             }

@@ -309,6 +309,7 @@ public class MainGameScreen extends GameScreen {
         turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         turnText.setTextSize(mScreenHeight / 32);
         turnText.setTextAlign(Paint.Align.LEFT);
+        turnText.setColor(Color.WHITE);
         graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.01f, mScreenHeight * 0.05f, turnText);
 
         Paint fpsPaint = new Paint();
