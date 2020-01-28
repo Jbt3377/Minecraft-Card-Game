@@ -99,7 +99,7 @@ public class MainGameScreen extends GameScreen {
         mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
-        fps = (int) mGame.getAverageFramesPerSecond();
+
         gamePaused = false;
         displayfps = false;
 
@@ -221,7 +221,7 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void update(ElapsedTime elapsedTime) {
         playBackgroundMusic();
-
+        fps = (int) mGame.getAverageFramesPerSecond();
         if (!gamePaused) {
 
 
@@ -438,7 +438,7 @@ public class MainGameScreen extends GameScreen {
 
                 }else if(volumecounter == 1){
 
-                    mGame.getAudioManager().setMusicVolume(75);
+                    mGame.getAudioManager().setMusicVolume(50);
 
                 }else if(volumecounter == 2){
                     mGame.getAudioManager().setMusicVolume(100);
