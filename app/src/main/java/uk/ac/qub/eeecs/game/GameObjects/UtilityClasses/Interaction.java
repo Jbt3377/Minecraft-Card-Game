@@ -34,7 +34,7 @@ public abstract class Interaction {
 
 
                 if(t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()){
-                    dObj.setPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
+                    dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
 
                 }
 

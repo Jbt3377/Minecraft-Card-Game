@@ -13,7 +13,7 @@ public interface Draggable {
     Provide the object current y position;
      */
 
-    void setPosition(float newXPosition, float newYPosition);
+    void setNewPosition(float newXPosition, float newYPosition);
     /*
     Provide a method to set the position of the object
      */

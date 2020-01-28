@@ -351,7 +351,7 @@ public class Card extends Sprite implements Draggable {
 
 
     @Override
-    public void setPosition(float newXPosition, float newYPosition) {
+    public void setNewPosition(float newXPosition, float newYPosition) {
         setPosition(newXPosition, newYPosition);
     }
 
