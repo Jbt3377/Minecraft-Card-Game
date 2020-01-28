@@ -10,12 +10,9 @@ public abstract class Interaction {
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game){
 
 
-<<<<<<< HEAD
-=======
         boolean cardsSelected = false;
 
-        for (Draggable dObj : draggables) {
->>>>>>> 09eb2fd24eafe7261ec4b150a137cd066b605c9e
+
             float touchOffsetX = 0.0f;
             float touchOffsetY = 0.0f;
 
