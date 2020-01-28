@@ -372,6 +372,8 @@ public class AssetManager {
             // Load in each asset
             for (int idx = 0; idx < assets.length(); idx++){
 
+
+
                 String assetName = assets.getJSONObject(idx).getString("assets");
                 String name = assets.getJSONObject(idx).getString("name");
                 String description = assets.getJSONObject(idx).getString("description");

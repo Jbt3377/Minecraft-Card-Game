@@ -15,7 +15,7 @@ public class Deck {
     public Stack<CardStats> characterCardStatsStack;
     public Stack<CardStats> specialCardStatsStack;
 
-
+    //TODO: Put in size method for this class to add both sizes of stacks into on integer
     public Deck(){
 
     }

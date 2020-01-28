@@ -7,11 +7,12 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 
 public abstract class Interaction {
 
-    public static void processDragEvents(List<TouchEvent> touchEvents, List<Draggable> draggables, Game game){
+    public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game){
+
 
         boolean cardsSelected = false;
 
-        for (Draggable dObj : draggables) {
+
             float touchOffsetX = 0.0f;
             float touchOffsetY = 0.0f;
 
@@ -51,6 +52,6 @@ public abstract class Interaction {
             }
         }
 
-    }
+
 
 

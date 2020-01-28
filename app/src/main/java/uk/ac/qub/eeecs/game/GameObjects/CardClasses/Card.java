@@ -106,7 +106,7 @@ public class Card extends Sprite implements Draggable {
         cardFaceUp = true;
 
         // Store the common card base image
-        mCardBase = assetManager.getBitmap("CardBackground");
+        mCardBase = assetManager.getBitmap("CardBackground"); //Factory.getbitmap()
 
         //Store the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
