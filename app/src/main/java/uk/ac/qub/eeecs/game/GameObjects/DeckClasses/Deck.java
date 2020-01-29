@@ -1,7 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.DeckClasses;
 
 import java.util.Stack;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 
 public class Deck {
 

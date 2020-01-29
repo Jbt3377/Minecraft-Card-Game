@@ -1,0 +1,9 @@
+package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
+
+import uk.ac.qub.eeecs.gage.world.GameScreen;
+
+public class EquipCard extends Card {
+    public EquipCard(float x, float y, GameScreen gameScreen, int index) {
+        super(x, y, gameScreen, index);
+    }
+}

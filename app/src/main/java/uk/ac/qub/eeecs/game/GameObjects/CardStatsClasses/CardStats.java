@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
+package uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses;
 
 /*
 This class is used to store the details for any given card

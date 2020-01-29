@@ -1,4 +1,6 @@
-package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
+package uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses;
+
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 
 public class CharacterCardStats extends CardStats {
 
