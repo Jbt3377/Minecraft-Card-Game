@@ -142,7 +142,7 @@ public class MainGameScreen extends GameScreen {
         setPositionCards();
 
         // Setup boardBackGround image - MMC
-        boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("BoardBackGround"), this);
+        boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
 
         // Buttons;
         endTurnButton = new PushButton(mScreenWidth * 0.90f, mScreenHeight/2,mScreenWidth/10, mScreenHeight/10,

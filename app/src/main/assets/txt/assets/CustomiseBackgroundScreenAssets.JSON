@@ -17,6 +17,24 @@
       "type": "Bitmap",
       "name": "RightArrow",
       "file": "img/GameButtons/RightArrow.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "SpruceGameBoard",
+      "file": "img/BoardBackgrounds/SpruceGameBoard.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "QuartzGameBoard",
+      "file": "img/BoardBackgrounds/QuartzGameBoard.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "StoneBrickGameBoard",
+      "file": "img/BoardBackgrounds/StoneBrickGameBoard.png"
     }
 
 

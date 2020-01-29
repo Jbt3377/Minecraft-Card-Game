@@ -50,7 +50,7 @@ public abstract class Game extends Fragment {
     public void setCardsSelected(boolean cardsSelected) { this.cardsSelected = cardsSelected; }
 
     //Gameboard Background Variable
-    public String gameboardBackground;
+    public String gameboardBackground = "SpruceGameBoard";
     public String getGameboardBackground() { return gameboardBackground; }
     public void setGameboardBackground(String gameboardBackground) { this.gameboardBackground = gameboardBackground; }
 

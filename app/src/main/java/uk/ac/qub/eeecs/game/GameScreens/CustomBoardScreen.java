@@ -1,8 +1,10 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
@@ -12,10 +14,12 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 
 public class CustomBoardScreen extends GameScreen {
 
-    private PushButton mBackButton;
-    private GameObject background;
+    private PushButton mBackButton, leftBoardChange, rightBoardChange;
+    private GameObject background, gameBoardDisplay;
     private LayerViewport boardLayerViewport;
-    private String boardBackgroundText;
+    private int boardCounter = 0;
+    private Paint textFont;
+    private String boardText = "Spruce Game Board";
 
 
     public CustomBoardScreen(String screenName, Game game) {
@@ -23,7 +27,7 @@ public class CustomBoardScreen extends GameScreen {
 
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
-        
+
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
 
@@ -33,6 +37,18 @@ public class CustomBoardScreen extends GameScreen {
         mGame.getAssetManager().loadAssets("txt/assets/CustomiseBackgroundScreenAssets.JSON");
 
         background =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
+        gameBoardDisplay = new GameObject(screenWidth/2, screenHeight/1.8f, screenWidth/1.8f, screenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
+
+        leftBoardChange = new PushButton(screenWidth/7.2f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "LeftArrow", this);
+        rightBoardChange = new PushButton(screenWidth/1.16f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "RightArrow", this);
+
+        textFont = new Paint();
+        textFont.setTextSize(mScreenHeight / 16);
+        textFont.setARGB(255, 255, 255, 255);
+        textFont.setTypeface(MainActivity.minecraftRegFont);
+        textFont.setColor(Color.BLACK);
+        textFont.setTextAlign(Paint.Align.CENTER);
+
 
 
     }
@@ -40,6 +56,30 @@ public class CustomBoardScreen extends GameScreen {
 
 
     public void update(ElapsedTime elapsedTime) {
+
+        leftBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        rightBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+        boardSetter(boardCounter);
+        gameBoardDisplay.update(elapsedTime);
+        gameBoardDisplay.setBitmap(getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()));
+
+        if (leftBoardChange.isPushTriggered()) {
+            if (boardCounter <= 2 && boardCounter != 0) {
+                boardCounter--;
+            } else if (boardCounter == 0) {
+                boardCounter = 2;
+            }
+        }
+
+        if (rightBoardChange.isPushTriggered()) {
+            if (boardCounter >= 0 && boardCounter < 2) {
+                boardCounter++;
+            } else if (boardCounter >= 2) {
+                boardCounter = 0;
+            }
+        }
+
 
     }
 
@@ -53,6 +93,30 @@ public class CustomBoardScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
+        gameBoardDisplay.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
+
+        leftBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        rightBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+
+        graphics2D.drawText(boardText,  mScreenWidth / 2f, mScreenHeight * 0.88f, textFont);
+
 
     }
+
+    public void boardSetter(int boardCounter) {
+        if (boardCounter == 0) {
+            mGame.setGameboardBackground("SpruceGameBoard");
+            boardText = "Spruce Game Board";
+
+        } else if (boardCounter == 1){
+            mGame.setGameboardBackground("StoneBrickGameBoard");
+            boardText = "Stone Game Board";
+
+        } else if (boardCounter == 2) {
+            mGame.setGameboardBackground("QuartzGameBoard");
+            boardText = "Quartz Game Board";
+
+        }
+    }
 }
+
