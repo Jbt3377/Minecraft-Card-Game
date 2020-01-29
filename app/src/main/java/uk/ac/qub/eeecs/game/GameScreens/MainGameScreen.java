@@ -71,7 +71,7 @@ public class MainGameScreen extends GameScreen {
     //Pause menu
     private PushButton unpauseButton, exitButton,volumeButton;
     private int fps;
-    private int volumecounter;
+    private int volumecounter = 1;
     private Sprite pauseScreen;
     private Paint pausePaint;
     public boolean gamePaused, displayfps;
@@ -219,7 +219,7 @@ public class MainGameScreen extends GameScreen {
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-        playBackgroundMusic();
+
         fps = (int) mGame.getAverageFramesPerSecond();
         if (!gamePaused) {
 
@@ -433,22 +433,26 @@ public class MainGameScreen extends GameScreen {
                 displayfps =false;
 
             if(volumeButton.isPushTriggered()){
-               volumecounter++;
+
                 if(volumecounter == 0){
-
-                    mGame.getAudioManager().setMusicVolume(0);
-
+                    mGame.getAudioManager().setSfxVolume(0.33f);
+                    mGame.getAudioManager().setMusicVolume(0.33f);
+                    volumecounter++;
                 }else if(volumecounter == 1){
 
-                    mGame.getAudioManager().setMusicVolume(50);
+                    mGame.getAudioManager().setSfxVolume(0.67f);
+                    mGame.getAudioManager().setMusicVolume(0.67f);
+                    volumecounter++;
+                }else if(volumecounter == 2) {
 
-                }else if(volumecounter == 2){
-                    mGame.getAudioManager().setMusicVolume(100);
-
-
+                    mGame.getAudioManager().setSfxVolume(1);
+                    mGame.getAudioManager().setMusicVolume(1);
+                    volumecounter++;
+                } else if (volumecounter == 3) {
+                    mGame.getAudioManager().setSfxVolume(0);
+                    mGame.getAudioManager().setMusicVolume(0);
+                    volumecounter = 0;
                 }
-            } else if(volumecounter == 3){
-                volumecounter = volumecounter - 4;
             }
 
         }

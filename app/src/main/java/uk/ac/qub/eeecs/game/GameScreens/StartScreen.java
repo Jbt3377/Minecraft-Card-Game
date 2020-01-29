@@ -71,6 +71,10 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
+        //Setting base volume
+        mGame.getAudioManager().setSfxVolume(0.33f);
+        mGame.getAudioManager().setMusicVolume(0.33f);
+
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
 //        float layerWidth = mDefaultLayerViewport.getWidth();
