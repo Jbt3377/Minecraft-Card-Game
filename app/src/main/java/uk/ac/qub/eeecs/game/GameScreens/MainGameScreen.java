@@ -11,6 +11,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -68,8 +69,9 @@ public class MainGameScreen extends GameScreen {
 
 
     //Pause menu
-    private PushButton unpauseButton, exitButton;
+    private PushButton unpauseButton, exitButton,volumeButton;
     private int fps;
+    private int volumecounter;
     private Sprite pauseScreen;
     private Paint pausePaint;
     public boolean gamePaused, displayfps;
@@ -93,9 +95,10 @@ public class MainGameScreen extends GameScreen {
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
+        mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
-        fps = (int) mGame.getAverageFramesPerSecond();
+
         gamePaused = false;
         displayfps = false;
 
@@ -173,6 +176,9 @@ public class MainGameScreen extends GameScreen {
         exitButton = new PushButton((int) (mScreenWidth / 1.5), (int) (mScreenHeight * 0.15f), mScreenWidth * 0.208f,
                 mScreenHeight * 0.15f, "ExitButton", this);
 
+        volumeButton = new PushButton(mScreenWidth / 1.3f, mScreenHeight* 0.4700f,mScreenWidth* 0.23f, mScreenHeight* 0.18f,
+                "PauseButton",  this);
+
         fpsToggle = new ToggleButton(mScreenWidth  / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
 
@@ -192,10 +198,15 @@ public class MainGameScreen extends GameScreen {
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
         graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 4.5), mScreenHeight * 0.37f, pausePaint);
+        graphics2D.drawText("Voulume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+        graphics2D.drawText("Voulume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+        graphics2D.drawText("Voulume: " + mGame.getAudioManager().getMusicVolume() , (int) (mScreenWidth / 3.3), mScreenHeight * 0.65f, pausePaint);
+
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
         exitButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+        volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
     }
 
 
@@ -208,10 +219,10 @@ public class MainGameScreen extends GameScreen {
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-
-
-
+        playBackgroundMusic();
+        fps = (int) mGame.getAverageFramesPerSecond();
         if (!gamePaused) {
+
 
             //Toggle Button Update
             magnificationButton(elapsedTime);
@@ -406,6 +417,7 @@ public class MainGameScreen extends GameScreen {
             fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
             unpauseButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
             exitButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
+            volumeButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
 
             if (unpauseButton.isPushTriggered())
                 gamePaused = false;
@@ -419,6 +431,26 @@ public class MainGameScreen extends GameScreen {
                displayfps = true;
             }else
                 displayfps =false;
+
+            if(volumeButton.isPushTriggered()){
+               volumecounter++;
+                if(volumecounter == 0){
+
+                    mGame.getAudioManager().setMusicVolume(0);
+
+                }else if(volumecounter == 1){
+
+                    mGame.getAudioManager().setMusicVolume(50);
+
+                }else if(volumecounter == 2){
+                    mGame.getAudioManager().setMusicVolume(100);
+
+
+                }
+            } else if(volumecounter == 3){
+                volumecounter = volumecounter - 4;
+            }
+
         }
     }
 
@@ -428,6 +460,19 @@ public class MainGameScreen extends GameScreen {
         displayAllCardsButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
+    }
+
+    private void playBackgroundMusic() {
+        AudioManager audioManager = getGame().getAudioManager();
+        if(!audioManager.isMusicPlaying())
+            audioManager.playMusic(
+                    //Changed string name to new background music
+                    getGame().getAssetManager().getMusic("MinecraftMusic"));
+    }
+
+    private void stopBackGroundMusic(){
+        AudioManager audioManager = getGame().getAudioManager();
+        audioManager.stopMusic();
     }
 
     ////////////////////////////////////////////////////////////////////////////
