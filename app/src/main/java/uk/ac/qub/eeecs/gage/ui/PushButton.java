@@ -198,8 +198,7 @@ public class PushButton extends Button {
             assetManager.loadAndAddSound(
                     "ButtonDefaultRelease",
                     "sound/gage/button/ButtonRelease.wav");
-
-            // Set appropriate sound
+             // Set appropriate sound
             mPushSound = assetManager.getSound(
                     (pushSound == null) ? "ButtonDefaultPush" : pushSound);
             mReleaseSound = assetManager.getSound(
@@ -225,6 +224,10 @@ public class PushButton extends Button {
     public void setPlaySounds(boolean playPushSound, boolean playReleaseSound) {
         mPlayPushSound = playPushSound;
         mPlayReleaseSound = playReleaseSound;
+    }
+
+    public void setPlaySounds(boolean playPushSound) {
+        mPlayPushSound = playPushSound;
     }
 
     /**

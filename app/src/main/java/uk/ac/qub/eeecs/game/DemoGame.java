@@ -60,15 +60,16 @@ public class DemoGame extends Game {
     @Override
     public boolean onBackPressed() {
         // If we are already at the menu screen then exit
-        if (mScreenManager.getCurrentScreen().getName().equals("StartScreen"))
+        if (mScreenManager.getCurrentScreen().getName().equals("StartScreen")) {
             return false;
+        }
 
         // Stop any playing music
         if(mAudioManager.isMusicPlaying())
             mAudioManager.stopMusic();
 
         // Go back to the menu screen
-        getScreenManager().removeAllScreens();
+        getScreenManager().removeScreen(mScreenManager.getCurrentScreen().getName());
         StartScreen startScreen = new StartScreen(this);
         getScreenManager().addScreen(startScreen);
         return true;

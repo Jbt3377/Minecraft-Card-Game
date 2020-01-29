@@ -41,12 +41,15 @@ public class CustomBoardScreen extends GameScreen {
 
         leftBoardChange = new PushButton(screenWidth/7.2f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "LeftArrow", this);
         rightBoardChange = new PushButton(screenWidth/1.16f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "RightArrow", this);
+        leftBoardChange.setPlaySounds(true);
+        rightBoardChange.setPlaySounds(true);
+
 
         textFont = new Paint();
         textFont.setTextSize(mScreenHeight / 16);
         textFont.setARGB(255, 255, 255, 255);
         textFont.setTypeface(MainActivity.minecraftRegFont);
-        textFont.setColor(Color.BLACK);
+        textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
 
