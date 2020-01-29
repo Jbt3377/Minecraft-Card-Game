@@ -1,47 +1,47 @@
 {
-    "assets": [
-        {
-            "type": "CharacterCard",
-            "name": "Cow",
-            "health": 10,
-            "attack":  2,
-            "manacost": 3,
-            "description": "Moo"
-        },
-        {
-            "type": "CharacterCard",
-            "name": "Dragon",
-            "health": 20,
-            "attack": 6,
-            "manacost": 6,
-            "description": "Flame"
-        },
-        {
-            "type": "CharacterCard",
-            "name": "Creeper",
-            "health": 12,
-            "attack": 3,
-            "manacost": 3,
-            "description": "Boom"
-        },
-        {
-            "type": "CharacterCard",
-            "name": "Zombie",
-            "health": 5,
-            "attack": 1,
-            "manacost": 1,
-            "description": "Dead"
-        },
-        {
-            "type": "CharacterCard",
-            "name": "Pig",
-            "health": 50,
-            "attack": 30,
-            "manacost": 1,
-            "description": "Oink"
-        }
+  "assets": [
+    {
+      "type": "CharacterCard",
+      "name": "Cow",
+      "health": 10,
+      "attack":  2,
+      "manacost": 3,
+      "description": "Moo"
+    },
+    {
+      "type": "CharacterCard",
+      "name": "Dragon",
+      "health": 20,
+      "attack": 6,
+      "manacost": 6,
+      "description": "Flame"
+    },
+    {
+      "type": "CharacterCard",
+      "name": "Creeper",
+      "health": 12,
+      "attack": 3,
+      "manacost": 3,
+      "description": "Boom"
+    },
+    {
+      "type": "CharacterCard",
+      "name": "Zombie",
+      "health": 5,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Dead"
+    },
+    {
+      "type": "CharacterCard",
+      "name": "Pig",
+      "health": 50,
+      "attack": 30,
+      "manacost": 1,
+      "description": "Oink"
+    }
 
-    ]
+  ]
 
 
 
