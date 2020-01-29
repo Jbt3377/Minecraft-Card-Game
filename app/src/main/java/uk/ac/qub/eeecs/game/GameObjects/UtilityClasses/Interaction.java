@@ -10,7 +10,7 @@ public abstract class Interaction {
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game){
 
 
-        boolean cardsSelected = false;
+
 
 
             float touchOffsetX = 0.0f;
@@ -29,8 +29,8 @@ public abstract class Interaction {
                     }
                 }
 
-                if(dObj.getBoundingBox().contains(x_cor,y_cor)  && (cardsSelected == false)  && t.type == TouchEvent.TOUCH_DOWN){
-                        cardsSelected = true;
+                if(dObj.getBoundingBox().contains(x_cor,y_cor)  && (game.isCardsSelected() == false)  && t.type == TouchEvent.TOUCH_DOWN){
+                        game.setCardsSelected(true);
                         dObj.setHasBeenSelected(true);
                         touchOffsetX = x_cor - dObj.getCurrentXPosition();
                         touchOffsetY = y_cor - dObj.getCurrentYPosition();
@@ -44,7 +44,7 @@ public abstract class Interaction {
                 }
 
                 if(t.type == TouchEvent.TOUCH_UP){
-                        cardsSelected = false;
+                        game.setCardsSelected(false);
                         dObj.setHasBeenSelected(false);
                 }
 

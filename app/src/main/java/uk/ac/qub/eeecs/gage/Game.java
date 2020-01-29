@@ -44,6 +44,17 @@ public abstract class Game extends Fragment {
     public Card getMagnifiedCard() { return magnifiedCard; }
     public void setMagnifiedCard(Card magnifiedCard) {this.magnifiedCard = magnifiedCard;}
 
+    //Cards Selected variable
+    boolean cardsSelected = false;
+    public boolean isCardsSelected() { return cardsSelected; }
+    public void setCardsSelected(boolean cardsSelected) { this.cardsSelected = cardsSelected; }
+
+    //Gameboard Background Variable
+    public String gameboardBackground;
+    public String getGameboardBackground() { return gameboardBackground; }
+    public void setGameboardBackground(String gameboardBackground) { this.gameboardBackground = gameboardBackground; }
+
+
     //Team Defined Properties
     /**
      * The Game has two Players who play the game.

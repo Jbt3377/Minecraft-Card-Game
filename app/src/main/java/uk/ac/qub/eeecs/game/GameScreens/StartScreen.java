@@ -45,6 +45,8 @@ public class StartScreen extends GameScreen {
     private GameObject mBackgroundImage;
     private LayerViewport backgroundLayerViewport;
     private ScreenViewport backgroundScreenViewport;
+    private PushButton mBoardButton;
+    private CustomBoardScreen customBoardScreen;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -65,38 +67,47 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddBitmap("StartButton", "img/StartButton.png");
         assetManager.loadAndAddBitmap("OptionsButton", "img/OptionsButton.png");
         assetManager.loadAndAddBitmap("RulesButton", "img/RulesButton.png");
+        assetManager.loadAndAddBitmap("CustomiseScreenButton", "img/CustomiseScreenButton.png");
         assetManager.loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
-        float layerWidth = mDefaultLayerViewport.getWidth();
-        float layerHeight = mDefaultLayerViewport.getHeight();
+//        float layerWidth = mDefaultLayerViewport.getWidth();
+//        float layerHeight = mDefaultLayerViewport.getHeight();
 
+        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
+        backgroundLayerViewport = new LayerViewport(screenWidth/2, screenHeight/2,screenWidth/2,screenHeight/2);
+        //backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
 
-        backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2.0f,screenWidth/2.0f,screenHeight/2);
-        backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
+        mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
+                assetManager.getBitmap("StartScreenBackground"), this);
 
         // Create the trigger buttons
 
         //Button to start the game
-        mCardDemoButton = new PushButton(layerWidth/2,layerHeight/4,layerWidth/5.0f,layerHeight/10.0f, "StartButton", "StartButton", this);
+        mCardDemoButton = new PushButton(screenWidth/2,screenHeight/4,screenWidth/6f,screenHeight/10.0f, "StartButton", "StartButton", this);
         mCardDemoButton.setPlaySounds(true, true);
 
         //Button to view options
-        mOptionsButton = new PushButton(layerWidth/2.6f,layerHeight/7.1f,layerWidth/5.0f,layerHeight/10.0f, "OptionsButton", "OptionsButton", this);
+        mOptionsButton = new PushButton(screenWidth/2.5f,screenHeight/7.8f,screenWidth/5.9f,screenHeight/9.5f, "OptionsButton", "OptionsButton", this);
         mOptionsButton.setPlaySounds(true, true);
 
         //Button to view rules
-        mRulesButton= new PushButton(layerWidth/1.65f,layerHeight/7.1f,layerWidth/5.0f,layerHeight/10.0f, "RulesButton", "RulesButton", this);
+        mRulesButton= new PushButton(screenWidth/1.7f,screenHeight/7.8f,screenWidth/5.9f,screenHeight/9.5f, "RulesButton", "RulesButton", this);
         mRulesButton.setPlaySounds(true, true);
+
+        //Button to view customise board screen
+        mBoardButton = new PushButton(screenWidth / 1.10f, screenHeight / 7.1f, screenWidth / 9.5f, screenHeight/ 5.0f, "CustomiseScreenButton",  this);
+        mBoardButton.setPlaySounds(true, true);
+
 
         //has to be inside the Constructor to create a game screen
         Rules = new RulesScreen("Rules", game);
         Options = new OptionsScreen("OptionsScreen", game);
+        customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
 
-        mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
-                assetManager.getBitmap("StartScreenBackground"), this);
+
 
 
 
@@ -125,9 +136,10 @@ public class StartScreen extends GameScreen {
             //System.out.println("Touch input detected");
             // Update each button and transition if needed
 
-            mCardDemoButton.update(elapsedTime);
-            mRulesButton.update(elapsedTime);
-            mOptionsButton.update(elapsedTime);
+            mCardDemoButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mRulesButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mOptionsButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mBoardButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
 
 
             if (mCardDemoButton.isPushTriggered()){
@@ -147,6 +159,12 @@ public class StartScreen extends GameScreen {
                 mGame.getScreenManager().addScreen(Options);
             }
 
+            if (mBoardButton.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(customBoardScreen);
+            }
+
         }
     }
 
@@ -161,10 +179,12 @@ public class StartScreen extends GameScreen {
 
         // Clear the screen and draw the buttons
         graphics2D.clear(Color.WHITE);
-        mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, backgroundScreenViewport);
-        mCardDemoButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
-        mOptionsButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
-        mRulesButton.draw(elapsedTime, graphics2D,mDefaultLayerViewport, mDefaultScreenViewport);
+        mBackgroundImage.draw(elapsedTime, graphics2D, backgroundLayerViewport, mDefaultScreenViewport);
+        mCardDemoButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mOptionsButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mRulesButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mBoardButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+
     }
 
     private void playBackgroundMusic() {

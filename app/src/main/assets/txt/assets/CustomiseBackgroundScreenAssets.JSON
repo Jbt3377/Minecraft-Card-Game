@@ -1,0 +1,24 @@
+{
+  "assets": [
+
+    {
+      "type": "Bitmap",
+      "name": "CustomiseScreenBackground",
+      "file": "img/CustomiseScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "LeftArrow",
+      "file": "img/GameButtons/LeftArrow.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RightArrow",
+      "file": "img/GameButtons/RightArrow.png"
+    }
+
+
+  ]
+}

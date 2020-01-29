@@ -145,7 +145,7 @@ public class MainGameScreen extends GameScreen {
         endTurnButton = new PushButton(mScreenWidth * 0.90f, mScreenHeight/2,mScreenWidth/10, mScreenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
 
-        pauseButton = new PushButton(mScreenWidth * 0.10f, mScreenHeight/1.2f,mScreenWidth/10, mScreenHeight/12,
+        pauseButton = new PushButton(mScreenWidth * 0.044f, mScreenHeight/1.15f,mScreenWidth/14.5f, mScreenHeight/9,
                 "PauseButton",  this);
 
 
@@ -167,13 +167,13 @@ public class MainGameScreen extends GameScreen {
         pauseScreen =  new Sprite(mScreenWidth / 2, mScreenHeight / 2, mScreenWidth / 1.1f,
                 mScreenHeight / 1.1f, getGame().getAssetManager().getBitmap("PauseMenu"), this);
 
-        unpauseButton = new PushButton((int) (mScreenWidth / 2.5), (int) (mScreenHeight * 0.2500f), mScreenWidth * 0.208f,
-                mScreenHeight * 0.231f, "EndTurnDefault", this);
+        unpauseButton = new PushButton((int) (mScreenWidth / 2.9), (int) (mScreenHeight * 0.15f), mScreenWidth * 0.208f,
+                mScreenHeight * 0.15f, "ResumeButton", this);
 
-        exitButton = new PushButton((int) (mScreenWidth / 1.6), (int) (mScreenHeight * 0.2500f), mScreenWidth * 0.208f,
-                mScreenHeight * 0.231f, "Redbutton", this);
+        exitButton = new PushButton((int) (mScreenWidth / 1.5), (int) (mScreenHeight * 0.15f), mScreenWidth * 0.208f,
+                mScreenHeight * 0.15f, "ExitButton", this);
 
-        fpsToggle = new ToggleButton(mScreenWidth  / 1.3f, mScreenHeight * 0.6700f, mScreenWidth * 0.23f, mScreenHeight * 0.18f,
+        fpsToggle = new ToggleButton(mScreenWidth  / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
 
 
@@ -191,7 +191,7 @@ public class MainGameScreen extends GameScreen {
 
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
-        graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.35f, pausePaint);
+        graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 4.5), mScreenHeight * 0.37f, pausePaint);
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
@@ -294,14 +294,16 @@ public class MainGameScreen extends GameScreen {
 
         displayCardsButton(elapsedTime, graphics2D);
 
+        //Old title on game screen (Not Required anymore)
         // Draw text that was loaded
+        /*
         Paint gameTitle = new Paint();
         gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         gameTitle.setTextSize(mScreenHeight / 16);
         gameTitle.setTextAlign(Paint.Align.CENTER);
 
         graphics2D.drawText("Minecraft Card Game", mScreenWidth * 0.5f, mScreenHeight * 0.1f, gameTitle);
-
+        */
 
 
         //Load text and font information
@@ -316,8 +318,9 @@ public class MainGameScreen extends GameScreen {
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         fpsPaint.setTextSize(mScreenHeight / 30);
         fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setColor(Color.WHITE);
         if(displayfps)
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.99f, mScreenHeight * 0.05f, fpsPaint);
 
         drawPopUps(elapsedTime, graphics2D);
 
