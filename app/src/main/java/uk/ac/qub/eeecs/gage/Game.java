@@ -9,15 +9,11 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckStore;
+import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
-import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckStore;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -62,9 +58,9 @@ public abstract class Game extends Fragment {
     private Player human, ai;
 
     /**
-     * The Game has a DeckStore that stores all the cards available in the game.
+     * The Game has a DeckManager that stores all the cards available in the game.
      */
-    private DeckStore deckStore;
+    private DeckManager mDeckManager;
 
 
     //Team Defined Getters and Setters
@@ -82,8 +78,8 @@ public abstract class Game extends Fragment {
         this.ai = ai;
     }
 
-    public DeckStore getDeckStore(){
-        return deckStore;
+    public DeckManager getmDeckManager(){
+        return mDeckManager;
     }
 
 
@@ -324,12 +320,16 @@ public abstract class Game extends Fragment {
         // Create the screen manager
         mScreenManager = new ScreenManager(this);
 
-        //Create DeckStore for the game. The players decks are then created using the cards in this library.
-        deckStore = new DeckStore();
+        //Create DeckManager for the game. The players decks are then created using the cards in this library.
+        mDeckManager = new DeckManager();
+
+
+
+
 
         //Create the two players for the game
-        human  = new Human();
-        ai = new Ai();
+        human  = new Human(mDeckManager.getPlayerDeck());
+        ai = new Ai(mDeckManager.getAiDeck());
     }
 
     /*

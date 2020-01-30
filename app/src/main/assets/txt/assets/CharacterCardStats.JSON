@@ -1,6 +1,7 @@
 {
   "assets": [
     {
+      "id" : 0,
       "type": "CharacterCard",
       "name": "Cow",
       "health": 10,
@@ -9,6 +10,7 @@
       "description": "Moo"
     },
     {
+      "id" : 1,
       "type": "CharacterCard",
       "name": "Dragon",
       "health": 20,
@@ -17,6 +19,7 @@
       "description": "Flame"
     },
     {
+      "id" : 2,
       "type": "CharacterCard",
       "name": "Creeper",
       "health": 12,
@@ -25,6 +28,7 @@
       "description": "Boom"
     },
     {
+      "id" : 3,
       "type": "CharacterCard",
       "name": "Zombie",
       "health": 5,
@@ -33,6 +37,7 @@
       "description": "Dead"
     },
     {
+      "id" : 4,
       "type": "CharacterCard",
       "name": "Pig",
       "health": 50,

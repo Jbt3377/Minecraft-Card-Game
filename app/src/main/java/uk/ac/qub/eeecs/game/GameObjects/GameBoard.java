@@ -72,6 +72,8 @@ public class GameBoard {
         this.ai = ai;
         this.gameScreen = gameScreen;
         this.fieldContainers = new ArrayList<>();
+        this.humanDeck = human.getSelectedDeck();
+        this.aiDeck = ai.getSelectedDeck();
 
         setupContainers();
 
