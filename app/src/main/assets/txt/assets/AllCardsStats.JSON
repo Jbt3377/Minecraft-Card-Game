@@ -44,6 +44,22 @@
       "attack": 30,
       "manacost": 1,
       "description": "Oink"
+    },
+    {
+      "id": 4,
+      "type": "EquipCard",
+      "name": "Sword",
+      "manacost": 3,
+      "description": "+4 Attack to equipped Mob",
+      "effect_intensity": 4
+    },
+    {
+      "id": 5,
+      "type": "UtilityCard",
+      "name": "Potion",
+      "manacost": 6,
+      "description": "Heal all by 3 HP",
+      "effect_intensity": 3
     }
 
   ]

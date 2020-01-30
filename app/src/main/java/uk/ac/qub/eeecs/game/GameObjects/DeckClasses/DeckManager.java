@@ -3,11 +3,9 @@ package uk.ac.qub.eeecs.game.GameObjects.DeckClasses;
 import java.util.HashMap;
 import java.util.Stack;
 
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
-import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
+
 
 public class DeckManager {
 

@@ -12,15 +12,17 @@ public abstract class CardStats {
     private String name;
     private int manaCost;
     private String descText;
+    int id;
 
     /////////////
     //Constructor
     /////////////
 
-    public CardStats(String name, int manaCost, String descText) {
+    public CardStats(String name, int manaCost, String descText, int id) {
         this.name = name;
         this.manaCost = manaCost;
         this.descText = descText;
+        this.id = id;
     }
 
 

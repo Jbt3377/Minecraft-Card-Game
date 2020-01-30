@@ -13,10 +13,10 @@ public class CharacterCardStats extends CardStats {
     /////////////
     //Constructor
     /////////////
-    public CharacterCardStats(String name, int manaCost, String descText, int hp, int attack) {
-        super(name, manaCost, descText);
+    public CharacterCardStats(String name, int manaCost, String descText, int id, int hp, int attack) {
+        super(name, manaCost, descText, id);
         this.hp = hp;
-        this.attack = hp;
+        this.attack = attack;
     }
 
     /////////////////////

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +17,10 @@ import uk.ac.qub.eeecs.gage.engine.animation.AnimationSettings;
 import uk.ac.qub.eeecs.gage.engine.audio.Music;
 import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 
 /**
  * Asset manager for holding loaded assets.
@@ -65,6 +70,8 @@ public class AssetManager {
      */
     private ArrayList<CardInformation> mCards;
 
+    private ArrayList<CardStats> allCardStats;
+
     /**
      * File IO
      */
@@ -96,6 +103,7 @@ public class AssetManager {
         mFonts = new HashMap<>();
         mAnimations = new HashMap<>();
         mCards = new ArrayList<>();
+        allCardStats = new ArrayList<>();
 
     }
 
@@ -383,6 +391,84 @@ public class AssetManager {
                 CardInformation card = new CardInformation(assetName, name, description, attack, defence);
 
                 mCards.add(card);
+            }
+
+        } catch (JSONException | IllegalArgumentException e) {
+            throw new RuntimeException(
+                    "AssetManager.constructor: JSON parsing error [" + e.getMessage() + "]");
+        }
+    }
+
+    /**
+     * Custom loading of card
+     */
+    public void customLoadCard(String assetsToLoadJSONFile) {
+        // Attempt to load in the JSON asset details
+        String loadedJSON;
+        try {
+            loadedJSON = mFileIO.loadJSON(assetsToLoadJSONFile);
+        } catch (IOException e) {
+            throw new RuntimeException(
+                    "AssetManager.constructor: Cannot load JSON [" + assetsToLoadJSONFile + "]");
+        }
+
+        // Attempt to extract the JSON information
+        try {
+            JSONObject settings = new JSONObject(loadedJSON);
+            JSONArray assets = settings.getJSONArray("assets");
+
+            // Load in each asset
+            for (int idx = 0; idx < assets.length(); idx++){
+
+                String cardType = assets.getJSONObject(idx).getString("type");
+
+                if(cardType.equals("CharacterCard")){
+                    int id = assets.getJSONObject(idx).getInt("id");
+                    String name = assets.getJSONObject(idx).getString("name");
+                    int health = assets.getJSONObject(idx).getInt("health");
+                    int attack = assets.getJSONObject(idx).getInt("attack");
+                    int manacost = assets.getJSONObject(idx).getInt("manacost");
+                    String description = assets.getJSONObject(idx).getString("description");
+
+                    CharacterCardStats characterCardStats = new CharacterCardStats(name,manacost,description, id, health,attack);
+                    allCardStats.add(characterCardStats);
+                }
+                else if(cardType.equals("EquipCard")){
+                    int id = assets.getJSONObject(idx).getInt("id");
+                    String name = assets.getJSONObject(idx).getString("name");
+                    int manacost = assets.getJSONObject(idx).getInt("manacost");
+                    String description = assets.getJSONObject(idx).getString("description");
+                    int effect_intensity = assets.getJSONObject(idx).getInt("effect_intensity");
+
+                    EquipCardStats equipCardStats = new EquipCardStats(name,manacost,description,id);
+                    allCardStats.add(equipCardStats);
+
+                }
+                else if(cardType.equals("UtilityCard")){
+                    int id = assets.getJSONObject(idx).getInt("id");
+                    String name = assets.getJSONObject(idx).getString("name");
+                    int manacost = assets.getJSONObject(idx).getInt("manacost");
+                    String description = assets.getJSONObject(idx).getString("description");
+                    int effect_intensity = assets.getJSONObject(idx).getInt("effect_intensity");
+
+                    UtilityCardStats utilityCardStats = new UtilityCardStats(name,manacost,description,id);
+                    allCardStats.add(utilityCardStats);
+                }
+                else{
+                    //This statement shouldn't be reached.
+                }
+
+
+
+//                String assetName = assets.getJSONObject(idx).getString("assets");
+//                String name = assets.getJSONObject(idx).getString("name");
+//                String description = assets.getJSONObject(idx).getString("description");
+//                int attack = assets.getJSONObject(idx).getInt("attack");
+//                int defence = assets.getJSONObject(idx).getInt("defence");
+//
+//                CardInformation card = new CardInformation(assetName, name, description, attack, defence);
+//
+//                mCards.add(card);
             }
 
         } catch (JSONException | IllegalArgumentException e) {
