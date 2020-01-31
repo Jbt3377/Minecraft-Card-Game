@@ -1,8 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.DeckClasses;
-
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
-
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
 
@@ -13,40 +12,71 @@ public class DeckManager {
     //Properties
     ////////////
 
-    private HashMap<Integer, Deck> deckStore;
-    Deck playerDeck;
-    Deck aiDeck;
+    ArrayList<CardStats> allCardStats;
 
-    CharacterCardStats c0 = new CharacterCardStats("Cow",3, "Moo", 10, 2);
-    CharacterCardStats c1 = new CharacterCardStats("Dragon",6, "Flame", 20, 6);
-    CharacterCardStats c2 = new CharacterCardStats("Creeper",3, "Boom", 12, 3);
-    CharacterCardStats c3 = new CharacterCardStats("Zombie",1, "Dead", 5, 1);
-    CharacterCardStats c4 = new CharacterCardStats("Pig",1, "Oink", 50, 30);
+    //This is the default deck used by both players.
+    int[] preDefinedDeck0 = new int[] {0,1,2,3,4,5,6};
+    //TODO: Add new pre-defined decks. The numbers match the card id in the AllCardsStats.JSON file. Max size 30?
 
     Stack<CardStats> characterCardStatsStack = new Stack<>();
     Stack<CardStats> specialCardStatsStack = new Stack<>();
 
 
-    public DeckManager() {
-    characterCardStatsStack.push(c0);
-    characterCardStatsStack.push(c1);
-    characterCardStatsStack.push(c2);
-    characterCardStatsStack.push(c3);
-    characterCardStatsStack.push(c4);
-
-    this.playerDeck = new Deck(characterCardStatsStack, specialCardStatsStack);
-    this.aiDeck = new Deck(characterCardStatsStack, specialCardStatsStack);
-    }
-
-
-    public Deck getPlayerDeck(){
-        return playerDeck;
-    }
-
-    public Deck getAiDeck() {
-        return aiDeck;
+    public DeckManager(ArrayList<CardStats> allCardStats) {
+    this.allCardStats = new ArrayList<>(allCardStats);
 
     }
+
+    public Deck getDefaultDeck(){
+        Deck deck = new Deck();
+        for (int i: preDefinedDeck0) {
+            for (CardStats cs: allCardStats) {
+                if(cs.getId() == i){
+                    if(cs instanceof CharacterCardStats){
+                        characterCardStatsStack.push(cs);
+                    }
+                    else{
+                        specialCardStatsStack.push(cs);
+                    }
+                }
+            }
+        }
+        Collections.shuffle(characterCardStatsStack);
+        Collections.shuffle(specialCardStatsStack);
+        deck.setCharacterCardStatsStack(characterCardStatsStack);
+        deck.setSpecialCardStatsStack(specialCardStatsStack);
+        return deck;
+        }
+
+
+    public Deck retrieveDeck(int deckID){
+        Deck deck = new Deck();
+        int deckChoice = deckID;
+
+        switch(deckChoice){
+            case 0:
+                for (int i: preDefinedDeck0) {
+                    for (CardStats cs: allCardStats) {
+                        if(cs.getId() == i){
+                            if(cs instanceof CharacterCardStats){
+                                characterCardStatsStack.push(cs);
+                            }
+                            else{
+                                specialCardStatsStack.push(cs);
+                            }
+                        }
+                    }
+                }
+            default: //Please don't ever reach this line, bugs incoming.....
+        }
+
+        Collections.shuffle(characterCardStatsStack);
+        Collections.shuffle(specialCardStatsStack);
+        deck.setCharacterCardStatsStack(characterCardStatsStack);
+        deck.setSpecialCardStatsStack(specialCardStatsStack);
+        return deck;
+    }
+
 }
 
 

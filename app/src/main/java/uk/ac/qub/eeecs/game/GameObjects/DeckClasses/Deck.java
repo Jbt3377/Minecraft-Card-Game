@@ -16,9 +16,29 @@ public class Deck {
     public Stack<CardStats> specialCardStatsStack;
 
     //TODO: Put in size method for this class to add both sizes of stacks into on integer
-    public Deck(Stack<CardStats> characterCardStatsStack, Stack<CardStats> specialCardStatsStack){
-        this.characterCardStatsStack = characterCardStatsStack;
-        this.specialCardStatsStack = specialCardStatsStack;
+    public Deck(){
+        this.characterCardStatsStack = new Stack<>();
+        this.specialCardStatsStack = new Stack<>();
     }
 
+    /////////////////////
+    //Setters and Getters
+    /////////////////////
+
+
+    public Stack<CardStats> getCharacterCardStatsStack() {
+        return characterCardStatsStack;
+    }
+
+    public void setCharacterCardStatsStack(Stack<CardStats> characterCardStatsStack) {
+        this.characterCardStatsStack = characterCardStatsStack;
+    }
+
+    public Stack<CardStats> getSpecialCardStatsStack() {
+        return specialCardStatsStack;
+    }
+
+    public void setSpecialCardStatsStack(Stack<CardStats> specialCardStatsStack) {
+        this.specialCardStatsStack = specialCardStatsStack;
+    }
 }

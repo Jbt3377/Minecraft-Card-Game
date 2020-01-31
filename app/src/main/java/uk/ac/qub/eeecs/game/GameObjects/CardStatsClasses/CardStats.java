@@ -53,4 +53,8 @@ public abstract class CardStats {
     public void setDescText(String descText) {
         this.descText = descText;
     }
+
+    public int getId() {
+        return id;
+    }
 }

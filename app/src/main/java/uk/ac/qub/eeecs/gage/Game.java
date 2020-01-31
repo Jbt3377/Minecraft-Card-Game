@@ -322,15 +322,18 @@ public abstract class Game extends Fragment {
 
         //Create DeckManager for the game. The players decks are then created using the cards in this library.
 
-        mDeckManager = new DeckManager();
+        mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
+
+
+        mDeckManager = new DeckManager(mAssetManager.getAllCardStats());
 
 
 
 
 
         //Create the two players for the game
-        human  = new Human(mDeckManager.getPlayerDeck());
-        ai = new Ai(mDeckManager.getAiDeck());
+        human  = new Human(mDeckManager.getDefaultDeck());
+        ai = new Ai(mDeckManager.getDefaultDeck());
     }
 
     /*

@@ -13,7 +13,7 @@ public abstract class Player {
     private static final int PLAYER_STARTING_MANA = 2;
 
 
-    private int playerHealth, playerMana;
+    private int playerHealth, playerMana, deckID;
 
     //DeckID is the current Deck ch0sen by the player.
     private Deck selectedDeck;
@@ -24,6 +24,7 @@ public abstract class Player {
     public Player(Deck selectedDeck) {
         this.playerHealth = PLAYER_STARTING_HEALTH;
         this.playerMana = PLAYER_STARTING_MANA;
+        this.deckID = 0;
         this.selectedDeck = selectedDeck;
     }
 

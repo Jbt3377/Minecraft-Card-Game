@@ -46,7 +46,7 @@
       "description": "Oink"
     },
     {
-      "id": 4,
+      "id": 5,
       "type": "EquipCard",
       "name": "Sword",
       "manacost": 3,
@@ -54,7 +54,7 @@
       "effect_intensity": 4
     },
     {
-      "id": 5,
+      "id": 6,
       "type": "UtilityCard",
       "name": "Potion",
       "manacost": 6,

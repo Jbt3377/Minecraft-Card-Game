@@ -70,6 +70,10 @@ public class AssetManager {
      */
     private ArrayList<CardInformation> mCards;
 
+    public ArrayList<CardStats> getAllCardStats() {
+        return allCardStats;
+    }
+
     private ArrayList<CardStats> allCardStats;
 
     /**
