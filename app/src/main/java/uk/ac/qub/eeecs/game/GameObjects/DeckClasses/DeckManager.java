@@ -16,7 +16,7 @@ public class DeckManager {
 
     //This is the default deck used by both players.
     int[] preDefinedDeck0 = new int[] {0,1,2,3,4,5,6};
-    //TODO: Add new pre-defined decks. The numbers match the card id in the AllCardsStats.JSON file. Max size 30?
+    //TODO: Add new pre-defined decks. The numbers match the card id in the AllCardStats.JSON file. Max size 30?
 
     Stack<CardStats> characterCardStatsStack = new Stack<>();
     Stack<CardStats> specialCardStatsStack = new Stack<>();
