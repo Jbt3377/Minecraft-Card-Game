@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
 
 public class MobContainer extends Sprite implements Container {
@@ -71,21 +72,24 @@ public class MobContainer extends Sprite implements Container {
     }
 
 
-    public void checkForNewContents(List<TouchEvent> input, Game mGame){
+    public void checkForNewContents(List<TouchEvent> input, Card selectedCard){
 
         if(this.contType == ContainerType.HUMAN){
-
             for(TouchEvent event: input){
 
                 float x_cor = event.x;
                 float y_cor = convertYAxisToLayerView(event.y);
 
-//                if(mBound.contains(x_cor,y_cor) && ){
-//
-//                }
+                if(mBound.contains(x_cor,y_cor) && event.type == TouchEvent.TOUCH_UP){
 
+                    // if empty
+                    // remove card
+                    // create mob
+
+                    //placeCard(selectedCard);
+
+                }
             }
-
         }else{
             return;
         }

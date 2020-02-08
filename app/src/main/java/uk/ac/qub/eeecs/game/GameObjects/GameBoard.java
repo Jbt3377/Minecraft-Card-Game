@@ -3,7 +3,6 @@ package uk.ac.qub.eeecs.game.GameObjects;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.Button;
 import uk.ac.qub.eeecs.gage.world.GameObject;
@@ -11,7 +10,8 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -24,15 +24,15 @@ public class GameBoard {
     ////////////
 
     //Two players 'sit down' at the board
-    private Player human;
-    private Player ai;
+    private Human human;
+    private Ai ai;
 
     //Two deck objects, one from each player
     private Deck humanDeck;
     private Deck aiDeck;
 
     //Two hands for each player, the cards the currently have in their hand.
-    private ArrayList<Card> playerHand;
+    private ArrayList<Card> humanHand;
     private ArrayList<Card> aiHand;
 
 
@@ -40,7 +40,7 @@ public class GameBoard {
     private GameObject playerLifePointsDisplayBox;
     private GameObject aiLifePointsDisplayBox;
 
-    //Two display boxes to display each players manaPoints
+    //Two display boxes to display each players manaPoints7
     private GameObject playerManaPointsDisplayBox;
     private GameObject aiManaPointsDisplayBox;
 
@@ -67,7 +67,7 @@ public class GameBoard {
     //Constructor
     /////////////
 
-    public GameBoard(Player human, Player ai, GameScreen gameScreen) {
+    public GameBoard(Human human, Ai ai, GameScreen gameScreen) {
         this.human = human;
         this.ai = ai;
         this.gameScreen = gameScreen;
@@ -103,16 +103,18 @@ public class GameBoard {
 
     }
 
+    private void fillHumanHand(){
+
+        int currentNumOfCards = humanHand.size();
+
+
+
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Update & Draw Methods
     ////////////////////////////////////////////////////////////////////////////
 
-
-    public void update() {
-
-        // ToDo: Update Method
-
-    }
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
@@ -123,10 +125,15 @@ public class GameBoard {
 
     }
 
-    public void update(List<TouchEvent> input, Game mGame){
+    public void update(List<TouchEvent> input){
 
-        for(MobContainer container: fieldContainers){
-            container.checkForNewContents(input, mGame);
+        // Only update containers if a touch event occurred
+        if(!input.isEmpty()) {
+
+            for (MobContainer container : fieldContainers) {
+                container.checkForNewContents(input, human.getSelectedCard());
+            }
+
         }
 
     }

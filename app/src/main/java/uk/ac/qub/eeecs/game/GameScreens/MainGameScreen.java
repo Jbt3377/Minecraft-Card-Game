@@ -90,13 +90,11 @@ public class MainGameScreen extends GameScreen {
 
         gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
 
-
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
         mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
-
 
 
         gamePaused = false;
@@ -209,8 +207,93 @@ public class MainGameScreen extends GameScreen {
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
     }
 
+    /**
+     * Method updates buttons and deals with the result of their altered states
+     * @param elapsedTime
+     */
+    private void updateGameButtons(ElapsedTime elapsedTime){
+
+        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        pauseButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        endTurnButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        displayAllCardsButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+
+        // Check 1 - Magnification Mode enabled
+        if (magnificationButton.isToggledOn())
+            mGame.setMagnificationToggled(true);
+        else
+            mGame.setMagnificationToggled(false);
+
+        // Check 2 - Game Screen Switch
+        if (displayAllCardsButton.isPushTriggered()){
+            //Game Screen Display
+            mGame.MenuScreentime = elapsedTime.totalTime;
+            mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
+        }
+
+        // Check 3 - Game Paused
+        if (pauseButton.isPushTriggered())
+            gamePaused = true;
+
+    }
 
 
+    /**
+     * Method draws game buttons
+     * @param elapsedTime
+     * @param graphics2D
+     */
+    private void drawGameButtons(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+
+        // Draw endTurnButton into boardLayerViewport - MMC
+        endTurnButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+
+        // Draw magnification button
+        magnificationButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+        //Draw displayAllCards button
+        displayAllCardsButton.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+    }
+
+
+    /**
+     * Method to setup a paint style for turn counter
+     * @return paint for turn text
+     */
+    private Paint createTurnTextPaint(){
+
+        Paint turnText = new Paint();
+        turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        turnText.setTextSize(mScreenHeight / 32);
+        turnText.setTextAlign(Paint.Align.LEFT);
+        turnText.setColor(Color.WHITE);
+        return turnText;
+
+    }
+
+
+    /**
+     * Method to setup a paint style for fps counter
+     * @return paint for fps text
+     */
+    private Paint createFPSTextPaint(){
+
+        Paint fpsPaint = new Paint();
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(mScreenHeight / 30);
+        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setColor(Color.WHITE);
+        return fpsPaint;
+
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -223,27 +306,11 @@ public class MainGameScreen extends GameScreen {
         fps = (int) mGame.getAverageFramesPerSecond();
         if (!gamePaused) {
 
-
-            //Toggle Button Update
-            magnificationButton(elapsedTime);
+            updateGameButtons(elapsedTime);
 
             // Process any touch events occurring since the last update
             Input input = mGame.getInput();
             List<TouchEvent> touchEventList = input.getTouchEvents();
-
-
-            pauseButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-            if (pauseButton.isPushTriggered())
-                gamePaused = true;
-
-
-            displayAllCardsButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-            if (displayAllCardsButton.isPushTriggered()){
-                //Game Screen Display
-                mGame.MenuScreentime = elapsedTime.totalTime;
-                mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
-
-            }
 
             for (Card c : cardCollection) {
                 //c.processCardTouchEvents(touchEventList, mGame);
@@ -252,15 +319,15 @@ public class MainGameScreen extends GameScreen {
 
 
             for (int i = 0; i < numberOfCards; i++) {
-                cardCollection.get(i).update(elapsedTime);
+                Card currentCard = cardCollection.get(i);
+                currentCard.update(elapsedTime);
+                if(currentCard.getHasBeenSelected()){
+
+                }
             }
             //checks if the pause button was pressed and if it was changes the control variable
 
-
-            //Update the endTurnButton - MMC
-            endTurnButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-
-            gameBoard.update(touchEventList, mGame);
+            gameBoard.update(touchEventList);
 
             EndTurn();
 
@@ -276,67 +343,29 @@ public class MainGameScreen extends GameScreen {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-        graphics2D.clear(Color.WHITE);
-
-        // Draw the background image into boardLayerViewport - MMC
         boardBackground.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
         gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
-        // Displays Cards
         displayCards(elapsedTime, graphics2D);
 
-
-        // Draw endTurnButton into boardLayerViewport - MMC
-        endTurnButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
+        drawGameButtons(elapsedTime, graphics2D);
 
 
-        // Draw magnification button
-        magnificationButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
+        // Draw Turn Counter
+        graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.01f, mScreenHeight * 0.05f, createTurnTextPaint());
 
-
-
-
-        displayCardsButton(elapsedTime, graphics2D);
-
-        //Old title on game screen (Not Required anymore)
-        // Draw text that was loaded
-        /*
-        Paint gameTitle = new Paint();
-        gameTitle.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        gameTitle.setTextSize(mScreenHeight / 16);
-        gameTitle.setTextAlign(Paint.Align.CENTER);
-
-        graphics2D.drawText("Minecraft Card Game", mScreenWidth * 0.5f, mScreenHeight * 0.1f, gameTitle);
-        */
-
-
-        //Load text and font information
-        Paint turnText = new Paint();
-        turnText.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        turnText.setTextSize(mScreenHeight / 32);
-        turnText.setTextAlign(Paint.Align.LEFT);
-        turnText.setColor(Color.WHITE);
-        graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.01f, mScreenHeight * 0.05f, turnText);
-
-        Paint fpsPaint = new Paint();
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
-        fpsPaint.setColor(Color.WHITE);
+        // Draw FPS Counter - if enabled
         if(displayfps)
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.99f, mScreenHeight * 0.05f, fpsPaint);
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.99f, mScreenHeight * 0.05f, createFPSTextPaint());
+
 
         drawPopUps(elapsedTime, graphics2D);
 
 
-        //making use of the control variable defined
+        // Draw Pause Menu / Pause Button - Depending on if game is paused
         if (gamePaused)
             drawPauseMenu(elapsedTime,graphics2D);
         else
@@ -458,13 +487,13 @@ public class MainGameScreen extends GameScreen {
         }
     }
 
-    private void displayCardsButton(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-
-        //Draw displayAllCards button
-        displayAllCardsButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
-    }
+//    private void displayCardsButton(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+//
+//        //Draw displayAllCards button
+//        displayAllCardsButton.draw(elapsedTime, graphics2D,
+//                boardLayerViewport,
+//                mDefaultScreenViewport);
+//    }
 
     private void playBackgroundMusic() {
         AudioManager audioManager = getGame().getAudioManager();

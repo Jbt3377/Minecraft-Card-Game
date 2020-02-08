@@ -59,7 +59,8 @@ public abstract class Game extends Fragment {
     /**
      * The Game has two Players who play the game.
      */
-    private Player human, ai;
+    private Human human;
+    private Ai ai;
 
     /**
      * The Game has a DeckStore that stores all the cards available in the game.
@@ -68,17 +69,17 @@ public abstract class Game extends Fragment {
 
 
     //Team Defined Getters and Setters
-    public Player getHuman() {
+    public Human getHuman() {
         return human;
     }
-    public void setHuman(Player human) {
+    public void setHuman(Human human) {
         this.human = human;
     }
 
-    public Player getAi() {
+    public Ai getAi() {
         return ai;
     }
-    public void setAi(Player ai) {
+    public void setAi(Ai ai) {
         this.ai = ai;
     }
 
