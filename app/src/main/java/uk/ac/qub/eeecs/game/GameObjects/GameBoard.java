@@ -9,6 +9,13 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
@@ -24,8 +31,8 @@ public class GameBoard {
     ////////////
 
     //Two players 'sit down' at the board
-    private Human human;
-    private Ai ai;
+    private Human humanPlayer;
+    private Ai aiPlayer;
 
     //Two deck objects, one from each player
     private Deck humanDeck;
@@ -68,12 +75,27 @@ public class GameBoard {
     /////////////
 
     public GameBoard(Human human, Ai ai, GameScreen gameScreen) {
-        this.human = human;
-        this.ai = ai;
         this.gameScreen = gameScreen;
         this.fieldContainers = new ArrayList<>();
 
+        this.humanPlayer = human;
+        this.aiPlayer = ai;
+
+        this.humanDeck = humanPlayer.getmSelectedDeck();
+        this.aiDeck = ai.getmSelectedDeck();
+
+        humanHand = new ArrayList<Card>();
+        aiHand = new ArrayList<Card>();
+
         setupContainers();
+
+        //fillHumanHand();
+
+        //fillAiHand();
+
+        // Initialise hands
+
+
 
     }
 
@@ -107,6 +129,30 @@ public class GameBoard {
 
         int currentNumOfCards = humanHand.size();
 
+        if(currentNumOfCards == 0){
+
+            // Add 5 Character Cards
+            for(int i = 0; i<5; i++) {
+                CharacterCardStats nextCharCardStats = (CharacterCardStats)humanDeck.popNextCharacterCardStat();
+                CharacterCard nextCharCard = new CharacterCard(200, 200, gameScreen, i, nextCharCardStats);
+                humanHand.add(nextCharCard);
+            }
+
+            // Add 2 Special Cards
+            for(int i=5; i<7; i++){
+
+                CardStats nextSpecialCardStats = humanDeck.popNextSpecialCardStat();
+
+                if (nextSpecialCardStats instanceof EquipCardStats) {
+                    EquipCard nextSpecialCard = new EquipCard(200, 200, gameScreen, i, (EquipCardStats) nextSpecialCardStats);
+                    humanHand.add(nextSpecialCard);
+                }else if(nextSpecialCardStats instanceof UtilityCardStats) {
+                    UtilityCard nextSpecialCard = new UtilityCard(200, 200, gameScreen, i, (UtilityCardStats) nextSpecialCardStats);
+                    humanHand.add(nextSpecialCard);
+                }
+            }
+        }
+
 
 
     }
@@ -123,6 +169,11 @@ public class GameBoard {
             container.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         }
 
+        // Draw Player Hand Cards
+        for(Card cardInHumanHand: humanHand){
+            cardInHumanHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        }
+
     }
 
     public void update(List<TouchEvent> input){
@@ -131,7 +182,7 @@ public class GameBoard {
         if(!input.isEmpty()) {
 
             for (MobContainer container : fieldContainers) {
-                container.checkForNewContents(input, human.getSelectedCard());
+                container.checkForNewContents(input, humanPlayer.getSelectedCard());
             }
 
         }

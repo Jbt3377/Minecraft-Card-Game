@@ -113,7 +113,6 @@ public class OptionsScreen extends GameScreen {
 
 
 
-
         // Draw the back button
         mBackButton.draw(elapsedTime, graphics2D,
                 mDefaultLayerViewport, mDefaultScreenViewport);

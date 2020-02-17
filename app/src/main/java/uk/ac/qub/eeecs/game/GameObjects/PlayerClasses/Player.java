@@ -8,53 +8,59 @@ public abstract class Player {
     //Properties
     ////////////
 
-    //Starting Health and Mana values for all players at object creation.
+    // Starting Health and Mana values for all players
     private static final int PLAYER_STARTING_HEALTH = 20;
     private static final int PLAYER_STARTING_MANA = 2;
 
 
-    private int playerHealth, playerMana;
+    private int mPlayerHealth, mPlayerMana;
+
     //DeckID is the current Deck ch0sen by the player.
-    private int deckID = 0;
+    private Deck mSelectedDeck;
 
     /////////////
     //Constructor
     /////////////
-    public Player() {
-        this.playerHealth = PLAYER_STARTING_HEALTH;
-        this.playerMana = PLAYER_STARTING_MANA;
+
+    public Player(Deck selectedDeck) {
+
+        this.mPlayerHealth = PLAYER_STARTING_HEALTH;
+        this.mPlayerMana = PLAYER_STARTING_MANA;
+        this.mSelectedDeck = selectedDeck;
     }
 
     /////////
     //Methods
     /////////
 
+
+
     /////////////////////
     //Getters and Setters
     /////////////////////
 
 
-    public int getPlayerHealth() {
-        return playerHealth;
+    public int getmPlayerHealth() {
+        return mPlayerHealth;
     }
 
-    public void setPlayerHealth(int playerHealth) {
-        this.playerHealth = playerHealth;
+    public void setmPlayerHealth(int mPlayerHealth) {
+        this.mPlayerHealth = mPlayerHealth;
     }
 
-    public int getPlayerMana() {
-        return playerMana;
+    public int getmPlayerMana() {
+        return mPlayerMana;
     }
 
-    public void setPlayerMana(int playerMana) {
-        this.playerMana = playerMana;
+    public void setmPlayerMana(int mPlayerMana) {
+        this.mPlayerMana = mPlayerMana;
     }
 
-    public int getDeckID() {
-        return deckID;
+    public Deck getmSelectedDeck() {
+        return mSelectedDeck;
     }
 
-    public void setDeckID(int deckID) {
-        this.deckID = deckID;
+    public void setmSelectedDeck(Deck mSelectedDeck) {
+        this.mSelectedDeck = mSelectedDeck;
     }
 }

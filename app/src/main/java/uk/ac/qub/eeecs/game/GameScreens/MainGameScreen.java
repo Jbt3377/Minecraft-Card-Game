@@ -404,8 +404,6 @@ public class MainGameScreen extends GameScreen {
 
     /**
      * Method used to draw cards from card collection - AB
-     * @param elapsedTime
-     * @param graphics2D
      */
     private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         //Draw the cards into cardLayerViewport - AB

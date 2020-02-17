@@ -1,4 +1,4 @@
-package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
+package uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses;
 
 /*
 This class is used to store the details for any given card
@@ -12,15 +12,17 @@ public abstract class CardStats {
     private String name;
     private int manaCost;
     private String descText;
+    int id;
 
     /////////////
     //Constructor
     /////////////
 
-    public CardStats(String name, int manaCost, String descText) {
+    public CardStats(String name, int manaCost, String descText, int id) {
         this.name = name;
         this.manaCost = manaCost;
         this.descText = descText;
+        this.id = id;
     }
 
 
@@ -50,5 +52,9 @@ public abstract class CardStats {
 
     public void setDescText(String descText) {
         this.descText = descText;
+    }
+
+    public int getId() {
+        return id;
     }
 }
