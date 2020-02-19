@@ -56,7 +56,7 @@
     {
       "id": 6,
       "type": "UtilityCard",
-      "name": "Potion",
+      "name": "Potion of Healing",
       "manacost": 6,
       "description": "Heal all by 3 HP",
       "effect_intensity": 3

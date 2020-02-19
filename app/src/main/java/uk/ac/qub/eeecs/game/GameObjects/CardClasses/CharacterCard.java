@@ -1,6 +1,10 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
+import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
 
 public class CharacterCard extends Card {
@@ -9,47 +13,68 @@ public class CharacterCard extends Card {
     //Properties
     ////////////
 
-    private int hp;
-    private int attack;
-    private EquipCard equipCard;
+    private int mHP;
+    private int mAttackDmg;
+    private EquipCard mEquipedCard;
 
 
     /////////////
     //Constructor
     ////////////
 
-    public CharacterCard(float x, float y, GameScreen gameScreen, int index, CharacterCardStats cardStats) {
-        super(x, y, gameScreen, index);
-        this.hp = cardStats.getHp();
-        this.attack = cardStats.getAttack();
-        this.equipCard = null;
+    public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats) {
+        super(x, y, gameScreen, cardStats.getId(), cardStats.getName(), cardStats.getDescText());
+        this.mHP = cardStats.getHp();
+        this.mAttackDmg = cardStats.getAttack();
+        this.mEquipedCard = null;
     }
+
+    /////////
+    //Methods
+    /////////
+
+    /*
+
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
+                     LayerViewport layerViewport, ScreenViewport screenViewport) {
+
+//    //  Draw the attack value
+//    drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
+//               graphics2D, layerViewport, screenViewport);
+//
+//    // Draw the health value
+//    drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
+//               graphics2D, layerViewport, screenViewport);
+
+
+    }
+
+    */
 
     /////////////////////
     //Setters and Getters
     /////////////////////
 
-    public int getHp() {
-        return hp;
+    public int getmHP() {
+        return mHP;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void setmHP(int mHP) {
+        this.mHP = mHP;
     }
 
-    public int getAttack() {
-        return attack;
+    public int getmAttackDmg() { return mAttackDmg; }
+
+    public void setmAttackDmg(int mAttackDmg) {
+        this.mAttackDmg = mAttackDmg;
     }
 
-    public void setAttack(int attack) {
-        this.attack = attack;
+    public EquipCard getmEquipedCard() {
+        return mEquipedCard;
     }
 
-    public EquipCard getEquipCard() {
-        return equipCard;
-    }
-
-    public void setEquipCard(EquipCard equipCard) {
-        this.equipCard = equipCard;
+    public void setmEquipedCard(EquipCard mEquipedCard) {
+        this.mEquipedCard = mEquipedCard;
     }
 }

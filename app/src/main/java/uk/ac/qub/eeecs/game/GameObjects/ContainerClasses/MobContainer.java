@@ -7,6 +7,7 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
@@ -48,10 +49,10 @@ public class MobContainer extends Sprite implements Container {
      * @param placedCard - Card dragged and dropped into container
      * @return - Indicates if Card can be dropped inside the container
      */
-    public boolean placeCard(Card placedCard){
+    public boolean placeCard(CharacterCard placedCard){
 
         if (isEmpty) {
-            containedMob = new Mob(placedCard.getmHealth(), placedCard.getmAttack(), mBound.x,
+            containedMob = new Mob(placedCard.getmHP(), placedCard.getmAttackDmg(), mBound.x,
                     mBound.y, placedCard.getmCardPortrait(), mGameScreen);
             isEmpty = false;
 

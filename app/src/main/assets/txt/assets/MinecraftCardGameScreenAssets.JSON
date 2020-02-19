@@ -8,12 +8,6 @@
 
     {
       "type": "Bitmap",
-      "name": "PotionOfHealing",
-      "file": "img/potion_of_healing.png"
-    },
-
-    {
-      "type": "Bitmap",
       "name": "SplashScreenBackground",
       "file": "img/SpaceBackground.png"
     },
@@ -247,32 +241,44 @@
 
     {
       "type": "Bitmap",
-      "name": "creeper",
+      "name": "Creeper",
       "file": "img/card_creeper.jpg"
     },
 
     {
       "type": "Bitmap",
-      "name": "cow",
+      "name": "Cow",
       "file": "img/card_cow.jpg"
     },
 
     {
       "type": "Bitmap",
-      "name": "dragon",
+      "name": "Dragon",
       "file": "img/card_dragon.jpg"
     },
 
     {
       "type": "Bitmap",
-      "name": "sword",
+      "name": "Sword",
       "file": "img/card_sword.png"
     },
 
     {
       "type": "Bitmap",
-      "name": "PIG",
+      "name": "Zombie",
+      "file": "img/card_zombie.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Pig",
       "file": "img/PIG.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Potion of Healing",
+      "file": "img/card_potion_of_healing.png"
     },
 
     {

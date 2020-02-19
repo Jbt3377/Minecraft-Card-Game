@@ -1250,14 +1250,14 @@ public class HelpScreenInstrumentedMA {
     public void setHelpTextValidInput2Sentence5(){
         helpScreen.setHelpText(2); //Valid input 1, 2 or 3 so 2 is valid
         //should be set to the correct sentence
-        assertTrue(helpScreen.getSentence5() == "you can either attack an opponent directly, if there are no");
+        assertTrue(helpScreen.getSentence5() == "you can either mAttackDmg an opponent directly, if there are no");
     }
 
     @Test
     public void setHelpTextValidInput2Sentence6(){
         helpScreen.setHelpText(2); //Valid input 1, 2 or 3 so 2 is valid
         //should be set to the correct sentence
-        assertTrue(helpScreen.getSentence6() == "monsters, or attack one of their monsters. When attacking");
+        assertTrue(helpScreen.getSentence6() == "monsters, or mAttackDmg one of their monsters. When attacking");
     }
 
     @Test
@@ -1271,7 +1271,7 @@ public class HelpScreenInstrumentedMA {
     public void setHelpTextValidInput2Sentence8(){
         helpScreen.setHelpText(2); //Valid input 1, 2 or 3 so 2 is valid
         //should be set to the correct sentence
-        assertTrue(helpScreen.getSentence8() == "the other monsters' attack value, if the health reaches 0 then");
+        assertTrue(helpScreen.getSentence8() == "the other monsters' mAttackDmg value, if the health reaches 0 then");
     }
 
     @Test
@@ -1341,7 +1341,7 @@ public class HelpScreenInstrumentedMA {
     public void setHelpTextValidInput3Sentence7(){
         helpScreen.setHelpText(3); //Valid input 1, 2 or 3 so 3 is valid
         //should be set to the correct sentence
-        assertTrue(helpScreen.getSentence7() == "Tap on the monster you wish to make an attack with and then tap");
+        assertTrue(helpScreen.getSentence7() == "Tap on the monster you wish to make an mAttackDmg with and then tap");
     }
 
     @Test
@@ -1355,7 +1355,7 @@ public class HelpScreenInstrumentedMA {
     public void setHelpTextValidInput3Sentence9(){
         helpScreen.setHelpText(3); //Valid input 1, 2 or 3 so 3 is valid
         //should be set to the correct sentence
-        assertTrue(helpScreen.getSentence9() == "the attack will be made.");
+        assertTrue(helpScreen.getSentence9() == "the mAttackDmg will be made.");
     }
 
     @Test
@@ -1635,7 +1635,7 @@ public class AiTests {
         myHuman.getHero().setHealth(20);
         myAi.prepAI(myHuman, currentRound);
         for (int i = 0; i < myAi.getInPlay().size(); i++) {
-            ((MonsterCard) myAi.getInPlay().getCard(i)).attack(myHuman);
+            ((MonsterCard) myAi.getInPlay().getCard(i)).mAttackDmg(myHuman);
         }
         myAi.AIheroAttack(false);
         assert (myHuman.getHero().getHealth() == 20);

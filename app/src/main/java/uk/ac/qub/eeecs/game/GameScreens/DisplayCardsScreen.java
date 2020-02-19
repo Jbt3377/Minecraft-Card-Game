@@ -21,6 +21,7 @@ import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 
 
 public class DisplayCardsScreen extends GameScreen {
@@ -154,10 +155,10 @@ public class DisplayCardsScreen extends GameScreen {
 
     //Converts JSON to CardInformation and adds cards to cardCollection
     private void addCardsToList(){
-        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
+        ArrayList<CardStats> cards = mGame.getAssetManager().getAllCardStats();
 
-        for(int i = 0; i < cards.size(); i++){
-            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
+        for(CardStats cardStat: cards){
+            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, cardStat.getId(), cardStat.getName(), cardStat.getDescText());
             cardCollection.add(card);
         }
     }

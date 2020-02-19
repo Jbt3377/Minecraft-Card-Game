@@ -105,7 +105,7 @@ public class CodeSnippets {
                 super.frontBitmap.getHeight(), super.frontBitmap.getConfig());
         Canvas canvas = new Canvas(mergedBitmap);
         canvas.drawBitmap(super.frontBitmap, 0, 0, null);
-        // Layer attack, defense and type on card
+        // Layer mAttackDmg, defense and type on card
         TextPaint paint = new TextPaint();
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
@@ -141,7 +141,7 @@ public class CodeSnippets {
     private void drawAttack(TextPaint paint, Canvas canvas) {
         paint.setColor(Color.RED);
         paint.setTextSize(12);
-        canvas.drawText(attack + "", CardRight, CardBottom, paint);
+        canvas.drawText(mAttackDmg + "", CardRight, CardBottom, paint);
     }
 
 
@@ -396,7 +396,7 @@ protected void drawType(TextPaint paint, Canvas canvas, String symbol) {
 /**
  * Author: Kevin
  */
-// merge images into one - call on constructor and with any subsequent change of attack, mana cost, health from setters
+// merge images into one - call on constructor and with any subsequent change of mAttackDmg, mana cost, health from setters
 //modified from https://www.skoumal.net/en/android-how-draw-text-bitmap/
 private void createCardImage() {
 
@@ -488,9 +488,9 @@ private void createCardImage() {
         canvas.drawText(cost, location.x, location.y, paint);
 
         //ATTACK
-        String attack = Integer.toString(mAttack);
-        location = getTextLocation(paint, ATTACK_X, ATTACK_HEALTH_Y, attack);
-        canvas.drawText(attack, location.x, location.y, paint);
+        String mAttackDmg = Integer.toString(mAttack);
+        location = getTextLocation(paint, ATTACK_X, ATTACK_HEALTH_Y, mAttackDmg);
+        canvas.drawText(mAttackDmg, location.x, location.y, paint);
 
         //HEALTH
         String health = Integer.toString(mHealth);

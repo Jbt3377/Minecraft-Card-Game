@@ -134,10 +134,10 @@ public class MainGameScreen extends GameScreen {
     private void setupBoardGameObjects() {
 
         // Creates list of card objects
-        addCardsToList();
+        //addCardsToList();
 
         // Set position of card objects
-        setPositionCards();
+        //setPositionCards();
 
         // Setup boardBackGround image - MMC
         boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
@@ -314,20 +314,20 @@ public class MainGameScreen extends GameScreen {
 
             for (Card c : cardCollection) {
                 //c.processCardTouchEvents(touchEventList, mGame);
-                Interaction.processDragEvents(touchEventList, c ,mGame);
+                Interaction.processDragEvents(touchEventList, c , mGame);
             }
 
 
-            for (int i = 0; i < numberOfCards; i++) {
-                Card currentCard = cardCollection.get(i);
-                currentCard.update(elapsedTime);
-                if(currentCard.getHasBeenSelected()){
-
-                }
-            }
+//            for (int i = 0; i < numberOfCards; i++) {
+//                Card currentCard = cardCollection.get(i);
+//                currentCard.update(elapsedTime);
+//                if(currentCard.getHasBeenSelected()){
+//
+//                }
+//            }
             //checks if the pause button was pressed and if it was changes the control variable
 
-            gameBoard.update(touchEventList);
+            gameBoard.update(touchEventList, mGame);
 
             EndTurn();
 
@@ -349,7 +349,7 @@ public class MainGameScreen extends GameScreen {
 
         gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
-        displayCards(elapsedTime, graphics2D);
+        //displayCards(elapsedTime, graphics2D);
 
         drawGameButtons(elapsedTime, graphics2D);
 
@@ -380,26 +380,26 @@ public class MainGameScreen extends GameScreen {
     /**
      * Method to add card objects to card collection array list - AB
      */
-    private void addCardsToList(){
-        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
-
-        for(int i = 0; i < cards.size(); i++){
-            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
-            cardCollection.add(card);
-        }
-    }
+//    private void addCardsToList(){
+//        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
+//
+//        for(int i = 0; i < cards.size(); i++){
+//            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
+//            cardCollection.add(card);
+//        }
+//    }
 
 
     /**
      *  Method to set position of cards in card collection array list - AB
      */
-    private void setPositionCards(){
-        //View Port is set to centre of screen - Note view port is not screen size calibrated
-        for(int i = 0; i < numberOfCards; i++){
-            int x = i * 200;  //Variable for distance between cards
-            cardCollection.get(i).setNewPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
-        }
-    }
+//    private void setPositionCards(){
+//        //View Port is set to centre of screen - Note view port is not screen size calibrated
+//        for(int i = 0; i < numberOfCards; i++){
+//            int x = i * 200;  //Variable for distance between cards
+//            cardCollection.get(i).setNewPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
+//        }
+//    }
 
 
     /**

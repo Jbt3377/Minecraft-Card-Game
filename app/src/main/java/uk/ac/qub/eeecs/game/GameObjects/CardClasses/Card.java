@@ -66,13 +66,11 @@ public class Card extends Sprite implements Draggable {
     private Vector2 mPortraitScale = new Vector2(0.55f, 0.55f);
 
 
+    private int cardID;
+    private String cardName;
+    private String cardDescription;
 
-    // Define the health and attack values
-    private int mAttack;
-    private int mHealth;
-
-
-    private Paint cardDescText;
+    private Paint cardDescTextPaint;
 
 
     //Define offsets for moving card
@@ -81,7 +79,7 @@ public class Card extends Sprite implements Draggable {
     //Define if a card has been selected
     private boolean selected;
     private boolean cardFaceUp;
-    public final int FLIP_TIME = 15;
+    private final int FLIP_TIME = 15;
     private int flipTimer;
     private float scale;
     private float cardPortraitWidth;
@@ -98,43 +96,45 @@ public class Card extends Sprite implements Draggable {
      * @param y          Centre x location of the platform
      * @param gameScreen Gamescreen to which this platform belongs
      */
-    public Card(float x, float y, GameScreen gameScreen, int index) {
+    public Card(float x, float y, GameScreen gameScreen, int cardID, String cardName, String cardDescription) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
 
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
 
-        cardFaceUp = true;
+        this.cardID = cardID;
+        this.cardName = cardName;
+        this.cardDescription = cardDescription;
+        this.cardFaceUp = true;
+        this.cardDescTextPaint = setupDescTextPaint(assetManager);
+        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
-        // Store the common card base image
+        // Set the common card base image
         mCardBase = assetManager.getBitmap("CardBackground"); //Factory.getbitmap()
 
-        //Store the common card reverse image
+        // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
 
-        // Store the card portrait image
-        mCardPortrait = assetManager.getBitmap(assetManager.getCards().get(index).getAssetName());
-
-
-        // Store each of the damage/health digits
-        for(int digit = 0; digit <= 9; digit++)
-            mCardDigits[digit] = assetManager.getBitmap(String.valueOf(digit));
-
-        // Set default attack and health values
-        mAttack = assetManager.getCards().get(index).getAttack();
-        mHealth = assetManager.getCards().get(index).getDefence();
-
-
-        cardDescText = new Paint();
-        cardDescText.setTextSize(this.getBound().getWidth()/12);
-        cardDescText.setARGB(255, 255, 255, 255);
-        cardDescText.setTypeface(assetManager.getFont("MinecraftRegFont"));
-        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
+        // Fetch the corresponding bitmap with the card's asset name
+        mCardPortrait = assetManager.getBitmap(cardName);
 
     }
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
     // /////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Method will setup and return a paint object to be used for the Card Description Text.
+     */
+    private Paint setupDescTextPaint(AssetManager assetManager){
+
+        cardDescTextPaint = new Paint();
+        cardDescTextPaint.setTextSize(this.getBound().getWidth()/12);
+        cardDescTextPaint.setARGB(255, 255, 255, 255);
+        cardDescTextPaint.setTypeface(assetManager.getFont("MinecraftRegFont"));
+        return cardDescTextPaint;
+
+    }
 
     /**
      * Draw the game platform
@@ -157,13 +157,6 @@ public class Card extends Sprite implements Draggable {
             mBitmap = mCardBase;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 
-            // Draw the attack value
-            drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
-                    graphics2D, layerViewport, screenViewport);
-
-            // Draw the health value
-            drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
-                    graphics2D, layerViewport, screenViewport);
             drawTextOnCard(graphics2D);
         }
         else{
@@ -175,7 +168,7 @@ public class Card extends Sprite implements Draggable {
 
     private BoundingBox bound = new BoundingBox();
 
-    public String insertNewLines(String text){
+    private String insertNewLines(String text){
         StringBuilder textBuilder = new StringBuilder("");
 
         // Split string into words
@@ -211,13 +204,14 @@ public class Card extends Sprite implements Draggable {
     public void drawTextOnCard(IGraphics2D graphics2D){
         float y = position.y + (getHeight() * 1/10) ;
         float convertedY = convertYAxisToLayerView(y - (mBound.getHeight() * 5 / 25));
-        String testText = insertNewLines("[Name Here]");
-        for(String line : testText.split("\n")) {
+        //String testText = insertNewLines("[Name Here]");
+
+        for(String line : cardDescription.split("\n")) {
 
             graphics2D.drawText(line,
                     position.x - (mBound.getWidth() * 14 / 36),
-                    convertedY += (cardDescText.getTextSize() + 8),
-                    cardDescText);
+                    convertedY += (cardDescTextPaint.getTextSize() + 8),
+                    cardDescTextPaint);
         }
 
     }
@@ -342,7 +336,7 @@ public class Card extends Sprite implements Draggable {
         }
         flipTimer--;
 
-        cardDescText.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
+        cardDescTextPaint.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
     }
 
     ///////////////////
@@ -387,14 +381,6 @@ public class Card extends Sprite implements Draggable {
 
     public Bitmap getmCardPortrait() {
         return mCardPortrait;
-    }
-
-    public int getmAttack() {
-        return mAttack;
-    }
-
-    public int getmHealth() {
-        return mHealth;
     }
 
 }

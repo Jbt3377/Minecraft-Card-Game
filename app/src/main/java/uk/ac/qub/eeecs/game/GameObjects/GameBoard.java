@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.GameObjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.Button;
 import uk.ac.qub.eeecs.gage.world.GameObject;
@@ -23,6 +24,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 
 public class GameBoard {
 
@@ -89,7 +91,7 @@ public class GameBoard {
 
         setupContainers();
 
-        //fillHumanHand();
+        fillHumanHand();
 
         //fillAiHand();
 
@@ -128,26 +130,38 @@ public class GameBoard {
     private void fillHumanHand(){
 
         int currentNumOfCards = humanHand.size();
+        int[][] humanHandPositions = {
+                {400, 130},
+                {600, 130},
+                {800, 130},
+                {1000, 130},
+                {1200, 130},
+                {1400, 130},
+                {1600, 130}
+        };
+        int xPos = 0; int yPos = 1;
 
         if(currentNumOfCards == 0){
 
             // Add 5 Character Cards
             for(int i = 0; i<5; i++) {
+
                 CharacterCardStats nextCharCardStats = (CharacterCardStats)humanDeck.popNextCharacterCardStat();
-                CharacterCard nextCharCard = new CharacterCard(200, 200, gameScreen, i, nextCharCardStats);
+                CharacterCard nextCharCard = new CharacterCard(humanHandPositions[i][xPos], humanHandPositions[i][yPos], gameScreen, nextCharCardStats);
                 humanHand.add(nextCharCard);
             }
 
+
             // Add 2 Special Cards
-            for(int i=5; i<7; i++){
+            for(int i=5; i<7; i++) {
 
                 CardStats nextSpecialCardStats = humanDeck.popNextSpecialCardStat();
 
                 if (nextSpecialCardStats instanceof EquipCardStats) {
-                    EquipCard nextSpecialCard = new EquipCard(200, 200, gameScreen, i, (EquipCardStats) nextSpecialCardStats);
+                    EquipCard nextSpecialCard = new EquipCard(humanHandPositions[i][xPos], humanHandPositions[i][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
                     humanHand.add(nextSpecialCard);
                 }else if(nextSpecialCardStats instanceof UtilityCardStats) {
-                    UtilityCard nextSpecialCard = new UtilityCard(200, 200, gameScreen, i, (UtilityCardStats) nextSpecialCardStats);
+                    UtilityCard nextSpecialCard = new UtilityCard(humanHandPositions[i][xPos], humanHandPositions[i][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
                     humanHand.add(nextSpecialCard);
                 }
             }
@@ -156,6 +170,29 @@ public class GameBoard {
 
 
     }
+
+//    private void drawCharacterCardHuman(){
+//
+//        CharacterCardStats nextCharCardStats = (CharacterCardStats)humanDeck.popNextCharacterCardStat();
+//        CharacterCard nextCharCard = new CharacterCard(200, 200, gameScreen, i, nextCharCardStats);
+//        humanHand.add(nextCharCard);
+//
+//    }
+//
+//
+//    private void drawSpecialCardHuman(){
+//
+//        CardStats nextSpecialCardStats = humanDeck.popNextSpecialCardStat();
+//
+//        if (nextSpecialCardStats instanceof EquipCardStats) {
+//            EquipCard nextSpecialCard = new EquipCard(200, 200, gameScreen, i, (EquipCardStats) nextSpecialCardStats);
+//            humanHand.add(nextSpecialCard);
+//        }else if(nextSpecialCardStats instanceof UtilityCardStats) {
+//            UtilityCard nextSpecialCard = new UtilityCard(200, 200, gameScreen, i, (UtilityCardStats) nextSpecialCardStats);
+//            humanHand.add(nextSpecialCard);
+//        }
+//
+//    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Update & Draw Methods
@@ -176,14 +213,18 @@ public class GameBoard {
 
     }
 
-    public void update(List<TouchEvent> input){
+    public void update(List<TouchEvent> input, Game mGame){
 
-        // Only update containers if a touch event occurred
+
         if(!input.isEmpty()) {
 
-            for (MobContainer container : fieldContainers) {
+            // Update Containers
+            for (MobContainer container : fieldContainers)
                 container.checkForNewContents(input, humanPlayer.getSelectedCard());
-            }
+
+            // Update Cards in respective Hands
+            for (Card c : humanHand)
+                Interaction.processDragEvents(input, c ,mGame);
 
         }
 
