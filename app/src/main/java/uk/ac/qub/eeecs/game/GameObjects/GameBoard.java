@@ -83,8 +83,10 @@ public class GameBoard {
         this.humanPlayer = human;
         this.aiPlayer = ai;
 
-        this.humanDeck = humanPlayer.getmSelectedDeck();
-        this.aiDeck = ai.getmSelectedDeck();
+        // stinky code
+        this.humanDeck = gameScreen.getGame().getmDeckManager().constructDeck(humanPlayer.getmSelectedDeckName());
+        this.aiDeck = gameScreen.getGame().getmDeckManager().constructDeck(aiPlayer.getmSelectedDeckName());
+
 
         humanHand = new ArrayList<Card>();
         aiHand = new ArrayList<Card>();
@@ -93,7 +95,7 @@ public class GameBoard {
 
         fillHumanHand();
 
-        //fillAiHand();
+        replenishAiHand();
 
         // Initialise hands
 
@@ -123,6 +125,12 @@ public class GameBoard {
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*2, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.HUMAN, gameScreen));
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*3, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.HUMAN, gameScreen));
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*4, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.HUMAN, gameScreen));
+
+
+    }
+
+    private void replenishAiHand(){
+
 
 
     }

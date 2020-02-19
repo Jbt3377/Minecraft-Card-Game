@@ -328,20 +328,12 @@ public abstract class Game extends Fragment {
 
         mDeckManager = new DeckManager(mAssetManager.getAllCardStats());
 
-        /*
-        final int DEFAULT_DECK_ID = 0;
-
-        human  = new Human(DEFAULT_DECK_ID);
-        ai = new Ai(DEFAULT_DECK_ID);
-         */
-
         //////////////////////////////////////////////////////////////
 
         final String DEFAULT_DECK_NAME = "Steve's Arsenal";
 
-        // Initialize Players of the Game (assigned default deck)
-        human = new Human(mDeckManager.constructDeck(DEFAULT_DECK_NAME));
-        ai = new Ai(mDeckManager.constructDeck(DEFAULT_DECK_NAME));
+        human = new Human(DEFAULT_DECK_NAME);
+        ai = new Ai(DEFAULT_DECK_NAME);
     }
 
     /*

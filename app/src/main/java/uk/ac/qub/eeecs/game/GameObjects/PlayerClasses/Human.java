@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
 
 
+import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
@@ -11,8 +12,13 @@ public class Human extends Player {
     private Card selectedCard;
     private Mob selectedMob;
 
-    public Human(Deck selectedDeck) {
-        super(selectedDeck);
+
+    /////////////
+    //Constructor
+    /////////////
+
+    public Human(String selectedDeckName) {
+        super(selectedDeckName);
 
         this.selectedCard = null;
         this.selectedMob = null;

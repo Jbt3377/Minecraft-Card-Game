@@ -16,17 +16,17 @@ public abstract class Player {
     private int mPlayerHealth, mPlayerMana;
 
     //DeckID is the current Deck ch0sen by the player.
-    private Deck mSelectedDeck;
+    private String mSelectedDeckName;
 
     /////////////
     //Constructor
     /////////////
 
-    public Player(Deck selectedDeck) {
+    public Player(String selectedDeckName) {
 
         this.mPlayerHealth = PLAYER_STARTING_HEALTH;
         this.mPlayerMana = PLAYER_STARTING_MANA;
-        this.mSelectedDeck = selectedDeck;
+        this.mSelectedDeckName = selectedDeckName;
     }
 
     /////////
@@ -56,11 +56,8 @@ public abstract class Player {
         this.mPlayerMana = mPlayerMana;
     }
 
-    public Deck getmSelectedDeck() {
-        return mSelectedDeck;
-    }
+    public String getmSelectedDeckName() { return mSelectedDeckName; }
 
-    public void setmSelectedDeck(Deck mSelectedDeck) {
-        this.mSelectedDeck = mSelectedDeck;
-    }
+    public void setmSelectedDeckName(String mSelectedDeckName) { this.mSelectedDeckName = mSelectedDeckName; }
+
 }
