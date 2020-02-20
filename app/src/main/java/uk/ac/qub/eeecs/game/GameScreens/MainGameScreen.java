@@ -327,7 +327,7 @@ public class MainGameScreen extends GameScreen {
 //            }
             //checks if the pause button was pressed and if it was changes the control variable
 
-            gameBoard.update(touchEventList, mGame);
+            gameBoard.update(touchEventList);
 
             EndTurn();
 

@@ -333,7 +333,7 @@ public abstract class Game extends Fragment {
         final String DEFAULT_DECK_NAME = "Steve's Arsenal";
 
         human = new Human(DEFAULT_DECK_NAME);
-        ai = new Ai(DEFAULT_DECK_NAME);
+        ai = new Ai("Bane of Herobrine");
     }
 
     /*
