@@ -18,6 +18,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
 /**
@@ -67,9 +68,24 @@ public class Card extends Sprite implements Draggable {
 
 
     private int cardID;
+
+
+
     private String cardName;
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
+    }
+
     private String cardDescription;
 
+
+
+    private int manaCost;
     private Paint cardDescTextPaint;
 
 
@@ -96,11 +112,11 @@ public class Card extends Sprite implements Draggable {
      * @param y          Centre x location of the platform
      * @param gameScreen Gamescreen to which this platform belongs
      */
-    public Card(float x, float y, GameScreen gameScreen, int cardID, String cardName, String cardDescription) {
+    public Card(float x, float y, GameScreen gameScreen, int cardID, String cardName, String cardDescription, int manaCost) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
 
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
-
+        this.manaCost = manaCost;
         this.cardID = cardID;
         this.cardName = cardName;
         this.cardDescription = cardDescription;
@@ -109,7 +125,8 @@ public class Card extends Sprite implements Draggable {
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
         // Set the common card base image
-        mCardBase = assetManager.getBitmap("CardBackground"); //Factory.getbitmap()
+        mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+
 
         // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
@@ -133,7 +150,6 @@ public class Card extends Sprite implements Draggable {
         cardDescTextPaint.setARGB(255, 255, 255, 255);
         cardDescTextPaint.setTypeface(assetManager.getFont("MinecraftRegFont"));
         return cardDescTextPaint;
-
     }
 
     /**
@@ -150,14 +166,12 @@ public class Card extends Sprite implements Draggable {
         flipAnimation();
         if(cardFaceUp) {
             // Draw the portrait
-            drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-                    graphics2D, layerViewport, screenViewport);
+            //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
+              //      graphics2D, layerViewport, screenViewport);
 
             // Draw the card base background
             mBitmap = mCardBase;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-
-            drawTextOnCard(graphics2D);
         }
         else{
             mBitmap = mCardReverse;
@@ -381,6 +395,21 @@ public class Card extends Sprite implements Draggable {
 
     public Bitmap getmCardPortrait() {
         return mCardPortrait;
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
+    public int getManaCost() {
+        return manaCost;
+    }
+
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
     }
 
 }

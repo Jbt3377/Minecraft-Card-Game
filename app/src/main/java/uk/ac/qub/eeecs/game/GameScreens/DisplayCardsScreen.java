@@ -158,7 +158,7 @@ public class DisplayCardsScreen extends GameScreen {
         ArrayList<CardStats> cards = mGame.getAssetManager().getAllCardStats();
 
         for(CardStats cardStat: cards){
-            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, cardStat.getId(), cardStat.getName(), cardStat.getDescText());
+            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, cardStat.getId(), cardStat.getName(), cardStat.getDescText(),cardStat.getManacost());
             cardCollection.add(card);
         }
     }

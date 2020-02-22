@@ -23,7 +23,7 @@ public class CharacterCard extends Card {
     ////////////
 
     public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats) {
-        super(x, y, gameScreen, cardStats.getId(), cardStats.getName(), cardStats.getDescText());
+        super(x, y, gameScreen, cardStats.getId(), cardStats.getName(), cardStats.getDescText(),cardStats.getManacost());
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;

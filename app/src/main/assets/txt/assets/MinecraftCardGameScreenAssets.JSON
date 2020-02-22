@@ -5,6 +5,16 @@
       "name": "CardBackground",
       "file": "img/CardBackground.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "CardBackground_Util",
+      "file": "img/CardBackground_Util.png"
+    },
+    {
+      "type": "Bitmap",
+      "name": "CardBackground_Equip",
+      "file": "img/CardBackground_Equip.png"
+    },
 
     {
       "type": "Bitmap",
