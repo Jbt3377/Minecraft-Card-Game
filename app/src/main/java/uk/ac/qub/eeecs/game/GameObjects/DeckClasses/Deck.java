@@ -19,15 +19,25 @@ public class Deck {
 
 
     ///////////////
-    // Constructor
+    //Constructors
     //////////////
 
-    //TODO: Put in size method for this class to add both sizes of stacks into on integer
+    /** Constructor **/
     public Deck(){
         this.characterCardStatsStack = new Stack<>();
         this.specialCardStatsStack = new Stack<>();
     }
 
+    /** Copy Constructor **/
+    public Deck(Deck deckObjectBeingCloned) {
+        this.characterCardStatsStack = deckObjectBeingCloned.characterCardStatsStack;
+        this.specialCardStatsStack = deckObjectBeingCloned.specialCardStatsStack;
+    }
+
+
+    ///////////////
+    //Methods
+    //////////////
 
     public CardStats popNextCharacterCardStat(){
 
