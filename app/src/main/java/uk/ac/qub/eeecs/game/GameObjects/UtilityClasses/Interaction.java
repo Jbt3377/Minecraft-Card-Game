@@ -10,9 +10,6 @@ public abstract class Interaction {
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game){
 
 
-
-
-
             float touchOffsetX = 0.0f;
             float touchOffsetY = 0.0f;
 

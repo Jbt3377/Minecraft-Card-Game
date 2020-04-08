@@ -6,6 +6,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 
 public class CharacterCard extends Card {
 
@@ -23,10 +24,11 @@ public class CharacterCard extends Card {
     ////////////
 
     public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats) {
-        super(x, y, gameScreen, cardStats.getId(), cardStats.getName(), cardStats.getDescText(),cardStats.getManacost());
+        super(x, y, gameScreen, cardStats);
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;
+        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
 
     /////////

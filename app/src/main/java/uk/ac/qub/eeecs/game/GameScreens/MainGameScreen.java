@@ -312,9 +312,9 @@ public class MainGameScreen extends GameScreen {
             Input input = mGame.getInput();
             List<TouchEvent> touchEventList = input.getTouchEvents();
 
-            for (Card c : cardCollection) {
+            for (Card card : cardCollection) {
                 //c.processCardTouchEvents(touchEventList, mGame);
-                Interaction.processDragEvents(touchEventList, c , mGame);
+                Interaction.processDragEvents(touchEventList, card , mGame);
             }
 
 

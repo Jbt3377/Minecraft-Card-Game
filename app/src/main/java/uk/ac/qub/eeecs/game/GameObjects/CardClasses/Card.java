@@ -18,6 +18,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
@@ -41,91 +42,45 @@ public class Card extends Sprite implements Draggable {
     private static final int DEFAULT_CARD_HEIGHT = 260;
     private static final int TEXT_MAX_LINE_LENGTH = 9;
 
-    // Define the common card base
-    private Bitmap mCardBase;
-
-    //Define card reverse
+    //Bitmap related properties
+    protected Bitmap mCardBase;
     private Bitmap mCardReverse;
-
-    // Define the card portrait image
     private Bitmap mCardPortrait;
 
-    // Define the card digit images
-    private Bitmap[] mCardDigits = new Bitmap[10];
-
-    // Define the offset locations and scaling for the card portrait
-    // card attack and card health values - all measured relative
-    // to the centre of the object as a percentage of object size
-
-    private Vector2 mAttackOffset = new Vector2(-0.68f, -0.84f);
-    private Vector2 mAttackScale = new Vector2(0.1f, 0.1f);
-
-    private Vector2 mHealthOffset = new Vector2(0.72f, -0.84f);
-    private Vector2 mHealthScale = new Vector2(0.1f, 0.1f);
-
-    private Vector2 mPortraitOffset = new Vector2(0.0f, 0.3f);
-    private Vector2 mPortraitScale = new Vector2(0.55f, 0.55f);
-
-
-    private int cardID;
-
-
-
+    //Card stat related properties
     private String cardName;
-
-    public String getCardDescription() {
-        return cardDescription;
-    }
-
-    public void setCardDescription(String cardDescription) {
-        this.cardDescription = cardDescription;
-    }
-
+    private int cardID;
     private String cardDescription;
-
-
-
     private int manaCost;
     private Paint cardDescTextPaint;
 
-
-    //Define offsets for moving card
-    private float touchOffsetX;
-    private float touchOffsetY;
-    //Define if a card has been selected
+    //Touch event related properties
     private boolean selected;
     private boolean cardFaceUp;
     private final int FLIP_TIME = 15;
     private int flipTimer;
     private float scale;
-    private float cardPortraitWidth;
-    private float cardPortraitHeight;
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Create a new platform.
-     *
-     * @param x          Centre y location of the platform
-     * @param y          Centre x location of the platform
-     * @param gameScreen Gamescreen to which this platform belongs
-     */
-    public Card(float x, float y, GameScreen gameScreen, int cardID, String cardName, String cardDescription, int manaCost) {
+    public Card(float x, float y, GameScreen gameScreen, CardStats cardStats) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
 
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
-        this.manaCost = manaCost;
-        this.cardID = cardID;
-        this.cardName = cardName;
-        this.cardDescription = cardDescription;
+        this.manaCost = cardStats.getManacost();
+        this.cardID = cardStats.getId();
+        this.cardName = cardStats.getName();
+        this.cardDescription = cardStats.getDescText();
+
         this.cardFaceUp = true;
         this.cardDescTextPaint = setupDescTextPaint(assetManager);
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
         // Set the common card base image
-        mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+
 
         // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
@@ -181,152 +136,7 @@ public class Card extends Sprite implements Draggable {
 
     private BoundingBox bound = new BoundingBox();
 
-    private String insertNewLines(String text){
-        StringBuilder textBuilder = new StringBuilder("");
-
-        // Split string into words
-        String[] words = text.split(" ");
-
-        int lineLength = 0;
-        for (String word : words)
-        {
-            // Return null if a word exceeds the maximum limit.
-            if (word.length() > TEXT_MAX_LINE_LENGTH)
-            {
-                return null;
-            }
-
-            // If appending this word will exceed the max length, take a new line.
-            if ((lineLength + word.length()) > TEXT_MAX_LINE_LENGTH)
-            {
-                textBuilder.append("\n");
-                lineLength = 0;
-            }
-            // If not appending the first word, add a space first.
-            else if (lineLength > 0)
-            {
-                textBuilder.append(" ");
-            }
-            textBuilder.append(word);
-            lineLength += (word.length() + 1);
-        }
-
-        return textBuilder.toString();
-    }
-
-    public void drawTextOnCard(IGraphics2D graphics2D){
-        float y = position.y + (getHeight() * 1/10) ;
-        float convertedY = convertYAxisToLayerView(y - (mBound.getHeight() * 5 / 25));
-        //String testText = insertNewLines("[Name Here]");
-
-        for(String line : cardDescription.split("\n")) {
-
-            graphics2D.drawText(line,
-                    position.x - (mBound.getWidth() * 14 / 36),
-                    convertedY += (cardDescTextPaint.getTextSize() + 8),
-                    cardDescTextPaint);
-        }
-
-    }
-
-
-    /**
-     * Method to draw out a specified bitmap using a specific offset (relative to the
-     * position of this game object) and scaling (relative to the size of this game
-     * object).
-     *
-     * @param bitmap Bitmap to draw
-     * @param offset Offset vector
-     * @param scale Scaling vector
-     * @param graphics2D     Graphics instance
-     * @param layerViewport  Game layer viewport
-     * @param screenViewport Screen viewport
-     */
-    private void drawBitmap(Bitmap bitmap, Vector2 offset, Vector2 scale,
-        IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
-
-        // Calculate a game layer bound for the bitmap to be drawn
-//        bound.set(position.x + mBound.halfWidth * offset.x,
-//                position.y + mBound.halfHeight * offset.y,
-//                mBound.halfWidth * scale.x,
-//                mBound.halfHeight * scale.y);
-
-        // Calculate the center position of the rotated offset point.
-        double rotation = Math.toRadians(-this.orientation);
-        float diffX = mBound.halfWidth * offset.x;
-        float diffY = mBound.halfHeight * offset.y + 11;
-        float rotatedX = (float)(Math.cos(rotation) * diffX - Math.sin(rotation) * diffY + position.x);
-        float rotatedY = (float)(Math.sin(rotation) * diffX + Math.cos(rotation) * diffY + position.y);
-
-        //Calculate portrait width & height
-        cardPortraitWidth = (mBound.halfWidth * scale.x) * 1.76f;
-        cardPortraitHeight = (mBound.halfHeight * scale.y) * 1.10f;
-
-        // Calculate a game layer bound for the bitmap to be drawn
-        bound.set(rotatedX, rotatedY,
-                cardPortraitWidth, cardPortraitHeight);
-
-        // Draw out the specified bitmap using the calculated bound.
-        // The following code is based on the Sprite's draw method.
-        if (GraphicsHelper.getSourceAndScreenRect(
-                bound, bitmap, layerViewport, screenViewport, drawSourceRect, drawScreenRect)) {
-
-            // Build an appropriate transformation matrix
-            drawMatrix.reset();
-
-            float scaleX = (float) drawScreenRect.width() / (float) drawSourceRect.width();
-            float scaleY = (float) drawScreenRect.height() / (float) drawSourceRect.height();
-            drawMatrix.postScale(scaleX, scaleY);
-
-            drawMatrix.postRotate(orientation, scaleX * bitmap.getWidth()
-                    / 2.0f, scaleY * bitmap.getHeight() / 2.0f);
-
-            drawMatrix.postTranslate(drawScreenRect.left, drawScreenRect.top);
-
-            // Draw the bitmap
-            graphics2D.drawBitmap(bitmap, drawMatrix, null);
-        }
-    }
-            //Card card = new Card("hiya");
-
-
-    //Processes all touch events for the card
-    public void processCardTouchEvents(List<TouchEvent> input, Game mGame) {
-        this.ensureObjectStaysInView(mGame);
-
-        for (TouchEvent t : input) {
-            float x_cor = t.x;
-            float y_cor = convertYAxisToLayerView(t.y);
-
-            //Changes the cardFaceUp boolean if the card is single tapped - MMC
-            if(t.type == TouchEvent.TOUCH_SINGLE_TAP  && mBound.contains(x_cor,y_cor)){
-                if (mGame.isMagnificationToggled()) {
-                    mGame.setMagnifiedCard(this);
-                } else {
-                    flipTimer = FLIP_TIME;
-                }
-            }
-
-            if(mBound.contains(x_cor,y_cor) && t.type == TouchEvent.TOUCH_DOWN){
-                selected = true;
-                touchOffsetX = x_cor - position.x;
-                touchOffsetY = y_cor - position.y;
-            }
-
-            if (t.type ==TouchEvent.TOUCH_LONG_PRESS && mBound.contains(x_cor,y_cor)) {
-            }
-
-            if(t.type == TouchEvent.TOUCH_DRAGGED && selected && !mGame.isMagnificationToggled()){
-                setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
-
-            }
-
-            if(t.type == TouchEvent.TOUCH_UP){
-                selected = false;
-            }
-
-        }
-    }
+    //Card card = new Card("hiya");
 
     public void flipAnimation(){
         //If no animation
@@ -399,16 +209,22 @@ public class Card extends Sprite implements Draggable {
     public String getCardName() {
         return cardName;
     }
-
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
+
     public int getManaCost() {
         return manaCost;
     }
-
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
+    }
+
+    public String getCardDescription() {
+        return cardDescription;
+    }
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
     }
 
 }
