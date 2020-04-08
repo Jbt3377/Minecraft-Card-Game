@@ -1,9 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
@@ -16,7 +14,7 @@ public class CardBitmapFactory {
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
 
         if (card instanceof CharacterCard) {
-            Bitmap characterCardBitmap = returnCharacterCardBitmap(card, gameScreen);
+            Bitmap characterCardBitmap = returnCharacterCardBitmap((CharacterCard) card, gameScreen);
             return characterCardBitmap;
 
         } else if (card instanceof EquipCard) {
