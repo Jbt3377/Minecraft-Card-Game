@@ -34,13 +34,13 @@ public class CardBitmapFactory {
 
     }
 
-    public static Bitmap returnCharacterCardBitmap(Card card, GameScreen gameScreen) {
+    public static Bitmap returnCharacterCardBitmap(CharacterCard card, GameScreen gameScreen) {
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
         String name = card.getCardName();
-        int attackDmg = ((CharacterCard) card).getmAttackDmg();
         int manaCost = card.getManaCost();
-        int healthPoints = ((CharacterCard) card).getmHP();
         String cardDesc = card.getCardDescription();
+        int healthPoints = card.getmHP();
+        int attackDmg = card.getmAttackDmg();
 
         Bitmap background = assetManager.getBitmap("CardBackground");
         int cardWidth = background.getWidth();

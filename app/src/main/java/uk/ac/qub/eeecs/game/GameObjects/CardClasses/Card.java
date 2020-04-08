@@ -127,7 +127,6 @@ public class Card extends Sprite implements Draggable {
         // Set the common card base image
         mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
 
-
         // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
 
