@@ -15,6 +15,11 @@
       "name": "CardBackground_Equip",
       "file": "img/CardBackground_Equip.png"
     },
+    {
+      "type": "Bitmap",
+      "name" : "MobBackground",
+      "file" : "img/CardBackgroundMob.png"
+    },
 
     {
       "type": "Bitmap",

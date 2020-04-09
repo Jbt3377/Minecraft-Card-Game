@@ -7,8 +7,12 @@ import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.gage.engine.audio.Sound;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
@@ -19,38 +23,26 @@ public class Mob extends Sprite {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int healthPoints, attackDamage;
+    private String name;
     private Bitmap mobBitmap;
-    private Rect mobBitmapDrawRect = new Rect();
     private Sound damagedSound, attackSound, deathSound;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Constructor
-     * @param healthPoints - hp of mob
-     * @param attackDamage - damage inflicted by mob
-     * @param creatureBitmap - img of the mob
-     */
-    public Mob(int healthPoints, int attackDamage, float x, float y, Bitmap creatureBitmap, GameScreen gameScreen) {
+    public Mob(float x_cor, float y_cor, GameScreen gameScreen, CharacterCard characterCard) {
 
         // Creates sprite
-        super(x, y, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
-                gameScreen.getGame().getAssetManager().getBitmap("CreatureBorder"), gameScreen);
+        super(x_cor, y_cor, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
+                null, gameScreen);
 
-        this.healthPoints = healthPoints;
-        this.attackDamage = attackDamage;
-        this.mobBitmap = creatureBitmap;
+        this.name = characterCard.getCardName();
+        this.healthPoints = characterCard.getmHP();
+        this.attackDamage = characterCard.getmAttackDmg();
+        this.mobBitmap = CardBitmapFactory.returnMobBitmap(this,gameScreen);
 
-        mobBitmapDrawRect.set(
-                (int) mBound.getLeft(),
-                (int) mBound.getBottom(),
-                (int) mBound.getRight(),
-                (int) position.y);
-
-
-        setEffectVolume(gameScreen);
+        //setEffectVolume(gameScreen);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,14 +64,14 @@ public class Mob extends Sprite {
      * @param x - x axis pos
      * @param y - y axis pos
      */
-    public void setMobPosition(float x, float y){
-        this.setPosition(x,y);
-        this.mobBitmapDrawRect.set(
-                (int) mBound.getLeft(),
-                (int) mBound.getBottom(),
-                (int) mBound.getRight(),
-                (int) position.y);
-    }
+//    public void setMobPosition(float x, float y){
+//        this.setPosition(x,y);
+//        this.mobBitmapDrawRect.set(
+//                (int) mBound.getLeft(),
+//                (int) mBound.getBottom(),
+//                (int) mBound.getRight(),
+//                (int) position.y);
+//    }
 
 
     /**
@@ -136,9 +128,10 @@ public class Mob extends Sprite {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        graphics2D.drawBitmap(mobBitmap, null, mobBitmapDrawRect, null);
-        super.draw(elapsedTime, graphics2D);
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
+        //graphics2D.drawBitmap(mobBitmap, null, mobBitmapDrawRect, null);
+        mBitmap = mobBitmap;
+        super.draw(elapsedTime, graphics2D,layerViewport, screenViewport);
     }
 
 
@@ -165,5 +158,9 @@ public class Mob extends Sprite {
     public Sound getDeathSound(){ return deathSound; }
 
     public void setDeathSound(Sound deathSound){ this.deathSound = deathSound; }
+
+    public String getName(){
+        return this.name;
+    }
 
 }

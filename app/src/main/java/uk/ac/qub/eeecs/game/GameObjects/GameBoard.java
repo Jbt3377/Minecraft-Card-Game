@@ -7,6 +7,9 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
@@ -33,6 +36,8 @@ public class GameBoard {
     private PlayerHand humanHand;
     private PlayerHand aiHand;
 
+    private ArrayList<Mob> player1MobsOnBoard;
+    private ArrayList<Mob> player2MobsOnBoard;
 
     //Two display boxes to display each players lifePoints
     private GameObject playerLifePointsDisplayBox;
@@ -46,6 +51,8 @@ public class GameBoard {
     // GameScreen to which the board belongs to
     private GameScreen gameScreen;
     private ArrayList<MobContainer> fieldContainers;
+
+    private Mob mob1;
 
     //////////////
     //Constructor
@@ -67,6 +74,13 @@ public class GameBoard {
         // Initialise Hands
         humanHand = new PlayerHand(this.humanPlayer, this.humanDeck, gameScreen);
         aiHand = new PlayerHand(this.aiPlayer, this.aiDeck, gameScreen);
+
+        //Initialise both player's Mob ArrayList
+        player1MobsOnBoard = new ArrayList<Mob>();
+        player2MobsOnBoard = new ArrayList<Mob>();
+
+        //Test code - Testing how to create a Mob using a card from player's hand
+        mob1 = new Mob(480, 405,gameScreen, (CharacterCard) humanHand.getPlayerHand().get(0));
 
     }
 
@@ -116,6 +130,7 @@ public class GameBoard {
         // Draw Hands
         humanHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         aiHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        mob1.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
     }
 
     public void update(List<TouchEvent> input){
@@ -128,6 +143,7 @@ public class GameBoard {
             // Update Hands
             humanHand.update(input);
             aiHand.update(input);
+
 
         }
 

@@ -17,12 +17,10 @@ public abstract class Interaction {
                 float x_cor = t.x;
                 float y_cor = game.getScreenHeight() - t.y;
 
-                //Changes the cardFaceUp boolean if the card is single tapped - MMC
+
                 if(t.type == TouchEvent.TOUCH_SINGLE_TAP  && dObj.getBoundingBox().contains(x_cor,y_cor)){
                     if (game.isMagnificationToggled()) {
-
-                    } else {
-                        //flipTimer = FLIP_TIME;
+                        //TODO - Implement zoom functionality
                     }
                 }
 
