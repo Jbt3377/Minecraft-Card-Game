@@ -11,6 +11,8 @@ public class Human extends Player {
 
     private Card selectedCard;
     private Mob selectedMob;
+    private int lifePoints;
+    private int manaPoints;
 
 
     /////////////
@@ -22,6 +24,8 @@ public class Human extends Player {
 
         this.selectedCard = null;
         this.selectedMob = null;
+        this.lifePoints = 1000;
+        this.manaPoints = 100;
     }
 
 
@@ -32,4 +36,20 @@ public class Human extends Player {
     public Mob getSelectedMob() { return selectedMob; }
 
     public void setSelectedMob(Mob selectedMob) { this.selectedMob = selectedMob; }
+
+    public int getLifePoints() {
+        return lifePoints;
+    }
+
+    public void setLifePoints(int lifePoints) {
+        this.lifePoints = lifePoints;
+    }
+
+    public int getManaPoints() {
+        return manaPoints;
+    }
+
+    public void setManaPoints(int manaPoints) {
+        this.manaPoints = manaPoints;
+    }
 }

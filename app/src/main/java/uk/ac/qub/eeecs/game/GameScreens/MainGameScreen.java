@@ -93,7 +93,7 @@ public class MainGameScreen extends GameScreen {
         super("CardScreen", game);
         //Create TurnManager object
         gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
-        turnManager = new TurnManager(gameBoard);
+        turnManager = new TurnManager(gameBoard, game);
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");

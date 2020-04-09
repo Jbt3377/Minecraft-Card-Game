@@ -9,6 +9,7 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 
 
@@ -23,13 +24,15 @@ public class TurnManager {
     private Phase player1PhaseFlag;
     private Phase player2PhaseFlag;
     private boolean isPlayer1Turn;
+    private Game game;
 
 
     //Constructor
-    public TurnManager(GameBoard gameBoard) {
+    public TurnManager(GameBoard gameBoard, Game game) {
         this.gameBoard = gameBoard;
         this.player1PhaseFlag = Phase.SETUP;
         this.player2PhaseFlag = Phase.SETUP;
+        this.game = game;
     }
 
 
@@ -46,8 +49,10 @@ public class TurnManager {
         } else if(player2PhaseFlag == Phase.PREP && player1PhaseFlag == Phase.INACTIVE){
 
         } else if(player1PhaseFlag == Phase.MOVE && player2PhaseFlag == Phase.INACTIVE){
-            gameBoard.getHumanHand().update(input);
-            //gameboard.checkIfContainerFilled
+            //gameBoard.getHumanHand().update(input);
+            for(int i = 0; i < gameBoard.getHumanHand().getPlayerHand().size(); i++){
+                Interaction.moveCardToContainer(input,gameBoard.getHumanHand().getPlayerHand().get(i), game, gameBoard);
+            }
         } else if(player2PhaseFlag == Phase.MOVE && player1PhaseFlag == Phase.INACTIVE){
 
         } else if(player1PhaseFlag == Phase.BATTLE && player2PhaseFlag == Phase.INACTIVE){
