@@ -49,20 +49,20 @@ public class MobContainer extends Sprite implements Container {
      * @param placedCard - Card dragged and dropped into container
      * @return - Indicates if Card can be dropped inside the container
      */
-    public boolean placeCard(CharacterCard placedCard){
-
-        if (isEmpty) {
-            containedMob = new Mob(placedCard.getmHP(), placedCard.getmAttackDmg(), mBound.x,
-                    mBound.y, placedCard.getmCardPortrait(), mGameScreen);
-            isEmpty = false;
-
-            // ToDo: Overlay Mob bitmap on container
-
-            return true;
-        } else
-            return false;
-
-    }
+//    public boolean placeCard(CharacterCard placedCard){
+//
+//        if (isEmpty) {
+//            containedMob = new Mob(placedCard.getmHP(), placedCard.getmAttackDmg(), mBound.x,
+//                    mBound.y, placedCard.getmCardPortrait(), mGameScreen);
+//            isEmpty = false;
+//
+//            // ToDo: Overlay Mob bitmap on container
+//
+//            return true;
+//        } else
+//            return false;
+//
+//    }
 
     /**
      * Method clears container of held mob

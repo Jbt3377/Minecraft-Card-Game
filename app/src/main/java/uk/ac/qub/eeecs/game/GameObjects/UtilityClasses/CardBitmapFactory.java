@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 
 public class CardBitmapFactory {
     public static Bitmap returnBitmap(Card card, GameScreen gameScreen) {
@@ -30,6 +31,66 @@ public class CardBitmapFactory {
         }
 
 
+    }
+
+    public static Bitmap returnMobBitmap(Mob mob, GameScreen gameScreen){
+        AssetManager assetManager = gameScreen.getGame().getAssetManager();
+        String name = mob.getName();
+        int attackDmg = mob.getAttackDamage();
+        int healthPoints = mob.getHealthPoints();
+
+        Bitmap background = assetManager.getBitmap("MobBackground");
+        int cardWidth = background.getWidth();
+        int cardHeight = background.getHeight();
+
+        int portraitXScaling = cardWidth;
+        int portraitYScaling = (int) (cardHeight * 0.8);
+        int portraitXLocation = 0;
+        int portraitYLocation = 0;
+        Bitmap portrait = Bitmap.createScaledBitmap(assetManager.getBitmap(name), portraitXScaling, portraitYScaling, false);
+
+        //Dealing with font for card stats
+        Paint cardStatsFont = new Paint();
+        int cardStatsFontSize = (int) (cardWidth * 0.19);
+        cardStatsFont.setTextSize(cardStatsFontSize);
+        cardStatsFont.setARGB(180, 255, 255, 255);
+        cardStatsFont.setTypeface(assetManager.getFont("MinecraftRegFont"));
+
+
+        //Part of factory dealing with attack damage.
+        int attackDmgXLocation = (int) (cardWidth * 0.10);
+        int attackDmgYLocation = (int) (cardHeight * 0.96);
+
+        //Part of the factory dealing with health points
+        int healthPointsXLocation;
+        if(healthPoints > 9){
+            healthPointsXLocation = (int) (cardWidth * 0.60);
+        }else{
+            healthPointsXLocation = (int) (cardWidth * 0.75);
+        }
+        int healthPointsYLocation = (int) (cardHeight * 0.96);
+
+
+
+
+        //Part of the factory dealing with the description text.
+        Paint cardDescFont = new Paint();
+        int cardDescTextSize = (int) (cardWidth * 0.10);
+        cardDescFont.setTextSize(cardDescTextSize);
+        cardDescFont.setARGB(255, 255, 255, 255);
+        cardDescFont.setTypeface(assetManager.getFont("MinecraftRegFont"));
+
+
+        //All Bitmaps are 'stitched together' below.
+        Bitmap result = Bitmap.createBitmap(cardWidth, cardHeight, background.getConfig());
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(portrait, portraitXLocation, portraitYLocation, null);
+        canvas.drawBitmap(background, 0, 0, null);
+        canvas.drawText(Integer.toString(attackDmg), attackDmgXLocation, attackDmgYLocation, cardStatsFont);
+        canvas.drawText(Integer.toString(healthPoints), healthPointsXLocation, healthPointsYLocation, cardStatsFont);
+
+
+        return result;
     }
 
     public static Bitmap returnCharacterCardBitmap(CharacterCard card, GameScreen gameScreen) {
