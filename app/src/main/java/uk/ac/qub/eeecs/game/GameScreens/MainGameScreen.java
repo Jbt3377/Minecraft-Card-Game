@@ -27,6 +27,7 @@ import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TurnManager;
 
 
 /**
@@ -48,6 +49,9 @@ public class MainGameScreen extends GameScreen {
 
     // Game Board associated with Card Game
     private GameBoard gameBoard;
+
+    //Turn Manager for the Gameboard
+    private TurnManager turnManager;
 
     // MainGameScreen
     private PushButton endTurnButton, displayAllCardsButton, pauseButton;
@@ -87,8 +91,9 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
-
+        //Create TurnManager object
         gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
+        turnManager = new TurnManager(gameBoard);
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
@@ -312,22 +317,13 @@ public class MainGameScreen extends GameScreen {
             Input input = mGame.getInput();
             List<TouchEvent> touchEventList = input.getTouchEvents();
 
-            for (Card card : cardCollection) {
-                //c.processCardTouchEvents(touchEventList, mGame);
-                Interaction.processDragEvents(touchEventList, card , mGame);
-            }
 
-
-//            for (int i = 0; i < numberOfCards; i++) {
-//                Card currentCard = cardCollection.get(i);
-//                currentCard.update(elapsedTime);
-//                if(currentCard.getHasBeenSelected()){
-//
-//                }
-//            }
             //checks if the pause button was pressed and if it was changes the control variable
 
-            gameBoard.update(touchEventList);
+            //gameBoard.update(touchEventList);
+
+            turnManager.update(touchEventList);
+
 
             EndTurn();
 
@@ -338,8 +334,6 @@ public class MainGameScreen extends GameScreen {
 
     }
 
-
-
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
@@ -347,7 +341,9 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
-        gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        turnManager.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
+
+        //gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
         //displayCards(elapsedTime, graphics2D);
 

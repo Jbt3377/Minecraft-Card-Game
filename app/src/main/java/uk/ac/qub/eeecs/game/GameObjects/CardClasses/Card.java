@@ -79,9 +79,6 @@ public class Card extends Sprite implements Draggable {
         this.cardDescTextPaint = setupDescTextPaint(assetManager);
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
-        // Set the common card base image
-
-
         // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
 

@@ -116,12 +116,9 @@ public class GameBoard {
         // Draw Hands
         humanHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         aiHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-
     }
 
     public void update(List<TouchEvent> input){
-
-
         if(!input.isEmpty()) {
 
             // Update Containers
@@ -136,5 +133,51 @@ public class GameBoard {
 
     }
 
+    public Human getHumanPlayer() {
+        return humanPlayer;
+    }
 
+    public void setHumanPlayer(Human humanPlayer) {
+        this.humanPlayer = humanPlayer;
+    }
+
+    public Ai getAiPlayer() {
+        return aiPlayer;
+    }
+
+    public void setAiPlayer(Ai aiPlayer) {
+        this.aiPlayer = aiPlayer;
+    }
+
+    public Deck getHumanDeck() {
+        return humanDeck;
+    }
+
+    public void setHumanDeck(Deck humanDeck) {
+        this.humanDeck = humanDeck;
+    }
+
+    public Deck getAiDeck() {
+        return aiDeck;
+    }
+
+    public void setAiDeck(Deck aiDeck) {
+        this.aiDeck = aiDeck;
+    }
+
+    public PlayerHand getHumanHand() {
+        return humanHand;
+    }
+
+    public void setHumanHand(PlayerHand humanHand) {
+        this.humanHand = humanHand;
+    }
+
+    public PlayerHand getAiHand() {
+        return aiHand;
+    }
+
+    public void setAiHand(PlayerHand aiHand) {
+        this.aiHand = aiHand;
+    }
 }
