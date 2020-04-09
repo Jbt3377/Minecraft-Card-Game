@@ -2,23 +2,27 @@ package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 import java.util.List;
 
+import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 
-enum Phase{
-    INACTIVE, SETUP , PREP , MOVE , BATTLE , END
-}
 
 public class TurnManager {
+
+    enum Phase{
+        INACTIVE, SETUP , PREP , MOVE , BATTLE , END
+    }
 
     //Properties
     private GameBoard gameBoard;
     private Phase player1PhaseFlag;
     private Phase player2PhaseFlag;
+    private boolean isPlayer1Turn;
 
 
     //Constructor
@@ -57,30 +61,49 @@ public class TurnManager {
         }
     }
 
-    public void phaseSetup(){
-        //player1.replenishHand
-        //player2.replenishHand
+
+    private void phaseSetup(){
+
+        // Replenish both player hands
+        gameBoard.getHumanHand().replenishHand();
+        gameBoard.getAiHand().replenishHand();
+
         //setTurnCounter to 1
         //Determine who the first player will be
         player1PhaseFlag = Phase.MOVE;
         player2PhaseFlag = Phase.INACTIVE;
-        //Popup saying whose turn it is
+        isPlayer1Turn = true;
+
+        addStartTurnPopup();
     }
 
-    public void phasePrep(){
-
-    }
-
-    public void phaseMove(){
-
-    }
-
-    public void phaseBattle(){
+    private void phasePrep(){
 
     }
 
-    public void phaseEnd(){
+    private void phaseMove(){
 
+    }
+
+    private void phaseBattle(){
+
+    }
+
+    private void phaseEnd(){
+
+    }
+
+    /**
+     * Method displays a popup message informing the player who's turn it is
+     * TODO: Custom message based of type of player (Human/AI)
+     */
+    private void addStartTurnPopup(){
+        String msg;
+        if(isPlayer1Turn) msg = "Player 1 Turn";
+        else msg = "Player 2 Turn";
+
+        Game mGame = gameBoard.getGameScreen().getGame();
+        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(), 50, msg);
     }
 
 

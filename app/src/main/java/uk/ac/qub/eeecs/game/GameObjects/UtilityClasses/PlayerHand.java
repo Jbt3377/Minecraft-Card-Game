@@ -27,7 +27,7 @@ public class PlayerHand {
     private Player player;
     private ArrayList<Card> playerHand;
     private Deck playersDeck;
-    private int[][] handPositions;
+    private int[][] handPositionsIndex;
     private GameScreen gameScreen;
 
     //////////////
@@ -39,13 +39,10 @@ public class PlayerHand {
         this.player = player;
         this.playersDeck = playersDeck;
         this.playerHand = new ArrayList<>();
-        this.handPositions = new int[7][2];
+        this.handPositionsIndex = new int[7][2];
         this.gameScreen = gameScreen;
 
-        assignPositions();
-
-        setupHand();
-
+        assignHandPositions();
     }
 
     //////////
@@ -56,25 +53,25 @@ public class PlayerHand {
      * Method will identify if the Hand belongs to the Human or Ai and will set the card positions
      * on screen accordingly.
      */
-    private void assignPositions(){
+    private void assignHandPositions(){
 
         if(this.player instanceof Human) {
-            int xPosForCards = 130;
-            int yPosForCards = 400;     // Start Y Pos for Cards
+            int xPosForCards = 130;     // Start X Pos for Human Cards
+            int yPosForCards = 400;     // Start Y Pos for Human Cards
 
             for(int i=0; i<7; i++){
-                handPositions[i][0] = yPosForCards;
-                handPositions[i][1] = xPosForCards;
+                handPositionsIndex[i][0] = yPosForCards;
+                handPositionsIndex[i][1] = xPosForCards;
                 yPosForCards+=200;
             }
         }else if(this.player instanceof Ai){
 
-            int xPosForCards = 1000;
-            int yPosForCards = 800;     // Start Y Pos for Cards
+            int xPosForCards = 1000;    // Start X Pos for Ai Cards
+            int yPosForCards = 800;     // Start Y Pos for Ai Cards
 
             for(int i=0; i<7; i++){
-                handPositions[i][0] = yPosForCards;
-                handPositions[i][1] = xPosForCards;
+                handPositionsIndex[i][0] = yPosForCards;
+                handPositionsIndex[i][1] = xPosForCards;
                 yPosForCards+=200;
             }
         }
@@ -83,38 +80,64 @@ public class PlayerHand {
 
 
     /**
-     * Method will draw the initial 7 cards into the hand
-     * TODO: Method will likely change/adapt with the addition of the replenish() method
-     * TODO: Flip the Ai Cards
+     * Method will replenish a player's hand.
+     * Adds up to 5 Character Cards and 2 Special Cards, while the deck has cards to draw.
      */
-    private void setupHand(){
+    public void replenishHand(){
+
+        // Count variable used to keep track of which card is being created. Used to look up the
+        // corresponding position co-ordinates.
+        int currentCard = 1;
+
+        // Determine how many cards of each type
+        int currentNumOfCharacterCards = 0;
+        int currentNumOfSpecialCards = 0;
+
+        for(Card card: playerHand){
+            if(card instanceof CharacterCard)
+                currentNumOfCharacterCards++;
+            else
+                currentNumOfSpecialCards++;
+        }
 
         int xPos = 0; int yPos = 1;
 
-        // Add 5 Character Cards
-        for(int i = 0; i<5; i++) {
+        // Replenish Character Cards
+        for(int i = currentNumOfCharacterCards; i<5; i++) {
 
-            // Pop next Character Card Stat from Stack
-            CharacterCardStats nextCharCardStats = (CharacterCardStats)playersDeck.popNextCharacterCardStat();
-            CharacterCard nextCharCard = new CharacterCard(handPositions[i][xPos], handPositions[i][yPos], gameScreen, nextCharCardStats);
-            playerHand.add(nextCharCard);
+            try{
+                // Pop next Character Card Stat from Stack
+                CharacterCardStats nextCharCardStats = (CharacterCardStats)playersDeck.popNextCharacterCardStat();
+                CharacterCard nextCharCard = new CharacterCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, nextCharCardStats);
+                playerHand.add(nextCharCard);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            currentCard++;
         }
 
 
-        // Add 2 Special Cards
-        for(int i=5; i<7; i++) {
+        // Replenish Special Cards
+        for(int i=currentNumOfSpecialCards; i<2; i++) {
 
-            // Pop next Special Card Stat from Stack
-            CardStats nextSpecialCardStats = playersDeck.popNextSpecialCardStat();
+            try{
+                // Pop next Special Card Stat from Stack
+                CardStats nextSpecialCardStats = playersDeck.popNextSpecialCardStat();
 
-            // Generate appropriate card type - add to hand
-            if (nextSpecialCardStats instanceof EquipCardStats) {
-                EquipCard nextSpecialCard = new EquipCard(handPositions[i][xPos], handPositions[i][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
-                playerHand.add(nextSpecialCard);
-            }else if(nextSpecialCardStats instanceof UtilityCardStats) {
-                UtilityCard nextSpecialCard = new UtilityCard(handPositions[i][xPos], handPositions[i][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
-                playerHand.add(nextSpecialCard);
+                // Generate appropriate card type and add to hand
+                if (nextSpecialCardStats instanceof EquipCardStats) {
+                    EquipCard nextSpecialCard = new EquipCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
+                    playerHand.add(nextSpecialCard);
+                }else if(nextSpecialCardStats instanceof UtilityCardStats) {
+                    UtilityCard nextSpecialCard = new UtilityCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
+                    playerHand.add(nextSpecialCard);
+                }
+            }catch(Exception e){
+                e.printStackTrace();
             }
+
+            currentCard++;
         }
     }
 

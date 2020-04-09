@@ -10,6 +10,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TextAlignmentUtil;
 
 /**
  * Prompt class drawn using overlapping images, text and buttons.
@@ -62,7 +63,6 @@ public class PopUpObject extends Sprite {
         this.displayTime = displayTime;
         this.textInput = textInput;
         this.movingPopUp = false;
-
         setupTextPaint(gameScreen);
         gameScreen.popUpObjects.add(this);
 
@@ -149,6 +149,9 @@ public class PopUpObject extends Sprite {
         textPaint.setTextAlign(Paint.Align.CENTER);
 
     }
+
+
+
 
 
 

@@ -196,4 +196,8 @@ public class GameBoard {
     public void setAiHand(PlayerHand aiHand) {
         this.aiHand = aiHand;
     }
+
+    public GameScreen getGameScreen() { return gameScreen; }
+
+    public void setGameScreen(GameScreen gameScreen) { this.gameScreen = gameScreen; }
 }
