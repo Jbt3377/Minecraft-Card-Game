@@ -338,7 +338,7 @@ public class MainGameScreen extends GameScreen {
 
             //gameBoard.update(touchEventList);
 
-            turnManager.update(touchEventList);
+            turnManager.update();
 
 
             //EndTurn();

@@ -46,13 +46,13 @@ public class GameBoard {
     private GameObject playerManaPointsDisplayBox;
     private GameObject aiManaPointsDisplayBox;
 
-
     // GameScreen to which the board belongs to
     private GameScreen gameScreen;
-
     private ArrayList<MobContainer> fieldContainers;
 
-    //private Mob mob1;
+    //Boolean to tell which player's turn it is
+    private boolean isPlayer1Turn;
+
 
     //////////////
     //Constructor
@@ -78,9 +78,6 @@ public class GameBoard {
         //Initialise both player's Mob ArrayList
         player1MobsOnBoard = new ArrayList<Mob>();
         player2MobsOnBoard = new ArrayList<Mob>();
-
-        //Test code - Testing how to create a Mob using a card from player's hand
-        //mob1 = new Mob(480, 405,gameScreen, (CharacterCard) player1Hand.getPlayerHand().get(0));
 
     }
 
@@ -232,5 +229,13 @@ public class GameBoard {
 
     public void setPlayer2MobsOnBoard(ArrayList<Mob> player2MobsOnBoard) {
         this.player2MobsOnBoard = player2MobsOnBoard;
+    }
+
+    public boolean isPlayer1Turn() {
+        return isPlayer1Turn;
+    }
+
+    public void setIsPlayer1Turn(boolean player1Turn) {
+        isPlayer1Turn = player1Turn;
     }
 }
