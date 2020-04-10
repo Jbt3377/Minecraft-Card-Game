@@ -2,6 +2,7 @@ package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 import android.text.method.Touch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -101,6 +102,31 @@ public abstract class Interaction {
                 dObj.setHasBeenSelected(false);
             }
         }
+    }
+
+    public static void moveAiCardToContainer(GameBoard gameBoard){
+        ArrayList<MobContainer> aiMobContainers = new ArrayList<MobContainer>();
+        for(MobContainer mobContainer : gameBoard.getFieldContainers()){
+            if(mobContainer.getContType() == MobContainer.ContainerType.AI){
+                aiMobContainers.add(mobContainer);
+            }
+        }
+
+        
+            for (MobContainer mc: aiMobContainers) {
+                for(int i = 0; i < gameBoard.getAiHand().getPlayerHand().size(); i++){
+                    Card card = gameBoard.getAiHand().getPlayerHand().get(i);
+                    if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getAiPlayer().getmPlayerMana()- card.getManaCost() >=0)){
+                    Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
+                    mc.placeCard(mob);
+                    gameBoard.getAiPlayer().setmPlayerMana(gameBoard.getAiPlayer().getmPlayerMana() - card.getManaCost());
+                    gameBoard.getAiHand().getPlayerHand().remove(i);
+                }
+            }
+        }
+
+
+
     }
 }
 

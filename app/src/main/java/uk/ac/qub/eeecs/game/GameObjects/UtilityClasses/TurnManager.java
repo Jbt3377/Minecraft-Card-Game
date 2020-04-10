@@ -11,6 +11,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 
@@ -59,8 +60,16 @@ public class TurnManager {
                 isPlayer1Turn = false;
                 addStartTurnPopup();
                 mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
+
+                //Test code to work on ai movement phase
+                player1PhaseFlag = Phase.INACTIVE;
+                player2PhaseFlag = Phase.MOVE;
             }
+
         } else if(player2PhaseFlag == Phase.MOVE && player1PhaseFlag == Phase.INACTIVE){
+            System.out.println("It is now the AIs turn to move");
+            phaseMoveAi();
+
 
         } else if(player1PhaseFlag == Phase.BATTLE && player2PhaseFlag == Phase.INACTIVE){
 
@@ -104,6 +113,12 @@ public class TurnManager {
     private void phaseEnd(){
 
     }
+
+    private void phaseMoveAi(){
+        Interaction.moveAiCardToContainer(gameBoard);
+    }
+
+
 
     /**
      * Method displays a popup message informing the player who's turn it is
