@@ -88,7 +88,7 @@ public class PlayerHand {
 
         // Count variable used to keep track of which card is being created. Used to look up the
         // corresponding position co-ordinates.
-        int currentCard = 1;
+        int currentCard = 0;
 
         // Determine how many cards of each type
         int currentNumOfCharacterCards = 0;

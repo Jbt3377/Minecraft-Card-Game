@@ -124,14 +124,15 @@ public class TurnManager {
      * Method displays a popup message informing the player who's turn it is
      * TODO: Custom message based of type of player (Human/AI)
      */
-
     private void addStartTurnPopup(){
         String msg;
         if(isPlayer1Turn) msg = "Player 1 Turn";
         else msg = "Player 2 Turn";
 
         Game mGame = gameBoard.getGameScreen().getGame();
-        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(), 100, msg);
+        new PopUpObject(mGame.getScreenWidth() / 2,mGame.getScreenHeight() / 2,
+                mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
+                50, msg);
     }
 
 

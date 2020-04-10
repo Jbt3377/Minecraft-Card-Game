@@ -4,6 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -62,6 +70,10 @@ public class PopUpObject extends Sprite {
 
         this.displayTime = displayTime;
         this.textInput = textInput;
+
+        TextAlignmentUtil util = new TextAlignmentUtil(10, textAlignment.CENTRE);
+        this.textInput = util.alignText(textInput);
+
         this.movingPopUp = false;
         setupTextPaint(gameScreen);
         gameScreen.popUpObjects.add(this);
@@ -81,8 +93,8 @@ public class PopUpObject extends Sprite {
         super(x, y, gameScreen.getGame().getAssetManager().getBitmap("potion_of_healing"), gameScreen);
 
         this.displayTime = displayTime;
-        this.textInput = textInput;
         this.movingPopUp = true;
+        this.textInput = textInput;
 
         setupTextPaint(gameScreen);
 
@@ -123,10 +135,33 @@ public class PopUpObject extends Sprite {
             // Draw: Image
             super.draw(elapsedTime, graphics2D);
 
-            if (textInput != null)
-                // Draw: Text
-                graphics2D.drawText(textInput, position.x, position.y, textPaint);
+            if (textInput != null) {
+                // Draw: Text Centred
+                String[] lines = textInput.split("\n");
+                Set<Integer> setOfYCoOrdinates = new HashSet<>();
+                int numOfLines = lines.length;
 
+                int yCoordinateCount, upper;
+                if(numOfLines % 2 == 0){
+                    yCoordinateCount = 10;
+                    upper = numOfLines;
+                } else{
+                    yCoordinateCount = 0;
+                    upper = numOfLines+1;
+                }
+
+                for (int i = 0; i < (upper / 2); i++) {
+                    setOfYCoOrdinates.add(yCoordinateCount);
+                    setOfYCoOrdinates.add(yCoordinateCount - yCoordinateCount * 2);
+                    yCoordinateCount+=80;
+                }
+
+                Set<Integer> sortedTreeSet = new TreeSet<>(setOfYCoOrdinates);
+                Iterator treeSetIter = sortedTreeSet.iterator();
+
+                for(String line: lines)
+                    graphics2D.drawText(line, position.x, position.y + ((int)treeSetIter.next()), textPaint);
+            }
         }else
             // Draw: Moving Text
             graphics2D.drawText(textInput, position.x, position.y, textPaint);
