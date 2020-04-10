@@ -38,14 +38,6 @@ public class GameBoard {
     private ArrayList<Mob> player1MobsOnBoard;
     private ArrayList<Mob> player2MobsOnBoard;
 
-    //Two display boxes to display each players lifePoints
-    private GameObject playerLifePointsDisplayBox;
-    private GameObject aiLifePointsDisplayBox;
-
-    //Two display boxes to display each players manaPoints7
-    private GameObject playerManaPointsDisplayBox;
-    private GameObject aiManaPointsDisplayBox;
-
     // GameScreen to which the board belongs to
     private GameScreen gameScreen;
     private ArrayList<MobContainer> fieldContainers;
@@ -76,8 +68,8 @@ public class GameBoard {
         player2Hand = new PlayerHand(this.player2, this.player2Deck, gameScreen);
 
         //Initialise both player's Mob ArrayList
-        player1MobsOnBoard = new ArrayList<Mob>();
-        player2MobsOnBoard = new ArrayList<Mob>();
+        player1MobsOnBoard = new ArrayList<>();
+        player2MobsOnBoard = new ArrayList<>();
 
     }
 
@@ -135,6 +127,7 @@ public class GameBoard {
         }
 
         // Draw Selected Mob
+        // TODO: Highlight Outline drawn around selected mob
         if(player1.getSelectedMob() != null){
             // Get selected mob co-ordinates
             // Draw a highlight outline
@@ -151,11 +144,47 @@ public class GameBoard {
             // Update Hands
             player1Hand.update(input);
             player2Hand.update(input);
-
-
         }
 
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // General Getter & Setter Methods
+    ////////////////////////////////////////////////////////////////////////////
+
+    public final Player getActivePlayer(){
+        if(isPlayer1Turn)
+            return player1;
+        else
+            return player2;
+    }
+
+    public final PlayerHand getActivePlayerHand(){
+        if(isPlayer1Turn)
+            return player1Hand;
+        else
+            return player2Hand;
+    }
+
+    public final ArrayList<Mob> getActivePlayersMobsOnBoard(){
+        if(isPlayer1Turn)
+            return player1MobsOnBoard;
+        else
+            return player2MobsOnBoard;
+    }
+
+    public final ArrayList<Mob> getInactivePlayersMobsOnBoard(){
+        if(!isPlayer1Turn)
+            return player1MobsOnBoard;
+        else
+            return player2MobsOnBoard;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Getter & Setter Methods
+    ////////////////////////////////////////////////////////////////////////////
 
     public Player getPlayer1() {
         return player1;
@@ -165,7 +194,9 @@ public class GameBoard {
         this.player1 = player1;
     }
 
-    public Player getPlayer2() { return player2; }
+    public Player getPlayer2() {
+        return player2;
+    }
 
     public void setPlayer2(Ai player2) {
         this.player2 = player2;
@@ -191,21 +222,17 @@ public class GameBoard {
         return player1Hand;
     }
 
-    public void setPlayer1Hand(PlayerHand player1Hand) {
-        this.player1Hand = player1Hand;
-    }
-
     public PlayerHand getPlayer2Hand() {
         return player2Hand;
     }
 
-    public void setPlayer2Hand(PlayerHand player2Hand) {
-        this.player2Hand = player2Hand;
+    public GameScreen getGameScreen() {
+        return gameScreen;
     }
 
-    public GameScreen getGameScreen() { return gameScreen; }
-
-    public void setGameScreen(GameScreen gameScreen) { this.gameScreen = gameScreen; }
+    public void setGameScreen(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
+    }
 
     public ArrayList<MobContainer> getFieldContainers() {
         return fieldContainers;

@@ -329,19 +329,7 @@ public class MainGameScreen extends GameScreen {
 
             updateGameButtons(elapsedTime);
 
-            // Process any touch events occurring since the last update
-            Input input = mGame.getInput();
-            List<TouchEvent> touchEventList = input.getTouchEvents();
-
-
-            //checks if the pause button was pressed and if it was changes the control variable
-
-            //gameBoard.update(touchEventList);
-
             turnManager.update();
-
-
-            //EndTurn();
 
             updatePopUps(elapsedTime);
         } else
@@ -358,10 +346,6 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
         turnManager.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
-
-        //gameBoard.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
-
-        //displayCards(elapsedTime, graphics2D);
 
         drawGameButtons(elapsedTime, graphics2D);
 
@@ -396,31 +380,6 @@ public class MainGameScreen extends GameScreen {
 
 
     /**
-     * Method to add card objects to card collection array list - AB
-     */
-//    private void addCardsToList(){
-//        ArrayList<CardInformation> cards = mGame.getAssetManager().getCards();
-//
-//        for(int i = 0; i < cards.size(); i++){
-//            Card card = new Card(cardLayerViewport.x, cardLayerViewport.y, this, i);
-//            cardCollection.add(card);
-//        }
-//    }
-
-
-    /**
-     *  Method to set position of cards in card collection array list - AB
-     */
-//    private void setPositionCards(){
-//        //View Port is set to centre of screen - Note view port is not screen size calibrated
-//        for(int i = 0; i < numberOfCards; i++){
-//            int x = i * 200;  //Variable for distance between cards
-//            cardCollection.get(i).setNewPosition(cardLayerViewport.x-300 + x, cardLayerViewport.y);
-//        }
-//    }
-
-
-    /**
      * Method used to draw cards from card collection - AB
      */
     private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
@@ -448,15 +407,6 @@ public class MainGameScreen extends GameScreen {
     }
 
 
-
-
-    public boolean EndTurn() {
-        if (endTurnButton.isPushTriggered()) {
-            new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
-            return true;
-        }
-        return false;
-    }
     private void pauseMenuUpdate(ElapsedTime elapsedTime) {
         if (mGame.getInput().getTouchEvents().size() > 0) {
 
