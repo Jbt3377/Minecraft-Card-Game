@@ -6,6 +6,7 @@ import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
@@ -77,15 +78,21 @@ public abstract class Interaction {
             if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for(MobContainer mb : gameBoard.getFieldContainers()) {
                     if (mb.checkForNewContents(touchEvents, dObj)) {
-                        System.out.println("A card has been dropped in this container");
-                        Mob mob = new Mob(mb.getX_location(), mb.getY_location(), gameBoard.getGameScreen(), (CharacterCard) dObj);
-                        gameBoard.getPlayer1MobsOnBoard().add(mob);
-                        mb.placeCard(mob);
-                        game.setCardsSelected(false);
-                        dObj.setHasBeenSelected(false);
                         int index = gameBoard.getHumanHand().getPlayerHand().indexOf(dObj);
-                        gameBoard.getHumanHand().getPlayerHand().remove(index);
-                        System.out.println("Index of lifted card: " + index);
+                        Card card = gameBoard.getHumanHand().getPlayerHand().get(index);
+
+                        if (gameBoard.getHumanPlayer().getmPlayerMana() - card.getManaCost() >= 0) {
+                            System.out.println("A card has been dropped in this container");
+                            Mob mob = new Mob(mb.getX_location(), mb.getY_location(), gameBoard.getGameScreen(), (CharacterCard) dObj);
+                            gameBoard.getPlayer1MobsOnBoard().add(mob);
+                            mb.placeCard(mob);
+                            game.setCardsSelected(false);
+                            dObj.setHasBeenSelected(false);
+
+                            gameBoard.getHumanHand().getPlayerHand().remove(index);
+                            System.out.println("Index of lifted card: " + index);
+                            gameBoard.getHumanPlayer().setmPlayerMana(gameBoard.getHumanPlayer().getmPlayerMana() - card.getManaCost());
+                        }
                     }
                 }
                 System.out.println("No card was dropped into a container");

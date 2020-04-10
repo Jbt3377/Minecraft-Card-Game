@@ -9,8 +9,8 @@ public abstract class Player {
     ////////////
 
     // Starting Health and Mana values for all players
-    private static final int PLAYER_STARTING_HEALTH = 20;
-    private static final int PLAYER_STARTING_MANA = 2;
+    private static final int PLAYER_STARTING_HEALTH = 100;
+    private static final int PLAYER_STARTING_MANA = 10;
 
 
     private int mPlayerHealth, mPlayerMana;

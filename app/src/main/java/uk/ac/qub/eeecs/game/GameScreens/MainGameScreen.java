@@ -53,6 +53,8 @@ public class MainGameScreen extends GameScreen {
     //Turn Manager for the Gameboard
     private TurnManager turnManager;
 
+
+
     // MainGameScreen
     private PushButton endTurnButton, displayAllCardsButton, pauseButton;
     private ToggleButton magnificationButton, fpsToggle;
@@ -67,6 +69,8 @@ public class MainGameScreen extends GameScreen {
     //Turn Number Counter
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
+
+
 
     //Turn Number Counter
     private int turnNumber = 1;
@@ -93,7 +97,7 @@ public class MainGameScreen extends GameScreen {
         super("CardScreen", game);
         //Create TurnManager object
         gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
-        turnManager = new TurnManager(gameBoard, game);
+        turnManager = new TurnManager(gameBoard,this, game);
 
         // Load the various images used by the cards
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
@@ -162,6 +166,9 @@ public class MainGameScreen extends GameScreen {
 
         displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
                 "EndTurnDefault", this);
+
+
+
 
     }
 
@@ -266,6 +273,8 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
+
+
     }
 
 
@@ -299,6 +308,16 @@ public class MainGameScreen extends GameScreen {
         return fpsPaint;
 
     }
+
+    private Paint statsTextPaint(){
+        Paint statsTextPaint = new Paint();
+        statsTextPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        statsTextPaint.setTextSize(mScreenHeight / 30);
+        statsTextPaint.setTextAlign(Paint.Align.RIGHT);
+        statsTextPaint.setColor(Color.WHITE);
+        return statsTextPaint;
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -348,6 +367,12 @@ public class MainGameScreen extends GameScreen {
         //displayCards(elapsedTime, graphics2D);
 
         drawGameButtons(elapsedTime, graphics2D);
+
+        //Draw player and opponent life points and mana points
+        graphics2D.drawText("HP " + gameBoard.getHumanPlayer().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.60f, statsTextPaint());
+        graphics2D.drawText("MP " + gameBoard.getHumanPlayer().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.65f, statsTextPaint());
+        graphics2D.drawText("HP " + gameBoard.getAiPlayer().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.38f, statsTextPaint());
+        graphics2D.drawText("MP " + gameBoard.getAiPlayer().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.43f, statsTextPaint());
 
 
         // Draw Turn Counter
@@ -428,11 +453,12 @@ public class MainGameScreen extends GameScreen {
 
 
 
-    public void EndTurn() {
+    public boolean EndTurn() {
         if (endTurnButton.isPushTriggered()) {
-            turnNumber++;
             new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, getGame().getAssetManager().getBitmap("PopupSign"), this, 50, "Turn Ended");
+            return true;
         }
+        return false;
     }
     private void pauseMenuUpdate(ElapsedTime elapsedTime) {
         if (mGame.getInput().getTouchEvents().size() > 0) {
@@ -506,6 +532,21 @@ public class MainGameScreen extends GameScreen {
     // Getters & Setters
     ////////////////////////////////////////////////////////////////////////////
 
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }
+
+    public PushButton getEndTurnButton() {
+        return endTurnButton;
+    }
+
+    public void setEndTurnButton(PushButton endTurnButton) {
+        this.endTurnButton = endTurnButton;
+    }
 
     }
 
