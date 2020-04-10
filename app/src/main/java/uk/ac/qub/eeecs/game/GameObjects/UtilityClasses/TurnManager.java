@@ -78,7 +78,7 @@ public class TurnManager {
     }
 
     private void phasePrep(){
-
+        
     }
 
     private void phaseMove(){
@@ -103,7 +103,9 @@ public class TurnManager {
         else msg = "Player 2 Turn";
 
         Game mGame = gameBoard.getGameScreen().getGame();
-        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2, mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(), 50, msg);
+        new PopUpObject(mGame.getScreenWidth() / 2,mGame.getScreenHeight() / 2,
+                mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
+                50, msg);
     }
 
 
