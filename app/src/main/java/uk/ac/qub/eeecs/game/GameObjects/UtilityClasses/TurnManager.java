@@ -9,7 +9,9 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
+import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 
 public class TurnManager {
@@ -23,19 +25,22 @@ public class TurnManager {
     private Phase player1PhaseFlag;
     private Phase player2PhaseFlag;
     private boolean isPlayer1Turn;
+    private MainGameScreen mainGameScreen;
+    private Game game;
 
 
     //Constructor
-    public TurnManager(GameBoard gameBoard) {
+    public TurnManager(GameBoard gameBoard, MainGameScreen mainGameScreen, Game game) {
         this.gameBoard = gameBoard;
         this.player1PhaseFlag = Phase.SETUP;
         this.player2PhaseFlag = Phase.SETUP;
+        this.mainGameScreen = mainGameScreen;
+        this.game = game;
     }
 
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport){
         gameBoard.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-
     }
 
     public void update(List< TouchEvent > input){
@@ -46,8 +51,15 @@ public class TurnManager {
         } else if(player2PhaseFlag == Phase.PREP && player1PhaseFlag == Phase.INACTIVE){
 
         } else if(player1PhaseFlag == Phase.MOVE && player2PhaseFlag == Phase.INACTIVE){
-            gameBoard.getHumanHand().update(input);
-            //gameboard.checkIfContainerFilled
+
+            for(int i = 0; i < gameBoard.getHumanHand().getPlayerHand().size(); i++){
+                Interaction.moveCardToContainer(input,gameBoard.getHumanHand().getPlayerHand().get(i), game, gameBoard);
+            }
+            if(mainGameScreen.getEndTurnButton().isPushTriggered()){
+                isPlayer1Turn = false;
+                addStartTurnPopup();
+                mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
+            }
         } else if(player2PhaseFlag == Phase.MOVE && player1PhaseFlag == Phase.INACTIVE){
 
         } else if(player1PhaseFlag == Phase.BATTLE && player2PhaseFlag == Phase.INACTIVE){
@@ -78,7 +90,7 @@ public class TurnManager {
     }
 
     private void phasePrep(){
-        
+
     }
 
     private void phaseMove(){

@@ -13,6 +13,7 @@ public class Human extends Player {
     private Mob selectedMob;
 
 
+
     /////////////
     //Constructor
     /////////////
@@ -32,4 +33,5 @@ public class Human extends Player {
     public Mob getSelectedMob() { return selectedMob; }
 
     public void setSelectedMob(Mob selectedMob) { this.selectedMob = selectedMob; }
+
 }

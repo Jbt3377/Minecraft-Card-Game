@@ -43,7 +43,6 @@ public class PlayerHand {
         this.gameScreen = gameScreen;
 
         assignHandPositions();
-
         replenishHand();
     }
 
@@ -148,7 +147,9 @@ public class PlayerHand {
                      LayerViewport layerViewport, ScreenViewport screenViewport){
 
         for(Card cardInHand: playerHand){
-            cardInHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+            if(cardInHand != null) {
+                cardInHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+            }
         }
     }
 
@@ -156,7 +157,9 @@ public class PlayerHand {
     public void update(List<TouchEvent> input){
 
         for (Card cardInHand : playerHand) {
-            Interaction.processDragEvents(input, cardInHand, gameScreen.getGame());
+            if(cardInHand != null) {
+                Interaction.processDragEvents(input, cardInHand, gameScreen.getGame());
+            }
         }
 
         // TODO: Will add the snap back functionality for when cards released in an invalid region

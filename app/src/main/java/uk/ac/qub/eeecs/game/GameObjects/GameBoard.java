@@ -50,9 +50,10 @@ public class GameBoard {
 
     // GameScreen to which the board belongs to
     private GameScreen gameScreen;
+
     private ArrayList<MobContainer> fieldContainers;
 
-    private Mob mob1;
+    //private Mob mob1;
 
     //////////////
     //Constructor
@@ -80,7 +81,7 @@ public class GameBoard {
         player2MobsOnBoard = new ArrayList<Mob>();
 
         //Test code - Testing how to create a Mob using a card from player's hand
-        mob1 = new Mob(480, 405,gameScreen, (CharacterCard) humanHand.getPlayerHand().get(0));
+        //mob1 = new Mob(480, 405,gameScreen, (CharacterCard) humanHand.getPlayerHand().get(0));
 
     }
 
@@ -127,10 +128,15 @@ public class GameBoard {
         for(MobContainer container: fieldContainers)
             container.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 
+
         // Draw Hands
         humanHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         aiHand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-        mob1.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        for(MobContainer mb : fieldContainers){
+            if(!mb.isEmpty()) {
+                mb.getContainedMob().draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+            }
+        }
     }
 
     public void update(List<TouchEvent> input){
@@ -200,4 +206,28 @@ public class GameBoard {
     public GameScreen getGameScreen() { return gameScreen; }
 
     public void setGameScreen(GameScreen gameScreen) { this.gameScreen = gameScreen; }
+
+    public ArrayList<MobContainer> getFieldContainers() {
+        return fieldContainers;
+    }
+
+    public void setFieldContainers(ArrayList<MobContainer> fieldContainers) {
+        this.fieldContainers = fieldContainers;
+    }
+
+    public ArrayList<Mob> getPlayer1MobsOnBoard() {
+        return player1MobsOnBoard;
+    }
+
+    public void setPlayer1MobsOnBoard(ArrayList<Mob> player1MobsOnBoard) {
+        this.player1MobsOnBoard = player1MobsOnBoard;
+    }
+
+    public ArrayList<Mob> getPlayer2MobsOnBoard() {
+        return player2MobsOnBoard;
+    }
+
+    public void setPlayer2MobsOnBoard(ArrayList<Mob> player2MobsOnBoard) {
+        this.player2MobsOnBoard = player2MobsOnBoard;
+    }
 }

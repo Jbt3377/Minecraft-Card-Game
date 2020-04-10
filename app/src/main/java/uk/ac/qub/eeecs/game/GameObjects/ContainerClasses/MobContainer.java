@@ -23,6 +23,11 @@ public class MobContainer extends Sprite implements Container {
     public enum ContainerType{ HUMAN, AI }
     private ContainerType contType;
 
+
+
+    private float x_location;
+    private float y_location;
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +42,8 @@ public class MobContainer extends Sprite implements Container {
         this.isEmpty = true;
         this.containedMob = null;
         this.contType = contType;
-
+        this.x_location = x;
+        this.y_location = y;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,23 +52,22 @@ public class MobContainer extends Sprite implements Container {
 
     /**
      * Method to occupy Container with placed Card. Creates Mob for Card.
-     * @param placedCard - Card dragged and dropped into container
+
      * @return - Indicates if Card can be dropped inside the container
      */
-//    public boolean placeCard(CharacterCard placedCard){
-//
-//        if (isEmpty) {
-//            containedMob = new Mob(placedCard.getmHP(), placedCard.getmAttackDmg(), mBound.x,
-//                    mBound.y, placedCard.getmCardPortrait(), mGameScreen);
-//            isEmpty = false;
-//
-//            // ToDo: Overlay Mob bitmap on container
-//
-//            return true;
-//        } else
-//            return false;
-//
-//    }
+    public boolean placeCard(Mob mob){
+
+        if (isEmpty) {
+            containedMob = mob;
+            isEmpty = false;
+
+            // ToDo: Overlay Mob bitmap on container
+
+            return true;
+        } else
+            return false;
+
+    }
 
     /**
      * Method clears container of held mob
@@ -73,31 +78,22 @@ public class MobContainer extends Sprite implements Container {
     }
 
 
-    public void checkForNewContents(List<TouchEvent> input, Card selectedCard){
+    public boolean checkForNewContents(List<TouchEvent> input, Draggable dObj) {
 
-        if(this.contType == ContainerType.HUMAN){
-            for(TouchEvent event: input){
+        if (this.contType == ContainerType.HUMAN && isEmpty()) {
+            for (TouchEvent event : input) {
 
                 float x_cor = event.x;
                 float y_cor = convertYAxisToLayerView(event.y);
 
-                if(mBound.contains(x_cor,y_cor) && event.type == TouchEvent.TOUCH_UP){
-
-                    // if empty
-                    // remove card
-                    // create mob
-
-                    //placeCard(selectedCard);
-
+                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
+                    return true;
                 }
             }
-        }else{
-            return;
+
         }
-
+    return false;
     }
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,4 +108,23 @@ public class MobContainer extends Sprite implements Container {
 
     public ContainerType getContType() { return contType; }
 
+    public float getX_location() {
+        return x_location;
+    }
+
+    public void setX_location(float x_location) {
+        this.x_location = x_location;
+    }
+
+    public float getY_location() {
+        return y_location;
+    }
+
+    public void setY_location(float y_location) {
+        this.y_location = y_location;
+    }
+
+    public Mob getContainedMob(){
+        return containedMob;
+    }
 }

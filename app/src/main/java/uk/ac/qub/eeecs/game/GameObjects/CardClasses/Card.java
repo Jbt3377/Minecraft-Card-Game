@@ -62,6 +62,12 @@ public class Card extends Sprite implements Draggable {
     private float scale;
 
 
+
+    //Properties to remember the cards original position if the card is being dragged
+    private float x_original;
+    private float y_original;
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -194,6 +200,26 @@ public class Card extends Sprite implements Draggable {
         return position.y;
     }
 
+    @Override
+    public float getOriginalXPos() {
+        return x_original;
+    }
+
+    @Override
+    public float getOriginalYPos() {
+        return y_original;
+    }
+
+    @Override
+    public void setOriginalXPos(float x_original) {
+        this.x_original = x_original;
+    }
+
+    @Override
+    public void setOriginalYPos(float y_original) {
+        this.y_original = y_original;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters & Setters
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,5 +249,6 @@ public class Card extends Sprite implements Draggable {
     public void setCardDescription(String cardDescription) {
         this.cardDescription = cardDescription;
     }
+
 
 }

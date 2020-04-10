@@ -34,6 +34,25 @@ public interface Draggable {
     Provide a method to change the hasBeenSelected boolean for this object.
      */
 
+    float getOriginalXPos();
+    /*
+    Provide a method to get the cards x position before dragging took place
+     */
+
+    float getOriginalYPos();
+    /*
+    Provide a method to get the cards y position before dragging took place
+     */
+
+    void setOriginalXPos(float xPos);
+    /*
+    Provide a method to set the cards x position before dragging took place
+     */
+
+    void setOriginalYPos(float yPos);
+    /*
+    Provide a method to set the cards y position before dragging took place
+     */
 
 
 }
