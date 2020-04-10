@@ -23,9 +23,11 @@ public class Mob extends Sprite {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int healthPoints, attackDamage;
+    private int id;
     private String name;
     private Bitmap mobBitmap;
     private Sound damagedSound, attackSound, deathSound;
+    private static int nextID = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
@@ -37,6 +39,8 @@ public class Mob extends Sprite {
         super(x_cor, y_cor, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
                 null, gameScreen);
 
+        this.id = Mob.nextID;
+        Mob.nextID++;
         this.name = characterCard.getCardName();
         this.healthPoints = characterCard.getmHP();
         this.attackDamage = characterCard.getmAttackDmg();
@@ -162,5 +166,7 @@ public class Mob extends Sprite {
     public String getName(){
         return this.name;
     }
+
+    public int getId() { return id; }
 
 }

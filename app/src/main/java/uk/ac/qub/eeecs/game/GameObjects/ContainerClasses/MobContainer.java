@@ -20,7 +20,7 @@ public class MobContainer extends Sprite implements Container {
 
     private boolean isEmpty;
     private Mob containedMob;
-    public enum ContainerType{ HUMAN, AI }
+    public enum ContainerType{ BOTTOM_PLAYER, TOP_PLAYER }
     private ContainerType contType;
 
 
@@ -80,7 +80,7 @@ public class MobContainer extends Sprite implements Container {
 
     public boolean checkForNewContents(List<TouchEvent> input, Draggable dObj) {
 
-        if (this.contType == ContainerType.HUMAN && isEmpty()) {
+        if (this.contType == ContainerType.BOTTOM_PLAYER && isEmpty()) {
             for (TouchEvent event : input) {
 
                 float x_cor = event.x;
@@ -90,6 +90,8 @@ public class MobContainer extends Sprite implements Container {
                     return true;
                 }
             }
+
+        }else if(this.contType == ContainerType.TOP_PLAYER){
 
         }
     return false;

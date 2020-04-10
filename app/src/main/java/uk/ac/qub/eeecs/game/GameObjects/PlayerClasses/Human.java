@@ -11,7 +11,7 @@ public class Human extends Player {
 
     private Card selectedCard;
     private Mob selectedMob;
-
+    private Mob targetedMob;
 
 
     /////////////
@@ -23,6 +23,7 @@ public class Human extends Player {
 
         this.selectedCard = null;
         this.selectedMob = null;
+        this.targetedMob = null;
     }
 
 
@@ -33,5 +34,9 @@ public class Human extends Player {
     public Mob getSelectedMob() { return selectedMob; }
 
     public void setSelectedMob(Mob selectedMob) { this.selectedMob = selectedMob; }
+
+    public Mob getTargetedMob() { return targetedMob; }
+
+    public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
 
 }

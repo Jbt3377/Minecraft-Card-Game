@@ -9,7 +9,6 @@ import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
-import uk.ac.qub.eeecs.gage.engine.CardInformation;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
@@ -24,8 +23,6 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TurnManager;
 
@@ -344,7 +341,7 @@ public class MainGameScreen extends GameScreen {
             turnManager.update(touchEventList);
 
 
-            EndTurn();
+            //EndTurn();
 
             updatePopUps(elapsedTime);
         } else
@@ -369,10 +366,10 @@ public class MainGameScreen extends GameScreen {
         drawGameButtons(elapsedTime, graphics2D);
 
         //Draw player and opponent life points and mana points
-        graphics2D.drawText("HP " + gameBoard.getHumanPlayer().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.60f, statsTextPaint());
-        graphics2D.drawText("MP " + gameBoard.getHumanPlayer().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.65f, statsTextPaint());
-        graphics2D.drawText("HP " + gameBoard.getAiPlayer().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.38f, statsTextPaint());
-        graphics2D.drawText("MP " + gameBoard.getAiPlayer().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.43f, statsTextPaint());
+        graphics2D.drawText("HP " + gameBoard.getPlayer1().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.60f, statsTextPaint());
+        graphics2D.drawText("MP " + gameBoard.getPlayer1().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.65f, statsTextPaint());
+        graphics2D.drawText("HP " + gameBoard.getPlayer2().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.38f, statsTextPaint());
+        graphics2D.drawText("MP " + gameBoard.getPlayer2().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.43f, statsTextPaint());
 
 
         // Draw Turn Counter
