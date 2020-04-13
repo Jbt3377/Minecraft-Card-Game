@@ -297,11 +297,19 @@ public class TurnManager {
     }
 
     private void phaseBattleAi() {
+        System.out.println("Ai battle phase reached");
 
-        //Interaction.attackPhaseForAi(gameBoard, mob);
+        if(gameBoard.getActivePlayersMobsOnBoard().isEmpty()){
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.END;
+        }
+
+
 
         player1PhaseFlag = Phase.INACTIVE;
         player2PhaseFlag = Phase.END;
+
+        System.out.println("Ai battle phase ended");
     }
 
     private void phaseEndHuman() {

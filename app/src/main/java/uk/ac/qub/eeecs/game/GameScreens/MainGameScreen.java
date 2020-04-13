@@ -97,9 +97,9 @@ public class MainGameScreen extends GameScreen {
         turnManager = new TurnManager(gameBoard,this, game);
 
         // Load the various images used by the cards
-        mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
+        //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
-        mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
+        //mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
         mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
