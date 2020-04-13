@@ -28,6 +28,7 @@ public class Mob extends Sprite {
     private Sound damagedSound, attackSound, deathSound;
     private boolean hasBeenUsed;
     private static int nextID = 0;
+    private boolean isSelectedToAttack;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
@@ -173,6 +174,14 @@ public class Mob extends Sprite {
 
     public void updateMobBitmap(){
         this.mBitmap = CardBitmapFactory.returnMobBitmap(this, getGameScreen());
+    }
+
+    public boolean isSelectedToAttack() {
+        return isSelectedToAttack;
+    }
+
+    public void setSelectedToAttack(boolean selectedToAttack) {
+        isSelectedToAttack = selectedToAttack;
     }
 
 
