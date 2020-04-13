@@ -87,7 +87,7 @@ public class Mob extends Sprite {
     public void attackTarget(Mob targetedMob) {
 
         // Enemy Mob takes Damage
-        targetedMob.decreaseHP(this.attackDamage);
+        targetedMob.decreaseHP(attackDamage);
         ////attackSound.play();
 
         // Enemy Mob - Death/Damaged Sounds
@@ -114,10 +114,7 @@ public class Mob extends Sprite {
      * @param damageInflicted - Pos/Neg integer input
      */
     private void decreaseHP(int damageInflicted){
-        System.out.println(">>>>> HP Before Attack: " + this.healthPoints);
         this.healthPoints -= damageInflicted;
-        System.out.println(">>>>> HP After Attack: " + this.healthPoints);
-        // (damageInflicted > 0 ? "+" : "-")
 
         new PopUpObject(position.x+70, position.y-190, getGameScreen(), 30,
                 "-" + damageInflicted, 5, true);

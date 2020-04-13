@@ -42,6 +42,9 @@ public class GameBoard {
     private ArrayList<Mob> player1MobsOnBoard;
     private ArrayList<Mob> player2MobsOnBoard;
 
+    private Mob[] player1MobsOnBoardArray;
+    private Mob[] player2MobsOnBoardArray;
+
     // GameScreen to which the board belongs to
     private GameScreen gameScreen;
     private ArrayList<MobContainer> fieldContainers;
@@ -73,6 +76,9 @@ public class GameBoard {
         //Initialise both player's Mob ArrayList
         player1MobsOnBoard = new ArrayList<>();
         player2MobsOnBoard = new ArrayList<>();
+
+        player1MobsOnBoardArray = new Mob[7];
+        player2MobsOnBoardArray = new Mob[7];
 
     }
 
@@ -107,6 +113,7 @@ public class GameBoard {
 
     }
 
+
     ////////////////////////////////////////////////////////////////////////////
     // Update & Draw Methods
     ////////////////////////////////////////////////////////////////////////////
@@ -130,6 +137,8 @@ public class GameBoard {
                 mb.getContainedMob().draw(elapsedTime, graphics2D, layerViewport, screenViewport);
             }
         }
+
+
     }
 
 
@@ -170,6 +179,20 @@ public class GameBoard {
             player1MobsOnBoard = updatedPlayersMobsOnBoard;
         else
             player2MobsOnBoard = updatedPlayersMobsOnBoard;
+    }
+
+    public final Mob[] getActivePlayersMobsOnBoardArray(){
+        if(isPlayer1Turn)
+            return player1MobsOnBoardArray;
+        else
+            return player2MobsOnBoardArray;
+    }
+
+    public final Mob[] getInactivePlayersMobsOnBoardArray(){
+        if(!isPlayer1Turn)
+            return player1MobsOnBoardArray;
+        else
+            return player2MobsOnBoardArray;
     }
 
 

@@ -13,6 +13,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
@@ -177,8 +178,8 @@ public class TurnManager {
         // Check for mob selection
         Interaction.processMobSelection(input, game, gameBoard);
 
-        Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
-        Mob currentlyTargetedMob = ((Human) gameBoard.getActivePlayer()).getTargetedMob();
+        Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+        Mob currentlyTargetedMob = (gameBoard.getActivePlayer()).getTargetedMob();
 
         // Check if selected mob and targeted mob not null
         if((currentlySelectedMob != null) && (currentlyTargetedMob != null)){
@@ -187,24 +188,23 @@ public class TurnManager {
             currentlySelectedMob.attackTarget(currentlyTargetedMob);
             currentlyTargetedMob.updateMobBitmap();
 
-            // Set selected and targeted mobs as null
-            ((Human) gameBoard.getActivePlayer()).setSelectedMobNull();
-            ((Human) gameBoard.getActivePlayer()).setTargetedMobNull();
+            // Reset selected and targeted mobs to null
+            (gameBoard.getActivePlayer()).setSelectedMobNull();
+            (gameBoard.getActivePlayer()).setTargetedMobNull();
 
         }
 
-        // Check for mob death
-        ArrayList<Mob> updatedOpponentMobsOnBoard = new ArrayList<>();
-        for(Mob currentMobToCheck: gameBoard.getInactivePlayersMobsOnBoard()){
+        // Check for Mob death
+        for(MobContainer container: gameBoard.getFieldContainers()){
+            if(!container.isEmpty()){
 
-            // If Mob has died, remove it from their list of mobs on board
-            if(currentMobToCheck.getHealthPoints() > 0){
-                updatedOpponentMobsOnBoard.add(currentMobToCheck);
+                // If mob died, remove from container
+                Mob containedMob = container.getContents();
+                if(containedMob.getHealthPoints() <= 0){
+                    container.emptyContainer();
+                }
             }
         }
-
-        gameBoard.setInactivePlayersMobsOnBoard(updatedOpponentMobsOnBoard);
-
 
         // Check for end turn button clicked
         if (mainGameScreen.getEndTurnButton().isPushTriggered()) {

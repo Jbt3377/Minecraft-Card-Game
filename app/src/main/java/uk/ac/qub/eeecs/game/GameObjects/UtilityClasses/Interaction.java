@@ -63,44 +63,63 @@ public abstract class Interaction {
             // Mob Selection Checks
             if (t.type == TouchEvent.TOUCH_DOWN && gameBoard.getActivePlayer() instanceof Human) {
 
+                // Variables necessary for container type check
+                MobContainer.ContainerType containerTypeForSelection, containerTypeForTargeting;
+                if(gameBoard.isPlayer1Turn()){
+                    containerTypeForSelection = MobContainer.ContainerType.BOTTOM_PLAYER;
+                    containerTypeForTargeting = MobContainer.ContainerType.TOP_PLAYER;
+                }else{
+                    containerTypeForSelection = MobContainer.ContainerType.TOP_PLAYER;
+                    containerTypeForTargeting = MobContainer.ContainerType.BOTTOM_PLAYER;
+                }
+
+
                 // Step 1: Detect a selected mob
-                for (Mob mob : gameBoard.getActivePlayersMobsOnBoard()) {
+                for(MobContainer container: gameBoard.getFieldContainers()){
 
-                    // Check if player mob clicked which hasn't been used yet
-                    if (mob.getBound().contains(x_cor, y_cor) && !mob.hasBeenUsed()) {
+                    if(!container.isEmpty() && container.getContType() == containerTypeForSelection){
 
-                        int clickedMobID = mob.getId();
-                        Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
+                        Mob clickedMob = container.getContents();
+                        if(clickedMob.getBound().contains(x_cor, y_cor) && !clickedMob.hasBeenUsed()){
 
-                        // Check for same mob selected twice, if so deselect
-                        if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
-                            ((Human) gameBoard.getActivePlayer()).setSelectedMob(null);
-                            System.out.println("========== Mob Deselected =========");
-                            break;
-                        }
-                        // Otherwise, set selected mob as currently selected mob
-                        else {
-                            ((Human) gameBoard.getActivePlayer()).setSelectedMob(mob);
-                            System.out.println("========== Mob Selected =========");
-                            break;
+                            int clickedMobID = clickedMob.getId();
+                            Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+
+                            // Check for same mob selected twice, if so deselect
+                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
+                                (gameBoard.getActivePlayer()).setSelectedMob(null);
+                                System.out.println("========== Mob Deselected =========");
+                                break;
+                            }
+                            // Otherwise, set selected mob as currently selected mob
+                            else {
+                                (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
+                                System.out.println("========== Mob Selected =========");
+                                break;
+                            }
                         }
                     }
                 }
 
+
                 // Step 2: Detect a targeted mob
-                Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
-                Mob currentlyTargetedMob = ((Human) gameBoard.getActivePlayer()).getTargetedMob();
+                Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+                Mob currentlyTargetedMob = (gameBoard.getActivePlayer()).getTargetedMob();
                 if(currentlySelectedMob != null && currentlyTargetedMob == null){
 
                     // Check each opponent mob and determine if one was clicked
-                    for(Mob mob: gameBoard.getInactivePlayersMobsOnBoard()){
+                    for(MobContainer container: gameBoard.getFieldContainers()){
 
-                        if(mob.getBound().contains(x_cor, y_cor)){
+                        if(!container.isEmpty() && container.getContType() == containerTypeForTargeting) {
 
-                            // Targeted mob identified, update accordingly
-                            ((Human) gameBoard.getActivePlayer()).setTargetedMob(mob);
-                            System.out.println("========== Mob Targeted =========");
-                            break;
+                            Mob clickedMob = container.getContents();
+                            if (clickedMob.getBound().contains(x_cor, y_cor)) {
+
+                                // Targeted mob identified, update accordingly
+                                (gameBoard.getActivePlayer()).setTargetedMob(clickedMob);
+                                System.out.println("========== Mob Targeted =========");
+                                break;
+                            }
                         }
                     }
 
