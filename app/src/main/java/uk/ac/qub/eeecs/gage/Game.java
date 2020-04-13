@@ -12,10 +12,11 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 
 import android.app.Fragment;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -55,8 +56,10 @@ public abstract class Game extends Fragment {
     /**
      * The Game has two Players who play the game.
      */
-    private Human human;
+    private Human player1;
+    private Human player2;
     private Ai ai;
+    private boolean isPlayer2Human;
 
     /**
      * The Game has a DeckManager that stores all the cards available in the game.
@@ -65,11 +68,18 @@ public abstract class Game extends Fragment {
 
 
     //Team Defined Getters and Setters
-    public Human getHuman() {
-        return human;
+    public Human getPlayer1() {
+        return player1;
     }
-    public void setHuman(Human human) {
-        this.human = human;
+    public void setPlayer1(Human player1) {
+        this.player1 = player1;
+    }
+
+    public Human getPlayer2() {
+        return player2;
+    }
+    public void setPlayer2(Human player2) {
+        this.player2 = player2;
     }
 
     public Ai getAi() {
@@ -77,6 +87,14 @@ public abstract class Game extends Fragment {
     }
     public void setAi(Ai ai) {
         this.ai = ai;
+    }
+
+    public boolean isPlayer2Human() {
+        return isPlayer2Human;
+    }
+
+    public void setPlayer2Human(boolean player2Human) {
+        isPlayer2Human = player2Human;
     }
 
     public DeckManager getmDeckManager(){
@@ -113,14 +131,14 @@ public abstract class Game extends Fragment {
     // /////////////////////////////////////////////////////////////////////////
 
 //added in to create an fps counter
-    private boolean fpsDrawn;
+    private boolean displayFps;
 
-    public boolean isFpsDrawn() {
-        return fpsDrawn;
+    public boolean isDisplayFps() {
+        return displayFps;
     }
 
-    public void setFpsDrawn(boolean fpsDrawn) {
-        this.fpsDrawn = fpsDrawn;
+    public void setDisplayFps(boolean displayFps) {
+        this.displayFps = displayFps;
     }
 
     /**
@@ -304,6 +322,7 @@ public abstract class Game extends Fragment {
 
         // Set Default Volume
         volume = 1;
+        displayFps = false;
 
         // ////////////////////////////////////////////////////////
         // Manager/Service Creation : None-view/context dependent
@@ -331,10 +350,10 @@ public abstract class Game extends Fragment {
         //////////////////////////////////////////////////////////////
 
         final String DEFAULT_DECK_NAME = "Steve's Arsenal";
-
-        human = new Human(DEFAULT_DECK_NAME);
+        player1 = new Human(DEFAULT_DECK_NAME);
+        player2 = new Human(DEFAULT_DECK_NAME);
         ai = new Ai("Bane of Herobrine");
-    }
+        this.isPlayer2Human = false; }
 
     /*
      * (non-Javadoc)

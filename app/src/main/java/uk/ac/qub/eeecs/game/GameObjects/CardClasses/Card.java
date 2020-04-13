@@ -139,8 +139,6 @@ public class Card extends Sprite implements Draggable {
 
     private BoundingBox bound = new BoundingBox();
 
-    //Card card = new Card("hiya");
-
     public void flipAnimation(){
         //If no animation
         if(flipTimer == 0){

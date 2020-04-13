@@ -79,6 +79,12 @@
 
     {
       "type": "Bitmap",
+      "name": "OptionsScreenBackground",
+      "file": "img/GameScreen Backgrounds/OptionsScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "PauseButton",
     "file": "img/PauseButton.png"
     },
@@ -468,6 +474,19 @@
       "type": "Sound",
       "name": "zombie_death",
       "file": "sound/mobSoundEffects/zombie_death.mp3"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ai_avatar",
+      "file": "img/ai_avatar.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "human_avatar",
+      "file": "img/human_avatar.png"
     }
+
   ]
 }

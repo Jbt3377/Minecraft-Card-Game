@@ -1,5 +1,8 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -18,6 +21,9 @@ public class CompanyLogoScreen extends GameScreen {
     private PushButton mBackground;
     private LayerViewport logoLayerViewPort;
     private ScreenViewport logoScreenViewport;
+    private Paint fpsPaint;
+
+
     public CompanyLogoScreen(Game game) {
         super("CompanyLogoScreen", game);
 
@@ -70,5 +76,8 @@ public class CompanyLogoScreen extends GameScreen {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
         mBackground.draw(elapsedTime, graphics2D, logoLayerViewPort, logoScreenViewport);
+
+        if(mGame.isDisplayFps())
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.99f, mScreenHeight * 0.05f, fpsPaint);
     }
 }

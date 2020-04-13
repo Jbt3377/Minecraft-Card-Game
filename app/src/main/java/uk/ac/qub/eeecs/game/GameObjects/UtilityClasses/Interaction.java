@@ -150,6 +150,14 @@ public abstract class Interaction {
             float x_cor = t.x;
             float y_cor = game.getScreenHeight() - t.y;
 
+            // Variables necessary for container type check
+            MobContainer.ContainerType contTypeOfPlayer;
+            if(gameBoard.isPlayer1Turn()){
+                contTypeOfPlayer = MobContainer.ContainerType.BOTTOM_PLAYER;
+            }else{
+                contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
+            }
+
             if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
@@ -165,7 +173,8 @@ public abstract class Interaction {
 
             if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for(MobContainer mb : gameBoard.getFieldContainers()) {
-                    if (mb.checkForNewContents(touchEvents, dObj)) {
+                    
+                    if (mb.checkForNewContents(touchEvents, dObj) && mb.getContType() == contTypeOfPlayer) {
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 

@@ -34,7 +34,7 @@ public class PlayerHand {
     // Constructor
     //////////////
 
-    public PlayerHand(Player player, Deck playersDeck, GameScreen gameScreen){
+    public PlayerHand(Player player, Deck playersDeck, Boolean isPlayer1, GameScreen gameScreen){
 
         this.player = player;
         this.playersDeck = playersDeck;
@@ -42,7 +42,7 @@ public class PlayerHand {
         this.handPositionsIndex = new int[7][2];
         this.gameScreen = gameScreen;
 
-        assignHandPositions();
+        assignHandPositions(isPlayer1);
         replenishHand();
     }
 
@@ -54,9 +54,9 @@ public class PlayerHand {
      * Method will identify if the Hand belongs to the Human or Ai and will set the card positions
      * on screen accordingly.
      */
-    private void assignHandPositions(){
+    private void assignHandPositions(Boolean isPlayer1){
 
-        if(this.player instanceof Human) {
+        if(isPlayer1) {
             int xPosForCards = 130;     // Start X Pos for Human Cards
             int yPosForCards = 400;     // Start Y Pos for Human Cards
 
@@ -65,7 +65,7 @@ public class PlayerHand {
                 handPositionsIndex[i][1] = xPosForCards;
                 yPosForCards+=200;
             }
-        }else if(this.player instanceof Ai){
+        }else{
 
             int xPosForCards = 1000;    // Start X Pos for Ai Cards
             int yPosForCards = 800;     // Start Y Pos for Ai Cards

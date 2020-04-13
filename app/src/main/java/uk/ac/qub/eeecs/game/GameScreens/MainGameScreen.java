@@ -5,15 +5,11 @@ import android.graphics.Paint;
 
 import java.util.ArrayList;
 
-import java.util.List;
-
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.engine.input.Input;
-import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.util.Vector2;
@@ -23,7 +19,6 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TurnManager;
 
 
@@ -75,11 +70,10 @@ public class MainGameScreen extends GameScreen {
 
     //Pause menu
     private PushButton unpauseButton, exitButton,volumeButton;
-    private int fps;
     private int volumecounter = 1;
     private Sprite pauseScreen;
     private Paint pausePaint;
-    public boolean gamePaused, displayfps;
+    public boolean gamePaused;
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -92,9 +86,16 @@ public class MainGameScreen extends GameScreen {
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
-        //Create TurnManager object
-        gameBoard = new GameBoard(game.getHuman(), game.getAi(), this);
+
+        // GameBoard Constructor dependent on  type of opponent selected
+        if(game.isPlayer2Human())
+            gameBoard = new GameBoard(game.getPlayer1(), game.getPlayer2(), this);
+        else
+            gameBoard = new GameBoard(game.getPlayer1(), game.getAi(), this);
+
+        // Turn Manager Instantiated
         turnManager = new TurnManager(gameBoard,this, game);
+
 
         // Load the various images used by the cards
         //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
@@ -104,7 +105,6 @@ public class MainGameScreen extends GameScreen {
 
 
         gamePaused = false;
-        displayfps = false;
 
         setupViewPorts();
 
@@ -186,8 +186,13 @@ public class MainGameScreen extends GameScreen {
         volumeButton = new PushButton(mScreenWidth / 1.3f, mScreenHeight* 0.4700f,mScreenWidth* 0.23f, mScreenHeight* 0.18f,
                 "PauseButton",  this);
 
-        fpsToggle = new ToggleButton(mScreenWidth  / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
-                "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+        if(mGame.isDisplayFps()){
+            fpsToggle = new ToggleButton(mScreenWidth / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
+                    "ToggleOn", "ToggleOn", "ToggleOff", "ToggleOff", this);
+        }else {
+            fpsToggle = new ToggleButton(mScreenWidth / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
+                    "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+        }
 
 
         // Setting up some paints
@@ -290,22 +295,6 @@ public class MainGameScreen extends GameScreen {
 
     }
 
-
-    /**
-     * Method to setup a paint style for fps counter
-     * @return paint for fps text
-     */
-    private Paint createFPSTextPaint(){
-
-        Paint fpsPaint = new Paint();
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
-        fpsPaint.setColor(Color.WHITE);
-        return fpsPaint;
-
-    }
-
     private Paint statsTextPaint(){
         Paint statsTextPaint = new Paint();
         statsTextPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -313,6 +302,15 @@ public class MainGameScreen extends GameScreen {
         statsTextPaint.setTextAlign(Paint.Align.RIGHT);
         statsTextPaint.setColor(Color.WHITE);
         return statsTextPaint;
+    }
+
+    private Paint fpsPaint(){
+        Paint fpsPaint = new Paint();
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(mScreenHeight / 30);
+        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setColor(Color.WHITE);
+        return fpsPaint;
     }
 
 
@@ -360,8 +358,8 @@ public class MainGameScreen extends GameScreen {
         graphics2D.drawText("Turn Number: " + turnNumber, mScreenWidth * 0.01f, mScreenHeight * 0.05f, createTurnTextPaint());
 
         // Draw FPS Counter - if enabled
-        if(displayfps)
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.99f, mScreenHeight * 0.05f, createFPSTextPaint());
+        if(mGame.isDisplayFps())
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint());
 
 
         drawPopUps(elapsedTime, graphics2D);
@@ -374,8 +372,6 @@ public class MainGameScreen extends GameScreen {
             pauseButton.draw(elapsedTime, graphics2D,
                     boardLayerViewport,
                     mDefaultScreenViewport);
-
-
     }
 
 
@@ -398,11 +394,9 @@ public class MainGameScreen extends GameScreen {
 
         if (magnificationButton.isToggledOn()) {
                 mGame.setMagnificationToggled(true);
-
             }
             else {
                 mGame.setMagnificationToggled(false);
-
             }
     }
 
@@ -415,6 +409,13 @@ public class MainGameScreen extends GameScreen {
             exitButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
             volumeButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
 
+            // Update displayFps flag
+            if(fpsToggle.isToggledOn()){
+                mGame.setDisplayFps(true);
+            }else{
+                mGame.setDisplayFps(false);
+            }
+
             if (unpauseButton.isPushTriggered())
                 gamePaused = false;
 
@@ -422,11 +423,6 @@ public class MainGameScreen extends GameScreen {
                 mGame.getAudioManager().stopMusic();
                 mGame.getScreenManager().removeScreen(this);
             }
-
-            if (fpsToggle.isToggledOn()) {
-               displayfps = true;
-            }else
-                displayfps =false;
 
             if(volumeButton.isPushTriggered()){
 
