@@ -1,6 +1,9 @@
 package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
 
+import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 
@@ -24,6 +27,18 @@ public abstract class Player {
     private Mob selectedMob;
     private Mob targetedMob;
 
+    int selectedAiContainerIndex;
+    int selectedAiCardToMoveIndex;
+
+
+
+    private boolean aiFinishedMoves = false;
+
+
+
+
+    ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
+
     /////////////
     //Constructor
     /////////////
@@ -37,6 +52,7 @@ public abstract class Player {
         this.selectedCard = null;
         this.selectedMob = null;
         this.targetedMob = null;
+        this.selectedAiCardToMoveIndex = -1;
     }
 
     /////////
@@ -85,5 +101,33 @@ public abstract class Player {
     public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
 
     public void setTargetedMobNull(){ this.targetedMob = null;}
+
+    public int getSelectedAiContainerIndex() {
+        return selectedAiContainerIndex;
+    }
+
+    public void setSelectedAiContainerIndex(int selectedAiContainerIndex) {
+        this.selectedAiContainerIndex = selectedAiContainerIndex;
+    }
+
+    public int getSelectedAiCardToMoveIndex() {
+        return selectedAiCardToMoveIndex;
+    }
+
+    public void setSelectedAiCardToMoveIndex(int selectedAiCardToMoveIndex) {
+        this.selectedAiCardToMoveIndex = selectedAiCardToMoveIndex;
+    }
+    public ArrayList<Integer> getAiCharacterCards() {
+        return aiCharacterCards;
+    }
+
+
+    public boolean isAiFinishedMoves() {
+        return aiFinishedMoves;
+    }
+
+    public void setAiFinishedMoves(boolean aiFinishedMoves) {
+        this.aiFinishedMoves = aiFinishedMoves;
+    }
 
 }
