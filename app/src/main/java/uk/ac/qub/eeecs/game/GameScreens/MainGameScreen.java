@@ -183,8 +183,8 @@ public class MainGameScreen extends GameScreen {
         exitButton = new PushButton((int) (mScreenWidth / 1.5), (int) (mScreenHeight * 0.15f), mScreenWidth * 0.208f,
                 mScreenHeight * 0.15f, "ExitButton", this);
 
-        volumeButton = new PushButton(mScreenWidth / 1.3f, mScreenHeight* 0.4700f,mScreenWidth* 0.23f, mScreenHeight* 0.18f,
-                "PauseButton",  this);
+        volumeButton = new PushButton(mScreenWidth / 1.35f, mScreenHeight* 0.4700f,mScreenWidth* 0.13f, mScreenHeight* 0.18f,
+                "VolumeButton",  this);
 
         fpsToggle = new ToggleButton(mScreenWidth  / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
@@ -205,9 +205,9 @@ public class MainGameScreen extends GameScreen {
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
         graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 4.5), mScreenHeight * 0.37f, pausePaint);
-        graphics2D.drawText("Voulume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
-        graphics2D.drawText("Voulume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
-        graphics2D.drawText("Voulume: " + mGame.getAudioManager().getMusicVolume() , (int) (mScreenWidth / 3.3), mScreenHeight * 0.65f, pausePaint);
+        graphics2D.drawText("Volume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+        graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+
 
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
@@ -242,9 +242,9 @@ public class MainGameScreen extends GameScreen {
 
         // Check 3 - Game Paused
         if (pauseButton.isPushTriggered())
-            gamePaused = true;
+    gamePaused = true;
 
-    }
+}
 
 
     /**

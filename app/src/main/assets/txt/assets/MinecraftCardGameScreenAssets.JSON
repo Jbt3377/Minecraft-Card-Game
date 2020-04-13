@@ -77,6 +77,12 @@
     },
     {
       "type": "Bitmap",
+      "name": "VolumeButton",
+      "file": "img/VolumeButton.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "ExitButton",
       "file": "img/ExitButton.png"
     },
