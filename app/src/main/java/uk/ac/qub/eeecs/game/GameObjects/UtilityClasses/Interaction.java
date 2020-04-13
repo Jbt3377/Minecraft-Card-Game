@@ -31,7 +31,7 @@ public abstract class Interaction {
                 }
             }
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (game.isCardsSelected() == false) && t.type == TouchEvent.TOUCH_DOWN) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
@@ -54,7 +54,7 @@ public abstract class Interaction {
     }
 
 
-    public static void processTouchEvents(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
+    public static void processMobSelection(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
 
         for (TouchEvent t : touchEvents) {
             float x_cor = t.x;
@@ -65,7 +65,9 @@ public abstract class Interaction {
 
                 // Step 1: Detect a selected mob
                 for (Mob mob : gameBoard.getActivePlayersMobsOnBoard()) {
-                    if (mob.getBound().contains(x_cor, y_cor)) {
+
+                    // Check if player mob clicked which hasn't been used yet
+                    if (mob.getBound().contains(x_cor, y_cor) && !mob.hasBeenUsed()) {
 
                         int clickedMobID = mob.getId();
                         Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
@@ -101,6 +103,7 @@ public abstract class Interaction {
                             break;
                         }
                     }
+
                 }
 
 
@@ -119,7 +122,7 @@ public abstract class Interaction {
             float x_cor = t.x;
             float y_cor = game.getScreenHeight() - t.y;
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (game.isCardsSelected() == false) && t.type == TouchEvent.TOUCH_DOWN) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
@@ -135,20 +138,20 @@ public abstract class Interaction {
             if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for(MobContainer mb : gameBoard.getFieldContainers()) {
                     if (mb.checkForNewContents(touchEvents, dObj)) {
-                        int index = gameBoard.getPlayer1Hand().getPlayerHand().indexOf(dObj);
-                        Card card = gameBoard.getPlayer1Hand().getPlayerHand().get(index);
+                        int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
+                        Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
-                        if (gameBoard.getPlayer1().getmPlayerMana() - card.getManaCost() >= 0) {
+                        if (gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0) {
                             System.out.println("A card has been dropped in this container");
                             Mob mob = new Mob(mb.getX_location(), mb.getY_location(), gameBoard.getGameScreen(), (CharacterCard) dObj);
-                            gameBoard.getPlayer1MobsOnBoard().add(mob);
+                            gameBoard.getActivePlayersMobsOnBoard().add(mob);
                             mb.placeCard(mob);
                             game.setCardsSelected(false);
                             dObj.setHasBeenSelected(false);
 
-                            gameBoard.getPlayer1Hand().getPlayerHand().remove(index);
+                            gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
                             System.out.println("Index of lifted card: " + index);
-                            gameBoard.getPlayer1().setmPlayerMana(gameBoard.getPlayer1().getmPlayerMana() - card.getManaCost());
+                            gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
                         }
                     }
                 }
@@ -169,12 +172,14 @@ public abstract class Interaction {
         }
 
 
-            for (MobContainer mc: aiMobContainers) {
-                for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
-                    Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
-                    if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
+        for (MobContainer mc: aiMobContainers) {
+            for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
+                Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
+
+                if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
                     Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
                     mc.placeCard(mob);
+                    gameBoard.getPlayer2MobsOnBoard().add(mob);
                     gameBoard.getPlayer2().setmPlayerMana(gameBoard.getPlayer2().getmPlayerMana() - card.getManaCost());
                     gameBoard.getPlayer2Hand().getPlayerHand().remove(i);
                 }

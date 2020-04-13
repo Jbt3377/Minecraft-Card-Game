@@ -91,7 +91,17 @@ public class MobContainer extends Sprite implements Container {
                 }
             }
 
-        }else if(this.contType == ContainerType.TOP_PLAYER){
+        }else if(this.contType == ContainerType.TOP_PLAYER && isEmpty()){
+
+            for (TouchEvent event : input) {
+
+                float x_cor = event.x;
+                float y_cor = convertYAxisToLayerView(event.y);
+
+                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
+                    return true;
+                }
+            }
 
         }
     return false;

@@ -25,13 +25,14 @@ public class Mob extends Sprite {
     private int healthPoints, attackDamage;
     private int id;
     private String name;
-    private Bitmap mobBitmap;
     private Sound damagedSound, attackSound, deathSound;
+    private boolean hasBeenUsed;
     private static int nextID = 0;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     public Mob(float x_cor, float y_cor, GameScreen gameScreen, CharacterCard characterCard) {
 
@@ -44,13 +45,14 @@ public class Mob extends Sprite {
         this.name = characterCard.getCardName();
         this.healthPoints = characterCard.getmHP();
         this.attackDamage = characterCard.getmAttackDmg();
-        this.mobBitmap = CardBitmapFactory.returnMobBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnMobBitmap(this,gameScreen);
+        this.hasBeenUsed = false;
 
         //setEffectVolume(gameScreen);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Methods - TODO: Implement Prep/Attack Phase
+    // Methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -80,50 +82,44 @@ public class Mob extends Sprite {
 
     /**
      * Process of attacking an opponent card
-     * @param targetedMob
      */
     public void attackTarget(Mob targetedMob) {
 
         // Enemy Mob takes Damage
-        targetedMob.changeHP(attackDamage);
-        attackSound.play();
+        targetedMob.decreaseHP(this.attackDamage);
+        ////attackSound.play();
 
         // Enemy Mob - Death/Damaged Sounds
-        if(targetedMob.getHealthPoints() <= 0)
-            targetedMob.getDeathSound().play();
+        ////if(targetedMob.getHealthPoints() <= 0)
+        ////    targetedMob.getDeathSound().play();
 
-        // Attacking Mob takes Damage
-        changeHP(-targetedMob.getAttackDamage());
-
-        // Attacking Mob - Death Sound
-        if(healthPoints <= 0)
-            getDeathSound().play();
-
-        return;
+        // Mob has attacked, can no longer be used this turn
+        this.hasBeenUsed = true;
     }
 
 
     /**
      * Process of attacking the opponents health
-     * @param targetedPlayer
      */
-    public void attackTarget(Player targetedPlayer) {
+    public void attackPlayer(Player targetedPlayer) {
 
-        // TODO: Process of attacking opponent
+        // TODO: Process of attacking player
 
-        return;
     }
 
 
     /**
      * Modifies the HP of the Mob
-     * @param hpVariant - Pos/Neg integer input
+     * @param damageInflicted - Pos/Neg integer input
      */
-    public void changeHP(int hpVariant){
+    private void decreaseHP(int damageInflicted){
+        System.out.println(">>>>> HP Before Attack: " + this.healthPoints);
+        this.healthPoints -= damageInflicted;
+        System.out.println(">>>>> HP After Attack: " + this.healthPoints);
+        // (damageInflicted > 0 ? "+" : "-")
 
-        this.healthPoints += hpVariant;
-        new PopUpObject(position.x, position.y, getGameScreen(), 30,
-                (hpVariant > 0 ? "+" : "-") + hpVariant, 5, true);
+        new PopUpObject(position.x+70, position.y-190, getGameScreen(), 30,
+                "-" + damageInflicted, 5, true);
     }
 
 
@@ -133,8 +129,6 @@ public class Mob extends Sprite {
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
-        //graphics2D.drawBitmap(mobBitmap, null, mobBitmapDrawRect, null);
-        mBitmap = mobBitmap;
         super.draw(elapsedTime, graphics2D,layerViewport, screenViewport);
     }
 
@@ -168,5 +162,18 @@ public class Mob extends Sprite {
     }
 
     public int getId() { return id; }
+
+    public boolean hasBeenUsed() {
+        return hasBeenUsed;
+    }
+
+    public void setHasBeenUsed(boolean hasBeenUsed) {
+        this.hasBeenUsed = hasBeenUsed;
+    }
+
+    public void updateMobBitmap(){
+        this.mBitmap = CardBitmapFactory.returnMobBitmap(this, getGameScreen());
+    }
+
 
 }

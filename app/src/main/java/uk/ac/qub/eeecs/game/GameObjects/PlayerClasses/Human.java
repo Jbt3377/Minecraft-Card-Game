@@ -35,8 +35,12 @@ public class Human extends Player {
 
     public void setSelectedMob(Mob selectedMob) { this.selectedMob = selectedMob; }
 
+    public void setSelectedMobNull(){ this.selectedMob = null;}
+
     public Mob getTargetedMob() { return targetedMob; }
 
     public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
+
+    public void setTargetedMobNull(){ this.targetedMob = null;}
 
 }

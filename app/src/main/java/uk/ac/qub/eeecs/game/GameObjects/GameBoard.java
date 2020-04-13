@@ -1,6 +1,10 @@
 package uk.ac.qub.eeecs.game.GameObjects;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -25,8 +29,8 @@ public class GameBoard {
     ////////////
 
     // Two players 'sit down' at the board
-    private Human player1;
-    private Ai player2;
+    private Player player1;
+    private Player player2;
 
     // Two deck objects, one from each player
     private Deck player1Deck;
@@ -57,7 +61,6 @@ public class GameBoard {
         this.player1 = human;
         this.player2 = ai;
 
-        // stinky code
         this.player1Deck = gameScreen.getGame().getmDeckManager().constructDeck(player1.getmSelectedDeckName());
         this.player2Deck = gameScreen.getGame().getmDeckManager().constructDeck(player2.getmSelectedDeckName());
 
@@ -120,32 +123,13 @@ public class GameBoard {
         // Draw Hands
         player1Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         player2Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+
+        // Draw Mobs
         for(MobContainer mb : fieldContainers){
             if(!mb.isEmpty()) {
                 mb.getContainedMob().draw(elapsedTime, graphics2D, layerViewport, screenViewport);
             }
         }
-
-        // Draw Selected Mob
-        // TODO: Highlight Outline drawn around selected mob
-        if(player1.getSelectedMob() != null){
-            // Get selected mob co-ordinates
-            // Draw a highlight outline
-        }
-    }
-
-    public void update(List<TouchEvent> input){
-        if(!input.isEmpty()) {
-
-            // Update Containers
-            for (MobContainer container : fieldContainers)
-                container.checkForNewContents(input, player1.getSelectedCard());
-
-            // Update Hands
-            player1Hand.update(input);
-            player2Hand.update(input);
-        }
-
     }
 
 
@@ -179,6 +163,13 @@ public class GameBoard {
             return player1MobsOnBoard;
         else
             return player2MobsOnBoard;
+    }
+
+    public void setInactivePlayersMobsOnBoard(ArrayList<Mob> updatedPlayersMobsOnBoard){
+        if(isPlayer1Turn)
+            player1MobsOnBoard = updatedPlayersMobsOnBoard;
+        else
+            player2MobsOnBoard = updatedPlayersMobsOnBoard;
     }
 
 
