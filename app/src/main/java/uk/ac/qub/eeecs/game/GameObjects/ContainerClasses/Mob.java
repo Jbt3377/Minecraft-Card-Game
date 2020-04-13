@@ -96,6 +96,7 @@ public class Mob extends Sprite {
 
         // Mob has attacked, can no longer be used this turn
         this.hasBeenUsed = true;
+        this.updateMobBitmap();
     }
 
 

@@ -87,13 +87,23 @@ public abstract class Interaction {
 
                             // Check for same mob selected twice, if so deselect
                             if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
+                                clickedMob.setSelectedToAttack(false);
+                                clickedMob.updateMobBitmap();
                                 (gameBoard.getActivePlayer()).setSelectedMob(null);
                                 System.out.println("========== Mob Deselected =========");
                                 break;
                             }
                             // Otherwise, set selected mob as currently selected mob
                             else {
+                                try {
+                                    gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+                                    gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+                                } catch(NullPointerException np) {
+                                    System.out.println("Ohh NO!");
+                                }
                                 (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
+                                clickedMob.setSelectedToAttack(true);
+                                clickedMob.updateMobBitmap();
                                 System.out.println("========== Mob Selected =========");
                                 break;
                             }

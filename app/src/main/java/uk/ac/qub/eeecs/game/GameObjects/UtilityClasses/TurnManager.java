@@ -186,6 +186,8 @@ public class TurnManager {
 
             // Run attack sequence (!!!)
             currentlySelectedMob.attackTarget(currentlyTargetedMob);
+            currentlySelectedMob.setSelectedToAttack(false);
+            currentlySelectedMob.updateMobBitmap();
             currentlyTargetedMob.updateMobBitmap();
 
             // Reset selected and targeted mobs to null
@@ -229,12 +231,24 @@ public class TurnManager {
     private void phaseEndHuman() {
 
         // Reset selected and targeted mobs to null
-        ((Human) gameBoard.getActivePlayer()).setSelectedMobNull();
-        ((Human) gameBoard.getActivePlayer()).setTargetedMobNull();
 
         // Reset hasBeenUsed status
-        for(Mob playerMob: gameBoard.getActivePlayersMobsOnBoard())
+        for(Mob playerMob: gameBoard.getActivePlayersMobsOnBoard()) {
             playerMob.setHasBeenUsed(false);
+            playerMob.updateMobBitmap();
+        }
+
+        try {
+            gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+            gameBoard.getActivePlayer().getSelectedMob().setHasBeenUsed(false);
+            gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+        } catch(NullPointerException np){
+            System.out.println("Ohh NO!");
+        }
+        (gameBoard.getActivePlayer()).setSelectedMobNull();
+        (gameBoard.getActivePlayer()).setTargetedMobNull();
+
+
 
         // Update Phases accordingly
         if(isPlayer1Turn){
@@ -245,6 +259,9 @@ public class TurnManager {
             player2PhaseFlag = Phase.INACTIVE;
         }
 
+
+        gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() + 4);
+
         // Update Boolean flags accordingly
         this.isPlayer1Turn = !isPlayer1Turn;
         gameBoard.setIsPlayer1Turn(isPlayer1Turn);
@@ -254,6 +271,8 @@ public class TurnManager {
 
         player1PhaseFlag = Phase.PREP;
         player2PhaseFlag = Phase.INACTIVE;
+
+        gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() + 4);
 
         // Update Boolean flags accordingly
         this.isPlayer1Turn = !isPlayer1Turn;

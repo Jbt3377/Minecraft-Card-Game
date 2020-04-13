@@ -47,7 +47,11 @@ public class CardBitmapFactory {
             background = assetManager.getBitmap("MobBackground");
         }
 
-        background = assetManager.getBitmap("MobBackground");
+        if(mob.hasBeenUsed()){
+            background = assetManager.getBitmap("MobHasBeenUsed");
+        }
+
+
         int cardWidth = background.getWidth();
         int cardHeight = background.getHeight();
 
