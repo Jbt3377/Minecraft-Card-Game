@@ -57,12 +57,29 @@ public class GameBoard {
     //Constructor
     /////////////
 
-    public GameBoard(Human human, Ai ai, GameScreen gameScreen) {
-        this.gameScreen = gameScreen;
-        this.fieldContainers = new ArrayList<>();
+    public GameBoard(Human player1, Ai player2, GameScreen gameScreen) {
 
-        this.player1 = human;
-        this.player2 = ai;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.gameScreen = gameScreen;
+
+        commonConstructorSetup();
+
+    }
+
+    public GameBoard(Human player1, Human player2, GameScreen gameScreen){
+
+        this.player1 = player1;
+        this.player2 = player2;
+        this.gameScreen = gameScreen;
+
+        commonConstructorSetup();
+
+    }
+
+    private void commonConstructorSetup(){
+
+        this.fieldContainers = new ArrayList<>();
 
         this.player1Deck = gameScreen.getGame().getmDeckManager().constructDeck(player1.getmSelectedDeckName());
         this.player2Deck = gameScreen.getGame().getmDeckManager().constructDeck(player2.getmSelectedDeckName());
@@ -70,8 +87,8 @@ public class GameBoard {
         setupContainers();
 
         // Initialise Hands
-        player1Hand = new PlayerHand(this.player1, this.player1Deck, gameScreen);
-        player2Hand = new PlayerHand(this.player2, this.player2Deck, gameScreen);
+        player1Hand = new PlayerHand(this.player1, this.player1Deck, true, gameScreen);
+        player2Hand = new PlayerHand(this.player2, this.player2Deck, false, gameScreen);
 
         //Initialise both player's Mob ArrayList
         player1MobsOnBoard = new ArrayList<>();
