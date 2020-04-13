@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -10,6 +12,8 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
@@ -69,6 +73,7 @@ public class TurnManager {
 
     private void phaseSetup() {
 
+        // Replenish both Player's Hands
         gameBoard.getPlayer1Hand().replenishHand();
         gameBoard.getPlayer2Hand().replenishHand();
 
@@ -78,15 +83,22 @@ public class TurnManager {
 
         isPlayer1Turn = true;
         gameBoard.setIsPlayer1Turn(true);
+
         addStartTurnPopup();
     }
 
     private void phasePrepHuman() {
 
+        // Replenish Player's Hand
         gameBoard.getActivePlayerHand().replenishHand();
-        this.isPlayer1Turn = !isPlayer1Turn;
-        gameBoard.setIsPlayer1Turn(isPlayer1Turn);
 
+//        this.isPlayer1Turn = !isPlayer1Turn;
+//        gameBoard.setIsPlayer1Turn(isPlayer1Turn);
+
+        // Increment Turn Counter
+        mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
+
+        // Update Phase flags accordingly
         if(isPlayer1Turn){
             player1PhaseFlag = Phase.MOVE;
             player2PhaseFlag = Phase.INACTIVE;
@@ -100,67 +112,113 @@ public class TurnManager {
 
     private void phasePrepAi(){
 
+        // Replenish Player's Hand
+        gameBoard.getPlayer2Hand().replenishHand();
+
+        // Increment Turn Counter
+        mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
+
+        // Update Phase flags accordingly
+        player1PhaseFlag = Phase.INACTIVE;
+        player2PhaseFlag = Phase.MOVE;
+
+        addStartTurnPopup();
     }
 
     private void phaseMoveHuman() {
 
-        // Check for mob selection
-        Interaction.processTouchEvents(input, game, gameBoard);
-
         // Check for card drops in container
-        for (int i = 0; i < gameBoard.getPlayer1Hand().getPlayerHand().size(); i++) {
+        for (int i = 0; i < gameBoard.getActivePlayerHand().getPlayerHand().size(); i++) {
             Card card;
-            if (isPlayer1Turn) card = gameBoard.getPlayer1Hand().getPlayerHand().get(i);
-            else card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
+            card = gameBoard.getActivePlayerHand().getPlayerHand().get(i);
             Interaction.moveCardToContainer(input, card, game, gameBoard);
         }
 
+        // Check for mob selection
+        Interaction.processMobSelection(input, game, gameBoard);
+
         // Check if targeted mob selected, if so, switch to battle phase
-        if (gameBoard.getPlayer1() instanceof Human) {
-            if (((Human) gameBoard.getPlayer1()).getTargetedMob() != null) {
-                player1PhaseFlag = Phase.BATTLE;
-                player2PhaseFlag = Phase.INACTIVE;
+        if (gameBoard.getActivePlayer() instanceof Human) {
+            if (((Human) gameBoard.getActivePlayer()).getTargetedMob() != null) {
+                if(isPlayer1Turn) {
+                    player1PhaseFlag = Phase.BATTLE;
+                    player2PhaseFlag = Phase.INACTIVE;
+                }else{
+                    player1PhaseFlag = Phase.INACTIVE;
+                    player2PhaseFlag = Phase.BATTLE;
+                }
             }
         }
 
         // Check for end turn button clicked
         if (mainGameScreen.getEndTurnButton().isPushTriggered()) {
-            isPlayer1Turn = !isPlayer1Turn;
-
-            //Put this line of code in the prep phase
-            addStartTurnPopup();
-
-            //Put this line of code in the prep phase
-            mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
 
             // Update Phases Accordingly
-//            if(isPlayer1Turn){
-//                player1PhaseFlag = Phase.END;
-//                player2PhaseFlag = Phase.INACTIVE;
-//            }else{
-//                player1PhaseFlag = Phase.INACTIVE;
-//                player2PhaseFlag = Phase.END;
-//            }
-
-            // Test code to work on ai movement phase
-            player1PhaseFlag = Phase.INACTIVE;
-            player2PhaseFlag = Phase.MOVE;
-
+            if(isPlayer1Turn){
+                player1PhaseFlag = Phase.END;
+                player2PhaseFlag = Phase.INACTIVE;
+            }else{
+                player1PhaseFlag = Phase.INACTIVE;
+                player2PhaseFlag = Phase.END;
+            }
         }
-
     }
 
     private void phaseMoveAi(){
+
         Interaction.moveAiCardToContainer(gameBoard);
 
-//        player1PhaseFlag = Phase.PREP;
-//        player2PhaseFlag = Phase.INACTIVE;
         player1PhaseFlag = Phase.INACTIVE;
         player2PhaseFlag = Phase.BATTLE;
     }
 
 
     private void phaseBattleHuman() {
+
+        // Check for mob selection
+        Interaction.processMobSelection(input, game, gameBoard);
+
+        Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+        Mob currentlyTargetedMob = (gameBoard.getActivePlayer()).getTargetedMob();
+
+        // Check if selected mob and targeted mob not null
+        if((currentlySelectedMob != null) && (currentlyTargetedMob != null)){
+
+            // Run attack sequence (!!!)
+            currentlySelectedMob.attackTarget(currentlyTargetedMob);
+            currentlySelectedMob.setSelectedToAttack(false);
+            currentlySelectedMob.updateMobBitmap();
+            currentlyTargetedMob.updateMobBitmap();
+
+            // Reset selected and targeted mobs to null
+            (gameBoard.getActivePlayer()).setSelectedMobNull();
+            (gameBoard.getActivePlayer()).setTargetedMobNull();
+
+        }
+
+        // Check for Mob death
+        for(MobContainer container: gameBoard.getFieldContainers()){
+            if(!container.isEmpty()){
+
+                // If mob died, remove from container
+                Mob containedMob = container.getContents();
+                if(containedMob.getHealthPoints() <= 0){
+                    container.emptyContainer();
+                }
+            }
+        }
+
+        // Check for end turn button clicked
+        if (mainGameScreen.getEndTurnButton().isPushTriggered()) {
+            // Update Phases Accordingly
+            if(isPlayer1Turn){
+                player1PhaseFlag = Phase.END;
+                player2PhaseFlag = Phase.INACTIVE;
+            }else{
+                player1PhaseFlag = Phase.INACTIVE;
+                player2PhaseFlag = Phase.END;
+            }
+        }
 
     }
 
@@ -172,13 +230,53 @@ public class TurnManager {
 
     private void phaseEndHuman() {
 
-        // TODO Reminder: Set Targeted Mob to null before turn ends
+        // Reset selected and targeted mobs to null
+
+        // Reset hasBeenUsed status
+        for(Mob playerMob: gameBoard.getActivePlayersMobsOnBoard()) {
+            playerMob.setHasBeenUsed(false);
+            playerMob.updateMobBitmap();
+        }
+
+        try {
+            gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+            gameBoard.getActivePlayer().getSelectedMob().setHasBeenUsed(false);
+            gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+        } catch(NullPointerException np){
+            System.out.println("Ohh NO!");
+        }
+        (gameBoard.getActivePlayer()).setSelectedMobNull();
+        (gameBoard.getActivePlayer()).setTargetedMobNull();
+
+
+
+        // Update Phases accordingly
+        if(isPlayer1Turn){
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.PREP;
+        }else{
+            player1PhaseFlag = Phase.PREP;
+            player2PhaseFlag = Phase.INACTIVE;
+        }
+
+
+        gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() + 4);
+
+        // Update Boolean flags accordingly
+        this.isPlayer1Turn = !isPlayer1Turn;
+        gameBoard.setIsPlayer1Turn(isPlayer1Turn);
     }
 
     private void phaseEndAi() {
 
         player1PhaseFlag = Phase.PREP;
         player2PhaseFlag = Phase.INACTIVE;
+
+        gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() + 4);
+
+        // Update Boolean flags accordingly
+        this.isPlayer1Turn = !isPlayer1Turn;
+        gameBoard.setIsPlayer1Turn(isPlayer1Turn);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -221,10 +319,15 @@ public class TurnManager {
      * Method displays a popup message informing the player who's turn it is
      * TODO: Custom message based of type of player (Human/AI)
      */
-    private void addStartTurnPopup() {
+    private void addStartTurnPopup(){
         String msg;
-        if (isPlayer1Turn) msg = "Player 1 Turn";
-        else msg = "Player 2 Turn";
+        if(gameBoard.getPlayer2() instanceof Human) {
+            if (isPlayer1Turn) msg = "Player 1 Turn";
+            else msg = "Player 2 Turn";
+        }else{
+            if (isPlayer1Turn) msg = "Player Turn";
+            else msg = "Opponent Turn";
+        }
 
         Game mGame = gameBoard.getGameScreen().getGame();
         new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,

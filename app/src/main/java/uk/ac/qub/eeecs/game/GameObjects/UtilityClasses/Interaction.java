@@ -31,7 +31,7 @@ public abstract class Interaction {
                 }
             }
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (game.isCardsSelected() == false) && t.type == TouchEvent.TOUCH_DOWN) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
@@ -54,7 +54,7 @@ public abstract class Interaction {
     }
 
 
-    public static void processTouchEvents(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
+    public static void processMobSelection(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
 
         for (TouchEvent t : touchEvents) {
             float x_cor = t.x;
@@ -63,44 +63,76 @@ public abstract class Interaction {
             // Mob Selection Checks
             if (t.type == TouchEvent.TOUCH_DOWN && gameBoard.getActivePlayer() instanceof Human) {
 
+                // Variables necessary for container type check
+                MobContainer.ContainerType containerTypeForSelection, containerTypeForTargeting;
+                if(gameBoard.isPlayer1Turn()){
+                    containerTypeForSelection = MobContainer.ContainerType.BOTTOM_PLAYER;
+                    containerTypeForTargeting = MobContainer.ContainerType.TOP_PLAYER;
+                }else{
+                    containerTypeForSelection = MobContainer.ContainerType.TOP_PLAYER;
+                    containerTypeForTargeting = MobContainer.ContainerType.BOTTOM_PLAYER;
+                }
+
+
                 // Step 1: Detect a selected mob
-                for (Mob mob : gameBoard.getActivePlayersMobsOnBoard()) {
-                    if (mob.getBound().contains(x_cor, y_cor)) {
+                for(MobContainer container: gameBoard.getFieldContainers()){
 
-                        int clickedMobID = mob.getId();
-                        Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
+                    if(!container.isEmpty() && container.getContType() == containerTypeForSelection){
 
-                        // Check for same mob selected twice, if so deselect
-                        if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
-                            ((Human) gameBoard.getActivePlayer()).setSelectedMob(null);
-                            System.out.println("========== Mob Deselected =========");
-                            break;
-                        }
-                        // Otherwise, set selected mob as currently selected mob
-                        else {
-                            ((Human) gameBoard.getActivePlayer()).setSelectedMob(mob);
-                            System.out.println("========== Mob Selected =========");
-                            break;
+                        Mob clickedMob = container.getContents();
+                        if(clickedMob.getBound().contains(x_cor, y_cor) && !clickedMob.hasBeenUsed()){
+
+                            int clickedMobID = clickedMob.getId();
+                            Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+
+                            // Check for same mob selected twice, if so deselect
+                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
+                                clickedMob.setSelectedToAttack(false);
+                                clickedMob.updateMobBitmap();
+                                (gameBoard.getActivePlayer()).setSelectedMob(null);
+                                System.out.println("========== Mob Deselected =========");
+                                break;
+                            }
+                            // Otherwise, set selected mob as currently selected mob
+                            else {
+                                try {
+                                    gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+                                    gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+                                } catch(NullPointerException np) {
+                                    System.out.println("Ohh NO!");
+                                }
+                                (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
+                                clickedMob.setSelectedToAttack(true);
+                                clickedMob.updateMobBitmap();
+                                System.out.println("========== Mob Selected =========");
+                                break;
+                            }
                         }
                     }
                 }
 
+
                 // Step 2: Detect a targeted mob
-                Mob currentlySelectedMob = ((Human) gameBoard.getActivePlayer()).getSelectedMob();
-                Mob currentlyTargetedMob = ((Human) gameBoard.getActivePlayer()).getTargetedMob();
+                Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
+                Mob currentlyTargetedMob = (gameBoard.getActivePlayer()).getTargetedMob();
                 if(currentlySelectedMob != null && currentlyTargetedMob == null){
 
                     // Check each opponent mob and determine if one was clicked
-                    for(Mob mob: gameBoard.getInactivePlayersMobsOnBoard()){
+                    for(MobContainer container: gameBoard.getFieldContainers()){
 
-                        if(mob.getBound().contains(x_cor, y_cor)){
+                        if(!container.isEmpty() && container.getContType() == containerTypeForTargeting) {
 
-                            // Targeted mob identified, update accordingly
-                            ((Human) gameBoard.getActivePlayer()).setTargetedMob(mob);
-                            System.out.println("========== Mob Targeted =========");
-                            break;
+                            Mob clickedMob = container.getContents();
+                            if (clickedMob.getBound().contains(x_cor, y_cor)) {
+
+                                // Targeted mob identified, update accordingly
+                                (gameBoard.getActivePlayer()).setTargetedMob(clickedMob);
+                                System.out.println("========== Mob Targeted =========");
+                                break;
+                            }
                         }
                     }
+
                 }
 
 
@@ -119,7 +151,7 @@ public abstract class Interaction {
             float x_cor = t.x;
             float y_cor = game.getScreenHeight() - t.y;
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (game.isCardsSelected() == false) && t.type == TouchEvent.TOUCH_DOWN) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
@@ -135,20 +167,20 @@ public abstract class Interaction {
             if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for(MobContainer mb : gameBoard.getFieldContainers()) {
                     if (mb.checkForNewContents(touchEvents, dObj)) {
-                        int index = gameBoard.getPlayer1Hand().getPlayerHand().indexOf(dObj);
-                        Card card = gameBoard.getPlayer1Hand().getPlayerHand().get(index);
+                        int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
+                        Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
-                        if (gameBoard.getPlayer1().getmPlayerMana() - card.getManaCost() >= 0) {
+                        if (gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0) {
                             System.out.println("A card has been dropped in this container");
                             Mob mob = new Mob(mb.getX_location(), mb.getY_location(), gameBoard.getGameScreen(), (CharacterCard) dObj);
-                            gameBoard.getPlayer1MobsOnBoard().add(mob);
+                            gameBoard.getActivePlayersMobsOnBoard().add(mob);
                             mb.placeCard(mob);
                             game.setCardsSelected(false);
                             dObj.setHasBeenSelected(false);
 
-                            gameBoard.getPlayer1Hand().getPlayerHand().remove(index);
+                            gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
                             System.out.println("Index of lifted card: " + index);
-                            gameBoard.getPlayer1().setmPlayerMana(gameBoard.getPlayer1().getmPlayerMana() - card.getManaCost());
+                            gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
                         }
                     }
                 }
@@ -169,12 +201,14 @@ public abstract class Interaction {
         }
 
 
-            for (MobContainer mc: aiMobContainers) {
-                for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
-                    Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
-                    if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
+        for (MobContainer mc: aiMobContainers) {
+            for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
+                Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
+
+                if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
                     Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
                     mc.placeCard(mob);
+                    gameBoard.getPlayer2MobsOnBoard().add(mob);
                     gameBoard.getPlayer2().setmPlayerMana(gameBoard.getPlayer2().getmPlayerMana() - card.getManaCost());
                     gameBoard.getPlayer2Hand().getPlayerHand().remove(i);
                 }

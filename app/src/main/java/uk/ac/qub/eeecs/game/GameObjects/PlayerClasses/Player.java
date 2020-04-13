@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
 
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 
 public abstract class Player {
@@ -18,6 +20,10 @@ public abstract class Player {
     //DeckID is the current Deck ch0sen by the player.
     private String mSelectedDeckName;
 
+    private Card selectedCard;
+    private Mob selectedMob;
+    private Mob targetedMob;
+
     /////////////
     //Constructor
     /////////////
@@ -27,6 +33,10 @@ public abstract class Player {
         this.mPlayerHealth = PLAYER_STARTING_HEALTH;
         this.mPlayerMana = PLAYER_STARTING_MANA;
         this.mSelectedDeckName = selectedDeckName;
+
+        this.selectedCard = null;
+        this.selectedMob = null;
+        this.targetedMob = null;
     }
 
     /////////
@@ -59,5 +69,21 @@ public abstract class Player {
     public String getmSelectedDeckName() { return mSelectedDeckName; }
 
     public void setmSelectedDeckName(String mSelectedDeckName) { this.mSelectedDeckName = mSelectedDeckName; }
+
+    public Card getSelectedCard() { return selectedCard;}
+
+    public void setSelectedCard(Card selectedCard) { this.selectedCard = selectedCard; }
+
+    public Mob getSelectedMob() { return selectedMob; }
+
+    public void setSelectedMob(Mob selectedMob) { this.selectedMob = selectedMob; }
+
+    public void setSelectedMobNull(){ this.selectedMob = null;}
+
+    public Mob getTargetedMob() { return targetedMob; }
+
+    public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
+
+    public void setTargetedMobNull(){ this.targetedMob = null;}
 
 }

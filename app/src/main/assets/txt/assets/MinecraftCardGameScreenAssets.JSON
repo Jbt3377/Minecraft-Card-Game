@@ -23,6 +23,18 @@
 
     {
       "type": "Bitmap",
+      "name" : "MobSelected",
+      "file" : "img/MobHighlightGreen.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name" : "MobHasBeenUsed",
+      "file" : "img/MobHighlightRed.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "SplashScreenBackground",
       "file": "img/SpaceBackground.png"
     },

@@ -39,7 +39,19 @@ public class CardBitmapFactory {
         int attackDmg = mob.getAttackDamage();
         int healthPoints = mob.getHealthPoints();
 
-        Bitmap background = assetManager.getBitmap("MobBackground");
+        Bitmap background;
+
+        if(mob.isSelectedToAttack()){
+            background = assetManager.getBitmap("MobSelected");
+        } else{
+            background = assetManager.getBitmap("MobBackground");
+        }
+
+        if(mob.hasBeenUsed()){
+            background = assetManager.getBitmap("MobHasBeenUsed");
+        }
+
+
         int cardWidth = background.getWidth();
         int cardHeight = background.getHeight();
 

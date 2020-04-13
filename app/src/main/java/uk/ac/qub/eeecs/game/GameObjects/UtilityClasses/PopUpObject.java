@@ -70,11 +70,11 @@ public class PopUpObject extends Sprite {
 
         this.displayTime = displayTime;
         this.textInput = textInput;
+        this.movingPopUp = false;
 
         TextAlignmentUtil util = new TextAlignmentUtil(10, textAlignment.CENTRE);
         this.textInput = util.alignText(textInput);
 
-        this.movingPopUp = false;
         setupTextPaint(gameScreen);
         gameScreen.popUpObjects.add(this);
 
@@ -90,7 +90,7 @@ public class PopUpObject extends Sprite {
                        int movementSpeed, boolean goingUp) {
 
         // Bitmap temporary - testing
-        super(x, y, gameScreen.getGame().getAssetManager().getBitmap("potion_of_healing"), gameScreen);
+        super(x, y, gameScreen.getGame().getAssetManager().getBitmap("Potion of Healing"), gameScreen);
 
         this.displayTime = displayTime;
         this.movingPopUp = true;
@@ -98,7 +98,6 @@ public class PopUpObject extends Sprite {
 
         setupTextPaint(gameScreen);
 
-        //Depending on goingUp set move speed
         if (goingUp)
             this.movementSpeed = -movementSpeed;
         else
@@ -136,6 +135,7 @@ public class PopUpObject extends Sprite {
             super.draw(elapsedTime, graphics2D);
 
             if (textInput != null) {
+
                 // Draw: Text Centred
                 String[] lines = textInput.split("\n");
                 Set<Integer> setOfYCoOrdinates = new HashSet<>();
@@ -143,7 +143,7 @@ public class PopUpObject extends Sprite {
 
                 int yCoordinateCount, upper;
                 if(numOfLines % 2 == 0){
-                    yCoordinateCount = 10;
+                    yCoordinateCount = 40;
                     upper = numOfLines;
                 } else{
                     yCoordinateCount = 0;
@@ -162,9 +162,11 @@ public class PopUpObject extends Sprite {
                 for(String line: lines)
                     graphics2D.drawText(line, position.x, position.y + ((int)treeSetIter.next()), textPaint);
             }
-        }else
+        }else {
+
             // Draw: Moving Text
             graphics2D.drawText(textInput, position.x, position.y, textPaint);
+        }
 
     }
 
