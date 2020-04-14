@@ -1,5 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
+import java.util.ArrayList;
+
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -30,6 +32,17 @@ public class CharacterCard extends Card {
         this.mEquipedCard = null;
         this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
+
+    public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats, int changeSize) {
+        super(x, y, gameScreen, cardStats, changeSize);
+        this.mHP = cardStats.getHp();
+        this.mAttackDmg = cardStats.getAttack();
+        this.mEquipedCard = null;
+        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+    }
+
+
+
 
     /////////
     //Methods

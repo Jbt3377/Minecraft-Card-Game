@@ -8,6 +8,11 @@ public class EquipCard extends Card {
     public EquipCard(float x, float y, GameScreen gameScreen, EquipCardStats cardStats) {
         super(x, y, gameScreen, cardStats);
         this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+    }
+
+    public EquipCard(float x, float y, GameScreen gameScreen, EquipCardStats cardStats, int changeSize) {
+        super(x, y, gameScreen, cardStats, changeSize);
+        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
 
 
 

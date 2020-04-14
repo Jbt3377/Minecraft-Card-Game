@@ -9,4 +9,9 @@ public class UtilityCard extends Card {
         super(x, y, gameScreen, cardStats);
         this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
+
+    public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats,int changeSize) {
+        super(x, y, gameScreen, cardStats, changeSize);
+        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+    }
 }
