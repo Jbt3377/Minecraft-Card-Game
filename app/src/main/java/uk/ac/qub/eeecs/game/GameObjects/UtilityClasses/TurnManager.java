@@ -153,7 +153,17 @@ public class TurnManager {
             }
 
             else if(card instanceof EquipCard){
-                Interaction.moveCardToContainer(input, card, game, gameBoard);
+                Interaction.moveEquipCardToContainer(input, card, game, gameBoard);
+                EquipCard equipCard = (EquipCard) card;
+                if(equipCard.isAnimationInProgress()){
+                    System.out.println("Reached this animation line of code");
+                    equipCard.equipCardAnimation();
+                }
+                if(equipCard.isAnimationFinished()) {
+                    int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(equipCard);
+                    gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
+                    gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
+                }
             }
 
             else if(card instanceof UtilityCard){

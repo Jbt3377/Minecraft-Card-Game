@@ -68,6 +68,16 @@ public class CardBitmapFactory {
         cardStatsFont.setARGB(180, 255, 255, 255);
         cardStatsFont.setTypeface(assetManager.getFont("MinecraftRegFont"));
 
+        //Dealing with font for equip cards
+        Paint cardEquipFont = new Paint();
+        int cardEquipFontSize = (int) (cardWidth * 0.22);
+        cardEquipFont.setTextSize(cardEquipFontSize);
+        cardEquipFont.setARGB(200, 255, 255, 255);
+        cardEquipFont.setTypeface(assetManager.getFont("MinecraftRegFont"));
+
+        int equipCardXLocation = (int) (cardWidth * 0.05);
+        int equipCardYLocation = (int) (cardWidth * 0.22);
+
 
         //Part of factory dealing with attack damage.
         int attackDmgXLocation = (int) (cardWidth * 0.10);
@@ -100,12 +110,15 @@ public class CardBitmapFactory {
         canvas.drawBitmap(background, 0, 0, null);
         canvas.drawText(Integer.toString(attackDmg), attackDmgXLocation, attackDmgYLocation, cardStatsFont);
         canvas.drawText(Integer.toString(healthPoints), healthPointsXLocation, healthPointsYLocation, cardStatsFont);
-
+        if(mob.getEquipCard() != null){
+            canvas.drawText("E", equipCardXLocation, equipCardYLocation, cardEquipFont);
+        }
 
         return result;
     }
 
     public static Bitmap returnCharacterCardBitmap(CharacterCard card, GameScreen gameScreen) {
+
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
         String name = card.getCardName();
         int manaCost = card.getManaCost();
@@ -167,6 +180,7 @@ public class CardBitmapFactory {
     }
 
     public static Bitmap returnEquipCardBitmap(Card card, GameScreen gameScreen) {
+
         AssetManager assetManager = gameScreen.getGame().getAssetManager();
         String name = card.getCardName();
         int manaCost = card.getManaCost();
