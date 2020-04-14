@@ -1,8 +1,15 @@
 package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
 
+import java.util.ArrayList;
+
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
+import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 public abstract class Player {
 
@@ -11,7 +18,7 @@ public abstract class Player {
     ////////////
 
     // Starting Health and Mana values for all players
-    private static final int PLAYER_STARTING_HEALTH = 100;
+    private static final int PLAYER_STARTING_HEALTH = 20;
     private static final int PLAYER_STARTING_MANA = 10;
 
 
@@ -23,6 +30,18 @@ public abstract class Player {
     private Card selectedCard;
     private Mob selectedMob;
     private Mob targetedMob;
+
+    int selectedAiContainerIndex;
+    int selectedAiCardToMoveIndex;
+
+
+
+    private boolean aiFinishedMoves = false;
+
+
+
+
+    ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
 
     /////////////
     //Constructor
@@ -37,12 +56,12 @@ public abstract class Player {
         this.selectedCard = null;
         this.selectedMob = null;
         this.targetedMob = null;
+        this.selectedAiCardToMoveIndex = -1;
     }
 
     /////////
     //Methods
     /////////
-
 
 
     /////////////////////
@@ -85,5 +104,33 @@ public abstract class Player {
     public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
 
     public void setTargetedMobNull(){ this.targetedMob = null;}
+
+    public int getSelectedAiContainerIndex() {
+        return selectedAiContainerIndex;
+    }
+
+    public void setSelectedAiContainerIndex(int selectedAiContainerIndex) {
+        this.selectedAiContainerIndex = selectedAiContainerIndex;
+    }
+
+    public int getSelectedAiCardToMoveIndex() {
+        return selectedAiCardToMoveIndex;
+    }
+
+    public void setSelectedAiCardToMoveIndex(int selectedAiCardToMoveIndex) {
+        this.selectedAiCardToMoveIndex = selectedAiCardToMoveIndex;
+    }
+    public ArrayList<Integer> getAiCharacterCards() {
+        return aiCharacterCards;
+    }
+
+
+    public boolean isAiFinishedMoves() {
+        return aiFinishedMoves;
+    }
+
+    public void setAiFinishedMoves(boolean aiFinishedMoves) {
+        this.aiFinishedMoves = aiFinishedMoves;
+    }
 
 }

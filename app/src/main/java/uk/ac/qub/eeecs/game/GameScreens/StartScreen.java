@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.List;
 
@@ -131,6 +132,7 @@ public class StartScreen extends GameScreen {
 
         playBackgroundMusic();
 
+        fps = (int) mGame.getAverageFramesPerSecond();
 
         // Process any touch events occurring since the update
         Input input = mGame.getInput();
@@ -189,6 +191,9 @@ public class StartScreen extends GameScreen {
         mRulesButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
         mBoardButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
 
+        if(mGame.isDisplayFps())
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint());
+
     }
 
     private void playBackgroundMusic() {
@@ -202,5 +207,14 @@ public class StartScreen extends GameScreen {
     private void stopBackGroundMusic(){
         AudioManager audioManager = getGame().getAudioManager();
         audioManager.stopMusic();
+    }
+
+    private Paint fpsPaint(){
+        Paint fpsPaint = new Paint();
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(mScreenHeight / 30);
+        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setColor(Color.WHITE);
+        return fpsPaint;
     }
 }

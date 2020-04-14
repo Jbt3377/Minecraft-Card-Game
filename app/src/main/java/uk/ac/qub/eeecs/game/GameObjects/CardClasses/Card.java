@@ -90,7 +90,24 @@ public class Card extends Sprite implements Draggable {
 
         // Fetch the corresponding bitmap with the card's asset name
         mCardPortrait = assetManager.getBitmap(cardName);
+    }
 
+    public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
+        super(x, y, DEFAULT_CARD_WIDTH * scaleSize, DEFAULT_CARD_HEIGHT * scaleSize, null, gameScreen);
+
+        AssetManager assetManager = gameScreen.getGame().getAssetManager();
+        this.manaCost = cardStats.getManacost();
+        this.cardID = cardStats.getId();
+        this.cardName = cardStats.getName();
+        this.cardDescription = cardStats.getDescText();
+
+        this.cardDescTextPaint = setupDescTextPaint(assetManager);
+
+        // Set the common card reverse image
+        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
+
+        // Fetch the corresponding bitmap with the card's asset name
+        mCardPortrait = assetManager.getBitmap(cardName);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -124,7 +141,7 @@ public class Card extends Sprite implements Draggable {
         if(cardFaceUp) {
             // Draw the portrait
             //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-              //      graphics2D, layerViewport, screenViewport);
+            //      graphics2D, layerViewport, screenViewport);
 
             // Draw the card base background
             mBitmap = mCardBase;
@@ -134,7 +151,6 @@ public class Card extends Sprite implements Draggable {
             mBitmap = mCardReverse;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         }
-
     }
 
     private BoundingBox bound = new BoundingBox();

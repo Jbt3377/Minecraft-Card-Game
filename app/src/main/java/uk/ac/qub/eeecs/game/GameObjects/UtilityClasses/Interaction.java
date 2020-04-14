@@ -47,7 +47,6 @@ public abstract class Interaction {
         }
     }
 
-
     public static void processMobSelection(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
 
         for (TouchEvent t : touchEvents) {
@@ -164,6 +163,14 @@ public abstract class Interaction {
             float x_cor = t.x;
             float y_cor = game.getScreenHeight() - t.y;
 
+            // Variables necessary for container type check
+            MobContainer.ContainerType contTypeOfPlayer;
+            if(gameBoard.isPlayer1Turn()){
+                contTypeOfPlayer = MobContainer.ContainerType.BOTTOM_PLAYER;
+            }else{
+                contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
+            }
+
             if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
@@ -179,7 +186,8 @@ public abstract class Interaction {
 
             if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for(MobContainer mb : gameBoard.getFieldContainers()) {
-                    if (mb.checkForNewContents(touchEvents, dObj)) {
+                    
+                    if (mb.checkForNewContents(touchEvents, dObj) && mb.getContType() == contTypeOfPlayer) {
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
@@ -206,32 +214,48 @@ public abstract class Interaction {
     }
 
     public static void moveAiCardToContainer(GameBoard gameBoard){
-        ArrayList<MobContainer> aiMobContainers = new ArrayList<>();
-        for(MobContainer mobContainer : gameBoard.getFieldContainers()){
-            if(mobContainer.getContType() == MobContainer.ContainerType.TOP_PLAYER){
-                aiMobContainers.add(mobContainer);
-            }
-        }
-
-
-        for (MobContainer mc: aiMobContainers) {
-            for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
-                Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
-
-                if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
-                    Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
-                    mc.placeCard(mob);
-                    gameBoard.getPlayer2MobsOnBoard().add(mob);
-                    gameBoard.getPlayer2().setmPlayerMana(gameBoard.getPlayer2().getmPlayerMana() - card.getManaCost());
-                    gameBoard.getPlayer2Hand().getPlayerHand().remove(i);
-                }
-            }
-        }
+//        ArrayList<MobContainer> aiMobContainers = new ArrayList<>();
+//        for(MobContainer mobContainer : gameBoard.getFieldContainers()){
+//            if(mobContainer.getContType() == MobContainer.ContainerType.TOP_PLAYER){
+//                aiMobContainers.add(mobContainer);
+//            }
+//        }
+//
+//
+//        for (MobContainer mc: aiMobContainers) {
+//            for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
+//                Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
+//                long timeStamp = System.currentTimeMillis();
+//                while(System.currentTimeMillis() < (timeStamp + 300)){
+//                    System.out.println("This is horrible code");
+//                }
+//
+//                if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
+//                    Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
+//                    mc.placeCard(mob);
+//                    gameBoard.getPlayer2MobsOnBoard().add(mob);
+//                    gameBoard.getPlayer2().setmPlayerMana(gameBoard.getPlayer2().getmPlayerMana() - card.getManaCost());
+//                    gameBoard.getPlayer2Hand().getPlayerHand().remove(i);
+//                }
+//            }
+//        }
 
 
 
     }
-}
+
+    public static void attackPhaseForAi(GameBoard gameBoard, Mob mob){
+
+        ArrayList<Mob> humanMobsOnBoard = gameBoard.getPlayer1MobsOnBoard();
+            if(!mob.hasBeenUsed()){
+                mob.setSelectedToAttack(true);
+                mob.updateMobBitmap();
+            }
+        }
+
+
+    }
+
 
 
 
