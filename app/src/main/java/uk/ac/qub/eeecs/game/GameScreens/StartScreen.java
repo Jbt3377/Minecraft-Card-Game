@@ -163,8 +163,8 @@ public class StartScreen extends GameScreen {
 
 
             if (mCardDemoButton.isPushTriggered()){
-               mGame.MenuScreentime = elapsedTime.totalTime;
-               stopBackGroundMusic();
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
             }
 

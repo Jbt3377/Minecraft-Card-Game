@@ -34,11 +34,19 @@ public abstract class Player {
     int selectedAiContainerIndex;
     int selectedAiCardToMoveIndex;
 
-
-
     private boolean aiFinishedMoves = false;
 
+    private boolean aiFinishedAttacks = false;
 
+    private long animationTimer;
+
+
+
+    int selectedMobToAttackIndex;
+
+
+
+    int targetedMobIndex;
 
 
     ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
@@ -57,6 +65,8 @@ public abstract class Player {
         this.selectedMob = null;
         this.targetedMob = null;
         this.selectedAiCardToMoveIndex = -1;
+        this.animationTimer = -1;
+        this.selectedMobToAttackIndex = 0;
     }
 
     /////////
@@ -131,6 +141,38 @@ public abstract class Player {
 
     public void setAiFinishedMoves(boolean aiFinishedMoves) {
         this.aiFinishedMoves = aiFinishedMoves;
+    }
+
+    public boolean isAiFinishedAttacks() {
+        return aiFinishedAttacks;
+    }
+
+    public void setAiFinishedAttacks(boolean aiFinishedAttacks) {
+        this.aiFinishedAttacks = aiFinishedAttacks;
+    }
+
+    public long getAnimationTimer() {
+        return animationTimer;
+    }
+
+    public void setAnimationTimer(long animationTimer) {
+        this.animationTimer = animationTimer;
+    }
+
+    public int getSelectedMobToAttackIndex() {
+        return selectedMobToAttackIndex;
+    }
+
+    public void setSelectedMobToAttackIndex(int selectedMobToAttackIndex) {
+        this.selectedMobToAttackIndex = selectedMobToAttackIndex;
+    }
+
+    public int getTargetedMobIndex() {
+        return targetedMobIndex;
+    }
+
+    public void setTargetedMobIndex(int targetedMobIndex) {
+        this.targetedMobIndex = targetedMobIndex;
     }
 
 }
