@@ -242,11 +242,6 @@ public class TurnManager {
             }
         }
 
-
-
-    //Interaction.moveAiCardToContainer(gameBoard);
-
-
     private void phaseBattleHuman() {
 
         // Check for mob selection
@@ -299,17 +294,79 @@ public class TurnManager {
     private void phaseBattleAi() {
         System.out.println("Ai battle phase reached");
 
-        if(gameBoard.getActivePlayersMobsOnBoard().isEmpty()){
+        if(gameBoard.getActivePlayersMobsOnBoard().size() == 0 || gameBoard.getPlayer1MobsOnBoard().size() == 0){
+            (gameBoard.getActivePlayer()).setSelectedMobNull();
+            (gameBoard.getActivePlayer()).setTargetedMobNull();
             player1PhaseFlag = Phase.INACTIVE;
             player2PhaseFlag = Phase.END;
+            System.out.println("Ai battle phase finished because no valid mobs to attack");
+        }
+
+        if(gameBoard.getActivePlayer().isAiFinishedAttacks() || gameBoard.getActivePlayer().getSelectedMobToAttackIndex() >= gameBoard.getActivePlayersMobsOnBoard().size()){
+            for(Mob mob : gameBoard.getActivePlayersMobsOnBoard()){
+                mob.setHasBeenUsed(false);
+                mob.setSelectedToAttack(false);
+                mob.updateMobBitmap();
+            }
+            (gameBoard.getActivePlayer()).setSelectedMobNull();
+            (gameBoard.getActivePlayer()).setTargetedMobNull();
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.END;
+            System.out.println("Ai battle phase ended by finishing all attacks");
+        }else{
+
+            //Put in a slight delay here so the player can see what is happening
+            if(gameBoard.getActivePlayer().getAnimationTimer() == -1){
+                gameBoard.getActivePlayer().setAnimationTimer(System.currentTimeMillis());
+
+                System.out.println("Ai still has valid moves to perform");
+                //Get the AIs first mob and select it
+                gameBoard.getActivePlayer().setSelectedMob(gameBoard.getActivePlayersMobsOnBoard().get(gameBoard.getActivePlayer().getSelectedMobToAttackIndex()));
+                gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(true);
+                //AiMob has been selected, so change border to green
+                gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+
+                //Get the opponents first mob and select it.
+                Random rand = new Random();
+                gameBoard.getActivePlayer().setTargetedMobIndex(rand.nextInt(gameBoard.getPlayer1MobsOnBoard().size()));
+                gameBoard.getActivePlayer().setTargetedMob(gameBoard.getPlayer1MobsOnBoard().get(gameBoard.getActivePlayer().getTargetedMobIndex()));
+                gameBoard.getActivePlayer().getTargetedMob().setSelectedToAttack(true);
+                    //OpponentMob selected, so change border to green
+                gameBoard.getActivePlayer().getTargetedMob().updateMobBitmap();
+
+            }
+
+            if(System.currentTimeMillis() > (gameBoard.getActivePlayer().getAnimationTimer() + 1000)) {
+
+                //Attack the opponents mob with the AI mob
+                gameBoard.getActivePlayer().getSelectedMob().aiAttackTarget(gameBoard.getActivePlayer().getTargetedMob());
+
+                //Check for mob death
+                for(MobContainer container: gameBoard.getFieldContainers()){
+                    if(!container.isEmpty()){
+
+                        // If mob died, remove from container
+                        Mob containedMob = container.getContents();
+                        if(containedMob.getHealthPoints() <= 0){
+                            container.emptyContainer();
+                            gameBoard.getPlayer1MobsOnBoard().remove(gameBoard.getActivePlayer().getTargetedMobIndex());
+                        }
+                    }
+                }
+
+
+                //Deselect both cards and set aiFinishedAttacks to true
+                gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+                gameBoard.getActivePlayer().getSelectedMob().setHasBeenUsed(true);
+                gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+                gameBoard.getActivePlayer().getTargetedMob().setSelectedToAttack(false);
+                gameBoard.getActivePlayer().getTargetedMob().updateMobBitmap();
+                gameBoard.getActivePlayer().setAnimationTimer(-1);
+                gameBoard.getActivePlayer().setSelectedMobToAttackIndex(gameBoard.getActivePlayer().getSelectedMobToAttackIndex() + 1);
+            }
         }
 
 
-
-        player1PhaseFlag = Phase.INACTIVE;
-        player2PhaseFlag = Phase.END;
-
-        System.out.println("Ai battle phase ended");
     }
 
     private void phaseEndHuman() {
