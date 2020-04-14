@@ -1445,7 +1445,7 @@ public class AiTests {
     @Mock
     Round currentRound2;
 
-    //methods to set up card stacks for human player for testing
+    //methods to set up card stacks for player1 player for testing
     public Human setupHumanWithHand()
     {
         CardStack deck = new CardStack(StackType.DECK);

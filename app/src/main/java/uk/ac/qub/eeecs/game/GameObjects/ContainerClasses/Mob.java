@@ -101,16 +101,6 @@ public class Mob extends Sprite {
 
 
     /**
-     * Process of attacking the opponents health
-     */
-    public void attackPlayer(Player targetedPlayer) {
-
-        // TODO: Process of attacking player
-
-    }
-
-
-    /**
      * Modifies the HP of the Mob
      * @param damageInflicted - Pos/Neg integer input
      */

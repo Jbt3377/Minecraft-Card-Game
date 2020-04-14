@@ -40,8 +40,6 @@ public class DeckManager {
     // Methods
     //////////
 
-
-
     /**
      * Method creates a set of predefined decks. Adds them to Defined Deck store
      */

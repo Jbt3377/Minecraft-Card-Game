@@ -90,7 +90,26 @@ public class Card extends Sprite implements Draggable {
 
         // Fetch the corresponding bitmap with the card's asset name
         mCardPortrait = assetManager.getBitmap(cardName);
+    }
 
+    public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
+        super(x, y, DEFAULT_CARD_WIDTH * scaleSize, DEFAULT_CARD_HEIGHT * scaleSize, null, gameScreen);
+
+        AssetManager assetManager = gameScreen.getGame().getAssetManager();
+        this.manaCost = cardStats.getManacost();
+        this.cardID = cardStats.getId();
+        this.cardName = cardStats.getName();
+        this.cardDescription = cardStats.getDescText();
+
+        this.cardFaceUp = true;
+        this.cardDescTextPaint = setupDescTextPaint(assetManager);
+        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
+
+        // Set the common card reverse image
+        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
+
+        // Fetch the corresponding bitmap with the card's asset name
+        mCardPortrait = assetManager.getBitmap(cardName);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -120,11 +139,11 @@ public class Card extends Sprite implements Draggable {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
-        flipAnimation();
+        //flipAnimation();
         if(cardFaceUp) {
             // Draw the portrait
             //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-              //      graphics2D, layerViewport, screenViewport);
+            //      graphics2D, layerViewport, screenViewport);
 
             // Draw the card base background
             mBitmap = mCardBase;
@@ -134,7 +153,6 @@ public class Card extends Sprite implements Draggable {
             mBitmap = mCardReverse;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         }
-
     }
 
     private BoundingBox bound = new BoundingBox();
@@ -164,6 +182,53 @@ public class Card extends Sprite implements Draggable {
 
         cardDescTextPaint.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
     }
+    public void cardMoveXAnimation(float desiredXLoc, float desiredYLoc){
+        //Phase 1 - Fastest Movement
+        if(this.position.x > desiredXLoc){
+            float positionDifference = this.position.x - desiredXLoc;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x - 20, this.position.y);
+            }else{
+                setNewPosition(this.position.x - 1, this.position.y);
+            }
+        } if(this.position.x < desiredXLoc){
+            float positionDifference = desiredXLoc - this.position.x;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x + 20, this.position.y);
+            }else{
+                setNewPosition(this.position.x + 1, this.position.y);
+            }
+        }
+    }
+
+    public void cardMoveYAnimation(float desiredXLoc, float desiredYLoc){
+        //Phase 1 - Fastest Movement
+        if(this.position.y > desiredYLoc){
+            float positionDifference = this.position.y - desiredYLoc;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x, this.position.y - 20);
+            }else{
+                setNewPosition(this.position.x, this.position.y - 1);
+            }
+        } if(this.position.y < desiredYLoc){
+            float positionDifference = desiredYLoc - this.position.y;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x, this.position.y + 20);
+            }else{
+                setNewPosition(this.position.x, this.position.y + 1);
+            }
+        }
+    }
+
+    public boolean readyToTurnToMob(float desiredXLoc, float desiredYLoc){
+        boolean result = false;
+
+        if(this.mBound.contains(desiredXLoc,desiredYLoc)){
+            result = true;
+        }
+        return result;
+    }
+
 
     ///////////////////
     //Interface Methods

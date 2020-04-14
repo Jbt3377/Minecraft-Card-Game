@@ -61,6 +61,18 @@
 
     {
       "type": "Bitmap",
+      "name": "Heart",
+      "file": "img/heart.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "BottleOEnchanting",
+      "file": "img/bottle_o_enchanting.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "PopupSign",
       "file": "img/PopupSign.png"
     },
@@ -75,6 +87,12 @@
       "type": "Bitmap",
       "name": "RulesScreenBackground",
       "file": "img/RulesScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "OptionsScreenBackground",
+      "file": "img/GameScreen Backgrounds/OptionsScreenBackground.png"
     },
 
     {
@@ -474,6 +492,19 @@
       "type": "Sound",
       "name": "zombie_death",
       "file": "sound/mobSoundEffects/zombie_death.mp3"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ai_avatar",
+      "file": "img/ai_avatar.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "human_avatar",
+      "file": "img/human_avatar.png"
     }
+
   ]
 }
