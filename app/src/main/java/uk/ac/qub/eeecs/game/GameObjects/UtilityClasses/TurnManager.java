@@ -16,6 +16,8 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
@@ -145,7 +147,32 @@ public class TurnManager {
         for (int i = 0; i < gameBoard.getActivePlayerHand().getPlayerHand().size(); i++) {
             Card card;
             card = gameBoard.getActivePlayerHand().getPlayerHand().get(i);
-            Interaction.moveCardToContainer(input, card, game, gameBoard);
+
+            if(card instanceof CharacterCard){
+                Interaction.moveCardToContainer(input, card, game, gameBoard);
+            }
+
+            else if(card instanceof EquipCard){
+                Interaction.moveCardToContainer(input, card, game, gameBoard);
+            }
+
+            else if(card instanceof UtilityCard){
+                Interaction.moveUtilityCardToContainer(input,card,game,gameBoard);
+                UtilityCard utilityCard = (UtilityCard) card;
+                if(utilityCard.isAnimationInProgress()){
+                    System.out.println("Reached this animation line of code");
+                    utilityCard.utilityCardAnimation();
+                }
+
+                if(utilityCard.isAnimationFinished()) {
+                    int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(utilityCard);
+                    utilityCard.runUtilityEffect(gameBoard);
+                    gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
+                    gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
+                }
+
+
+            }
         }
 
         // Check for mob selection

@@ -38,8 +38,8 @@ public class Card extends Sprite implements Draggable {
 
     // Define the default card width and height
     //Changed the default width and height. The original values were 180 and 260 respectively - MMC
-    private static final int DEFAULT_CARD_WIDTH = 180;
-    private static final int DEFAULT_CARD_HEIGHT = 260;
+    protected static final int DEFAULT_CARD_WIDTH = 180;
+    protected static final int DEFAULT_CARD_HEIGHT = 260;
     private static final int TEXT_MAX_LINE_LENGTH = 9;
 
     //Bitmap related properties
@@ -57,9 +57,9 @@ public class Card extends Sprite implements Draggable {
     //Touch event related properties
     private boolean selected;
     private boolean cardFaceUp;
-    private final int FLIP_TIME = 15;
+    protected final int FLIP_TIME = 15;
     private int flipTimer;
-    private float scale;
+    protected float scale;
 
 
 

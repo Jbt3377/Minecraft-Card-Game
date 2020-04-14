@@ -110,6 +110,23 @@ public class MobContainer extends Sprite implements Container {
         }
     return false;
     }
+
+    public boolean checkForUtilityCard(List<TouchEvent> input, Draggable dObj){
+        if (this.contType == ContainerType.UTILITY_CARD && isEmpty()) {
+            for (TouchEvent event : input) {
+
+                float x_cor = event.x;
+                float y_cor = convertYAxisToLayerView(event.y);
+
+                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters
     ////////////////////////////////////////////////////////////////////////////////////////////////
