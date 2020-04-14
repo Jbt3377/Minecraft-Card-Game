@@ -180,7 +180,54 @@ public class Card extends Sprite implements Draggable {
 
         cardDescTextPaint.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
     }
+    public void cardMoveXAnimation(float desiredXLoc, float desiredYLoc){
+        //Phase 1 - Fastest Movement
+        if(this.position.x > desiredXLoc){
+            float positionDifference = this.position.x - desiredXLoc;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x - 20, this.position.y);
+            }else{
+                setNewPosition(this.position.x - 1, this.position.y);
+            }
+        } if(this.position.x < desiredXLoc){
+            float positionDifference = desiredXLoc - this.position.x;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x + 20, this.position.y);
+            }else{
+                setNewPosition(this.position.x + 1, this.position.y);
+            }
+        }
+    }
 
+    public void cardMoveYAnimation(float desiredXLoc, float desiredYLoc){
+        //Phase 1 - Fastest Movement
+        if(this.position.y > desiredYLoc){
+            float positionDifference = this.position.y - desiredYLoc;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x, this.position.y - 20);
+            }else{
+                setNewPosition(this.position.x, this.position.y - 1);
+            }
+        } if(this.position.y < desiredYLoc){
+            float positionDifference = desiredYLoc - this.position.y;
+            if(positionDifference > (positionDifference * 0.10)){
+                setNewPosition(this.position.x, this.position.y + 20);
+            }else{
+                setNewPosition(this.position.x, this.position.y + 1);
+            }
+        }
+    }
+
+    public boolean readyToTurnToMob(float desiredXLoc, float desiredYLoc){
+        boolean result = false;
+
+        if(this.mBound.contains(desiredXLoc,desiredYLoc)){
+            result = true;
+        }
+        return result;
+    }
+
+    
     ///////////////////
     //Interface Methods
     ///////////////////
