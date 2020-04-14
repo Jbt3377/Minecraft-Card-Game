@@ -100,6 +100,22 @@ public class Mob extends Sprite {
     }
 
 
+    public void aiAttackTarget(Mob targetedMob) {
+
+        // Enemy Mob takes Damage
+        targetedMob.decreaseHP(attackDamage);
+        ////attackSound.play();
+
+        // Enemy Mob - Death/Damaged Sounds
+        ////if(targetedMob.getHealthPoints() <= 0)
+        ////    targetedMob.getDeathSound().play();
+
+        // Mob has attacked, can no longer be used this turn
+        this.hasBeenUsed = true;
+        this.updateMobBitmap();
+    }
+
+
     /**
      * Modifies the HP of the Mob
      * @param damageInflicted - Pos/Neg integer input

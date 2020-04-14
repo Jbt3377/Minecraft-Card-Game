@@ -11,6 +11,7 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.util.ViewportHelper;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 //Newly Added
@@ -49,8 +50,11 @@ public class DisplayCardsScreen extends GameScreen {
     private int distanceBetweenColumns = 420;
     private int distanceBetweenRows = 580;
 
-    // DisplayCardsScreen
-    private PushButton allCardsButton, mobCardsButton, equipCardsButton, utilityCardsButton, showUnowned;
+    // Viewports
+    private LayerViewport backgroundLayerViewport;
+
+    // Background Image
+    private GameObject backgroundBackground;
 
     //Define a viewport for the cards
     private LayerViewport cardLayerViewport;
@@ -58,7 +62,7 @@ public class DisplayCardsScreen extends GameScreen {
 
     //Variables for scroll limiter method and starting cardLayerStartingCor_y
     private int cardLayerStartingCor_y = 400;
-    private int sizeOfRows = distanceBetweenRows * numberOfRows;
+    private int sizeOfRows;
     private int card_layerDiffernce = sizeOfRows-cardLayerStartingCor_y;
 
 
@@ -69,13 +73,20 @@ public class DisplayCardsScreen extends GameScreen {
 
     private ArrayList<Card> displayedCardCollection = new ArrayList<>();
 
+    // DisplayCardsScreen
+    private PushButton allCardsButton, mobCardsButton, equipCardsButton, utilityCardsButton, showUnowned;
+
+
+    private int test = 0;
+
+
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
 
-    public DisplayCardsScreen(Game game) {
+    public DisplayCardsScreen(String screenName, Game game) {
         super("CardsDisplay", game);
         setupViewPorts();
         setupBoardGameObjects();
@@ -90,16 +101,27 @@ public class DisplayCardsScreen extends GameScreen {
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
         cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-
+        backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
         screenViewport = new ScreenViewport(0,0,(int) screenWidth,(int)screenHeight);
     }
 
     //Setting up objects for the gamescreen
     private void setupBoardGameObjects() {
+
+
+
         //Adds all the cards in the game into a collection of an arraylist;
+        addCardsToCardCollection();
+        addCardsToCardCollection();
+        addCardsToCardCollection();
+        addCardsToCardCollection();
+        addCardsToCardCollection();
 
         //Calculates the rows required for being displayed
         calculateAmountOfRows();
+
+        // Setup boardBackGround image - AB
+        backgroundBackground =  new GameObject(mScreenWidth/2, -mScreenWidth/4, mScreenWidth, sizeOfRows, getGame().getAssetManager().getBitmap("BookShelfBackground"), this);
 
         //Sets the position of cards
         setPositionCards();
@@ -124,6 +146,20 @@ public class DisplayCardsScreen extends GameScreen {
         processTouchEvents();
 
         scrollLimiter();
+
+        movingBackground();
+
+
+    }
+
+
+    private void movingBackground(){
+        float offset = cardLayerViewport.y;
+
+        //backgorund y / card view size
+        float calculate = mGame.getScreenHeight() / sizeOfRows;
+        //the total number of pixels it needs to move
+        backgroundLayerViewport.y = offset * 0.3f;
     }
 
     //Listens and takes in user inputs
@@ -147,9 +183,19 @@ public class DisplayCardsScreen extends GameScreen {
                 touchOffsetY = 0.0f;
             }
 
+            //private ArrayList<Card> cardCollection = new ArrayList<>();
             //Sets the off set from the touch and card layer
             if (t.type == TouchEvent.TOUCH_DOWN) {
                 touchOffsetY = cardLayerViewport.y - t.y;
+            }
+
+            if (t.type == TouchEvent.TOUCH_SINGLE_TAP){
+
+                for (Card x : cardCollection) {
+                    if (x.getBound().contains(t.x, t.y)) {
+                        test++;
+                    }
+                }
             }
         }
     }
@@ -163,6 +209,11 @@ public class DisplayCardsScreen extends GameScreen {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
+
+        backgroundBackground.draw(elapsedTime, graphics2D,
+                backgroundLayerViewport,
+                mDefaultScreenViewport);
+
         //drawAllButtons(elapsedTime,graphics2D);
 
         //Displays Cards
@@ -174,7 +225,8 @@ public class DisplayCardsScreen extends GameScreen {
         fpsPaint.setTextAlign(Paint.Align.RIGHT);
 
         graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
-        graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
+        //graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
+        graphics2D.drawText("touchOffsetY: " + test, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
 
 // Debug Draw (Keep)
 //        graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
@@ -189,7 +241,8 @@ public class DisplayCardsScreen extends GameScreen {
     //Method allows future development and flexibility
     private void calculateAmountOfRows(){
         //Variables for the display of cards
-        numberOfRows = ((getCardCollection().size() + 1) / numberOfColumns) + 1; //Needs to be calculated
+        numberOfRows = ((getCardCollection().size() + 1) / numberOfColumns); //Needs to be calculated
+        sizeOfRows = distanceBetweenRows * (numberOfRows-1); //Calculate the pixels size - -1 due to +1 from above line of code
     }
 
     //Draws all the cards displaycards
@@ -226,10 +279,11 @@ public class DisplayCardsScreen extends GameScreen {
     private void scrollLimiter(){
 
         //Keeping the cardLayerViewport (All the cards) displayed
-        if(cardLayerViewport.y<=0){
-            cardLayerViewport.y=cardLayerStartingCor_y+card_layerDiffernce;
+        if(cardLayerViewport.y<=cardLayerStartingCor_y-sizeOfRows){
+            cardLayerViewport.y=cardLayerStartingCor_y-sizeOfRows;
         }
-        if(cardLayerViewport.y>=cardLayerStartingCor_y){
+        if
+        (cardLayerViewport.y>=cardLayerStartingCor_y){
            cardLayerViewport.y=cardLayerStartingCor_y;
         }
 

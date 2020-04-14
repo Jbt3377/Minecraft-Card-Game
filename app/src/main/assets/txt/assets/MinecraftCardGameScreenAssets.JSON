@@ -44,6 +44,11 @@
       "name": "CardBackgroundReverse",
       "file": "img/CardBackground1.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "BookShelfBackground",
+      "file": "img/BookShelfBackground.png"
+    },
 
     {
       "type": "Font",
@@ -57,6 +62,18 @@
       "name": "MinecraftRegFont",
       "file": "font/Minecraftia.ttf"
 
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Heart",
+      "file": "img/heart.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "BottleOEnchanting",
+      "file": "img/bottle_o_enchanting.png"
     },
 
     {
@@ -93,6 +110,12 @@
       "name": "ResumeButton",
       "file": "img/ResumeButton.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "VolumeButton",
+      "file": "img/VolumeButton.png"
+    },
+
     {
       "type": "Bitmap",
       "name": "ExitButton",
@@ -162,6 +185,18 @@
       "type": "Bitmap",
       "name": "RulesButton",
       "file": "img/RulesButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "CardCollectionButton",
+      "file": "img/CardCollectionButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "DeckEditorButton",
+      "file": "img/DeckEditorButton.png"
     },
 
     {
@@ -324,6 +359,12 @@
       "type": "Bitmap",
       "name": "ItemFrame",
       "file": "img/item_frame.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "ItemFrameUtility",
+      "file": "img/item_frame_utility.png"
     },
 
     {

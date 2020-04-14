@@ -22,6 +22,7 @@ public class CompanyLogoScreen extends GameScreen {
     private LayerViewport logoLayerViewPort;
     private ScreenViewport logoScreenViewport;
     private Paint fpsPaint;
+    int fps;
 
 
     public CompanyLogoScreen(Game game) {

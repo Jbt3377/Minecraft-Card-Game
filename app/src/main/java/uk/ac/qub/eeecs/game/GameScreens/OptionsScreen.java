@@ -9,6 +9,7 @@ import java.util.Random;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -27,9 +28,12 @@ public class OptionsScreen extends GameScreen {
     private GameObject boardBackground;
     private LayerViewport boardLayerViewport;
     private Paint titlePaint, textPaintSettings, textPaintHuman, textPaintAi, fpsPaint;
-    private Sprite humanAvatar, aiAvatar;
+    private GameObject humanAvatar, aiAvatar;
     private ToggleButton fpsToggle;
+    int fps;
 
+    private int volumecounter = 1;
+    private PushButton volumeButton;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -60,23 +64,48 @@ public class OptionsScreen extends GameScreen {
         humanAvatar = new Sprite(mScreenWidth/2 *0.75f, mScreenHeight/3, game.getAssetManager().getBitmap("human_avatar"), this);
         aiAvatar = new Sprite(mScreenWidth/2, mScreenHeight/3, game.getAssetManager().getBitmap("ai_avatar"), this);
 
-        fpsToggle = new ToggleButton(mScreenWidth*0.45f, mScreenHeight*0.3f, mScreenWidth * 0.20f, mScreenHeight * 0.2f,
+        fpsToggle = new ToggleButton(mScreenWidth*0.45f, mScreenHeight*0.1f, mScreenWidth * 0.20f, mScreenHeight * 0.2f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+
+        volumeButton = new PushButton(mScreenWidth / 1.38f, mScreenHeight* 0.5500f,mScreenWidth* 0.13f, mScreenHeight* 0.18f,
+                "VolumeButton",  this);
     }
 
 
     @Override
     public void update(ElapsedTime elapsedTime) {
-
+        playBackgroundMusic();
         fps = (int) mGame.getAverageFramesPerSecond();
 
         mReturnButton.update(elapsedTime);
+        volumeButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
         if (mReturnButton.isPushTriggered())
             mGame.getScreenManager().removeScreen(this);
 
         Input touchInputs = mGame.getInput();
         List<TouchEvent> input = touchInputs.getTouchEvents();
+        if(volumeButton.isPushTriggered()){
 
+            if(volumecounter == 0){
+                mGame.getAudioManager().setSfxVolume(0.33f);
+                mGame.getAudioManager().setMusicVolume(0.33f);
+                volumecounter++;
+            }else if(volumecounter == 1){
+
+                mGame.getAudioManager().setSfxVolume(0.67f);
+                mGame.getAudioManager().setMusicVolume(0.67f);
+                volumecounter++;
+            }else if(volumecounter == 2) {
+
+                mGame.getAudioManager().setSfxVolume(1);
+                mGame.getAudioManager().setMusicVolume(1);
+                volumecounter++;
+            } else if (volumecounter == 3) {
+                mGame.getAudioManager().setSfxVolume(0);
+                mGame.getAudioManager().setMusicVolume(0);
+                volumecounter = 0;
+            }
+        }
         fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
         mGame.setDisplayFps(fpsToggle.isToggledOn());
 
@@ -123,12 +152,17 @@ public class OptionsScreen extends GameScreen {
         aiAvatar.draw(elapsedTime, graphics2D);
         graphics2D.drawText("AI", mScreenWidth/2, mScreenHeight/2 + 40f, textPaintAi);
 
-        graphics2D.drawText("FPS Counter:", mScreenWidth/8, mScreenHeight*0.7f, textPaintSettings);
+        graphics2D.drawText("Who goes first:", mScreenWidth/8, mScreenHeight*0.7f, textPaintSettings);
+
+        graphics2D.drawText("FPS Counter:", mScreenWidth/8, mScreenHeight*0.9f, textPaintSettings);
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+
+        graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
+        volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
 
 
         if(mGame.isDisplayFps())
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint);
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint);
 
         // Draw the back button
         mReturnButton.draw(elapsedTime, graphics2D,
@@ -165,8 +199,15 @@ public class OptionsScreen extends GameScreen {
         fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setTextAlign(Paint.Align.CENTER);
         fpsPaint.setColor(Color.WHITE);
 
+    }
+    private void playBackgroundMusic() {
+        AudioManager audioManager = getGame().getAudioManager();
+        if(!audioManager.isMusicPlaying())
+            audioManager.playMusic(
+                    //Changed string name to new background music
+                    getGame().getAssetManager().getMusic("MinecraftMusic"));
     }
 }

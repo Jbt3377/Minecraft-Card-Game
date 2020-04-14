@@ -50,6 +50,8 @@ public class GameBoard {
     private GameScreen gameScreen;
     private ArrayList<MobContainer> fieldContainers;
 
+    private MobContainer utilityCardContainer;
+
     //Boolean to tell which player's turn it is
     private boolean isPlayer1Turn;
 
@@ -128,6 +130,8 @@ public class GameBoard {
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*3, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*4, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
 
+        this.utilityCardContainer = new MobContainer(screenWidth/10, screenHeight/2 , MobContainer.ContainerType.UTILITY_CARD,gameScreen);
+        fieldContainers.add(utilityCardContainer);
 
     }
 
@@ -228,12 +232,12 @@ public class GameBoard {
         int currentHP = getInactivePlayer().getmPlayerHealth();
         getInactivePlayer().setmPlayerHealth(currentHP -= damageInflicted);
 
-        float popupXPos = mScreenWidth * 0.94f, popupYPos;
+        float popupXPos = mScreenWidth * 0.85f, popupYPos;
 
         if(isPlayer1Turn)
-            popupYPos = mScreenHeight * 0.60f;
+            popupYPos = mScreenHeight * 0.35f;
         else
-            popupYPos = mScreenHeight * 0.38f;
+            popupYPos = mScreenHeight * 0.65f;
 
         new PopUpObject(popupXPos, popupYPos, getGameScreen(), 30,
                 "-" + damageInflicted, 5, true);
@@ -322,5 +326,13 @@ public class GameBoard {
 
     public void setIsPlayer1Turn(boolean player1Turn) {
         isPlayer1Turn = player1Turn;
+    }
+
+    public MobContainer getUtilityCardContainer() {
+        return utilityCardContainer;
+    }
+
+    public void setUtilityCardContainer(MobContainer utilityCardContainer) {
+        this.utilityCardContainer = utilityCardContainer;
     }
 }

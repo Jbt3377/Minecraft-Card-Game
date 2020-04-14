@@ -48,6 +48,10 @@ public class StartScreen extends GameScreen {
     private ScreenViewport backgroundScreenViewport;
     private PushButton mBoardButton;
     private CustomBoardScreen customBoardScreen;
+    private PushButton mDeckEditorButton;
+    private DeckEditorScreen DeckEditor;
+    private PushButton mAllCards;
+    private DisplayCardsScreen DisplayAllCards;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -70,6 +74,8 @@ public class StartScreen extends GameScreen {
         assetManager.loadAndAddBitmap("RulesButton", "img/RulesButton.png");
         assetManager.loadAndAddBitmap("CustomiseScreenButton", "img/CustomiseScreenButton.png");
         assetManager.loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
+        assetManager.loadAndAddBitmap("DeckEditorButton", "img/DeckEditorButton.png");
+        assetManager.loadAndAddBitmap("CardCollectionButton", "img/CardCollectionButton.png");
 
 
         //Setting base volume
@@ -91,7 +97,7 @@ public class StartScreen extends GameScreen {
         // Create the trigger buttons
 
         //Button to start the game
-        mCardDemoButton = new PushButton(screenWidth/2,screenHeight/4,screenWidth/6f,screenHeight/10.0f, "StartButton", "StartButton", this);
+        mCardDemoButton = new PushButton(screenWidth/2,screenHeight/2.75f,screenWidth/6f,screenHeight/10.0f, "StartButton", "StartButton", this);
         mCardDemoButton.setPlaySounds(true, true);
 
         //Button to view options
@@ -106,15 +112,21 @@ public class StartScreen extends GameScreen {
         mBoardButton = new PushButton(screenWidth / 1.10f, screenHeight / 7.1f, screenWidth / 9.5f, screenHeight/ 5.0f, "CustomiseScreenButton",  this);
         mBoardButton.setPlaySounds(true, true);
 
+        //Button to view deck editor
+        mDeckEditorButton = new PushButton(screenWidth/2.5f,screenHeight/4,screenWidth/5.9f,screenHeight/9.5f, "DeckEditorButton", "DeckEditorButton", this);
+        mDeckEditorButton.setPlaySounds(true, true);
+
+        //Button to view rules
+        mAllCards= new PushButton(screenWidth/1.7f,screenHeight/4,screenWidth/5.9f,screenHeight/9.5f, "CardCollectionButton", "CardCollectionButton", this);
+        mAllCards.setPlaySounds(true, true);
+
 
         //has to be inside the Constructor to create a game screen
         Rules = new RulesScreen("Rules", game);
         Options = new OptionsScreen("OptionsScreen", game);
+        DeckEditor = new DeckEditorScreen("DeckEditor", game);
+        DisplayAllCards = new DisplayCardsScreen("CardsDisplay", game);
         customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
-
-
-
-
 
     }
 
@@ -146,11 +158,13 @@ public class StartScreen extends GameScreen {
             mRulesButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
             mOptionsButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
             mBoardButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mAllCards.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mDeckEditorButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
 
 
             if (mCardDemoButton.isPushTriggered()){
-               mGame.MenuScreentime = elapsedTime.totalTime;
-               stopBackGroundMusic();
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(new MainGameScreen(mGame));
             }
 
@@ -169,6 +183,16 @@ public class StartScreen extends GameScreen {
                 mGame.MenuScreentime = elapsedTime.totalTime;
                 stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(customBoardScreen);
+            }
+            if (mDeckEditorButton.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(DeckEditor);
+            }
+            if (mAllCards.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(DisplayAllCards);
             }
 
         }
@@ -190,6 +214,8 @@ public class StartScreen extends GameScreen {
         mOptionsButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
         mRulesButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
         mBoardButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mAllCards.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mDeckEditorButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
 
         if(mGame.isDisplayFps())
             graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint());

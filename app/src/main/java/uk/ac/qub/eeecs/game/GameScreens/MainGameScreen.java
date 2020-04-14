@@ -37,7 +37,7 @@ public class MainGameScreen extends GameScreen {
     private LayerViewport boardLayerViewport, cardLayerViewport;
 
     // Background Image
-    private GameObject boardBackground;
+    private GameObject boardBackground, player1Heart, player1Mana,player2Heart, player2Mana;
 
     // Game Board associated with Card Game
     private GameBoard gameBoard;
@@ -62,7 +62,7 @@ public class MainGameScreen extends GameScreen {
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
 
-
+    int fps;
 
     //Turn Number Counter
     private int turnNumber = 1;
@@ -155,15 +155,20 @@ public class MainGameScreen extends GameScreen {
         pauseButton = new PushButton(mScreenWidth * 0.044f, mScreenHeight/1.15f,mScreenWidth/14.5f, mScreenHeight/9,
                 "PauseButton",  this);
 
-
         magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/10,mScreenHeight /8,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
-
-
 
         displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
                 "EndTurnDefault", this);
 
+        float playerHeartIconXPos = mScreenWidth*0.85f, playerManaIconXPos = mScreenWidth*0.90f,
+                player1HeartAndManaYPos = (mScreenHeight*0.60f)+40, player2HeartAndManaYPos = (mScreenHeight*0.40f)-40;
+
+
+        player1Heart = new GameObject(playerHeartIconXPos, player1HeartAndManaYPos,130, 140, mGame.getAssetManager().getBitmap("Heart"), this);
+        player1Mana = new GameObject(playerManaIconXPos, player1HeartAndManaYPos,150, 160, mGame.getAssetManager().getBitmap("BottleOEnchanting"), this);
+        player2Heart = new GameObject(playerHeartIconXPos, player2HeartAndManaYPos,130, 140, mGame.getAssetManager().getBitmap("Heart"), this);
+        player2Mana = new GameObject(playerManaIconXPos, player2HeartAndManaYPos,150, 160, mGame.getAssetManager().getBitmap("BottleOEnchanting"), this);
 
 
 
@@ -183,8 +188,8 @@ public class MainGameScreen extends GameScreen {
         exitButton = new PushButton((int) (mScreenWidth / 1.5), (int) (mScreenHeight * 0.15f), mScreenWidth * 0.208f,
                 mScreenHeight * 0.15f, "ExitButton", this);
 
-        volumeButton = new PushButton(mScreenWidth / 1.3f, mScreenHeight* 0.4700f,mScreenWidth* 0.23f, mScreenHeight* 0.18f,
-                "PauseButton",  this);
+        volumeButton = new PushButton(mScreenWidth / 1.35f, mScreenHeight* 0.4700f,mScreenWidth* 0.13f, mScreenHeight* 0.18f,
+                "VolumeButton",  this);
 
         if(mGame.isDisplayFps()){
             fpsToggle = new ToggleButton(mScreenWidth / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
@@ -210,9 +215,9 @@ public class MainGameScreen extends GameScreen {
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
         graphics2D.drawText("FPS Counter:", (int) (mScreenWidth / 4.5), mScreenHeight * 0.37f, pausePaint);
-        graphics2D.drawText("Voulume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
-        graphics2D.drawText("Voulume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
-        graphics2D.drawText("Voulume: " + mGame.getAudioManager().getMusicVolume() , (int) (mScreenWidth / 3.3), mScreenHeight * 0.65f, pausePaint);
+        graphics2D.drawText("Volume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+        graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
+
 
 
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
@@ -242,14 +247,14 @@ public class MainGameScreen extends GameScreen {
         if (displayAllCardsButton.isPushTriggered()){
             //Game Screen Display
             mGame.MenuScreentime = elapsedTime.totalTime;
-            mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
+            mGame.getScreenManager().addScreen(new DisplayCardsScreen("CardsDisplay" ,mGame));
         }
 
         // Check 3 - Game Paused
         if (pauseButton.isPushTriggered())
-            gamePaused = true;
+    gamePaused = true;
 
-    }
+}
 
 
     /**
@@ -299,7 +304,7 @@ public class MainGameScreen extends GameScreen {
         Paint statsTextPaint = new Paint();
         statsTextPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         statsTextPaint.setTextSize(mScreenHeight / 30);
-        statsTextPaint.setTextAlign(Paint.Align.RIGHT);
+        statsTextPaint.setTextAlign(Paint.Align.CENTER);
         statsTextPaint.setColor(Color.WHITE);
         return statsTextPaint;
     }
@@ -308,7 +313,7 @@ public class MainGameScreen extends GameScreen {
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setTextAlign(Paint.Align.CENTER);
         fpsPaint.setColor(Color.WHITE);
         return fpsPaint;
     }
@@ -347,11 +352,16 @@ public class MainGameScreen extends GameScreen {
 
         drawGameButtons(elapsedTime, graphics2D);
 
+        player1Heart.draw(elapsedTime, graphics2D);
+        player1Mana.draw(elapsedTime, graphics2D);
+        player2Heart.draw(elapsedTime, graphics2D);
+        player2Mana.draw(elapsedTime, graphics2D);
+
         //Draw player and opponent life points and mana points
-        graphics2D.drawText("HP " + gameBoard.getPlayer1().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.60f, statsTextPaint());
-        graphics2D.drawText("MP " + gameBoard.getPlayer1().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.65f, statsTextPaint());
-        graphics2D.drawText("HP " + gameBoard.getPlayer2().getmPlayerHealth(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.38f, statsTextPaint());
-        graphics2D.drawText("MP " + gameBoard.getPlayer2().getmPlayerMana(), (int) (mScreenWidth * 0.94f), mScreenHeight * 0.43f, statsTextPaint());
+        graphics2D.drawText("" + gameBoard.getPlayer1().getmPlayerHealth(), (int) (mScreenWidth * 0.85f), mScreenHeight * 0.645f, statsTextPaint());
+        graphics2D.drawText("" + gameBoard.getPlayer1().getmPlayerMana(), (int) (mScreenWidth * 0.902f), mScreenHeight * 0.683f, statsTextPaint());
+        graphics2D.drawText("" + gameBoard.getPlayer2().getmPlayerHealth(), (int) (mScreenWidth * 0.85f), mScreenHeight * 0.37f, statsTextPaint());
+        graphics2D.drawText("" + gameBoard.getPlayer2().getmPlayerMana(), (int) (mScreenWidth * 0.902f), mScreenHeight * 0.41f, statsTextPaint());
 
 
         // Draw Turn Counter
@@ -359,7 +369,7 @@ public class MainGameScreen extends GameScreen {
 
         // Draw FPS Counter - if enabled
         if(mGame.isDisplayFps())
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint());
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint());
 
 
         drawPopUps(elapsedTime, graphics2D);
