@@ -82,7 +82,6 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-
         final int PLAYER_STARTING_HEALTH = 30;
         final int PLAYER_STARTING_MANA = 10;
 
@@ -91,12 +90,18 @@ public class TurnManager {
         gameBoard.getPlayer2().setmPlayerHealth(PLAYER_STARTING_HEALTH);
         gameBoard.getPlayer2().setmPlayerMana(PLAYER_STARTING_MANA);
 
-        // TODO: Feature to set which player goes first
-        player1PhaseFlag = Phase.MOVE;
-        player2PhaseFlag = Phase.INACTIVE;
-
-        isPlayer1Turn = true;
-        gameBoard.setIsPlayer1Turn(true);
+        boolean isPlayer1First = gameBoard.getGameScreen().getGame().isPlayer1First();
+        if(isPlayer1First) {
+            player1PhaseFlag = Phase.MOVE;
+            player2PhaseFlag = Phase.INACTIVE;
+            isPlayer1Turn = true;
+            gameBoard.setIsPlayer1Turn(true);
+        }else{
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.MOVE;
+            isPlayer1Turn = false;
+            gameBoard.setIsPlayer1Turn(false);
+        }
 
         addStartTurnPopup();
     }
@@ -352,7 +357,7 @@ public class TurnManager {
                 gameBoard.getActivePlayer().setTargetedMobIndex(rand.nextInt(gameBoard.getPlayer1MobsOnBoard().size()));
                 gameBoard.getActivePlayer().setTargetedMob(gameBoard.getPlayer1MobsOnBoard().get(gameBoard.getActivePlayer().getTargetedMobIndex()));
                 gameBoard.getActivePlayer().getTargetedMob().setSelectedToAttack(true);
-                    //OpponentMob selected, so change border to green
+                //OpponentMob selected, so change border to green
                 gameBoard.getActivePlayer().getTargetedMob().updateMobBitmap();
 
             }

@@ -61,6 +61,30 @@
 
     {
       "type": "Bitmap",
+      "name": "HelmetState1",
+      "file": "img/Helmet Animation/Helmet State 1.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState2",
+      "file": "img/Helmet Animation/Helmet State 2.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState3",
+      "file": "img/Helmet Animation/Helmet State 3.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState4",
+      "file": "img/Helmet Animation/Helmet State 4.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "Heart",
       "file": "img/heart.png"
     },
