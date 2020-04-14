@@ -101,7 +101,9 @@ public class Card extends Sprite implements Draggable {
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
 
+        this.cardFaceUp = true;
         this.cardDescTextPaint = setupDescTextPaint(assetManager);
+        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
 
         // Set the common card reverse image
         mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
@@ -137,7 +139,7 @@ public class Card extends Sprite implements Draggable {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
-        flipAnimation();
+        //flipAnimation();
         if(cardFaceUp) {
             // Draw the portrait
             //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
@@ -227,7 +229,7 @@ public class Card extends Sprite implements Draggable {
         return result;
     }
 
-    
+
     ///////////////////
     //Interface Methods
     ///////////////////
