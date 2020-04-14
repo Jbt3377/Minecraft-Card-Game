@@ -242,7 +242,7 @@ public class MainGameScreen extends GameScreen {
         if (displayAllCardsButton.isPushTriggered()){
             //Game Screen Display
             mGame.MenuScreentime = elapsedTime.totalTime;
-            mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
+            mGame.getScreenManager().addScreen(new DisplayCardsScreen("CardsDisplay" ,mGame));
         }
 
         // Check 3 - Game Paused
