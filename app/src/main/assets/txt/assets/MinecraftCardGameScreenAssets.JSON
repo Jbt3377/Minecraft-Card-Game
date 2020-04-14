@@ -44,6 +44,11 @@
       "name": "CardBackgroundReverse",
       "file": "img/CardBackground1.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "BookShelfBackground",
+      "file": "img/BookShelfBackground.png"
+    },
 
     {
       "type": "Font",
@@ -180,6 +185,18 @@
       "type": "Bitmap",
       "name": "RulesButton",
       "file": "img/RulesButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "CardCollectionButton",
+      "file": "img/CardCollectionButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "DeckEditorButton",
+      "file": "img/DeckEditorButton.png"
     },
 
     {

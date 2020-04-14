@@ -247,7 +247,7 @@ public class MainGameScreen extends GameScreen {
         if (displayAllCardsButton.isPushTriggered()){
             //Game Screen Display
             mGame.MenuScreentime = elapsedTime.totalTime;
-            mGame.getScreenManager().addScreen(new DisplayCardsScreen(mGame));
+            mGame.getScreenManager().addScreen(new DisplayCardsScreen("CardsDisplay" ,mGame));
         }
 
         // Check 3 - Game Paused
@@ -398,6 +398,13 @@ public class MainGameScreen extends GameScreen {
     }
 
 
+    public void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null) {
+
+        }
+
+    }
 
     public void magnificationButton(ElapsedTime elapsedTime) {
         magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
