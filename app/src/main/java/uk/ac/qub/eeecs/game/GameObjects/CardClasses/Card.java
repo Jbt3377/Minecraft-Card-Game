@@ -137,18 +137,20 @@ public class Card extends Sprite implements Draggable {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
-//        flipAnimation();
-
+        flipAnimation();
+        if(cardFaceUp) {
             // Draw the portrait
             //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-              //      graphics2D, layerViewport, screenViewport);
+            //      graphics2D, layerViewport, screenViewport);
 
             // Draw the card base background
             mBitmap = mCardBase;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-
-
-
+        }
+        else{
+            mBitmap = mCardReverse;
+            super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        }
     }
 
     private BoundingBox bound = new BoundingBox();
