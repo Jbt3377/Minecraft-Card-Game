@@ -345,8 +345,188 @@
 
     {
       "type": "Bitmap",
+      "name": "Herobrine",
+      "file": "img/card_herobrine.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Dolphin",
+      "file": "img/card_dolphin.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Steve Dolphin",
+      "file": "img/card_stevedolphin.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Bees",
+      "file": "img/card_bees.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Pandas",
+      "file": "img/card_panda.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Sheep",
+      "file": "img/card_sheep.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Pigman",
+      "file": "img/card_pigman.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Dog",
+      "file": "img/card_dog.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Drowned",
+      "file": "img/card_drowned.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Guardian",
+      "file": "img/card_guardian.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Wither",
+      "file": "img/card_wither.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Cat",
+      "file": "img/card_cat.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Ravager",
+      "file": "img/card_ravager.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Skeleton",
+      "file": "img/card_skeleton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Pillager",
+      "file": "img/card_pillager.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Witch",
+      "file": "img/card_witch.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Bat",
+      "file": "img/card_bat.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Blaze",
+      "file": "img/card_blaze.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Squid",
+      "file": "img/card_squid.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Super Creeper",
+      "file": "img/card_supercreeper.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Spider Jockey",
+      "file": "img/card_skeletonjockey.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Spider",
+      "file": "img/card_spider.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "Potion of Healing",
       "file": "img/card_potion_of_healing.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Potion of Extra Healing",
+      "file": "img/card_potion_of_extra_healing.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Potion of Extra Damage",
+      "file": "img/card_potion_of_extra_damage.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Potion of Lesser Damage",
+      "file": "img/card_potion_of_lesser_damage.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Potion of Damage",
+      "file": "img/card_potion_of_damage.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Bow",
+      "file": "img/card_bow.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Crossbow",
+      "file": "img/card_crossbow.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Double Swords",
+      "file": "img/card_diamondswords.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Trident",
+      "file": "img/card_trident.png"
     },
 
     {
