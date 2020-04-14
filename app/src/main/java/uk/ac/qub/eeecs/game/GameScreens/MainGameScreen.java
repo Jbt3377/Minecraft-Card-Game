@@ -388,6 +388,13 @@ public class MainGameScreen extends GameScreen {
     }
 
 
+    public void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null) {
+
+        }
+
+    }
 
     public void magnificationButton(ElapsedTime elapsedTime) {
         magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);

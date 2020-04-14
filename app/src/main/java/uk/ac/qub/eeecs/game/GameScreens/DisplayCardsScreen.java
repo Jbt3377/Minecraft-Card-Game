@@ -35,11 +35,7 @@ public class DisplayCardsScreen extends GameScreen {
     //to get back to the main screen
     private PushButton mBackButton;
 
-    // List containing all card stat objects
-    private ArrayList<CardStats> allCardStats = mGame.getAssetManager().getAllCardStats();
 
-    //All the cards that will be displayed
-    private ArrayList<Card> cardCollection = new ArrayList<>();
 
 
     //Variables for the display of cards
@@ -71,7 +67,7 @@ public class DisplayCardsScreen extends GameScreen {
     private float touchOffsetY = 0.0f;
     private float mAccelerationY = 0.0f;
 
-
+    private ArrayList<Card> displayedCardCollection = new ArrayList<>();
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -101,7 +97,6 @@ public class DisplayCardsScreen extends GameScreen {
     //Setting up objects for the gamescreen
     private void setupBoardGameObjects() {
         //Adds all the cards in the game into a collection of an arraylist;
-        addCardsToCardCollection();
 
         //Calculates the rows required for being displayed
         calculateAmountOfRows();
@@ -112,6 +107,12 @@ public class DisplayCardsScreen extends GameScreen {
         //Set up buttons
         //setUpButtons();
 
+
+        displayedCardCollection = getCardCollection();
+        for (int i = 0; i < displayedCardCollection.size(); i++) {
+            displayedCardCollection.get(i).setHeight(displayedCardCollection.get(i).getHeight() * 2);
+            displayedCardCollection.get(i).setWidth(displayedCardCollection.get(i).getWidth() * 2);
+        }
     }
 
     //Update requirements
@@ -182,40 +183,20 @@ public class DisplayCardsScreen extends GameScreen {
     }
 
 
-    //Adds all the cards that exist into cardCollection
-    private void addCardsToCardCollection(){
-        //Logical Adds the cards depending on the "type" of card
-        for(CardStats x : allCardStats){
-            //CharacterCardStats check
-            if(x instanceof CharacterCardStats){
-                CharacterCard card = new CharacterCard(cardLayerViewport.x, cardLayerViewport.y, this, (CharacterCardStats)x, changeSize);
-                cardCollection.add(card);
-            }
-            //UtilityCardStats check
-            if(x instanceof UtilityCardStats){
-                UtilityCard card = new UtilityCard(cardLayerViewport.x, cardLayerViewport.y, this, (UtilityCardStats)x, changeSize);
-                cardCollection.add(card);
-            }
-            //EquipCardStats check
-            if(x instanceof EquipCardStats){
-                EquipCard card = new EquipCard(cardLayerViewport.x, cardLayerViewport.y, this, (EquipCardStats)x, changeSize);
-                cardCollection.add(card);
-            }
-        }
-    }
+
 
 
     //Method allows future development and flexibility
     private void calculateAmountOfRows(){
         //Variables for the display of cards
-        numberOfRows = ((cardCollection.size() + 1) / numberOfColumns) + 1; //Needs to be calculated
+        numberOfRows = ((getCardCollection().size() + 1) / numberOfColumns) + 1; //Needs to be calculated
     }
 
     //Draws all the cards displaycards
     private void displayAllCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
         //Draw the cards into cardLayerViewport - AB
-        for(int i = 0; i < cardCollection.size(); i++){
-            cardCollection.get(i).draw(elapsedTime, graphics2D,
+        for(int i = 0; i < getCardCollection().size(); i++){
+            displayedCardCollection.get(i).draw(elapsedTime, graphics2D,
                     cardLayerViewport,
                     screenViewport);
         }
@@ -232,8 +213,8 @@ public class DisplayCardsScreen extends GameScreen {
                 //Calculation for x_cor to be placed in game
                 int x = j * distanceBetweenColumns;
 
-                if(count<cardCollection.size()){
-                    cardCollection.get(count).setPosition((cardLayerViewport.x/3) + x, (cardLayerViewport.y) - y);
+                if(count<getCardCollection().size()){
+                    getCardCollection().get(count).setPosition((cardLayerViewport.x/3) + x, (cardLayerViewport.y) - y);
                 }
                 count++;
             }
