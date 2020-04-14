@@ -132,6 +132,9 @@ public class TurnManager {
             Card card;
             card = gameBoard.getActivePlayerHand().getPlayerHand().get(i);
             Interaction.moveCardToContainer(input, card, game, gameBoard);
+
+            Interaction.processCardSelection(input, card, game, gameBoard);
+
         }
 
         // Check for mob selection

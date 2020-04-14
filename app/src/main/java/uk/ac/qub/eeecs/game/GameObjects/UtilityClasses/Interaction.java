@@ -25,12 +25,6 @@ public abstract class Interaction {
             float y_cor = game.getScreenHeight() - t.y;
 
 
-            if (t.type == TouchEvent.TOUCH_SINGLE_TAP && dObj.getBoundingBox().contains(x_cor, y_cor)) {
-                if (game.isMagnificationToggled()) {
-                    //TODO - Implement zoom functionality
-                }
-            }
-
             if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
@@ -141,6 +135,25 @@ public abstract class Interaction {
 
     }
 
+    public static void processCardSelection(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
+        float touchOffsetX = 0.0f;
+        float touchOffsetY = 0.0f;
+
+
+            for (TouchEvent t : touchEvents) {
+                float x_cor = t.x;
+                float y_cor = game.getScreenHeight() - t.y;
+
+                if (t.type == TouchEvent.TOUCH_SINGLE_TAP && dObj.getBoundingBox().contains(x_cor, y_cor)) {
+                    if (game.isMagnificationToggled()) {
+                        int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
+                        Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
+                        game.setMagnifiedCard(card);
+                    }
+                }
+
+            }
+        }
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
         float touchOffsetX = 0.0f;
