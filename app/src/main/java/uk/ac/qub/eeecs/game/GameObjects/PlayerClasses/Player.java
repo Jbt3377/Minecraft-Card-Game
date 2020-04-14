@@ -2,10 +2,14 @@ package uk.ac.qub.eeecs.game.GameObjects.PlayerClasses;
 
 import java.util.ArrayList;
 
+import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
+import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 public abstract class Player {
 
@@ -14,7 +18,7 @@ public abstract class Player {
     ////////////
 
     // Starting Health and Mana values for all players
-    private static final int PLAYER_STARTING_HEALTH = 100;
+    private static final int PLAYER_STARTING_HEALTH = 20;
     private static final int PLAYER_STARTING_MANA = 10;
 
 
@@ -58,7 +62,6 @@ public abstract class Player {
     /////////
     //Methods
     /////////
-
 
 
     /////////////////////

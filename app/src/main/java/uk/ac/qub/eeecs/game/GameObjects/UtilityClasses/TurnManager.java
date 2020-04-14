@@ -270,16 +270,25 @@ public class TurnManager {
 
         }
 
-        // Check for Mob death
+        // Check for Mob Death
         for(MobContainer container: gameBoard.getFieldContainers()){
             if(!container.isEmpty()){
 
                 // If mob died, remove from container
                 Mob containedMob = container.getContents();
                 if(containedMob.getHealthPoints() <= 0){
+                    if(containedMob.getHealthPoints()<0){
+                        int surplusDamage = Math.abs(containedMob.getHealthPoints());
+                        gameBoard.decreaseInactivePlayerHP(surplusDamage);
+                    }
                     container.emptyContainer();
                 }
             }
+        }
+
+        // Check for Player Death
+        if(gameBoard.getInactivePlayer().getmPlayerHealth() <=0) {
+            phaseGameEnded();
         }
 
         // Check for end turn button clicked
@@ -362,6 +371,29 @@ public class TurnManager {
         // Update Boolean flags accordingly
         this.isPlayer1Turn = !isPlayer1Turn;
         gameBoard.setIsPlayer1Turn(isPlayer1Turn);
+    }
+
+
+    private void phaseGameEnded(){
+
+        Game mGame = gameBoard.getGameScreen().getGame();
+
+        String msg;
+        if(isPlayer1Turn)
+            if(gameBoard.getPlayer2() instanceof Human)
+                msg = "Player 1 Wins!";
+            else
+                msg = "You Win!";
+        else
+            if(gameBoard.getPlayer2() instanceof Human)
+                msg = "Player 2 Wins!";
+            else
+                msg = "Opponent Wins!";
+
+        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,
+                mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
+                50, msg);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////
