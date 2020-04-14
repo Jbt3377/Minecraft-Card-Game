@@ -12,6 +12,7 @@ import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
@@ -29,6 +30,8 @@ public class Mob extends Sprite {
     private boolean hasBeenUsed;
     private static int nextID = 0;
     private boolean isSelectedToAttack;
+
+    private EquipCard equipCard;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
@@ -48,7 +51,7 @@ public class Mob extends Sprite {
         this.attackDamage = characterCard.getmAttackDmg();
         this.mBitmap = CardBitmapFactory.returnMobBitmap(this,gameScreen);
         this.hasBeenUsed = false;
-
+        this.equipCard = null;
         //setEffectVolume(gameScreen);
     }
 
@@ -186,6 +189,14 @@ public class Mob extends Sprite {
 
     public void setSelectedToAttack(boolean selectedToAttack) {
         isSelectedToAttack = selectedToAttack;
+    }
+
+    public EquipCard getEquipCard() {
+        return equipCard;
+    }
+
+    public void setEquipCard(EquipCard equipCard) {
+        this.equipCard = equipCard;
     }
 
 
