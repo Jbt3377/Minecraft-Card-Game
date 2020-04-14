@@ -228,12 +228,12 @@ public class GameBoard {
         int currentHP = getInactivePlayer().getmPlayerHealth();
         getInactivePlayer().setmPlayerHealth(currentHP -= damageInflicted);
 
-        float popupXPos = mScreenWidth * 0.94f, popupYPos;
+        float popupXPos = mScreenWidth * 0.85f, popupYPos;
 
         if(isPlayer1Turn)
-            popupYPos = mScreenHeight * 0.60f;
+            popupYPos = mScreenHeight * 0.35f;
         else
-            popupYPos = mScreenHeight * 0.38f;
+            popupYPos = mScreenHeight * 0.65f;
 
         new PopUpObject(popupXPos, popupYPos, getGameScreen(), 30,
                 "-" + damageInflicted, 5, true);

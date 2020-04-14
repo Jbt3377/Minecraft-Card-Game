@@ -81,6 +81,16 @@ public class TurnManager {
         gameBoard.getPlayer1Hand().replenishHand();
         gameBoard.getPlayer2Hand().replenishHand();
 
+        // Reset Player Health and Mana levels
+
+        final int PLAYER_STARTING_HEALTH = 30;
+        final int PLAYER_STARTING_MANA = 10;
+
+        gameBoard.getPlayer1().setmPlayerHealth(PLAYER_STARTING_HEALTH);
+        gameBoard.getPlayer1().setmPlayerMana(PLAYER_STARTING_MANA);
+        gameBoard.getPlayer2().setmPlayerHealth(PLAYER_STARTING_HEALTH);
+        gameBoard.getPlayer2().setmPlayerMana(PLAYER_STARTING_MANA);
+
         // TODO: Feature to set which player goes first
         player1PhaseFlag = Phase.MOVE;
         player2PhaseFlag = Phase.INACTIVE;
@@ -277,6 +287,8 @@ public class TurnManager {
                 // If mob died, remove from container
                 Mob containedMob = container.getContents();
                 if(containedMob.getHealthPoints() <= 0){
+
+                    // Surplus Damage inflicted on player
                     if(containedMob.getHealthPoints()<0){
                         int surplusDamage = Math.abs(containedMob.getHealthPoints());
                         gameBoard.decreaseInactivePlayerHP(surplusDamage);
@@ -323,16 +335,7 @@ public class TurnManager {
 
     private void phaseEndHuman() {
 
-        // Reset selected and targeted mobs to null
-        (gameBoard.getActivePlayer()).setSelectedMobNull();
-        (gameBoard.getActivePlayer()).setTargetedMobNull();
-
-        // Reset hasBeenUsed status
-        for (Mob playerMob : gameBoard.getActivePlayersMobsOnBoard()) {
-            playerMob.setHasBeenUsed(false);
-            playerMob.updateMobBitmap();
-        }
-
+        // Clear mob selections (remove green outline)
         try {
             gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
             gameBoard.getActivePlayer().getSelectedMob().setHasBeenUsed(false);
@@ -340,8 +343,17 @@ public class TurnManager {
         } catch(NullPointerException np){
             System.out.println("Ohh NO!");
         }
+
+        // Reset selected and targeted mobs to null
         (gameBoard.getActivePlayer()).setSelectedMobNull();
         (gameBoard.getActivePlayer()).setTargetedMobNull();
+
+
+        // Reset hasBeenUsed status for all player's mobs
+        for (Mob playerMob : gameBoard.getActivePlayersMobsOnBoard()) {
+            playerMob.setHasBeenUsed(false);
+            playerMob.updateMobBitmap();
+        }
 
 
         // Update Phases accordingly
@@ -353,7 +365,7 @@ public class TurnManager {
             player2PhaseFlag = Phase.INACTIVE;
         }
 
-
+        // Increase Mana at the end of each turn
         gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() + 4);
 
         // Update Boolean flags accordingly
@@ -378,6 +390,7 @@ public class TurnManager {
 
         Game mGame = gameBoard.getGameScreen().getGame();
 
+        // Display winner notification
         String msg;
         if(isPlayer1Turn)
             if(gameBoard.getPlayer2() instanceof Human)
@@ -393,7 +406,6 @@ public class TurnManager {
         new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,
                 mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
                 50, msg);
-
     }
 
     ////////////////////////////////////////////////////////////////////////////
