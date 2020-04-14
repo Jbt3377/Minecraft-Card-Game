@@ -80,7 +80,6 @@ public abstract class GameScreen {
 
 
     protected float mScreenWidth, mScreenHeight;
-    protected int fps;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors

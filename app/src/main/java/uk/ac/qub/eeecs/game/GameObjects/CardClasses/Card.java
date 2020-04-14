@@ -90,7 +90,26 @@ public class Card extends Sprite implements Draggable {
 
         // Fetch the corresponding bitmap with the card's asset name
         mCardPortrait = assetManager.getBitmap(cardName);
+    }
 
+    public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
+        super(x, y, DEFAULT_CARD_WIDTH * scaleSize, DEFAULT_CARD_HEIGHT * scaleSize, null, gameScreen);
+
+        AssetManager assetManager = gameScreen.getGame().getAssetManager();
+        this.manaCost = cardStats.getManacost();
+        this.cardID = cardStats.getId();
+        this.cardName = cardStats.getName();
+        this.cardDescription = cardStats.getDescText();
+
+        this.cardFaceUp = true;
+        this.cardDescTextPaint = setupDescTextPaint(assetManager);
+        this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
+
+        // Set the common card reverse image
+        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
+
+        // Fetch the corresponding bitmap with the card's asset name
+        mCardPortrait = assetManager.getBitmap(cardName);
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -120,11 +139,11 @@ public class Card extends Sprite implements Draggable {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
-        flipAnimation();
+        //flipAnimation();
         if(cardFaceUp) {
             // Draw the portrait
             //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-              //      graphics2D, layerViewport, screenViewport);
+            //      graphics2D, layerViewport, screenViewport);
 
             // Draw the card base background
             mBitmap = mCardBase;
@@ -134,10 +153,11 @@ public class Card extends Sprite implements Draggable {
             mBitmap = mCardReverse;
             super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
         }
-
     }
 
     private BoundingBox bound = new BoundingBox();
+
+    //Card card = new Card("hiya");
 
     public void flipAnimation(){
         //If no animation
@@ -162,7 +182,6 @@ public class Card extends Sprite implements Draggable {
 
         cardDescTextPaint.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
     }
-
     public void cardMoveXAnimation(float desiredXLoc, float desiredYLoc){
         //Phase 1 - Fastest Movement
         if(this.position.x > desiredXLoc){
@@ -209,9 +228,6 @@ public class Card extends Sprite implements Draggable {
         }
         return result;
     }
-
-
-
 
 
     ///////////////////

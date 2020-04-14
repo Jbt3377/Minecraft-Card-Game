@@ -61,6 +61,18 @@
 
     {
       "type": "Bitmap",
+      "name": "Heart",
+      "file": "img/heart.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "BottleOEnchanting",
+      "file": "img/bottle_o_enchanting.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "PopupSign",
       "file": "img/PopupSign.png"
     },
@@ -93,6 +105,12 @@
       "name": "ResumeButton",
       "file": "img/ResumeButton.png"
     },
+    {
+      "type": "Bitmap",
+      "name": "VolumeButton",
+      "file": "img/VolumeButton.png"
+    },
+
     {
       "type": "Bitmap",
       "name": "ExitButton",

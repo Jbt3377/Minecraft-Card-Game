@@ -21,6 +21,7 @@ import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PlayerHand;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 public class GameBoard {
 
@@ -170,6 +171,13 @@ public class GameBoard {
             return player2;
     }
 
+    public final Player getInactivePlayer(){
+        if(!isPlayer1Turn)
+            return player1;
+        else
+            return player2;
+    }
+
     public final PlayerHand getActivePlayerHand(){
         if(isPlayer1Turn)
             return player1Hand;
@@ -210,6 +218,25 @@ public class GameBoard {
             return player1MobsOnBoardArray;
         else
             return player2MobsOnBoardArray;
+    }
+
+    public void decreaseInactivePlayerHP(int damageInflicted){
+
+        int mScreenWidth = gameScreen.getGame().getScreenWidth();
+        int mScreenHeight = gameScreen.getGame().getScreenHeight();
+
+        int currentHP = getInactivePlayer().getmPlayerHealth();
+        getInactivePlayer().setmPlayerHealth(currentHP -= damageInflicted);
+
+        float popupXPos = mScreenWidth * 0.85f, popupYPos;
+
+        if(isPlayer1Turn)
+            popupYPos = mScreenHeight * 0.35f;
+        else
+            popupYPos = mScreenHeight * 0.65f;
+
+        new PopUpObject(popupXPos, popupYPos, getGameScreen(), 30,
+                "-" + damageInflicted, 5, true);
     }
 
 
