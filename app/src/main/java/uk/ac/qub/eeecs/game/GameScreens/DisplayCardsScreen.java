@@ -111,11 +111,11 @@ public class DisplayCardsScreen extends GameScreen {
 
 
         //Adds all the cards in the game into a collection of an arraylist;
-        addCardsToCardCollection();
-        addCardsToCardCollection();
-        addCardsToCardCollection();
-        addCardsToCardCollection();
-        addCardsToCardCollection();
+//        addCardsToCardCollection();
+//        addCardsToCardCollection();
+//        addCardsToCardCollection();
+//        addCardsToCardCollection();
+//        addCardsToCardCollection();
 
         //Calculates the rows required for being displayed
         calculateAmountOfRows();
@@ -191,7 +191,7 @@ public class DisplayCardsScreen extends GameScreen {
 
             if (t.type == TouchEvent.TOUCH_SINGLE_TAP){
 
-                for (Card x : cardCollection) {
+                for (Card x : getCardCollection()) {
                     if (x.getBound().contains(t.x, t.y)) {
                         test++;
                     }
