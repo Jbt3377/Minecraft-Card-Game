@@ -20,7 +20,7 @@ public class MobContainer extends Sprite implements Container {
 
     private boolean isEmpty;
     private Mob containedMob;
-    public enum ContainerType{ BOTTOM_PLAYER, TOP_PLAYER }
+    public enum ContainerType{ BOTTOM_PLAYER, TOP_PLAYER, UTILITY_CARD}
     private ContainerType contType;
 
 
@@ -44,6 +44,10 @@ public class MobContainer extends Sprite implements Container {
         this.contType = contType;
         this.x_location = x;
         this.y_location = y;
+
+        if(contType == MobContainer.ContainerType.UTILITY_CARD){
+            mBitmap = gameScreen.getGame().getAssetManager().getBitmap("ItemFrameUtility");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -62,7 +62,7 @@ public class MainGameScreen extends GameScreen {
     private Paint dialogueTextPaint;
     private Vector2 textPosition;
 
-
+    int fps;
 
     //Turn Number Counter
     private int turnNumber = 1;

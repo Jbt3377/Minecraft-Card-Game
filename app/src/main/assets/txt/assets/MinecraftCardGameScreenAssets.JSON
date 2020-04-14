@@ -346,6 +346,12 @@
 
     {
       "type": "Bitmap",
+      "name": "ItemFrameUtility",
+      "file": "img/item_frame_utility.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "RedstoneLampOn",
       "file": "img/redstone_lamp_on.png"
     },

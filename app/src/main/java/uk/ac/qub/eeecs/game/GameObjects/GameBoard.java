@@ -128,6 +128,8 @@ public class GameBoard {
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*3, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*4, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
 
+        MobContainer utilityCardContainer = new MobContainer(screenWidth/10, screenHeight/2 , MobContainer.ContainerType.UTILITY_CARD,gameScreen);
+        fieldContainers.add(utilityCardContainer);
 
     }
 

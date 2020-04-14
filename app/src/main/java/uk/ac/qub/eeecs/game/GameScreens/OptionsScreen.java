@@ -29,6 +29,7 @@ public class OptionsScreen extends GameScreen {
     private Paint titlePaint, textPaintSettings, textPaintHuman, textPaintAi, fpsPaint;
     private GameObject humanAvatar, aiAvatar;
     private ToggleButton fpsToggle;
+    int fps;
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
