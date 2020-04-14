@@ -155,11 +155,6 @@ public class TurnManager {
             else if(card instanceof EquipCard){
                 Interaction.moveCardToContainer(input, card, game, gameBoard);
             }
-
-            Interaction.processCardSelection(input, card, game, gameBoard);
-
-        }
-
             else if(card instanceof UtilityCard){
                 Interaction.moveUtilityCardToContainer(input,card,game,gameBoard);
                 UtilityCard utilityCard = (UtilityCard) card;
@@ -177,10 +172,16 @@ public class TurnManager {
 
 
             }
+
+            Interaction.processCardSelection(input, card, game, gameBoard);
+
         }
 
-        // Check for mob selection
         Interaction.processMobSelection(input, game, gameBoard);
+
+
+        // Check for mob selection
+
 
         // Check if targeted mob selected, if so, switch to battle phase
         if (gameBoard.getActivePlayer() instanceof Human) {
