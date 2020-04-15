@@ -17,13 +17,13 @@ public class UtilityCard extends Card {
     //Public constructors
     public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats) {
         super(x, y, gameScreen, cardStats);
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
         this.flipTimer = 30;
     }
 
     public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats,int changeSize) {
         super(x, y, gameScreen, cardStats, changeSize);
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
         this.flipTimer = 30;
     }
 
