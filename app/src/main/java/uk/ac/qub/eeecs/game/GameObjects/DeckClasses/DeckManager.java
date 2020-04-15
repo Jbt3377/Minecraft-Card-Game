@@ -46,13 +46,13 @@ public class DeckManager {
     private void setupPredefinedDecks(){
 
         // First predefined deck acts as default assigned deck
-        int[] predefinedDeck0 = new int[] {0,1,2,3,4,5,6};
+        int[] predefinedDeck0 = new int[] {0,1,2,3,4,5,6,7,8,9,10,11,12,13,27,29,32,36};
 
         // Five predefined decks total
-        int[] predefinedDeck1 = new int[] {1,2,3,4,5,6,0};
-        int[] predefinedDeck2 = new int[] {2,3,4,5,6,0,1};
-        int[] predefinedDeck3 = new int[] {3,4,5,6,0,1,2};
-        int[] predefinedDeck4 = new int[] {4,5,6,0,1,2,3};
+        int[] predefinedDeck1 = new int[] {1,4,6,7,9,11,13,14,15,19,20,22,24,28,29,30,32,34,36};
+        int[] predefinedDeck2 = new int[] {3,4,5,6,8,10,14,15,16,17,21,22,23,25,28,29,33,35,36};
+        int[] predefinedDeck3 = new int[] {1,2,3,5,6,8,10,11,14,15,18,19,21,24,28,29,30,33,35};
+        int[] predefinedDeck4 = new int[] {4,5,7,9,13,15,16,18,19,22,23,27,29,31,33,34,35,36};
 
         // Include predefined decks in the Defined Deck store
         definedDeckStore.put("Steve's Arsenal", predefinedDeck0);
