@@ -84,12 +84,9 @@ public class StartScreen extends GameScreen {
 
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();
-//        float layerWidth = mDefaultLayerViewport.getWidth();
-//        float layerHeight = mDefaultLayerViewport.getHeight();
 
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
         backgroundLayerViewport = new LayerViewport(screenWidth/2, screenHeight/2,screenWidth/2,screenHeight/2);
-        //backgroundScreenViewport = new ScreenViewport(0,0,(int)screenWidth,(int)screenHeight);
 
         mBackgroundImage = new GameObject(screenWidth/2,screenHeight/2,screenWidth,screenHeight,
                 assetManager.getBitmap("StartScreenBackground"), this);
@@ -218,7 +215,7 @@ public class StartScreen extends GameScreen {
         mDeckEditorButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
 
         if(mGame.isDisplayFps())
-            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.95f, mScreenHeight * 0.05f, fpsPaint());
+            graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint());
 
     }
 
@@ -239,8 +236,9 @@ public class StartScreen extends GameScreen {
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
         fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+        fpsPaint.setTextAlign(Paint.Align.CENTER);
         fpsPaint.setColor(Color.WHITE);
         return fpsPaint;
     }
+
 }

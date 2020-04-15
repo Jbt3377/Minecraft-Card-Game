@@ -66,6 +66,66 @@
 
     {
       "type": "Bitmap",
+      "name": "HelmetState1",
+      "file": "img/Helmet Animation/Helmet State 1.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState2",
+      "file": "img/Helmet Animation/Helmet State 2.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState3",
+      "file": "img/Helmet Animation/Helmet State 3.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "HelmetState4",
+      "file": "img/Helmet Animation/Helmet State 4.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState1",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 1.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState2",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 2.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState3",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 3.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState4",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 4.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState5",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 5.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "RedParrotState6",
+      "file": "img/Parrot Animation/Red Parrot/Red Parrot State 6.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "Heart",
       "file": "img/heart.png"
     },
@@ -102,9 +162,40 @@
 
     {
       "type": "Bitmap",
+      "name": "EndGameScreenBackground",
+      "file": "img/GameScreen Backgrounds/EndGameScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "PlayerWin",
+      "file": "img/PlayerWin.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "PlayerLose",
+      "file": "img/PlayerLose.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Player1Win",
+      "file": "img/Player1Win.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Player2Win",
+      "file": "img/Player2Win.png"
+    },
+
+    {
+      "type": "Bitmap",
       "name": "PauseButton",
     "file": "img/PauseButton.png"
     },
+
     {
       "type": "Bitmap",
       "name": "ResumeButton",

@@ -12,6 +12,7 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.util.Vector2;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
@@ -84,7 +85,6 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-
         final int PLAYER_STARTING_HEALTH = 30;
         final int PLAYER_STARTING_MANA = 10;
 
@@ -93,12 +93,18 @@ public class TurnManager {
         gameBoard.getPlayer2().setmPlayerHealth(PLAYER_STARTING_HEALTH);
         gameBoard.getPlayer2().setmPlayerMana(PLAYER_STARTING_MANA);
 
-        // TODO: Feature to set which player goes first
-        player1PhaseFlag = Phase.MOVE;
-        player2PhaseFlag = Phase.INACTIVE;
-
-        isPlayer1Turn = true;
-        gameBoard.setIsPlayer1Turn(true);
+        boolean isPlayer1First = gameBoard.getGameScreen().getGame().isPlayer1First();
+        if(isPlayer1First) {
+            player1PhaseFlag = Phase.MOVE;
+            player2PhaseFlag = Phase.INACTIVE;
+            isPlayer1Turn = true;
+            gameBoard.setIsPlayer1Turn(true);
+        }else{
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.MOVE;
+            isPlayer1Turn = false;
+            gameBoard.setIsPlayer1Turn(false);
+        }
 
         addStartTurnPopup();
     }
@@ -606,6 +612,9 @@ public class TurnManager {
                 mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
                 50, msg);
     }
+
+
+
 
 
 }
