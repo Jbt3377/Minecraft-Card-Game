@@ -43,30 +43,6 @@ public class CharacterCard extends Card {
 
 
 
-
-    /////////
-    //Methods
-    /////////
-
-    /*
-
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
-                     LayerViewport layerViewport, ScreenViewport screenViewport) {
-
-//    //  Draw the attack value
-//    drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
-//               graphics2D, layerViewport, screenViewport);
-//
-//    // Draw the health value
-//    drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
-//               graphics2D, layerViewport, screenViewport);
-
-
-    }
-
-    */
-
     /////////////////////
     //Setters and Getters
     /////////////////////

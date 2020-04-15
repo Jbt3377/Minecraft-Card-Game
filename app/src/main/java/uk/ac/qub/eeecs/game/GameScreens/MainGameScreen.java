@@ -39,6 +39,14 @@ public class MainGameScreen extends GameScreen {
     // Background Image
     private GameObject boardBackground, player1Heart, player1Mana,player2Heart, player2Mana;
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     // Game Board associated with Card Game
     private GameBoard gameBoard;
 
@@ -101,7 +109,7 @@ public class MainGameScreen extends GameScreen {
         //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         //mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-        mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
+        //mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
         gamePaused = false;

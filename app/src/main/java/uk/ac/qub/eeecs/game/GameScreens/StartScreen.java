@@ -79,8 +79,8 @@ public class StartScreen extends GameScreen {
 
 
         //Setting base volume
-        mGame.getAudioManager().setSfxVolume(0.33f);
-        mGame.getAudioManager().setMusicVolume(0.33f);
+        //mGame.getAudioManager().setSfxVolume(0.33f);
+        //mGame.getAudioManager().setMusicVolume(0.33f);
 
         float screenWidth = mGame.getScreenWidth();
         float screenHeight = mGame.getScreenHeight();

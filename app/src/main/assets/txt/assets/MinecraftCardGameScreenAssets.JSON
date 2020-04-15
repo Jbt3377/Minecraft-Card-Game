@@ -651,6 +651,12 @@
     },
 
     {
+      "type" : "Sound",
+      "name" : "ButtonDefaultPush",
+      "file" : "sound/ButtonDefaultPush.mp3"
+    },
+
+    {
       "type": "Sound",
       "name": "blaze_damaged",
       "file": "sound/mobSoundEffects/blaze_damaged.mp3"

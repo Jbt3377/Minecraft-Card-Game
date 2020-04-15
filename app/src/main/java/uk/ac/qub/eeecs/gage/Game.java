@@ -56,9 +56,9 @@ public abstract class Game extends Fragment {
     /**
      * The Game has two Players who play the game.
      */
-    private Human player1;
-    private Human player2;
-    private Ai ai;
+    public Human player1;
+    public Human player2;
+    public Ai ai;
 
     public Human getPlayer1() {
         return player1;
@@ -85,8 +85,8 @@ public abstract class Game extends Fragment {
      * Flags used to customise the setup phase
      */
 
-    private boolean isPlayer2Human;
-    private boolean isPlayer1First;
+    public boolean isPlayer2Human;
+    public boolean isPlayer1First;
 
     public boolean isPlayer2Human() {
         return isPlayer2Human;
@@ -104,10 +104,14 @@ public abstract class Game extends Fragment {
         isPlayer1First = player1First;
     }
 
+    public void setmDeckManager(DeckManager mDeckManager) {
+        this.mDeckManager = mDeckManager;
+    }
+
     /**
      * The Game has a DeckManager that stores all the cards available in the game.
      */
-    private DeckManager mDeckManager;
+    public DeckManager mDeckManager;
 
     public DeckManager getmDeckManager(){
         return mDeckManager;
@@ -356,7 +360,6 @@ public abstract class Game extends Fragment {
 
         mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
 
-
         mDeckManager = new DeckManager(mAssetManager.getAllCardStats());
 
         //////////////////////////////////////////////////////////////
@@ -368,6 +371,7 @@ public abstract class Game extends Fragment {
 
         this.isPlayer2Human = false;
         this.isPlayer1First = true;
+        this.getActivity().setVolumeControlStream(android.media.AudioManager.STREAM_MUSIC);
     }
 
     /*
