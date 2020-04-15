@@ -1,8 +1,6 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
 
-import android.graphics.Paint;
-import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
@@ -28,10 +26,8 @@ public class Card extends Sprite implements Draggable {
     // /////////////////////////////////////////////////////////////////////////
 
     // Define the default card width and height
-    //Changed the default width and height. The original values were 180 and 260 respectively - MMC
     protected static final int DEFAULT_CARD_WIDTH = 180;
     protected static final int DEFAULT_CARD_HEIGHT = 260;
-
 
     //Card stat related properties
     private String cardName;
@@ -49,7 +45,6 @@ public class Card extends Sprite implements Draggable {
     protected boolean animationInProgress;
     protected boolean animationFinished;
 
-
     //Properties to remember the cards original position if the card is being dragged
     private float x_original;
     private float y_original;
@@ -59,6 +54,14 @@ public class Card extends Sprite implements Draggable {
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Public constructor for Card object.
+     *
+     * @param x          - X Co-ordinate for the card for drawing on screen.
+     * @param y          - Y Co-ordinate for the card for drawing on screen.
+     * @param gameScreen - The GameScreen in which the card will be drawn.
+     * @param cardStats  - The CardStats(name, hp, etc) for this card.
+     */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
         this.manaCost = cardStats.getManacost();
@@ -68,9 +71,17 @@ public class Card extends Sprite implements Draggable {
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
         this.animationInProgress = false;
         this.animationFinished = false;
-
     }
 
+    /**
+     * Overloaded constructor for Card object, used during magnification process.
+     *
+     * @param x          - X Co-ordinate for the card for drawing on screen.
+     * @param y          - Y Co-ordinate for the card for drawing on screen.
+     * @param gameScreen - The GameScreen in which the card will be drawn.
+     * @param cardStats  - The CardStats(name, hp, etc) for this card.
+     * @param scaleSize  - The scaling size for the card being magnified.
+     */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
         super(x, y, DEFAULT_CARD_WIDTH * scaleSize, DEFAULT_CARD_HEIGHT * scaleSize, null, gameScreen);
         this.manaCost = cardStats.getManacost();
@@ -86,9 +97,9 @@ public class Card extends Sprite implements Draggable {
     // Methods
     // /////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
-     * Draw the game platform
+     * Draw the Card object
      *
      * @param elapsedTime    Elapsed time information
      * @param graphics2D     Graphics instance
@@ -101,7 +112,12 @@ public class Card extends Sprite implements Draggable {
         super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
     }
 
-    public void cardMoveXAnimation(float desiredXLoc, float desiredYLoc) {
+    /**
+     * This method is used to move the card in the X direction to the desired Y co-ordinate.
+     *
+     * @param desiredXLoc - The X co-ordinate in which the card will move to.
+     */
+    public void cardMoveXAnimation(float desiredXLoc) {
         //Phase 1 - Fastest Movement
         if (this.position.x > desiredXLoc) {
             float positionDifference = this.position.x - desiredXLoc;
@@ -121,7 +137,12 @@ public class Card extends Sprite implements Draggable {
         }
     }
 
-    public void cardMoveYAnimation(float desiredXLoc, float desiredYLoc) {
+    /**
+     * This method is used to move the card in the Y direction to the desired Y co-ordinate.
+     *
+     * @param desiredYLoc - The Y co-ordinate in which the card will move to.
+     */
+    public void cardMoveYAnimation(float desiredYLoc) {
         //Phase 1 - Fastest Movement
         if (this.position.y > desiredYLoc) {
             float positionDifference = this.position.y - desiredYLoc;
@@ -141,6 +162,13 @@ public class Card extends Sprite implements Draggable {
         }
     }
 
+    /**
+     * This method checks if the card has reached a desired X co-ordinate and Y co-ordinate.
+     *
+     * @param desiredXLoc - The X co-ordinate we wish to check.
+     * @param desiredYLoc - The Y co-ordinate we wish to check.
+     * @return - true if the card is at the correct X and Y co-ordinate, false otherwise.
+     */
     public boolean readyToTurnToMob(float desiredXLoc, float desiredYLoc) {
         boolean result = false;
 
@@ -153,7 +181,6 @@ public class Card extends Sprite implements Draggable {
     public void runCardAnimation() {
         //Implementation given in each child class
     }
-
 
     ///////////////////
     //Interface Methods
@@ -215,12 +242,9 @@ public class Card extends Sprite implements Draggable {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
     public String getCardName() {
         return cardName;
     }
-
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
@@ -228,7 +252,6 @@ public class Card extends Sprite implements Draggable {
     public int getManaCost() {
         return manaCost;
     }
-
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
     }
@@ -236,10 +259,17 @@ public class Card extends Sprite implements Draggable {
     public String getCardDescription() {
         return cardDescription;
     }
-
     public void setCardDescription(String cardDescription) {
         this.cardDescription = cardDescription;
     }
+
+    public int getCardID() {
+        return cardID;
+    }
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
+    }
+
 
 
 }

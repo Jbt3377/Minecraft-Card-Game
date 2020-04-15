@@ -285,10 +285,10 @@ public class TurnManager {
                                 gameBoard.getActivePlayer().setSelectedAiContainerIndex(gameBoard.getActivePlayer().getSelectedAiContainerIndex() + 1);
                             } else {
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveXAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveXAnimation(mc.getX_location());
                                 }
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveYAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveYAnimation(mc.getY_location());
                                 }
                             }
 
