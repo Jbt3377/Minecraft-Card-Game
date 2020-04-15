@@ -1,11 +1,20 @@
 package uk.ac.qub.eeecs.gage.world;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.util.ViewportHelper;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 
@@ -82,6 +91,20 @@ public abstract class GameScreen {
     protected float mScreenWidth, mScreenHeight;
     protected int fps;
 
+
+
+    // List containing all card stat objects
+    private ArrayList<CardStats> allCardStats;
+
+
+    //All the cards that will be displayed
+    private ArrayList<Card> cardCollection = new ArrayList<>();
+
+    public ArrayList<Card> getCardCollection() {
+        return cardCollection;
+    }
+
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -106,6 +129,11 @@ public abstract class GameScreen {
                 game, mDefaultScreenViewport);
 
         popUpObjects = new CopyOnWriteArrayList<>();
+
+        mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
+        allCardStats = mGame.getAssetManager().getAllCardStats();
+        addCardsToCardCollection();
+
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -164,6 +192,28 @@ public abstract class GameScreen {
         if (!popUpObjects.isEmpty()) {
             for(PopUpObject popup: popUpObjects)
                 popup.draw(elapsedTime, graphics2D);
+        }
+    }
+
+    //Adds all the cards that exist into cardCollection
+    private void addCardsToCardCollection(){
+        //Logical Adds the cards depending on the "type" of card
+        for(CardStats x : allCardStats){
+            //CharacterCardStats check
+            if(x instanceof CharacterCardStats){
+                CharacterCard card = new CharacterCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (CharacterCardStats)x);
+                cardCollection.add(card);
+            }
+            //UtilityCardStats check
+            if(x instanceof UtilityCardStats){
+                UtilityCard card = new UtilityCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (UtilityCardStats)x);
+                cardCollection.add(card);
+            }
+            //EquipCardStats check
+            if(x instanceof EquipCardStats){
+                EquipCard card = new EquipCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (EquipCardStats)x);
+                cardCollection.add(card);
+            }
         }
     }
 

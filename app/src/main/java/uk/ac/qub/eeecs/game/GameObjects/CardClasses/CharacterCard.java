@@ -30,7 +30,7 @@ public class CharacterCard extends Card {
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
 
     public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats, int changeSize) {
@@ -38,7 +38,7 @@ public class CharacterCard extends Card {
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
 
 
