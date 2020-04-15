@@ -26,23 +26,11 @@ public class EndGameScreen extends GameScreen {
         this.frameCount = 0;
         this.screenBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("EndGameScreenBackground"), this);
 
-        String speechBubbleAssetName = "";
-        if(gameBoard.getPlayer2() instanceof Ai){
-            if(gameBoard.getPlayer1().getmPlayerHealth()<=0){
-                speechBubbleAssetName+="PlayerLose";
-            }else if(gameBoard.getPlayer2().getmPlayerHealth() <=0){
-                speechBubbleAssetName+="PlayerWin";
-            }
-        }else{
-            if(gameBoard.getPlayer1().getmPlayerHealth()<=0){
-                speechBubbleAssetName+="Player2Win";
-            }else if(gameBoard.getPlayer2().getmPlayerHealth() <=0){
-                speechBubbleAssetName+="Player1Win";
-            }
-        }
+        // Setup Speech Bubble
+        String speechBubbleAssetName = determineSpeechBubbleAssetName(gameBoard);
         this.speechBubble =  new GameObject(mScreenWidth*0.5f,mScreenHeight*0.35f, 1000, 300, getGame().getAssetManager().getBitmap(speechBubbleAssetName), this);
 
-
+        // Setup Return Button
         this.mReturnButton = new PushButton(
                 mDefaultLayerViewport.getWidth() * 0.5f,
                 mDefaultLayerViewport.getHeight() * 0.3f,
@@ -115,6 +103,25 @@ public class EndGameScreen extends GameScreen {
             redParrotStates[i] = redParrotState;
         }
         return redParrotStates;
+    }
+
+    private String determineSpeechBubbleAssetName(GameBoard gameBoard){
+        String speechBubbleAssetName = "";
+
+        if(gameBoard.getPlayer2() instanceof Ai){
+            if(gameBoard.getPlayer1().getmPlayerHealth()<=0){
+                speechBubbleAssetName+="PlayerLose";
+            }else if(gameBoard.getPlayer2().getmPlayerHealth() <=0){
+                speechBubbleAssetName+="PlayerWin";
+            }
+        }else{
+            if(gameBoard.getPlayer1().getmPlayerHealth()<=0){
+                speechBubbleAssetName+="Player2Win";
+            }else if(gameBoard.getPlayer2().getmPlayerHealth() <=0){
+                speechBubbleAssetName+="Player1Win";
+            }
+        }
+        return speechBubbleAssetName;
     }
 
 }
