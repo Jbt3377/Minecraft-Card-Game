@@ -12,12 +12,19 @@ public abstract class CardStats {
     private String name;
     private int manaCost;
     private String descText;
-    int id;
+    private int id;
 
     /////////////
     //Constructor
     /////////////
 
+    /**
+     * Public constructor for CardStats object.
+     * @param name - The name of card.
+     * @param manaCost - The mana cost to play this card.
+     * @param descText - The description text of this card.
+     * @param id - The id of this card.
+     */
     public CardStats(String name, int manaCost, String descText, int id) {
         this.name = name;
         this.manaCost = manaCost;
