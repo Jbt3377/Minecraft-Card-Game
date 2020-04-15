@@ -58,9 +58,12 @@ public class Card extends Sprite implements Draggable {
     private boolean selected;
     private boolean cardFaceUp;
     protected final int FLIP_TIME = 15;
-    private int flipTimer;
+    protected int flipTimer;
     protected float scale;
 
+    //Animation related properties
+    protected boolean animationInProgress;
+    protected boolean animationFinished;
 
 
     //Properties to remember the cards original position if the card is being dragged
@@ -90,6 +93,10 @@ public class Card extends Sprite implements Draggable {
 
         // Fetch the corresponding bitmap with the card's asset name
         mCardPortrait = assetManager.getBitmap(cardName);
+
+        this.animationInProgress = false;
+        this.animationFinished = false;
+
     }
 
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
@@ -110,6 +117,9 @@ public class Card extends Sprite implements Draggable {
 
         // Fetch the corresponding bitmap with the card's asset name
         mCardPortrait = assetManager.getBitmap(cardName);
+
+        this.animationInProgress = false;
+        this.animationFinished = false;
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -228,6 +238,11 @@ public class Card extends Sprite implements Draggable {
         }
         return result;
     }
+
+    public void runCardAnimation(){
+        //Implementation given in each child class
+    }
+
 
 
     ///////////////////

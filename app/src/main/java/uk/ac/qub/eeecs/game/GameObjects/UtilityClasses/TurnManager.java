@@ -157,7 +157,7 @@ public class TurnManager {
                 EquipCard equipCard = (EquipCard) card;
                 if(equipCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
-                    equipCard.equipCardAnimation();
+                    equipCard.runCardAnimation();
                 }
                 if(equipCard.isAnimationFinished()) {
                     int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(equipCard);
@@ -170,7 +170,7 @@ public class TurnManager {
                 UtilityCard utilityCard = (UtilityCard) card;
                 if(utilityCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
-                    utilityCard.utilityCardAnimation();
+                    utilityCard.runCardAnimation();
                 }
 
                 if(utilityCard.isAnimationFinished()) {
@@ -222,7 +222,6 @@ public class TurnManager {
 
     private void phaseMoveAi(){
             System.out.println("AI Move Phase");
-
 
             if(gameBoard.getActivePlayer().isAiFinishedMoves()){
                 System.out.println("Ending move phase for AI");
@@ -530,7 +529,6 @@ public class TurnManager {
                 50, msg);
 
     }
-
 
     private void phaseGameEnded(){
 
