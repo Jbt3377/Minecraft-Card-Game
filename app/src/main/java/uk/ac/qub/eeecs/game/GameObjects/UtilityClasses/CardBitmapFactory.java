@@ -29,8 +29,6 @@ public class CardBitmapFactory {
         } else {
             return assetManager.getBitmap("CardBackground");
         }
-
-
     }
 
     public static Bitmap returnMobBitmap(Mob mob, GameScreen gameScreen){

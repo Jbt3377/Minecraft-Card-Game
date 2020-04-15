@@ -8,36 +8,32 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 public class UtilityCard extends Card {
 
 
-    //Properties
-    boolean animationInProgress = false;
-    int utilityFlipTimer = 45;
-    boolean animationFinished = false;
-
-
     //Public constructors
     public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats) {
         super(x, y, gameScreen, cardStats);
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.flipTimer = 30;
     }
 
     public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats,int changeSize) {
         super(x, y, gameScreen, cardStats, changeSize);
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.flipTimer = 30;
     }
 
 
-    public void utilityCardAnimation(){
-        if(utilityFlipTimer == 0){
+    public void runCardAnimation(){
+        if(flipTimer == 0){
             setWidth(0);
             setHeight(0);
             this.setAnimationFinished(true);
         }
         else{
-            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - utilityFlipTimer)));
-            setHeight(DEFAULT_CARD_HEIGHT - (scale * (FLIP_TIME - utilityFlipTimer)));
+            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - flipTimer)));
+            setHeight(DEFAULT_CARD_HEIGHT - (scale * (FLIP_TIME - flipTimer)));
         }
 
-        utilityFlipTimer--;
+        flipTimer--;
     }
 
     public void runUtilityEffect(GameBoard gameBoard){

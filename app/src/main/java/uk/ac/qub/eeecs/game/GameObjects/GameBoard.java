@@ -50,7 +50,7 @@ public class GameBoard {
 
     private MobContainer utilityCardContainer;
 
-    //Boolean to tell which player's turn it is
+    // Boolean Flag to track which player's turn it is
     private boolean isPlayer1Turn;
 
     private List<TouchEvent> input;

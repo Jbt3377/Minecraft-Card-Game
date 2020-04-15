@@ -39,6 +39,14 @@ public class MainGameScreen extends GameScreen {
     // Background Image
     private GameObject boardBackground, player1Heart, player1Mana,player2Heart, player2Mana;
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     // Game Board associated with Card Game
     private GameBoard gameBoard;
 
@@ -101,7 +109,7 @@ public class MainGameScreen extends GameScreen {
         //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         //mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-        mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
+        //mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
         gamePaused = false;
@@ -199,6 +207,8 @@ public class MainGameScreen extends GameScreen {
                     "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
         }
 
+        if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
+
 
         // Setting up some paints
         pausePaint = new Paint();
@@ -269,7 +279,6 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
-
         // Draw magnification button
         magnificationButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
@@ -279,9 +288,6 @@ public class MainGameScreen extends GameScreen {
         displayAllCardsButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-
-
-
     }
 
 
@@ -318,6 +324,19 @@ public class MainGameScreen extends GameScreen {
         return fpsPaint;
     }
 
+    public void checkEndGame(){
+        if (gameBoard.getPlayer1().getmPlayerHealth() <= 0) {
+            EndGameScreen endGameScreen = new EndGameScreen(getGame(), gameBoard);
+            mGame.getScreenManager().addScreen(endGameScreen);
+            mGame.getScreenManager().getScreen("endGameScreen");
+        }
+        else if (gameBoard.getPlayer2().getmPlayerHealth() <= 0) {
+            EndGameScreen endGameScreen = new EndGameScreen(getGame(), gameBoard);
+            mGame.getScreenManager().addScreen(endGameScreen);
+            mGame.getScreenManager().getScreen("endGameScreen");
+        }
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -335,6 +354,9 @@ public class MainGameScreen extends GameScreen {
             turnManager.update();
 
             updatePopUps(elapsedTime);
+
+            checkEndGame();
+
         } else
             pauseMenuUpdate(elapsedTime);
 
