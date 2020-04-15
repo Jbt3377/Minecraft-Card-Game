@@ -12,10 +12,13 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.util.Vector2;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
@@ -150,7 +153,32 @@ public class TurnManager {
         for (int i = 0; i < gameBoard.getActivePlayerHand().getPlayerHand().size(); i++) {
             Card card;
             card = gameBoard.getActivePlayerHand().getPlayerHand().get(i);
-            Interaction.moveCardToContainer(input, card, game, gameBoard);
+
+            if(card instanceof CharacterCard){
+                Interaction.moveCardToContainer(input, card, game, gameBoard);
+            }
+
+            else if(card instanceof EquipCard){
+                Interaction.moveCardToContainer(input, card, game, gameBoard);
+            }
+
+            else if(card instanceof UtilityCard){
+                Interaction.moveUtilityCardToContainer(input,card,game,gameBoard);
+                UtilityCard utilityCard = (UtilityCard) card;
+                if(utilityCard.isAnimationInProgress()){
+                    System.out.println("Reached this animation line of code");
+                    utilityCard.utilityCardAnimation();
+                }
+
+                if(utilityCard.isAnimationFinished()) {
+                    int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(utilityCard);
+                    utilityCard.runUtilityEffect(gameBoard);
+                    gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
+                    gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
+                }
+
+
+            }
         }
 
         // Check for mob selection
@@ -448,22 +476,24 @@ public class TurnManager {
     }
 
 
-    private void phaseGameEnded(){
+    private void phaseGameEnded() {
 
         Game mGame = gameBoard.getGameScreen().getGame();
 
         // Display winner notification
         String msg;
-        if(isPlayer1Turn)
-            if(gameBoard.getPlayer2() instanceof Human)
+        if (isPlayer1Turn){
+            if (gameBoard.getPlayer2() instanceof Human)
                 msg = "Player 1 Wins!";
             else
                 msg = "You Win!";
-        else
-            if(gameBoard.getPlayer2() instanceof Human)
+        }else {
+            if (gameBoard.getPlayer2() instanceof Human)
                 msg = "Player 2 Wins!";
             else
                 msg = "Opponent Wins!";
+        }
+
 
         new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,
                 mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
@@ -524,6 +554,9 @@ public class TurnManager {
                 mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
                 50, msg);
     }
+
+
+
 
 
 }

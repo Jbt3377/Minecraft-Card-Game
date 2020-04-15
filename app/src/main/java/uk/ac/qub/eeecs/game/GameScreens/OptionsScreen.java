@@ -8,6 +8,7 @@ import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
@@ -70,6 +71,7 @@ public class OptionsScreen extends GameScreen {
         // FPS Toggle Objects
         fpsToggle = new ToggleButton(mScreenWidth*0.45f, mScreenHeight*0.1f, mScreenWidth * 0.17f, mScreenHeight * 0.17f,
                 "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+        if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
 
         createPaints();
     }

@@ -50,7 +50,9 @@ public class GameBoard {
     private GameScreen gameScreen;
     private ArrayList<MobContainer> fieldContainers;
 
-    //Boolean to tell which player's turn it is
+    private MobContainer utilityCardContainer;
+
+    // Boolean Flag to track which player's turn it is
     private boolean isPlayer1Turn;
 
 
@@ -128,6 +130,8 @@ public class GameBoard {
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*3, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
         fieldContainers.add(new MobContainer(screenWidth/4 + anEighthOfScreenWidth*4, screenHeight/2 - anEighthOfScreenHeight, MobContainer.ContainerType.BOTTOM_PLAYER, gameScreen));
 
+        this.utilityCardContainer = new MobContainer(screenWidth/10, screenHeight/2 , MobContainer.ContainerType.UTILITY_CARD,gameScreen);
+        fieldContainers.add(utilityCardContainer);
 
     }
 
@@ -322,5 +326,13 @@ public class GameBoard {
 
     public void setIsPlayer1Turn(boolean player1Turn) {
         isPlayer1Turn = player1Turn;
+    }
+
+    public MobContainer getUtilityCardContainer() {
+        return utilityCardContainer;
+    }
+
+    public void setUtilityCardContainer(MobContainer utilityCardContainer) {
+        this.utilityCardContainer = utilityCardContainer;
     }
 }

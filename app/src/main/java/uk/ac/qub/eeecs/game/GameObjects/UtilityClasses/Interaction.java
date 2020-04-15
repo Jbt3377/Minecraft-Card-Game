@@ -7,6 +7,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
@@ -53,7 +54,7 @@ public abstract class Interaction {
         }
     }
 
-    public static void processMobSelection(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard){
+    public static void processMobSelection(List<TouchEvent> touchEvents, Game game, GameBoard gameBoard) {
 
         for (TouchEvent t : touchEvents) {
             float x_cor = t.x;
@@ -64,22 +65,22 @@ public abstract class Interaction {
 
                 // Variables necessary for container type check
                 MobContainer.ContainerType containerTypeForSelection, containerTypeForTargeting;
-                if(gameBoard.isPlayer1Turn()){
+                if (gameBoard.isPlayer1Turn()) {
                     containerTypeForSelection = MobContainer.ContainerType.BOTTOM_PLAYER;
                     containerTypeForTargeting = MobContainer.ContainerType.TOP_PLAYER;
-                }else{
+                } else {
                     containerTypeForSelection = MobContainer.ContainerType.TOP_PLAYER;
                     containerTypeForTargeting = MobContainer.ContainerType.BOTTOM_PLAYER;
                 }
 
 
                 // Step 1: Detect a selected mob
-                for(MobContainer container: gameBoard.getFieldContainers()){
+                for (MobContainer container : gameBoard.getFieldContainers()) {
 
-                    if(!container.isEmpty() && container.getContType() == containerTypeForSelection){
+                    if (!container.isEmpty() && container.getContType() == containerTypeForSelection) {
 
                         Mob clickedMob = container.getContents();
-                        if(clickedMob.getBound().contains(x_cor, y_cor) && !clickedMob.hasBeenUsed()){
+                        if (clickedMob.getBound().contains(x_cor, y_cor) && !clickedMob.hasBeenUsed()) {
 
                             int clickedMobID = clickedMob.getId();
                             Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
@@ -97,7 +98,7 @@ public abstract class Interaction {
                                 try {
                                     gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
                                     gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
-                                } catch(NullPointerException np) {
+                                } catch (NullPointerException np) {
                                     System.out.println("Ohh NO!");
                                 }
                                 (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
@@ -114,12 +115,12 @@ public abstract class Interaction {
                 // Step 2: Detect a targeted mob
                 Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
                 Mob currentlyTargetedMob = (gameBoard.getActivePlayer()).getTargetedMob();
-                if(currentlySelectedMob != null && currentlyTargetedMob == null){
+                if (currentlySelectedMob != null && currentlyTargetedMob == null) {
 
                     // Check each opponent mob and determine if one was clicked
-                    for(MobContainer container: gameBoard.getFieldContainers()){
+                    for (MobContainer container : gameBoard.getFieldContainers()) {
 
-                        if(!container.isEmpty() && container.getContType() == containerTypeForTargeting) {
+                        if (!container.isEmpty() && container.getContType() == containerTypeForTargeting) {
 
                             Mob clickedMob = container.getContents();
                             if (clickedMob.getBound().contains(x_cor, y_cor)) {
@@ -131,15 +132,10 @@ public abstract class Interaction {
                             }
                         }
                     }
-
                 }
-
-
             }
         }
-
     }
-
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
         float touchOffsetX = 0.0f;
@@ -152,9 +148,9 @@ public abstract class Interaction {
 
             // Variables necessary for container type check
             MobContainer.ContainerType contTypeOfPlayer;
-            if(gameBoard.isPlayer1Turn()){
+            if (gameBoard.isPlayer1Turn()) {
                 contTypeOfPlayer = MobContainer.ContainerType.BOTTOM_PLAYER;
-            }else{
+            } else {
                 contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
             }
 
@@ -171,9 +167,9 @@ public abstract class Interaction {
                 dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
             }
 
-            if(t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
-                for(MobContainer mb : gameBoard.getFieldContainers()) {
-                    
+            if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
+                for (MobContainer mb : gameBoard.getFieldContainers()) {
+
                     if (mb.checkForNewContents(touchEvents, dObj) && mb.getContType() == contTypeOfPlayer) {
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
@@ -200,48 +196,56 @@ public abstract class Interaction {
         }
     }
 
-    public static void moveAiCardToContainer(GameBoard gameBoard){
-//        ArrayList<MobContainer> aiMobContainers = new ArrayList<>();
-//        for(MobContainer mobContainer : gameBoard.getFieldContainers()){
-//            if(mobContainer.getContType() == MobContainer.ContainerType.TOP_PLAYER){
-//                aiMobContainers.add(mobContainer);
-//            }
-//        }
-//
-//
-//        for (MobContainer mc: aiMobContainers) {
-//            for(int i = 0; i < gameBoard.getPlayer2Hand().getPlayerHand().size(); i++){
-//                Card card = gameBoard.getPlayer2Hand().getPlayerHand().get(i);
-//                long timeStamp = System.currentTimeMillis();
-//                while(System.currentTimeMillis() < (timeStamp + 300)){
-//                    System.out.println("This is horrible code");
-//                }
-//
-//                if(mc.isEmpty() && card instanceof CharacterCard && (gameBoard.getPlayer2().getmPlayerMana()- card.getManaCost() >=0)){
-//                    Mob mob = new Mob(mc.getX_location(),mc.getY_location(),gameBoard.getGameScreen(),(CharacterCard) card);
-//                    mc.placeCard(mob);
-//                    gameBoard.getPlayer2MobsOnBoard().add(mob);
-//                    gameBoard.getPlayer2().setmPlayerMana(gameBoard.getPlayer2().getmPlayerMana() - card.getManaCost());
-//                    gameBoard.getPlayer2Hand().getPlayerHand().remove(i);
-//                }
-//            }
-//        }
+    public static void moveUtilityCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
+        float touchOffsetX = 0.0f;
+        float touchOffsetY = 0.0f;
 
 
+        for (TouchEvent t : touchEvents) {
+            float x_cor = t.x;
+            float y_cor = game.getScreenHeight() - t.y;
 
-    }
-
-    public static void attackPhaseForAi(GameBoard gameBoard, Mob mob){
-
-        ArrayList<Mob> humanMobsOnBoard = gameBoard.getPlayer1MobsOnBoard();
-            if(!mob.hasBeenUsed()){
-                mob.setSelectedToAttack(true);
-                mob.updateMobBitmap();
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
+                System.out.println("Reached this statement for utils");
+                game.setCardsSelected(true);
+                dObj.setHasBeenSelected(true);
+                touchOffsetX = x_cor - dObj.getCurrentXPosition();
+                touchOffsetY = y_cor - dObj.getCurrentYPosition();
+                dObj.setOriginalXPos(dObj.getCurrentXPosition());
+                dObj.setOriginalYPos(dObj.getCurrentYPosition());
             }
+
+            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()) {
+                dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
+                System.out.println("Dragging utils card");
+            }
+
+            if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
+                if (gameBoard.getUtilityCardContainer().checkForUtilityCard(touchEvents, dObj)) {
+                    int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
+                    Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
+
+                    System.out.println("Utility card detected in utils container");
+                    UtilityCard utilityCard = (UtilityCard) card;
+                    if (gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0 && !(utilityCard.isAnimationInProgress())) {
+                                System.out.println("Playing this utils card");
+                                utilityCard.setAnimationInProgress(true);
+
+                                game.setCardsSelected(false);
+                                dObj.setHasBeenSelected(false);
+
+                            }
+                    }
+                }
+            }
+
         }
-
-
     }
+
+
+
+
+
 
 
 

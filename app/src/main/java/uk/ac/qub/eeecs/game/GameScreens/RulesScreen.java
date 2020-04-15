@@ -1,27 +1,39 @@
 package uk.ac.qub.eeecs.game.GameScreens;
 
+
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.List;
 import java.util.Random;
 
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
+import uk.ac.qub.eeecs.gage.ui.ToggleButton;
 import uk.ac.qub.eeecs.gage.util.ViewportHelper;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
+import uk.ac.qub.eeecs.gage.world.Sprite;
 
 
 public class RulesScreen extends GameScreen {
-//Variables
-//to get back to the main screen
-    private PushButton mBackButton;
+
+    private PushButton mReturnButton;
     private GameObject boardBackground;
     private LayerViewport boardLayerViewport;
+    private Paint titlePaint, textPaintSettings, textPaintHuman, textPaintAi, fpsPaint;
+    private GameObject humanAvatar, aiAvatar;
+    private ToggleButton fpsToggle;
+    int fps;
 
+    private int volumecounter = 1;
+    private PushButton volumeButton;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -30,89 +42,113 @@ public class RulesScreen extends GameScreen {
     public RulesScreen(String screenName, Game game) {
         super("Rules", game);
 
-        int screenWidth = mGame.getScreenWidth();
-        int screenHeight = mGame.getScreenHeight();
-        boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-
-        // Create and position a small back button in the lower-right hand corner
-        // of the screen. Also, enable click sounds on press/release interactions.
-
-        //Loading font
+        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
+        boardLayerViewport = new LayerViewport(mScreenWidth/2,mScreenHeight/2,mScreenWidth/2,mScreenHeight/2);
         mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
         mGame.getAssetManager().loadAndAddBitmap("RulesScreenBackground","img/RulesScreenBackground.png");
+        mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
 
-        mBackButton = new PushButton(
-                mDefaultLayerViewport.getWidth() * 0.95f,
+
+        boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("RulesScreenBackground"), this);
+
+        mReturnButton = new PushButton(
+                mDefaultLayerViewport.getWidth() * 0.85f,
                 mDefaultLayerViewport.getHeight() * 0.10f,
-                mDefaultLayerViewport.getWidth() * 0.075f,
-                mDefaultLayerViewport.getHeight() * 0.10f,
-                "RulesButton", "RulesButton", this);
-        mBackButton.setPlaySounds(true, true);
+                mDefaultLayerViewport.getWidth() /8,
+                mDefaultLayerViewport.getHeight() /10,
+                "BackButton", this);
+        mReturnButton.setPlaySounds(true, true);
 
+        createPaints();
 
-        boardBackground =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("RulesScreenBackground"), this);
     }
 
 
-
+    @Override
     public void update(ElapsedTime elapsedTime) {
+        playBackgroundMusic();
+        fps = (int) mGame.getAverageFramesPerSecond();
 
-        // Update the back button. If triggered then return to the demo menu.
-        mBackButton.update(elapsedTime);
-        if (mBackButton.isPushTriggered())
+        mReturnButton.update(elapsedTime);
+
+        if (mReturnButton.isPushTriggered())
             mGame.getScreenManager().removeScreen(this);
-    }
 
-    /**
-     * Internal paint variable, defined externally to reduce object creation costs
-     */
+        Input touchInputs = mGame.getInput();
+        List<TouchEvent> input = touchInputs.getTouchEvents();
+
+
+        }
+
 
 
     /**
      * Draw the menu screen
-     *
-     * @param elapsedTime Elapsed time information
-     * @param graphics2D  Graphics instance
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-
-        int width = mGame.getScreenWidth();
-        int height = mGame.getScreenHeight();
-
         boardBackground.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-        Paint textPaint = new Paint();
+
+        graphics2D.drawText("Rules", mScreenWidth /2, mScreenHeight * 0.1f, titlePaint);
 
 
-        // Determine font properties - created so a total of twenty
-        // lines of text (0.05) could fit into the screen, aligned
-        // along the x axis and drawn in black.
-
-        float textSize =
-                ViewportHelper.convertXDistanceFromLayerToScreen(
-                        mDefaultLayerViewport.getHeight() * 0.05f,
-                        mDefaultLayerViewport, mDefaultScreenViewport);
-        textPaint.setTextSize(textSize);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setColor(Color.BLACK);
-
-        // Draw text displaying the name of this screen and relevant info
-
-        graphics2D.drawText("Rules", width * 0.5f, height * 0.1f, textPaint);
-
-
-
-
-
-
+        graphics2D.drawText("Play/Place character or mob cards on the board.", mScreenWidth/8, mScreenHeight-800, textPaintSettings);
+        graphics2D.drawText("Once you attack, you cant place any more cards.", mScreenWidth/8, mScreenHeight-700 , textPaintSettings);
+        graphics2D.drawText("Surplus damage inflicted to a mob will carry over and damage", mScreenWidth/8, mScreenHeight-600, textPaintSettings);
+        graphics2D.drawText("the player.", mScreenWidth/8, mScreenHeight-550, textPaintSettings);
+        graphics2D.drawText("Utility Cards can be used to affect you/the opponents mobs.", mScreenWidth/8, mScreenHeight-450, textPaintSettings);
+        graphics2D.drawText("Equipment Cards can be used to buff the stats of one of your mobs", mScreenWidth/8, mScreenHeight-350, textPaintSettings);
+        graphics2D.drawText("your mobs.", mScreenWidth/8, mScreenHeight-300, textPaintSettings);
 
 
         // Draw the back button
-        mBackButton.draw(elapsedTime, graphics2D,
+        mReturnButton.draw(elapsedTime, graphics2D,
                 mDefaultLayerViewport, mDefaultScreenViewport);
+    }
+
+
+    private void createPaints(){
+
+        titlePaint = new Paint();
+        titlePaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        titlePaint.setTextSize(mScreenHeight / 16);
+        titlePaint.setTextAlign(Paint.Align.CENTER);
+        titlePaint.setColor(Color.WHITE);
+
+        textPaintSettings = new Paint();
+        textPaintSettings.setTypeface(mGame.getAssetManager().getFont("MinecraftRegFont"));
+        textPaintSettings.setTextSize(mScreenHeight / 24);
+        textPaintSettings.setTextAlign(Paint.Align.LEFT);
+        textPaintSettings.setColor(Color.WHITE);
+
+        textPaintHuman = new Paint();
+        textPaintHuman.setTypeface(mGame.getAssetManager().getFont("MinecraftRegFont"));
+        textPaintHuman.setTextSize(mScreenHeight / 32);
+        textPaintHuman.setTextAlign(Paint.Align.CENTER);
+        textPaintHuman.setColor(Color.WHITE);
+
+        textPaintAi = new Paint();
+        textPaintAi.setTypeface(mGame.getAssetManager().getFont("MinecraftRegFont"));
+        textPaintAi.setTextSize(mScreenHeight / 32);
+        textPaintAi.setTextAlign(Paint.Align.CENTER);
+        textPaintAi.setColor(Color.WHITE);
+
+        fpsPaint = new Paint();
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(mScreenHeight / 30);
+        fpsPaint.setTextAlign(Paint.Align.CENTER);
+        fpsPaint.setColor(Color.WHITE);
+
+    }
+    private void playBackgroundMusic() {
+        AudioManager audioManager = getGame().getAudioManager();
+        if(!audioManager.isMusicPlaying())
+            audioManager.playMusic(
+                    //Changed string name to new background music
+                    getGame().getAssetManager().getMusic("MinecraftMusic"));
     }
 }
