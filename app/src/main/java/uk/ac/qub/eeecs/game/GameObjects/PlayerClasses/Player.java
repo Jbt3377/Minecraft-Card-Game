@@ -34,18 +34,10 @@ public abstract class Player {
     int selectedAiContainerIndex;
     int selectedAiCardToMoveIndex;
 
-    private boolean aiFinishedMoves = false;
-
-    private boolean aiFinishedAttacks = false;
-
+    private boolean aiFinishedMoves;
+    private boolean aiFinishedAttacks;
     private long animationTimer;
-
-
-
     int selectedMobToAttackIndex;
-
-
-
     int targetedMobIndex;
 
 
@@ -61,17 +53,35 @@ public abstract class Player {
         this.mPlayerMana = PLAYER_STARTING_MANA;
         this.mSelectedDeckName = selectedDeckName;
 
+        this.aiFinishedAttacks = false;
+        this.aiFinishedMoves = false;
         this.selectedCard = null;
         this.selectedMob = null;
         this.targetedMob = null;
         this.selectedAiCardToMoveIndex = -1;
         this.animationTimer = -1;
         this.selectedMobToAttackIndex = 0;
+        this.selectedAiContainerIndex = 0;
+        this.selectedAiCardToMoveIndex = 0;
     }
 
     /////////
     //Methods
     /////////
+
+    public void resetAiProperties(){
+        this.aiFinishedAttacks = false;
+        this.aiFinishedMoves = false;
+        this.selectedCard = null;
+        this.selectedMob = null;
+        this.targetedMob = null;
+        this.selectedAiCardToMoveIndex = -1;
+        this.animationTimer = -1;
+        this.selectedMobToAttackIndex = 0;
+        this.selectedAiContainerIndex = 0;
+        this.selectedAiCardToMoveIndex = 0;
+    }
+
 
 
     /////////////////////

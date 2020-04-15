@@ -46,20 +46,287 @@
       "description": "Oink"
     },
     {
-      "id": 5,
+      "id" : 5,
+      "type": "CharacterCard",
+      "name": "Herobrine",
+      "health": 10,
+      "attack": 10,
+      "manacost": 2,
+      "description": "..."
+    },
+    {
+      "id" : 6,
+      "type": "CharacterCard",
+      "name": "Dolphin",
+      "health": 5,
+      "attack": 5,
+      "manacost": 1,
+      "description": "Ree"
+    },
+    {
+      "id" : 7,
+      "type": "CharacterCard",
+      "name": "Steve Dolphin",
+      "health": 5,
+      "attack": 5,
+      "manacost": 1,
+      "description": "Yo"
+    },
+    {
+      "id" : 8,
+      "type": "CharacterCard",
+      "name": "Bees",
+      "health": 5,
+      "attack": 5,
+      "manacost": 1,
+      "description": "Bzz"
+    },
+    {
+      "id" : 9,
+      "type": "CharacterCard",
+      "name": "Pandas",
+      "health": 4,
+      "attack": 1,
+      "manacost": 1,
+      "description": "zzZZ"
+    },
+    {
+      "id" : 10,
+      "type": "CharacterCard",
+      "name": "Sheep",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Baa"
+    },
+    {
+      "id" : 11,
+      "type": "CharacterCard",
+      "name": "Pigman",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Grrrz"
+    },
+    {
+      "id" : 12,
+      "type": "CharacterCard",
+      "name": "Dog",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Woof"
+    },
+    {
+      "id" : 13,
+      "type": "CharacterCard",
+      "name": "Guardian",
+      "health": 2,
+      "attack": 5,
+      "manacost": 1,
+      "description": "Ding Dong"
+    },
+    {
+      "id" : 14,
+      "type": "CharacterCard",
+      "name": "Drowned",
+      "health": 2,
+      "attack": 2,
+      "manacost": 1,
+      "description": "Brglzz"
+    },
+    {
+      "id" : 15,
+      "type": "CharacterCard",
+      "name": "Wither",
+      "health": 3,
+      "attack": 5,
+      "manacost": 1,
+      "description": "Shhh"
+    },
+    {
+      "id" : 16,
+      "type": "CharacterCard",
+      "name": "Cat",
+      "health": 1,
+      "attack": 2,
+      "manacost": 1,
+      "description": "Meow"
+    },
+    {
+      "id" : 17,
+      "type": "CharacterCard",
+      "name": "Ravager",
+      "health": 10,
+      "attack": 3,
+      "manacost": 1,
+      "description": "Doom"
+    },
+    {
+      "id" : 18,
+      "type": "CharacterCard",
+      "name": "Skeleton",
+      "health": 4,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Skittle"
+    },
+    {
+      "id" : 19,
+      "type": "CharacterCard",
+      "name": "Pillager",
+      "health": 4,
+      "attack": 2,
+      "manacost": 1,
+      "description": "Hrr"
+    },
+    {
+      "id" : 20,
+      "type": "CharacterCard",
+      "name": "Witch",
+      "health": 4,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Hrrgh"
+    },
+    {
+      "id" : 21,
+      "type": "CharacterCard",
+      "name": "Bat",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Squeak"
+    },
+    {
+      "id" : 21,
+      "type": "CharacterCard",
+      "name": "Blaze",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Huuughu"
+    },
+    {
+      "id" : 22,
+      "type": "CharacterCard",
+      "name": "Squid",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Spleesh"
+    },
+    {
+      "id" : 23,
+      "type": "CharacterCard",
+      "name": "Super Creeper",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Death"
+    },
+    {
+      "id" : 24,
+      "type": "CharacterCard",
+      "name": "Spider Jockey",
+      "health": 1,
+      "attack": 1,
+      "manacost": 1,
+      "description": "Skittle skr"
+    },
+    {
+      "id" : 25,
+      "type": "CharacterCard",
+      "name": "Spider",
+      "health": 1,
+      "attack": 2,
+      "manacost": 1,
+      "description": "sskr"
+    },
+
+
+    {
+      "id": 26,
+      "type": "EquipCard",
+      "name": "Double Swords",
+      "manacost": 4,
+      "description": "+8 Attack to equipped Mob",
+      "effect_intensity": 8
+    },
+
+    {
+      "id": 27,
+      "type": "EquipCard",
+      "name": "Trident",
+      "manacost": 3,
+      "description": "+3 Attack to equipped Mob",
+      "effect_intensity": 3
+    },
+
+    {
+      "id": 28,
       "type": "EquipCard",
       "name": "Sword",
-      "manacost": 3,
+      "manacost": 2,
       "description": "+4 Attack to equipped Mob",
       "effect_intensity": 4
     },
+
     {
-      "id": 6,
+      "id": 29,
+      "type": "EquipCard",
+      "name": "Bow",
+      "manacost": 0,
+      "description": "+1 Attack to equipped Mob",
+      "effect_intensity": 1
+    },
+    {
+      "id": 30,
+      "type": "EquipCard",
+      "name": "Crossbow",
+      "manacost": 2,
+      "description": "+5 Attack to equipped Mob",
+      "effect_intensity": 5
+    },
+    {
+      "id": 31,
       "type": "UtilityCard",
       "name": "Potion of Healing",
-      "manacost": 6,
+      "manacost": 2,
       "description": "Heal all by 3 HP",
       "effect_intensity": 3
+    },
+    {
+      "id": 32,
+      "type": "UtilityCard",
+      "name": "Potion of Damage",
+      "manacost": 2,
+      "description": "Damage all by 3 HP",
+      "effect_intensity": 3
+    },
+    {
+      "id": 33,
+      "type": "UtilityCard",
+      "name": "Potion of Lesser Damage",
+      "manacost": 1,
+      "description": "Damage all by 1 HP",
+      "effect_intensity": 1
+    },
+    {
+      "id": 34,
+      "type": "UtilityCard",
+      "name": "Potion of Extra Damage",
+      "manacost": 4,
+      "description": "Damage all by 5 HP",
+      "effect_intensity": 5
+    },
+    {
+      "id": 35,
+      "type": "UtilityCard",
+      "name": "Potion of Extra Healing",
+      "manacost": 4,
+      "description": "Heal all by 5 HP",
+      "effect_intensity": 5
     }
 
   ]
