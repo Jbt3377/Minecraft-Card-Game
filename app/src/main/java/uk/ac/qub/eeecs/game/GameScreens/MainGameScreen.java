@@ -338,6 +338,7 @@ public class MainGameScreen extends GameScreen {
         } else
             pauseMenuUpdate(elapsedTime);
 
+            gameBoard.update();
 
     }
 
@@ -349,8 +350,9 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
         turnManager.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
-
         drawGameButtons(elapsedTime, graphics2D);
+
+        drawMagnifiedCard(elapsedTime, graphics2D);
 
         player1Heart.draw(elapsedTime, graphics2D);
         player1Mana.draw(elapsedTime, graphics2D);
@@ -400,8 +402,10 @@ public class MainGameScreen extends GameScreen {
 
     public void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null) {
 
+        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null && mGame.drawCard()) {
+
+            mGame.getMagnifiedCard().draw(elapsedTime, graphics2D);
         }
 
     }
@@ -411,10 +415,10 @@ public class MainGameScreen extends GameScreen {
 
         if (magnificationButton.isToggledOn()) {
                 mGame.setMagnificationToggled(true);
-            }
-            else {
+        }
+        else {
                 mGame.setMagnificationToggled(false);
-            }
+        }
     }
 
 

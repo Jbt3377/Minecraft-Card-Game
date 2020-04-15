@@ -1,16 +1,13 @@
 package uk.ac.qub.eeecs.game.GameObjects;
 
-import android.util.SparseArray;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
+import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
@@ -20,6 +17,7 @@ import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Interaction;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PlayerHand;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
@@ -55,6 +53,7 @@ public class GameBoard {
     //Boolean to tell which player's turn it is
     private boolean isPlayer1Turn;
 
+    private List<TouchEvent> input;
 
     //////////////
     //Constructor
@@ -189,6 +188,13 @@ public class GameBoard {
             return player2Hand;
     }
 
+    public final PlayerHand getInactivePlayerHand(){
+        if(!isPlayer1Turn)
+            return player1Hand;
+        else
+            return player2Hand;
+    }
+
     public final ArrayList<Mob> getActivePlayersMobsOnBoard(){
         if(isPlayer1Turn)
             return player1MobsOnBoard;
@@ -241,6 +247,30 @@ public class GameBoard {
 
         new PopUpObject(popupXPos, popupYPos, getGameScreen(), 30,
                 "-" + damageInflicted, 5, true);
+    }
+
+    public void update(){
+
+        Input touchInputs = this.getGameScreen().getGame().getInput();
+        input = touchInputs.getTouchEvents();
+
+        for (Card card : player1Hand.getPlayerHand()) {
+            if(card != null) {
+                Interaction.processCardMagnification(input, card, gameScreen.getGame(), player1Hand);
+            }
+        }
+
+        for (Card card : player2Hand.getPlayerHand()) {
+            if(card != null) {
+                Interaction.processCardMagnification(input, card, gameScreen.getGame(), player2Hand);
+            }
+        }
+        //TODO - Mob Container Magnification
+//        for (MobContainer mobContainer : getFieldContainers()) {
+//                Interaction.processMobMagnification(input, mobContainer, gameScreen.getGame());
+//
+//        }
+
     }
 
 

@@ -53,6 +53,7 @@ public class Card extends Sprite implements Draggable {
     private String cardDescription;
     private int manaCost;
     private Paint cardDescTextPaint;
+    private CardStats cardStats;
 
     //Touch event related properties
     private boolean selected;
@@ -80,7 +81,7 @@ public class Card extends Sprite implements Draggable {
         this.cardID = cardStats.getId();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
-
+        this.cardStats = cardStats;
         this.cardFaceUp = true;
         this.cardDescTextPaint = setupDescTextPaint(assetManager);
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
@@ -314,6 +315,8 @@ public class Card extends Sprite implements Draggable {
     public void setCardDescription(String cardDescription) {
         this.cardDescription = cardDescription;
     }
+
+    public CardStats getCardStats() { return cardStats;}
 
 
 

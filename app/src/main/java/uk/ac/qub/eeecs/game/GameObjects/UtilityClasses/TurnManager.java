@@ -183,7 +183,7 @@ public class TurnManager {
 
             }
 
-            Interaction.processCardSelection(input, card, game, gameBoard);
+
 
         }
 

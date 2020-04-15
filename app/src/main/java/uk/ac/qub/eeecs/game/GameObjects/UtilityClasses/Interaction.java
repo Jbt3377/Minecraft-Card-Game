@@ -81,7 +81,7 @@ public abstract class Interaction {
                             Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
 
                             // Check for same mob selected twice, if so deselect
-                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId())) {
+                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId() && !game.isMagnificationToggled())) {
                                 clickedMob.setSelectedToAttack(false);
                                 clickedMob.updateMobBitmap();
                                 (gameBoard.getActivePlayer()).setSelectedMob(null);
@@ -90,17 +90,19 @@ public abstract class Interaction {
                             }
                             // Otherwise, set selected mob as currently selected mob
                             else {
-                                try {
-                                    gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
-                                    gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
-                                } catch (NullPointerException np) {
-                                    System.out.println("Ohh NO!");
+                                if (!game.isMagnificationToggled()) {
+                                    try {
+                                        gameBoard.getActivePlayer().getSelectedMob().setSelectedToAttack(false);
+                                        gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
+                                    } catch (NullPointerException np) {
+                                        System.out.println("Ohh NO!");
+                                    }
+                                    (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
+                                    clickedMob.setSelectedToAttack(true);
+                                    clickedMob.updateMobBitmap();
+                                    System.out.println("========== Mob Selected =========");
+                                    break;
                                 }
-                                (gameBoard.getActivePlayer()).setSelectedMob(clickedMob);
-                                clickedMob.setSelectedToAttack(true);
-                                clickedMob.updateMobBitmap();
-                                System.out.println("========== Mob Selected =========");
-                                break;
                             }
                         }
                     }
@@ -132,25 +134,70 @@ public abstract class Interaction {
         }
     }
 
-    public static void processCardSelection(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
+    public static void processCardMagnification(List<TouchEvent> touchEvents, Draggable dObj, Game game, PlayerHand playerHand) {
         float touchOffsetX = 0.0f;
         float touchOffsetY = 0.0f;
-
+            Card card;
 
             for (TouchEvent t : touchEvents) {
                 float x_cor = t.x;
                 float y_cor = game.getScreenHeight() - t.y;
 
-                if (t.type == TouchEvent.TOUCH_SINGLE_TAP && dObj.getBoundingBox().contains(x_cor, y_cor)) {
+                if (t.type == TouchEvent.TOUCH_DOWN && dObj.getBoundingBox().contains(x_cor, y_cor)) {
                     if (game.isMagnificationToggled()) {
-                        int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
-                        Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
-                        game.setMagnifiedCard(card);
+                        int index = playerHand.getPlayerHand().indexOf(dObj);
+                            card = playerHand.getPlayerHand().get(index);
+
+                            game.setDrawCard(true);
+                            game.setMagnifiedCard(card, game.getScreenManager().getCurrentScreen(), card.getCardStats());
                     }
                 }
-
+                if (t.type == TouchEvent.TOUCH_UP && dObj.getBoundingBox().contains(x_cor, y_cor)) {
+                    if (game.isMagnificationToggled()) {
+                        game.setDrawCard(false);
+                    }
+                }
             }
         }
+
+    //TODO - Mob Container Magnification
+//    public static void processMobMagnification(List<TouchEvent> touchEvents, MobContainer mobContainer, Game game) {
+//        float touchOffsetX = 0.0f;
+//        float touchOffsetY = 0.0f;
+//        int i = 1;
+//        Card card = null;
+//
+//
+//        for (TouchEvent t : touchEvents) {
+//            float x_cor = t.x;
+//            float y_cor = game.getScreenHeight() - t.y;
+//
+//            if (t.type == TouchEvent.TOUCH_DOWN && mobContainer.getBound().contains(x_cor, y_cor) && mobContainer.getContents() != null) {
+//                if (game.isMagnificationToggled()) {
+//
+//                    Mob mob = mobContainer.getContents();
+//
+//
+//                    for (Card cardC : game.getScreenManager().getCurrentScreen().getCardCollection()) {
+//                        if (cardC.getCardName() == mob.getName()) {
+//                            game.setDrawCard(true);
+//                            game.setMagnifiedCard(cardC, game.getScreenManager().getCurrentScreen(), cardC.getCardStats());
+//
+//                        }
+//                    }
+//
+//
+//                }
+//            }
+//
+//            if (t.type == TouchEvent.TOUCH_UP && mobContainer.getBound().contains(x_cor, y_cor)) {
+//                if (game.isMagnificationToggled()) {
+//                    game.setDrawCard(false);
+//                }
+//            }
+//        }
+//    }
+
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
         float touchOffsetX = 0.0f;
@@ -169,7 +216,7 @@ public abstract class Interaction {
                 contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
             }
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN  && !game.isMagnificationToggled()) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
