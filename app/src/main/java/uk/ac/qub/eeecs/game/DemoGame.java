@@ -60,6 +60,7 @@ public class DemoGame extends Game {
         //StartScreen stubMenuScreen = new StartScreen(this);
         //mScreenManager.addScreen(stubMenuScreen);
         this.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
+        this.getAssetManager().loadAssets("txt/assets/MobSounds.JSON");
         CompanyLogoScreen logoSplashScreen = new CompanyLogoScreen(this);
         mScreenManager.addScreen(logoSplashScreen);
 
