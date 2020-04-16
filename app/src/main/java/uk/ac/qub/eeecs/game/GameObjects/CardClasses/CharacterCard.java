@@ -30,7 +30,7 @@ public class CharacterCard extends Card {
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
 
     public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats, int changeSize) {
@@ -38,34 +38,10 @@ public class CharacterCard extends Card {
         this.mHP = cardStats.getHp();
         this.mAttackDmg = cardStats.getAttack();
         this.mEquipedCard = null;
-        this.mCardBase = CardBitmapFactory.returnBitmap(this,gameScreen);
+        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
     }
 
 
-
-
-    /////////
-    //Methods
-    /////////
-
-    /*
-
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
-                     LayerViewport layerViewport, ScreenViewport screenViewport) {
-
-//    //  Draw the attack value
-//    drawBitmap(mCardDigits[mAttack], mAttackOffset, mAttackScale,
-//               graphics2D, layerViewport, screenViewport);
-//
-//    // Draw the health value
-//    drawBitmap(mCardDigits[mHealth], mHealthOffset, mHealthScale,
-//               graphics2D, layerViewport, screenViewport);
-
-
-    }
-
-    */
 
     /////////////////////
     //Setters and Getters

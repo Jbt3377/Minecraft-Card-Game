@@ -12,6 +12,7 @@ import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.SteeringBehaviours;
 import uk.ac.qub.eeecs.gage.util.Vector2;
+import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
@@ -84,8 +85,7 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-
-        final int PLAYER_STARTING_HEALTH = 30;
+        final int PLAYER_STARTING_HEALTH = 100;
         final int PLAYER_STARTING_MANA = 10;
 
         gameBoard.getPlayer1().setmPlayerHealth(PLAYER_STARTING_HEALTH);
@@ -93,12 +93,18 @@ public class TurnManager {
         gameBoard.getPlayer2().setmPlayerHealth(PLAYER_STARTING_HEALTH);
         gameBoard.getPlayer2().setmPlayerMana(PLAYER_STARTING_MANA);
 
-        // TODO: Feature to set which player goes first
-        player1PhaseFlag = Phase.MOVE;
-        player2PhaseFlag = Phase.INACTIVE;
-
-        isPlayer1Turn = true;
-        gameBoard.setIsPlayer1Turn(true);
+        boolean isPlayer1First = gameBoard.getGameScreen().getGame().isPlayer1First();
+        if(isPlayer1First) {
+            player1PhaseFlag = Phase.MOVE;
+            player2PhaseFlag = Phase.INACTIVE;
+            isPlayer1Turn = true;
+            gameBoard.setIsPlayer1Turn(true);
+        }else{
+            player1PhaseFlag = Phase.INACTIVE;
+            player2PhaseFlag = Phase.MOVE;
+            isPlayer1Turn = false;
+            gameBoard.setIsPlayer1Turn(false);
+        }
 
         addStartTurnPopup();
     }
@@ -157,7 +163,7 @@ public class TurnManager {
                 EquipCard equipCard = (EquipCard) card;
                 if(equipCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
-                    equipCard.equipCardAnimation();
+                    equipCard.runCardAnimation();
                 }
                 if(equipCard.isAnimationFinished()) {
                     int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(equipCard);
@@ -170,7 +176,7 @@ public class TurnManager {
                 UtilityCard utilityCard = (UtilityCard) card;
                 if(utilityCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
-                    utilityCard.utilityCardAnimation();
+                    utilityCard.runCardAnimation();
                 }
 
                 if(utilityCard.isAnimationFinished()) {
@@ -222,7 +228,6 @@ public class TurnManager {
 
     private void phaseMoveAi(){
             System.out.println("AI Move Phase");
-
 
             if(gameBoard.getActivePlayer().isAiFinishedMoves()){
                 System.out.println("Ending move phase for AI");
@@ -280,10 +285,10 @@ public class TurnManager {
                                 gameBoard.getActivePlayer().setSelectedAiContainerIndex(gameBoard.getActivePlayer().getSelectedAiContainerIndex() + 1);
                             } else {
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveXAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveXAnimation(mc.getX_location());
                                 }
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveYAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveYAnimation(mc.getY_location());
                                 }
                             }
 
@@ -531,7 +536,6 @@ public class TurnManager {
 
     }
 
-
     private void phaseGameEnded(){
 
         Game mGame = gameBoard.getGameScreen().getGame();
@@ -608,6 +612,9 @@ public class TurnManager {
                 mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
                 50, msg);
     }
+
+
+
 
 
 }

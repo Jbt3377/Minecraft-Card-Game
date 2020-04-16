@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
+import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameScreens.CompanyLogoScreen;
 import uk.ac.qub.eeecs.game.GameScreens.StartScreen;
 
@@ -21,6 +23,13 @@ public class DemoGame extends Game {
      */
     public DemoGame() {
         super();
+        final String DEFAULT_DECK_NAME = "Steve's Arsenal";
+        player1 = new Human(DEFAULT_DECK_NAME);
+        player2 = new Human(DEFAULT_DECK_NAME);
+        ai = new Ai("Bane of Herobrine");
+
+        this.isPlayer2Human = false;
+        this.isPlayer1First = true;
     }
 
     /*
@@ -50,7 +59,7 @@ public class DemoGame extends Game {
 
         //StartScreen stubMenuScreen = new StartScreen(this);
         //mScreenManager.addScreen(stubMenuScreen);
-
+        this.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
         CompanyLogoScreen logoSplashScreen = new CompanyLogoScreen(this);
         mScreenManager.addScreen(logoSplashScreen);
 

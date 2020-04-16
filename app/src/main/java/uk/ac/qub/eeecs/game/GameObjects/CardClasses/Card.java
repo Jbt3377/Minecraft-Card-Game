@@ -1,30 +1,19 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
-import android.graphics.Bitmap;
-import android.graphics.Paint;
 
-import java.util.List;
-
-import uk.ac.qub.eeecs.gage.Game;
-
-import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
-import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.util.BoundingBox;
-import uk.ac.qub.eeecs.gage.util.GraphicsHelper;
-import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
 /**
  * Card class that can be drawn using a number of overlapping images.
- *
+ * <p>
  * Note: See the course documentation for extension/refactoring stories
  * for this class.
  *
@@ -37,31 +26,24 @@ public class Card extends Sprite implements Draggable {
     // /////////////////////////////////////////////////////////////////////////
 
     // Define the default card width and height
-    //Changed the default width and height. The original values were 180 and 260 respectively - MMC
     protected static final int DEFAULT_CARD_WIDTH = 180;
     protected static final int DEFAULT_CARD_HEIGHT = 260;
-    private static final int TEXT_MAX_LINE_LENGTH = 9;
-
-    //Bitmap related properties
-    protected Bitmap mCardBase;
-    private Bitmap mCardReverse;
-    private Bitmap mCardPortrait;
 
     //Card stat related properties
     private String cardName;
     private int cardID;
     private String cardDescription;
     private int manaCost;
-    private Paint cardDescTextPaint;
 
     //Touch event related properties
     private boolean selected;
-    private boolean cardFaceUp;
     protected final int FLIP_TIME = 15;
-    private int flipTimer;
+    protected int flipTimer;
     protected float scale;
 
-
+    //Animation related properties
+    protected boolean animationInProgress;
+    protected boolean animationFinished;
 
     //Properties to remember the cards original position if the card is being dragged
     private float x_original;
@@ -72,64 +54,52 @@ public class Card extends Sprite implements Draggable {
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Public constructor for Card object.
+     *
+     * @param x          - X Co-ordinate for the card for drawing on screen.
+     * @param y          - Y Co-ordinate for the card for drawing on screen.
+     * @param gameScreen - The GameScreen in which the card will be drawn.
+     * @param cardStats  - The CardStats(name, hp, etc) for this card.
+     */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
-
-        AssetManager assetManager = gameScreen.getGame().getAssetManager();
         this.manaCost = cardStats.getManacost();
         this.cardID = cardStats.getId();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
-
-        this.cardFaceUp = true;
-        this.cardDescTextPaint = setupDescTextPaint(assetManager);
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
-
-        // Set the common card reverse image
-        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
-
-        // Fetch the corresponding bitmap with the card's asset name
-        mCardPortrait = assetManager.getBitmap(cardName);
+        this.animationInProgress = false;
+        this.animationFinished = false;
     }
 
+    /**
+     * Overloaded constructor for Card object, used during magnification process.
+     *
+     * @param x          - X Co-ordinate for the card for drawing on screen.
+     * @param y          - Y Co-ordinate for the card for drawing on screen.
+     * @param gameScreen - The GameScreen in which the card will be drawn.
+     * @param cardStats  - The CardStats(name, hp, etc) for this card.
+     * @param scaleSize  - The scaling size for the card being magnified.
+     */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats, int scaleSize) {
         super(x, y, DEFAULT_CARD_WIDTH * scaleSize, DEFAULT_CARD_HEIGHT * scaleSize, null, gameScreen);
-
-        AssetManager assetManager = gameScreen.getGame().getAssetManager();
         this.manaCost = cardStats.getManacost();
         this.cardID = cardStats.getId();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
-
-        this.cardFaceUp = true;
-        this.cardDescTextPaint = setupDescTextPaint(assetManager);
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
-
-        // Set the common card reverse image
-        mCardReverse = assetManager.getBitmap("CardBackgroundReverse");
-
-        // Fetch the corresponding bitmap with the card's asset name
-        mCardPortrait = assetManager.getBitmap(cardName);
+        this.animationInProgress = false;
+        this.animationFinished = false;
     }
 
     // /////////////////////////////////////////////////////////////////////////
     // Methods
     // /////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Method will setup and return a paint object to be used for the Card Description Text.
-     */
-    private Paint setupDescTextPaint(AssetManager assetManager){
-
-        cardDescTextPaint = new Paint();
-        cardDescTextPaint.setTextSize(this.getBound().getWidth()/12);
-        cardDescTextPaint.setARGB(255, 255, 255, 255);
-        cardDescTextPaint.setTypeface(assetManager.getFont("MinecraftRegFont"));
-        return cardDescTextPaint;
-    }
 
     /**
-     * Draw the game platform
+     * Draw the Card object
      *
      * @param elapsedTime    Elapsed time information
      * @param graphics2D     Graphics instance
@@ -139,96 +109,78 @@ public class Card extends Sprite implements Draggable {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport) {
-        //flipAnimation();
-        if(cardFaceUp) {
-            // Draw the portrait
-            //drawBitmap(mCardPortrait, mPortraitOffset, mPortraitScale,
-            //      graphics2D, layerViewport, screenViewport);
-
-            // Draw the card base background
-            mBitmap = mCardBase;
-            super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-        }
-        else{
-            mBitmap = mCardReverse;
-            super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-        }
+        super.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
     }
 
-    private BoundingBox bound = new BoundingBox();
-
-    //Card card = new Card("hiya");
-
-    public void flipAnimation(){
-        //If no animation
-        if(flipTimer == 0){
-            setWidth(DEFAULT_CARD_WIDTH);
-            return;
-        }
-        //First half of animation
-        else if(flipTimer > FLIP_TIME/2){
-            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - flipTimer)));
-        }
-        //Middle of animation, flip card over
-        else if(flipTimer == FLIP_TIME/2){
-            cardFaceUp = !cardFaceUp;
-        }
-
-        //Second half of the animation
-        else if(flipTimer > 0 && flipTimer < FLIP_TIME/2){
-            setWidth(scale * (FLIP_TIME/2 - flipTimer));
-        }
-        flipTimer--;
-
-        cardDescTextPaint.setTextScaleX(getWidth() / DEFAULT_CARD_WIDTH);
-    }
-    public void cardMoveXAnimation(float desiredXLoc, float desiredYLoc){
+    /**
+     * This method is used to move the card in the X direction to the desired Y co-ordinate.
+     *
+     * @param desiredXLoc - The X co-ordinate in which the card will move to.
+     */
+    public void cardMoveXAnimation(float desiredXLoc) {
         //Phase 1 - Fastest Movement
-        if(this.position.x > desiredXLoc){
+        if (this.position.x > desiredXLoc) {
             float positionDifference = this.position.x - desiredXLoc;
-            if(positionDifference > (positionDifference * 0.10)){
+            if (positionDifference > (positionDifference * 0.10)) {
                 setNewPosition(this.position.x - 20, this.position.y);
-            }else{
+            } else {
                 setNewPosition(this.position.x - 1, this.position.y);
             }
-        } if(this.position.x < desiredXLoc){
+        }
+        if (this.position.x < desiredXLoc) {
             float positionDifference = desiredXLoc - this.position.x;
-            if(positionDifference > (positionDifference * 0.10)){
+            if (positionDifference > (positionDifference * 0.10)) {
                 setNewPosition(this.position.x + 20, this.position.y);
-            }else{
+            } else {
                 setNewPosition(this.position.x + 1, this.position.y);
             }
         }
     }
 
-    public void cardMoveYAnimation(float desiredXLoc, float desiredYLoc){
+    /**
+     * This method is used to move the card in the Y direction to the desired Y co-ordinate.
+     *
+     * @param desiredYLoc - The Y co-ordinate in which the card will move to.
+     */
+    public void cardMoveYAnimation(float desiredYLoc) {
         //Phase 1 - Fastest Movement
-        if(this.position.y > desiredYLoc){
+        if (this.position.y > desiredYLoc) {
             float positionDifference = this.position.y - desiredYLoc;
-            if(positionDifference > (positionDifference * 0.10)){
+            if (positionDifference > (positionDifference * 0.10)) {
                 setNewPosition(this.position.x, this.position.y - 20);
-            }else{
+            } else {
                 setNewPosition(this.position.x, this.position.y - 1);
             }
-        } if(this.position.y < desiredYLoc){
+        }
+        if (this.position.y < desiredYLoc) {
             float positionDifference = desiredYLoc - this.position.y;
-            if(positionDifference > (positionDifference * 0.10)){
+            if (positionDifference > (positionDifference * 0.10)) {
                 setNewPosition(this.position.x, this.position.y + 20);
-            }else{
+            } else {
                 setNewPosition(this.position.x, this.position.y + 1);
             }
         }
     }
 
-    public boolean readyToTurnToMob(float desiredXLoc, float desiredYLoc){
+    /**
+     * This method checks if the card has reached a desired X co-ordinate and Y co-ordinate.
+     *
+     * @param desiredXLoc - The X co-ordinate we wish to check.
+     * @param desiredYLoc - The Y co-ordinate we wish to check.
+     * @return - true if the card is at the correct X and Y co-ordinate, false otherwise.
+     */
+    public boolean readyToTurnToMob(float desiredXLoc, float desiredYLoc) {
         boolean result = false;
 
-        if(this.mBound.contains(desiredXLoc,desiredYLoc)){
+        if (this.mBound.contains(desiredXLoc, desiredYLoc)) {
             result = true;
         }
         return result;
     }
 
+    public void runCardAnimation() {
+        //Implementation given in each child class
+    }
 
     ///////////////////
     //Interface Methods
@@ -290,10 +242,6 @@ public class Card extends Sprite implements Draggable {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public Bitmap getmCardPortrait() {
-        return mCardPortrait;
-    }
-
     public String getCardName() {
         return cardName;
     }
@@ -313,6 +261,13 @@ public class Card extends Sprite implements Draggable {
     }
     public void setCardDescription(String cardDescription) {
         this.cardDescription = cardDescription;
+    }
+
+    public int getCardID() {
+        return cardID;
+    }
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
     }
 
 

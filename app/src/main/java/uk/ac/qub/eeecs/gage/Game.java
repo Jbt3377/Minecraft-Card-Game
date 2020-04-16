@@ -56,18 +56,10 @@ public abstract class Game extends Fragment {
     /**
      * The Game has two Players who play the game.
      */
-    private Human player1;
-    private Human player2;
-    private Ai ai;
-    private boolean isPlayer2Human;
+    public Human player1;
+    public Human player2;
+    public Ai ai;
 
-    /**
-     * The Game has a DeckManager that stores all the cards available in the game.
-     */
-    private DeckManager mDeckManager;
-
-
-    //Team Defined Getters and Setters
     public Human getPlayer1() {
         return player1;
     }
@@ -89,6 +81,13 @@ public abstract class Game extends Fragment {
         this.ai = ai;
     }
 
+    /**
+     * Flags used to customise the setup phase
+     */
+
+    public boolean isPlayer2Human;
+    public boolean isPlayer1First;
+
     public boolean isPlayer2Human() {
         return isPlayer2Human;
     }
@@ -96,6 +95,23 @@ public abstract class Game extends Fragment {
     public void setPlayer2Human(boolean player2Human) {
         isPlayer2Human = player2Human;
     }
+
+    public boolean isPlayer1First() {
+        return isPlayer1First;
+    }
+
+    public void setPlayer1First(boolean player1First) {
+        isPlayer1First = player1First;
+    }
+
+    public void setmDeckManager(DeckManager mDeckManager) {
+        this.mDeckManager = mDeckManager;
+    }
+
+    /**
+     * The Game has a DeckManager that stores all the cards available in the game.
+     */
+    public DeckManager mDeckManager;
 
     public DeckManager getmDeckManager(){
         return mDeckManager;
@@ -344,7 +360,6 @@ public abstract class Game extends Fragment {
 
         mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
 
-
         mDeckManager = new DeckManager(mAssetManager.getAllCardStats());
 
         //////////////////////////////////////////////////////////////
@@ -353,7 +368,11 @@ public abstract class Game extends Fragment {
         player1 = new Human(DEFAULT_DECK_NAME);
         player2 = new Human(DEFAULT_DECK_NAME);
         ai = new Ai("Bane of Herobrine");
-        this.isPlayer2Human = false; }
+
+        this.isPlayer2Human = false;
+        this.isPlayer1First = true;
+        this.getActivity().setVolumeControlStream(android.media.AudioManager.STREAM_MUSIC);
+    }
 
     /*
      * (non-Javadoc)

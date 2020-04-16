@@ -295,14 +295,15 @@ public abstract class Interaction {
             if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()){
                 for (MobContainer mb : gameBoard.getFieldContainers()) {
 
-                    if (!(mb.isEmpty()) && mb.getContType() == contTypeOfPlayer) {
+                    if ((!mb.isEmpty()) && mb.getContType() == contTypeOfPlayer && mb.getBound().contains(x_cor, y_cor)) {
                         System.out.println("An equip card is over an occupied container");
 
                         Mob mob = mb.getContainedMob();
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         EquipCard card = (EquipCard) gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
-                        if(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0 && !(card.isAnimationInProgress())) {
+
+                        if(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0 && (!card.isAnimationInProgress())) {
 
                             if (mob.getEquipCard() == null) {
                                 System.out.println("Looks like we can equipped a card");
@@ -312,42 +313,27 @@ public abstract class Interaction {
                                     mob.setAttackDamage(mob.getAttackDamage() + 4);
                                     mob.updateMobBitmap();
                                     card.setAnimationInProgress(true);
-                                    dObj.setOriginalXPos(dObj.getCurrentXPosition());
-                                    dObj.setOriginalYPos(dObj.getCurrentYPosition());
+                                    dObj.setOriginalXPos(mb.getX_location());
+                                    dObj.setOriginalYPos(mb.getY_location());
                                     game.setCardsSelected(false);
                                     dObj.setHasBeenSelected(false);
                                 }
 
+                            }
 
-                            }dObj.setNewPosition(dObj.getOriginalXPos(), dObj.getOriginalYPos());
-                            game.setCardsSelected(false);
-                            dObj.setHasBeenSelected(false);
-                        }
-
-
-
-//                        int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
-//                        Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
-//
-//                        if (gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0) {
-//                            System.out.println("A card has been dropped in this container");
-//                            Mob mob = new Mob(mb.getX_location(), mb.getY_location(), gameBoard.getGameScreen(), (CharacterCard) dObj);
-//                            gameBoard.getActivePlayersMobsOnBoard().add(mob);
-//                            mb.placeCard(mob);
-//                            game.setCardsSelected(false);
-//                            dObj.setHasBeenSelected(false);
-//
-//                            gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
-//                            System.out.println("Index of lifted card: " + index);
-//                            gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
                         }
                     }
+
+                    dObj.setNewPosition(dObj.getOriginalXPos(), dObj.getOriginalYPos());
+                    game.setCardsSelected(false);
+                    dObj.setHasBeenSelected(false);
+
                 }
             }
-
-            }
-
         }
+    }
+
+}
 
 
 
