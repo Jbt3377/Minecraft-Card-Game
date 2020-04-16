@@ -34,9 +34,7 @@ import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 public class DisplayCardsScreen extends GameScreen {
     //Variables
     //to get back to the main screen
-    private PushButton mBackButton;
-
-
+    private PushButton mReturnButton;
 
 
     //Variables for the display of cards
@@ -79,7 +77,7 @@ public class DisplayCardsScreen extends GameScreen {
 
     private int test = 0;
 
-
+    private Paint fpsPaint = new Paint();
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -109,7 +107,6 @@ public class DisplayCardsScreen extends GameScreen {
     private void setupBoardGameObjects() {
 
 
-
         //Adds all the cards in the game into a collection of an arraylist;
 //        addCardsToCardCollection();
 //        addCardsToCardCollection();
@@ -126,8 +123,14 @@ public class DisplayCardsScreen extends GameScreen {
         //Sets the position of cards
         setPositionCards();
 
-        //Set up buttons
-        //setUpButtons();
+        //Back button setup
+        mReturnButton = new PushButton(
+                mDefaultLayerViewport.getWidth() * 0.92f,
+                mDefaultLayerViewport.getHeight() * 0.08f,
+                mDefaultLayerViewport.getWidth() /8,
+                mDefaultLayerViewport.getHeight() /10,
+                "BackButton", this);
+        mReturnButton.setPlaySounds(true, true);
 
 
         displayedCardCollection = getCardCollection();
@@ -135,6 +138,11 @@ public class DisplayCardsScreen extends GameScreen {
             displayedCardCollection.get(i).setHeight(displayedCardCollection.get(i).getHeight() * 2);
             displayedCardCollection.get(i).setWidth(displayedCardCollection.get(i).getWidth() * 2);
         }
+
+
+        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
+        fpsPaint.setTextSize(mScreenHeight / 30);
+        fpsPaint.setTextAlign(Paint.Align.RIGHT);
     }
 
     //Update requirements
@@ -150,6 +158,10 @@ public class DisplayCardsScreen extends GameScreen {
         movingBackground();
 
 
+        mReturnButton.update(elapsedTime);
+        if (mReturnButton.isPushTriggered()){
+            mGame.getScreenManager().removeScreen(this);
+        }
     }
 
 
@@ -219,18 +231,20 @@ public class DisplayCardsScreen extends GameScreen {
         //Displays Cards
         displayAllCards(elapsedTime, graphics2D);
 
-        Paint fpsPaint = new Paint();
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
+
+        // Draw the back button
+        mReturnButton.draw(elapsedTime, graphics2D,
+                mDefaultLayerViewport, mDefaultScreenViewport);
+
+
 
         graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
-        //graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
-        graphics2D.drawText("touchOffsetY: " + test, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
-
-// Debug Draw (Keep)
-//        graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
-//        graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
+//        //graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
+        graphics2D.drawText("touchOffsetY: " + test, mScreenWidth * 0.9f, mScreenHeight * 0.08f, fpsPaint);
+//
+//// Debug Draw (Keep)
+////        graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
+////        graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
 
     }
 
