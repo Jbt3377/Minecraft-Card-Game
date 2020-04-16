@@ -214,4 +214,21 @@ public class CardTest {
         card.setOriginalYPos(700.0f);
         assertTrue(card.getOriginalYPos() == 700.0f);
     }
+
+    @Test
+    public void Card_getFlipTimer_Test(){
+        //Setup
+        Card card = new Card(50, 100, mainScreen, testCharacterCardStats);
+        //Testing
+        assertTrue(card.getFlipTimer() == 0);
+    }
+
+    @Test
+    public void Card_setFlipTime_Test(){
+        //Setup
+        Card card = new Card(50, 100, mainScreen, testCharacterCardStats);
+        //Testing
+        card.setFlipTimer(15);
+        assertTrue(card.getFlipTimer() == 15);
+    }
 }

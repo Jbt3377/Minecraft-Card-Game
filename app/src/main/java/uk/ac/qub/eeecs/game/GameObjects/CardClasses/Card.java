@@ -270,6 +270,12 @@ public class Card extends Sprite implements Draggable {
         this.cardID = cardID;
     }
 
+    public int getFlipTimer() {
+        return flipTimer;
+    }
 
+    public void setFlipTimer(int flipTimer) {
+        this.flipTimer = flipTimer;
+    }
 
 }
