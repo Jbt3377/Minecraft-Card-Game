@@ -33,9 +33,15 @@ public class DeckEditorScreen extends GameScreen {
 
     private int currentDeckSize = 0;                        //Deck Variables
 
+
+
     //Distance Between Cards - PX
-    private float distanceBetweenColumns = mGame.getScreenHeight()*0.3f;
-    private float distanceBetweenRows = mGame.getScreenWidth()*0.2f;
+    private float distanceBetweenColumns;
+    private float distanceBetweenRows;
+
+//    //Distance Between Cards - PX
+//    private float distanceBetweenColumns = mGame.getScreenHeight()*0.1f;
+//    private float distanceBetweenRows = mGame.getScreenWidth()*0.1f;
 
 
     private Paint deckPaint, UIpaint;
@@ -52,9 +58,7 @@ public class DeckEditorScreen extends GameScreen {
     private LayerViewport cardsLayerViewport;
     private LayerViewport screenViewport;
 
-    //Screen Var
-    int screenHeight = mGame.getScreenHeight();
-    int screenWidth = mGame.getScreenWidth();
+
 
 
 
@@ -102,14 +106,19 @@ public class DeckEditorScreen extends GameScreen {
     }
     private void setupViewPorts() {
         //Setup boardLayerViewport
-        float screenWidth = mGame.getScreenWidth();
-        float screenHeight = mGame.getScreenHeight();
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
 
-        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
+        mDefaultScreenViewport.set( 0, 0, screenWidth, screenHeight);
+        mDefaultLayerViewport.set(screenWidth/2, screenHeight/2, screenWidth/2, screenHeight/2);
 
-        screenViewport = new LayerViewport(0,0,mGame.getScreenWidth(), mGame.getScreenHeight());
-        cardsLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth * 0.5f,screenHeight * 0.5f);
+        screenViewport = new LayerViewport(0,0,screenWidth, screenHeight);
+        //cardsLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth * 0.5f,screenHeight * 0.5f);
+        //Distance Between Cards - PX
 
+
+        distanceBetweenRows = mDefaultLayerViewport.getHeight()*0.4f;
+        distanceBetweenColumns = mDefaultLayerViewport.getWidth() *0.13f;
 
     }
 
@@ -123,8 +132,9 @@ public class DeckEditorScreen extends GameScreen {
 
       //  cardCollection = getCardCollection();
         for (int i = 0; i < cardCollection.size(); i++) {
-            cardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.3f);
-            cardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.55f);
+            cardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 0.35f);
+            cardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.12f);
+
         }
 
         saveDeckButton = new PushButton(
@@ -262,6 +272,9 @@ public class DeckEditorScreen extends GameScreen {
 //    }
 
     private void setPositionCards() {
+        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //* 1f;
+        float card_start_y = mDefaultLayerViewport.getHeight() * 0.3f; // * 1f;
+
         int count = 0;
         for(int k = 0; k < numberOfPage; k++) {
 
@@ -274,7 +287,8 @@ public class DeckEditorScreen extends GameScreen {
                     float y = i * distanceBetweenRows;
 
                     if (count < cardCollection.size()) {
-                        cardCollection.get(count).setPosition(-mGame.getScreenWidth() * 0.4f + cardsLayerViewport.x + x, mGame.getScreenHeight() * 0.2f + cardsLayerViewport.y - y);
+                        cardCollection.get(count).setPosition(card_start_x + x,  card_start_y + y);
+                        //cardCollection.get(count).setPosition(-mDefaultLayerViewport.getWidth() * 0.4f + mDefaultLayerViewport.x+ x, mGame.getScreenHeight() * 0.2f + mDefaultLayerViewport.y - y);
                     }
                     count++;
                 }
@@ -288,7 +302,7 @@ public class DeckEditorScreen extends GameScreen {
 
         for(int i = numDisplay; i < numDisplay+10;i++){
             if(i < cardCollection.size()){
-                cardCollection.get(i).draw(elapsedTime, graphics2D, cardsLayerViewport,mDefaultScreenViewport);
+                cardCollection.get(i).draw(elapsedTime, graphics2D);
             }
 
         }
@@ -336,8 +350,8 @@ public class DeckEditorScreen extends GameScreen {
         //Listening for the user inputs
         for(TouchEvent t : touchEventList) {
 
-            float x_cor = t.x;
-            float y_cor = mGame.getScreenHeight() - t.y;
+//            float x_cor = t.x;
+//            float y_cor = mDefaultLayerViewport.getHeight() - t.y;
 //            //Calculation for moving the cards with the finger
 //            if(t.type == TouchEvent.TOUCH_DRAGGED){
 //                cardsLayerViewport.x = -t.x + touchOffsetX;
@@ -357,7 +371,7 @@ public class DeckEditorScreen extends GameScreen {
             if (t.type == TouchEvent.TOUCH_SINGLE_TAP){
                 for(int i = numDisplay; i < numDisplay+10;i++){
                     if(i<cardCollection.size()){
-                        if (cardCollection.get(i).getBoundingBox().contains(x_cor, y_cor)){
+                        if (cardCollection.get(i).getBoundingBox().contains(t.x, t.y)){
                             if(currentDeckSize < MAX_DECK_SIZE) {
                                 currentDeckSize++;
                                 deck.add(cardCollection.get(i).getCardName()); //add to deck
@@ -412,6 +426,16 @@ public class DeckEditorScreen extends GameScreen {
             }
         }
     }
+
+//    private void addCardToDeck(){
+//
+//        int cardCopies = 0;
+//        for (int i = 0; i < deck.size(); i++) {
+//            if (deck.get(i).getCardID() == cardNo) {
+//                cardCopies++;
+//            }
+//        }
+//    }
 
     private void saveDeck() {
         if (saveDeckButton.isPushTriggered()) {
