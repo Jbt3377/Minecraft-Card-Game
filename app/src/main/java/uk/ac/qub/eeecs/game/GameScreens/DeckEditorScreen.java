@@ -123,8 +123,8 @@ public class DeckEditorScreen extends GameScreen {
 
       //  cardCollection = getCardCollection();
         for (int i = 0; i < cardCollection.size(); i++) {
-            cardCollection.get(i).setHeight(cardCollection.get(i).getHeight() * 1.5f);
-            cardCollection.get(i).setWidth(cardCollection.get(i).getWidth() * 1.5f);
+            cardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.3f);
+            cardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.55f);
         }
 
         saveDeckButton = new PushButton(
