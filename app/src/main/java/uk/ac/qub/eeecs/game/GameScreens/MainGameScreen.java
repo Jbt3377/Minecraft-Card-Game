@@ -9,6 +9,7 @@ import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
+import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.ui.ToggleButton;
@@ -58,6 +59,8 @@ public class MainGameScreen extends GameScreen {
     // MainGameScreen
     private PushButton endTurnButton, displayAllCardsButton, pauseButton;
     private ToggleButton magnificationButton, fpsToggle;
+    //Toggle Sound
+    Sound triggerSound = mGame.getAssetManager().getSound("ButtonDefaultPush");
 
     // DisplayCardsScreen
     private DisplayCardsScreen ViewCards;
@@ -166,8 +169,9 @@ public class MainGameScreen extends GameScreen {
         magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/10,mScreenHeight /8,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
 
-//        displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
-//                "EndTurnDefault", this);
+
+        magnificationButton.setSounds(triggerSound, triggerSound);
+
 
         float playerHeartIconXPos = mScreenWidth*0.85f, playerManaIconXPos = mScreenWidth*0.90f,
                 player1HeartAndManaYPos = (mScreenHeight*0.60f)+40, player2HeartAndManaYPos = (mScreenHeight*0.40f)-40;
@@ -199,12 +203,15 @@ public class MainGameScreen extends GameScreen {
         volumeButton = new PushButton(mScreenWidth / 1.35f, mScreenHeight* 0.4700f,mScreenWidth* 0.13f, mScreenHeight* 0.18f,
                 "VolumeButton",  this);
 
+
         if(mGame.isDisplayFps()){
             fpsToggle = new ToggleButton(mScreenWidth / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
                     "ToggleOn", "ToggleOn", "ToggleOff", "ToggleOff", this);
+            fpsToggle.setSounds(triggerSound, triggerSound);
         }else {
             fpsToggle = new ToggleButton(mScreenWidth / 1.3f, mScreenHeight * 0.66f, mScreenWidth * 0.20f, mScreenHeight * 0.15f,
                     "ToggleOff", "ToggleOff", "ToggleOn", "ToggleOn", this);
+            fpsToggle.setSounds(triggerSound, triggerSound);
         }
 
         if(mGame.isDisplayFps()) fpsToggle.setToggled(true);

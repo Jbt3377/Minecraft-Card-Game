@@ -58,7 +58,7 @@ public class CustomBoardScreen extends GameScreen {
                 screenWidth /6.5f,
                 screenHeight /10,
                 "BackButton", this);
-        backButton.setPlaySounds(true, true);
+        backButton.setPlaySounds(true);
 
     }
 
