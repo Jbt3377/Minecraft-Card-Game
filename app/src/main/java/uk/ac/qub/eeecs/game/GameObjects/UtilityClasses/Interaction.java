@@ -138,23 +138,29 @@ public abstract class Interaction {
         float touchOffsetX = 0.0f;
         float touchOffsetY = 0.0f;
             Card card;
-
+            game.getAudioManager().setSfxVolume(0.2f);
             for (TouchEvent t : touchEvents) {
                 float x_cor = t.x;
                 float y_cor = game.getScreenHeight() - t.y;
 
                 if (t.type == TouchEvent.TOUCH_DOWN && dObj.getBoundingBox().contains(x_cor, y_cor)) {
-                    if (game.isMagnificationToggled()) {
+                    if (game.isMagnificationToggled() && game.isCardsSelected()) {
                         int index = playerHand.getPlayerHand().indexOf(dObj);
                             card = playerHand.getPlayerHand().get(index);
 
                             game.setDrawCard(true);
                             game.setMagnifiedCard(card, game.getScreenManager().getCurrentScreen(), card.getCardStats());
+                            game.getAudioManager().play(game.getAssetManager().getSound("zoom-in"));
                     }
                 }
-                if (t.type == TouchEvent.TOUCH_UP && dObj.getBoundingBox().contains(x_cor, y_cor)) {
-                    if (game.isMagnificationToggled()) {
-                        game.setDrawCard(false);
+
+                if (t.type == TouchEvent.TOUCH_UP) {
+                    if (game.isMagnificationToggled() ) {
+
+                        if (game.drawCard){
+                            game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
+                        }
+                        game.setDrawCard(false);;
                     }
                 }
             }
@@ -216,7 +222,7 @@ public abstract class Interaction {
                 contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
             }
 
-            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN  && !game.isMagnificationToggled()) {
+            if (dObj.getBoundingBox().contains(x_cor, y_cor) && (!game.isCardsSelected()) && t.type == TouchEvent.TOUCH_DOWN) {
                 game.setCardsSelected(true);
                 dObj.setHasBeenSelected(true);
                 touchOffsetX = x_cor - dObj.getCurrentXPosition();
@@ -225,7 +231,7 @@ public abstract class Interaction {
                 dObj.setOriginalYPos(dObj.getCurrentYPosition());
             }
 
-            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()) {
+            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected() && !game.isMagnificationToggled()) {
                 dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
             }
 
@@ -277,7 +283,7 @@ public abstract class Interaction {
                 dObj.setOriginalYPos(dObj.getCurrentYPosition());
             }
 
-            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()) {
+            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected() && !game.isMagnificationToggled()) {
                 dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
                 System.out.println("Dragging utils card");
             }
@@ -334,7 +340,7 @@ public abstract class Interaction {
                 dObj.setOriginalYPos(dObj.getCurrentYPosition());
             }
 
-            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected()) {
+            if (t.type == TouchEvent.TOUCH_DRAGGED && dObj.getHasBeenSelected() && !game.isMagnificationToggled()) {
                 dObj.setNewPosition(x_cor - touchOffsetX, y_cor - touchOffsetY);
                 System.out.println("Dragging equip card");
             }

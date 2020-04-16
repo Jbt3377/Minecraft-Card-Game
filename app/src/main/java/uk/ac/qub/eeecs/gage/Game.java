@@ -40,7 +40,7 @@ public abstract class Game extends Fragment {
 
     public Card magnifiedCard;
     public Card getMagnifiedCard() { return magnifiedCard; }
-    public boolean drawCard = true;
+    public boolean drawCard = false;
     public boolean drawCard() {
         return drawCard;
     }
@@ -49,8 +49,9 @@ public abstract class Game extends Fragment {
     }
 
     public void setMagnifiedCard(Card magnifiedCard, GameScreen gameScreen, CardStats cardStats) {
-
-        this.magnifiedCard = new Card(getScreenWidth()/2, getScreenHeight()/2, gameScreen, cardStats);
+        if (this.magnifiedCard == null) {
+            this.magnifiedCard = new Card(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen, cardStats);
+        }
         this.magnifiedCard.setCardName(magnifiedCard.getCardName());
         this.magnifiedCard.setCardDescription(magnifiedCard.getCardDescription());
         this.magnifiedCard.setManaCost(magnifiedCard.getManaCost());
