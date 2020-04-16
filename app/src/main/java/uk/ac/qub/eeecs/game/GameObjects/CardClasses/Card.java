@@ -34,6 +34,7 @@ public class Card extends Sprite implements Draggable {
     private int cardID;
     private String cardDescription;
     private int manaCost;
+    private CardStats cardStats;
 
     //Touch event related properties
     private boolean selected;
@@ -68,6 +69,7 @@ public class Card extends Sprite implements Draggable {
         this.cardID = cardStats.getId();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
+        this.cardStats = cardStats;
         this.scale = (DEFAULT_CARD_WIDTH / FLIP_TIME) * 2;
         this.animationInProgress = false;
         this.animationFinished = false;
@@ -270,6 +272,13 @@ public class Card extends Sprite implements Draggable {
         this.cardID = cardID;
     }
 
+    public int getFlipTimer() {
+        return flipTimer;
+    }
 
+    public void setFlipTimer(int flipTimer) {
+        this.flipTimer = flipTimer;
+    }
 
+    public CardStats getCardStats() { return cardStats;}
 }

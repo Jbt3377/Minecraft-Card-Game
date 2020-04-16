@@ -14,7 +14,7 @@ import uk.ac.qub.eeecs.gage.world.LayerViewport;
 
 public class CustomBoardScreen extends GameScreen {
 
-    private PushButton mBackButton, leftBoardChange, rightBoardChange;
+    private PushButton backButton, leftBoardChange, rightBoardChange;
     private GameObject background, gameBoardDisplay;
     private LayerViewport boardLayerViewport;
     private int boardCounter = 0;
@@ -52,7 +52,13 @@ public class CustomBoardScreen extends GameScreen {
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
-
+        backButton = new PushButton(
+                screenWidth* 0.1f,
+                screenHeight* 0.9f,
+                screenWidth /6.5f,
+                screenHeight /10,
+                "BackButton", this);
+        backButton.setPlaySounds(true, true);
 
     }
 
@@ -62,6 +68,7 @@ public class CustomBoardScreen extends GameScreen {
 
         leftBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         rightBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        backButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
         boardSetter(boardCounter);
         gameBoardDisplay.update(elapsedTime);
@@ -84,6 +91,10 @@ public class CustomBoardScreen extends GameScreen {
         }
 
 
+        if (backButton.isPushTriggered()){
+            mGame.getScreenManager().removeScreen(this);
+        }
+
     }
 
 
@@ -100,6 +111,7 @@ public class CustomBoardScreen extends GameScreen {
 
         leftBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
         rightBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        backButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
         graphics2D.drawText(boardText,  mScreenWidth / 2f, mScreenHeight * 0.88f, textFont);
 

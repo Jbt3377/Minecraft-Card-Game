@@ -2,24 +2,6 @@
   "assets": [
     {
       "type": "Sound",
-      "name": "blaze_attack",
-      "file": "sound/mobSoundEffects/blaze_attack.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "blaze_damaged",
-      "file": "sound/mobSoundEffects/blaze_damaged.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "blaze_death",
-      "file": "sound/mobSoundEffects/blaze_death.mp3"
-    },
-
-    {
-      "type": "Sound",
       "name": "cow_attack",
       "file": "sound/mobSoundEffects/cow_attack.mp3"
     },
@@ -38,20 +20,56 @@
 
     {
       "type": "Sound",
-      "name": "irongolem_attack",
-      "file": "sound/mobSoundEffects/irongolem_attack.mp3"
+      "name": "dragon_attack",
+      "file": "sound/mobSoundEffects/dragon_attack.mp3"
     },
 
     {
       "type": "Sound",
-      "name": "irongolem_damaged",
-      "file": "sound/mobSoundEffects/irongolem_damaged.mp3"
+      "name": "dragon_damaged",
+      "file": "sound/mobSoundEffects/dragon_damaged.mp3"
     },
 
     {
       "type": "Sound",
-      "name": "irongolem_death",
-      "file": "sound/mobSoundEffects/irongolem_death.mp3"
+      "name": "dragon_death",
+      "file": "sound/mobSoundEffects/dragon_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "creeper_attack",
+      "file": "sound/mobSoundEffects/creeper_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "creeper_damaged",
+      "file": "sound/mobSoundEffects/creeper_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "creeper_death",
+      "file": "sound/mobSoundEffects/creeper_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "zombie_attack",
+      "file": "sound/mobSoundEffects/zombie_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "zombie_damaged",
+      "file": "sound/mobSoundEffects/zombie_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "zombie_death",
+      "file": "sound/mobSoundEffects/zombie_death.mp3"
     },
 
     {
@@ -74,6 +92,240 @@
 
     {
       "type": "Sound",
+      "name": "herobrine_attack",
+      "file": "sound/mobSoundEffects/herobrine_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "herobrine_damaged",
+      "file": "sound/mobSoundEffects/herobrine_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "herobrine_death",
+      "file": "sound/mobSoundEffects/herobrine_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dolphin_attack",
+      "file": "sound/mobSoundEffects/dolphin_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dolphin_damaged",
+      "file": "sound/mobSoundEffects/dolphin_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dolphin_death",
+      "file": "sound/mobSoundEffects/dolphin_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "steve dolphin_attack",
+      "file": "sound/mobSoundEffects/steve dolphin_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "steve dolphin_damaged",
+      "file": "sound/mobSoundEffects/steve dolphin_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "steve dolphin_death",
+      "file": "sound/mobSoundEffects/steve dolphin_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bee_attack",
+      "file": "sound/mobSoundEffects/bee_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bee_damaged",
+      "file": "sound/mobSoundEffects/bee_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bee_death",
+      "file": "sound/mobSoundEffects/bee_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "panda_attack",
+      "file": "sound/mobSoundEffects/panda_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "panda_damaged",
+      "file": "sound/mobSoundEffects/panda_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "panda_death",
+      "file": "sound/mobSoundEffects/panda_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "sheep_attack",
+      "file": "sound/mobSoundEffects/sheep_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "sheep_damaged",
+      "file": "sound/mobSoundEffects/sheep_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "sheep_death",
+      "file": "sound/mobSoundEffects/sheep_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "pigman_attack",
+      "file": "sound/mobSoundEffects/pigman_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "pigman_damaged",
+      "file": "sound/mobSoundEffects/pigman_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "pigman_death",
+      "file": "sound/mobSoundEffects/pigman_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dog_attack",
+      "file": "sound/mobSoundEffects/dog_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dog_damaged",
+      "file": "sound/mobSoundEffects/dog_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "dog_death",
+      "file": "sound/mobSoundEffects/dog_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "guardian_attack",
+      "file": "sound/mobSoundEffects/guardian_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "guardian_damaged",
+      "file": "sound/mobSoundEffects/guardian_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "guardian_death",
+      "file": "sound/mobSoundEffects/guardian_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "drowned_attack",
+      "file": "sound/mobSoundEffects/drowned_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "drowned_damaged",
+      "file": "sound/mobSoundEffects/drowned_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "drowned_death",
+      "file": "sound/mobSoundEffects/drowned_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "wither_attack",
+      "file": "sound/mobSoundEffects/wither_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "wither_damaged",
+      "file": "sound/mobSoundEffects/wither_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "wither_death",
+      "file": "sound/mobSoundEffects/wither_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "cat_attack",
+      "file": "sound/mobSoundEffects/cat_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "cat_damaged",
+      "file": "sound/mobSoundEffects/cat_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "cat_death",
+      "file": "sound/mobSoundEffects/cat_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "ravager_attack",
+      "file": "sound/mobSoundEffects/ravager_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "ravager_damaged",
+      "file": "sound/mobSoundEffects/ravager_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "ravager_death",
+      "file": "sound/mobSoundEffects/ravager_death.mp3"
+    },
+
+    {
+      "type": "Sound",
       "name": "skeleton_attack",
       "file": "sound/mobSoundEffects/skeleton_attack.mp3"
     },
@@ -92,6 +344,132 @@
 
     {
       "type": "Sound",
+      "name": "pillager_attack",
+      "file": "sound/mobSoundEffects/pillager_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "pillager_damaged",
+      "file": "sound/mobSoundEffects/pillager_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "pillager_death",
+      "file": "sound/mobSoundEffects/pillager_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "witch_attack",
+      "file": "sound/mobSoundEffects/witch_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "witch_damaged",
+      "file": "sound/mobSoundEffects/witch_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "witch_death",
+      "file": "sound/mobSoundEffects/witch_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bat_attack",
+      "file": "sound/mobSoundEffects/bat_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bat_damaged",
+      "file": "sound/mobSoundEffects/bat_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "bat_death",
+      "file": "sound/mobSoundEffects/bat_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "blaze_attack",
+      "file": "sound/mobSoundEffects/blaze_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "blaze_damaged",
+      "file": "sound/mobSoundEffects/blaze_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "blaze_death",
+      "file": "sound/mobSoundEffects/blaze_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "squid_attack",
+      "file": "sound/mobSoundEffects/squid_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "squid_damaged",
+      "file": "sound/mobSoundEffects/squid_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "squid_death",
+      "file": "sound/mobSoundEffects/squid_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "super creeper_attack",
+      "file": "sound/mobSoundEffects/super creeper_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "super creeper_damaged",
+      "file": "sound/mobSoundEffects/super creeper_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "super creeper_death",
+      "file": "sound/mobSoundEffects/super creeper_death.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "spider jockey_attack",
+      "file": "sound/mobSoundEffects/spider jockey_attack.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "spider jockey_damaged",
+      "file": "sound/mobSoundEffects/spider jockey_damaged.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "spider jockey_death",
+      "file": "sound/mobSoundEffects/spider jockey_death.mp3"
+    },
+
+    {
+      "type": "Sound",
       "name": "spider_attack",
       "file": "sound/mobSoundEffects/spider_attack.mp3"
     },
@@ -106,42 +484,6 @@
       "type": "Sound",
       "name": "spider_death",
       "file": "sound/mobSoundEffects/spider_death.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "dog_attack",
-      "file": "sound/mobSoundEffects/wolf_attack.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "dog_damaged",
-      "file": "sound/mobSoundEffects/wolf_damaged.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "dog_death",
-      "file": "sound/mobSoundEffects/wolf_death.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "zombie_attack",
-      "file": "sound/mobSoundEffects/zombie_attack.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "zombie_damaged",
-      "file": "sound/mobSoundEffects/zombie_damaged.mp3"
-    },
-
-    {
-      "type": "Sound",
-      "name": "zombie_death",
-      "file": "sound/mobSoundEffects/zombie_death.mp3"
     }
 
   ]

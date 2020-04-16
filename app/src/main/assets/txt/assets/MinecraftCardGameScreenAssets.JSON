@@ -20,7 +20,11 @@
       "name" : "MobBackground",
       "file" : "img/CardBackgroundMob.png"
     },
-
+    {
+      "type": "Bitmap",
+      "name" : "BlankPortrait",
+      "file" : "img/card_blankbackground.png"
+    },
     {
       "type": "Bitmap",
       "name" : "MobSelected",
@@ -654,6 +658,17 @@
       "type": "Bitmap",
       "name": "human_avatar",
       "file": "img/human_avatar.png"
+    },
+
+    {
+      "type": "Sound",
+      "name": "zoom-in",
+      "file": "sound/assetSoundEffects/zoom-in.mp3"
+    },
+    {
+      "type": "Sound",
+      "name": "zoom-out",
+      "file": "sound/assetSoundEffects/zoom-out.mp3"
     }
 
   ]

@@ -18,7 +18,7 @@ public abstract class Player {
     ////////////
 
     // Starting Health and Mana values for all players
-    private static final int PLAYER_STARTING_HEALTH = 20;
+    private static final int PLAYER_STARTING_HEALTH = 60;
     private static final int PLAYER_STARTING_MANA = 10;
 
 
@@ -31,17 +31,17 @@ public abstract class Player {
     private Mob selectedMob;
     private Mob targetedMob;
 
-    int selectedAiContainerIndex;
-    int selectedAiCardToMoveIndex;
+    private int selectedAiContainerIndex;
+    private int selectedAiCardToMoveIndex;
 
     private boolean aiFinishedMoves;
     private boolean aiFinishedAttacks;
     private long animationTimer;
-    int selectedMobToAttackIndex;
-    int targetedMobIndex;
+    private int selectedMobToAttackIndex;
+    private int targetedMobIndex;
 
 
-    ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
+    private ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
 
     /////////////
     //Constructor

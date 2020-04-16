@@ -73,8 +73,8 @@ public class CardBitmapFactory {
         cardEquipFont.setARGB(200, 255, 255, 255);
         cardEquipFont.setTypeface(assetManager.getFont("MinecraftRegFont"));
 
-        int equipCardXLocation = (int) (cardWidth * 0.05);
-        int equipCardYLocation = (int) (cardWidth * 0.22);
+        int equipCardXLocation = (int) (cardWidth * 0.01);
+        int equipCardYLocation = (int) (cardWidth * 0.02);
 
 
         //Part of factory dealing with attack damage.
@@ -109,7 +109,10 @@ public class CardBitmapFactory {
         canvas.drawText(Integer.toString(attackDmg), attackDmgXLocation, attackDmgYLocation, cardStatsFont);
         canvas.drawText(Integer.toString(healthPoints), healthPointsXLocation, healthPointsYLocation, cardStatsFont);
         if(mob.getEquipCard() != null){
-            canvas.drawText("E", equipCardXLocation, equipCardYLocation, cardEquipFont);
+            Bitmap equippedCardBitmap = Bitmap.createScaledBitmap(assetManager.getBitmap(mob.getEquipCard().getCardName()), (int) (cardWidth / 4.2f), (int) (cardHeight / 4.5f), false);
+            canvas.drawBitmap(equippedCardBitmap, equipCardXLocation, equipCardYLocation, null);
+
+
         }
 
         return result;
@@ -194,7 +197,8 @@ public class CardBitmapFactory {
         int portraitYScaling = (int) (cardHeight * 0.6);
         int portraitXLocation = 0;
         int portraitYLocation = 0;
-        Bitmap portrait = Bitmap.createScaledBitmap(assetManager.getBitmap(name), portraitXScaling,portraitYScaling,false);
+        Bitmap backPortrait = Bitmap.createScaledBitmap(assetManager.getBitmap("BlankPortrait"), portraitXScaling,portraitYScaling,false);
+        Bitmap frontPortrait = Bitmap.createScaledBitmap(assetManager.getBitmap(name), portraitXScaling, portraitYScaling, false);
 
         //Part of the factory dealing with the description text.
         Paint cardDescFont = new Paint();
@@ -220,7 +224,8 @@ public class CardBitmapFactory {
         //All Bitmaps are 'stitched together' below.
         Bitmap result = Bitmap.createBitmap(cardWidth,cardHeight,background.getConfig());
         Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(portrait,portraitXLocation,portraitYLocation,null);
+        canvas.drawBitmap(backPortrait,portraitXLocation,portraitYLocation,null);
+        canvas.drawBitmap(frontPortrait,portraitXLocation,portraitYLocation,null);
         canvas.drawBitmap(background,0,0,null);
 
         canvas.drawText(Integer.toString(manaCost), manaCostXLocation, manaCostYLocation, cardStatsFont);
