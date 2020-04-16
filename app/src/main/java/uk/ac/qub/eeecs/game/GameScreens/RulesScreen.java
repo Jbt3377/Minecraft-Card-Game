@@ -103,6 +103,8 @@ public class RulesScreen extends GameScreen {
         graphics2D.drawText("Utility Cards can be used to affect you/the opponents mobs.", mScreenWidth/8, mScreenHeight-450, textPaintSettings);
         graphics2D.drawText("Equipment Cards can be used to buff the stats of one of your mobs", mScreenWidth/8, mScreenHeight-350, textPaintSettings);
         graphics2D.drawText("your mobs.", mScreenWidth/8, mScreenHeight-300, textPaintSettings);
+        graphics2D.drawText("Try to get the opponents health to 0", mScreenWidth/8, mScreenHeight-200, textPaintSettings);
+        graphics2D.drawText("HAVE FUN", mScreenWidth/2, mScreenHeight-50, titlePaint);
 
 
         // Draw the back button
