@@ -45,8 +45,8 @@ public class DisplayCardsScreen extends GameScreen {
     private int changeSize = 2;
 
     //Distance Between Cards - PX
-    private int distanceBetweenColumns = 420;
-    private int distanceBetweenRows = 580;
+    private float distanceBetweenColumns = mGame.getScreenWidth()*0.2f;
+    private float distanceBetweenRows = mGame.getScreenHeight()*0.6f;
 
     // Viewports
     private LayerViewport backgroundLayerViewport;
@@ -135,8 +135,10 @@ public class DisplayCardsScreen extends GameScreen {
 
         displayedCardCollection = getCardCollection();
         for (int i = 0; i < displayedCardCollection.size(); i++) {
-            displayedCardCollection.get(i).setHeight(displayedCardCollection.get(i).getHeight() * 2);
-            displayedCardCollection.get(i).setWidth(displayedCardCollection.get(i).getWidth() * 2);
+            displayedCardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.8f);
+            displayedCardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.8f);
+            // cardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.3f);
+            //            cardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.55f);
         }
 
 
@@ -255,8 +257,13 @@ public class DisplayCardsScreen extends GameScreen {
     //Method allows future development and flexibility
     private void calculateAmountOfRows(){
         //Variables for the display of cards
-        numberOfRows = ((getCardCollection().size() + 1) / numberOfColumns); //Needs to be calculated
-        sizeOfRows = distanceBetweenRows * (numberOfRows-1); //Calculate the pixels size - -1 due to +1 from above line of code
+        int cardCollectionTrueSize = getCardCollection().size() + 1;
+        numberOfRows = (cardCollectionTrueSize / numberOfColumns); //Needs to be calculated
+
+        if((cardCollectionTrueSize % numberOfColumns)>0){
+            numberOfRows++; //if there is a reminder, add 1 to row size to full display
+        }
+        sizeOfRows = (int)distanceBetweenRows * (numberOfRows-1); //Calculate the pixels size - -1 due to +1 from above line of code
     }
 
     //Draws all the cards displaycards
@@ -274,11 +281,11 @@ public class DisplayCardsScreen extends GameScreen {
         int count = 0;
         for(int i = 0; i < numberOfRows; i++){
             //Calculation for y_cor to be placed in game
-            int y = i * distanceBetweenRows;
+            float y = i * distanceBetweenRows;
 
             for(int j = 0; j < numberOfColumns; j++){
                 //Calculation for x_cor to be placed in game
-                int x = j * distanceBetweenColumns;
+                float x = j * distanceBetweenColumns;
 
                 if(count<getCardCollection().size()){
                     getCardCollection().get(count).setPosition((cardLayerViewport.x/3) + x, (cardLayerViewport.y) - y);
