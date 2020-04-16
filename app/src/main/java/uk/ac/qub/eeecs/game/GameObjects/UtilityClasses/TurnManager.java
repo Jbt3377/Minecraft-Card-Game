@@ -85,7 +85,7 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-        final int PLAYER_STARTING_HEALTH = 100;
+        final int PLAYER_STARTING_HEALTH = 40;
         final int PLAYER_STARTING_MANA = 10;
 
         gameBoard.getPlayer1().setmPlayerHealth(PLAYER_STARTING_HEALTH);
@@ -511,7 +511,7 @@ public class TurnManager {
 
                 //Attack the opponents mob with the AI mob
                 try {
-                    gameBoard.getActivePlayer().getSelectedMob().aiAttackTarget(gameBoard.getActivePlayer().getTargetedMob());
+                    gameBoard.getActivePlayer().getSelectedMob().attackTarget(gameBoard.getActivePlayer().getTargetedMob());
                 } catch (Exception e){
                     System.out.println("NULL POINTER THING");
                 }

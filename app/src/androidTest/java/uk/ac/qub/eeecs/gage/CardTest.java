@@ -14,6 +14,7 @@ import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
@@ -48,14 +49,15 @@ public class CardTest {
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
         mainScreen = new MainGameScreen(game);
         game.getScreenManager().addScreen(mainScreen);
-        testCharacterCardStats = new CharacterCardStats("Cow", 3, "Moo", 0, 10, 2);
 
+        testCharacterCardStats = new CharacterCardStats("Cow", 3, "Moo", 0, 10, 2);
     }
 
     @Test
-    public void Card_Constructor_Test() {
+    public void Mob_Constructor_Test() {
         //Setup
         Card card = new Card(50, 100, mainScreen, testCharacterCardStats);
+
         //Testing
         assertTrue(card.position.x == 50);
         assertTrue(card.position.y == 100);
