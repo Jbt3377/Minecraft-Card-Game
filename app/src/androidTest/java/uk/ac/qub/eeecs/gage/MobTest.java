@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.gage;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -34,7 +35,6 @@ public class MobTest {
     private DemoGame game;
     private MainGameScreen mainScreen;
     private Mob testMob;
-    private CharacterCardStats testCharacterCardStats;
     private CharacterCard testCharacterCard;
 
     @Before
@@ -60,17 +60,76 @@ public class MobTest {
         int hp = 10;
         int attack = 2;
 
-        testCharacterCardStats = new CharacterCardStats(name, manaCost, desc, id, hp, attack);
-        testCharacterCard = new CharacterCard(500, 500, mainScreen, testCharacterCardStats);
+        CharacterCardStats testCharacterCardStats = new CharacterCardStats(name, manaCost, desc, id, hp, attack);
+        testCharacterCard = new CharacterCard(500, 600, mainScreen, testCharacterCardStats);
     }
 
     @Test
-    public void Card_Constructor_Test() {
-        Mob testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+    public void mobPosition_Valid() {
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
 
-        assertTrue(testMob.getBound().x == 500);
-        assertTrue(testMob.getBound().y == 600);
+        assertTrue((testMob.getBound().x == 500) && (testMob.getBound().y == 600));
+    }
 
+    @Test
+    public void mobPosition_Invalid() {
+        testMob = new Mob(1100, 400, mainScreen, testCharacterCard);
+
+        assertFalse((testMob.getBound().x == 500) && (testMob.getBound().y == 600));
+    }
+
+    @Test
+    public void testMobHealthPoints_Valid(){
+
+        int cardStatsHP = testCharacterCard.getmHP();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertTrue(testMob.getHealthPoints() == cardStatsHP);
+    }
+
+    @Test
+    public void testMobHealthPoints_Invalid(){
+
+        int cardStatsHP = testCharacterCard.getmHP();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertFalse(testMob.getHealthPoints() == cardStatsHP);
+    }
+
+    @Test
+    public void testMobAttackDamage_Valid(){
+
+        int cardStatsAtkDmg = testCharacterCard.getmAttackDmg();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertTrue(testMob.getAttackDamage() == cardStatsAtkDmg);
+    }
+
+    @Test
+    public void testMobAttackDamage_Invalid(){
+
+        int cardStatsAtkDmg = testCharacterCard.getmAttackDmg();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertFalse(testMob.getAttackDamage() == cardStatsAtkDmg);
+    }
+
+    @Test
+    public void testMobName_Valid(){
+
+        String cardStatsName = testCharacterCard.getCardName();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertTrue(testMob.getName().equals(cardStatsName));
+    }
+
+    @Test
+    public void testMobName_Invalid(){
+
+        String cardStatsName = testCharacterCard.getCardName();
+        testMob = new Mob(500, 600, mainScreen, testCharacterCard);
+
+        assertFalse(testMob.getName().equals(cardStatsName));
     }
 
 }

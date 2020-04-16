@@ -1,9 +1,5 @@
 package uk.ac.qub.eeecs.game.GameObjects.ContainerClasses;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-
-import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -15,7 +11,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 public class Mob extends Sprite {
 
@@ -24,7 +19,7 @@ public class Mob extends Sprite {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int healthPoints, attackDamage;
-    private int id;
+    private int mobID;
     private String name;
     private Sound damagedSound, attackSound, deathSound;
     private boolean hasBeenUsed;
@@ -44,7 +39,7 @@ public class Mob extends Sprite {
         super(x_cor, y_cor, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
                 null, gameScreen);
 
-        this.id = Mob.nextID;
+        this.mobID = Mob.nextID;
         Mob.nextID++;
         this.name = characterCard.getCardName();
         this.healthPoints = characterCard.getmHP();
@@ -184,7 +179,7 @@ public class Mob extends Sprite {
         return this.name;
     }
 
-    public int getId() { return id; }
+    public int getMobID() { return mobID; }
 
     public boolean hasBeenUsed() {
         return hasBeenUsed;
