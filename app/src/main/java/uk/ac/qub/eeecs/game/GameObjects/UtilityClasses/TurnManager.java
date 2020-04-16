@@ -85,7 +85,7 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-        final int PLAYER_STARTING_HEALTH = 30;
+        final int PLAYER_STARTING_HEALTH = 100;
         final int PLAYER_STARTING_MANA = 10;
 
         gameBoard.getPlayer1().setmPlayerHealth(PLAYER_STARTING_HEALTH);
