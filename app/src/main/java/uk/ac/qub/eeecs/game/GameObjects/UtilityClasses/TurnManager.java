@@ -85,7 +85,7 @@ public class TurnManager {
         gameBoard.getPlayer2Hand().replenishHand();
 
         // Reset Player Health and Mana levels
-        final int PLAYER_STARTING_HEALTH = 30;
+        final int PLAYER_STARTING_HEALTH = 100;
         final int PLAYER_STARTING_MANA = 10;
 
         gameBoard.getPlayer1().setmPlayerHealth(PLAYER_STARTING_HEALTH);
@@ -189,7 +189,7 @@ public class TurnManager {
 
             }
 
-            Interaction.processCardSelection(input, card, game, gameBoard);
+
 
         }
 
@@ -285,10 +285,10 @@ public class TurnManager {
                                 gameBoard.getActivePlayer().setSelectedAiContainerIndex(gameBoard.getActivePlayer().getSelectedAiContainerIndex() + 1);
                             } else {
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveXAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveXAnimation(mc.getX_location());
                                 }
                                 if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveYAnimation(mc.getX_location(), mc.getY_location());
+                                    card.cardMoveYAnimation(mc.getY_location());
                                 }
                             }
 
@@ -304,6 +304,95 @@ public class TurnManager {
                 gameBoard.getActivePlayer().setAiFinishedMoves(true);
             }
         }
+
+    private void phaseMoveAiCharacterCards() {
+        System.out.println("MOVE CHARACTER CARD PHASE");
+        //Creating a temporary ArrayList to store AI field containers
+        ArrayList<MobContainer> freeAiMobContainers = new ArrayList<MobContainer>();
+        for (MobContainer mb : gameBoard.getFieldContainers()) {
+            if (mb.getContType() == MobContainer.ContainerType.TOP_PLAYER && mb.isEmpty()) {
+                freeAiMobContainers.add(mb);
+            }
+        }
+
+        //Creating a temporary ArrayList to store the AI's CharacterCards
+        ArrayList<CharacterCard> tempCharacterCardList = new ArrayList<CharacterCard>();
+        for(Card card: gameBoard.getActivePlayerHand().getPlayerHand()){
+            if(card instanceof CharacterCard){
+                System.out.println("Found CharacterCard, adding to temp list.");
+                tempCharacterCardList.add((CharacterCard) card);
+            }
+        }
+
+        for(MobContainer mobContainer : freeAiMobContainers){
+                System.out.println("This is a free mob container. Searching for valid CharacterCard to place in container.");
+                for(int i = 0; i < tempCharacterCardList.size(); i++){
+                    CharacterCard characterCard = tempCharacterCardList.get(i);
+                    if(enoughManaToPerformAction(gameBoard,characterCard) && mobContainer.isEmpty()){
+
+                        System.out.println("There is enough mana to place this card in the container. Moving card to mob container");
+                        Mob mob = new Mob(mobContainer.getX_location(),mobContainer.getY_location(),gameBoard.getGameScreen(),characterCard);
+                        mobContainer.placeCard(mob);
+
+                        System.out.println("Adjusting player mana after card placement");
+                        adjustPlayerManaAfterCardPlacement(gameBoard,characterCard);
+
+
+                        System.out.println("Card transformed to mob. Now removing card from hand and temp list.");
+                        tempCharacterCardList.remove(i);
+                        gameBoard.getActivePlayerHand().getPlayerHand().remove(characterCard);
+
+                    }else{
+                        System.out.println("There is not enough mana to place this card. Trying another card");
+                    }
+                }
+
+            }
+        System.out.println("Tried all containers. No free containers remaining. Ending PHASE MOVE AI, going to PHASE BATTLE AI");
+        player1PhaseFlag = Phase.INACTIVE;
+        player2PhaseFlag = Phase.BATTLE;
+        }
+
+    private void phaseMoveAiUtilityCards(){
+        System.out.println("MOVE UTILITY CARD PHASE");
+        //Creating a temporary ArrayList to store the AI's UtilityCards
+        ArrayList<UtilityCard> utilityCardArrayList = new ArrayList<UtilityCard>();
+        for(Card card: gameBoard.getActivePlayerHand().getPlayerHand()){
+            if(card instanceof UtilityCard){
+                System.out.println("Found UtilityCard, adding to temp list.");
+                utilityCardArrayList.add((UtilityCard) card);
+            }
+        }
+
+        MobContainer utilityCardContainer = gameBoard.getUtilityCardContainer();
+
+            for(int i = 0; i < utilityCardArrayList.size(); i++){
+                UtilityCard utilityCard = utilityCardArrayList.get(i);
+                if(enoughManaToPerformAction(gameBoard,utilityCard) && utilityCardContainer.isEmpty()){
+
+                    System.out.println("There is enough mana to play this utility card");
+                    utilityCard.runUtilityEffect(gameBoard);
+
+
+                    System.out.println("Adjusting player mana after card placement");
+                    adjustPlayerManaAfterCardPlacement(gameBoard,utilityCard);
+
+                    System.out.println("Utility card used. Now removing card from hand and temp list.");
+
+
+                    utilityCardArrayList.remove(i);
+                    gameBoard.getActivePlayerHand().getPlayerHand().remove(utilityCard);
+
+                }else{
+                    System.out.println("There is not enough mana to place this card. Trying another card");
+                }
+
+
+        }
+        System.out.println("Ending PHASE MOVE AI, going to PHASE BATTLE AI");
+        player1PhaseFlag = Phase.INACTIVE;
+        player2PhaseFlag = Phase.BATTLE;
+    }
 
     private void phaseBattleHuman() {
 
@@ -581,7 +670,8 @@ public class TurnManager {
         switch (player2PhaseFlag) {
             case PREP: phasePrepAi();
                 break;
-            case MOVE: phaseMoveAi();
+            case MOVE: phaseMoveAiCharacterCards();
+                       phaseMoveAiUtilityCards();
                 break;
             case BATTLE: phaseBattleAi();
                 break;
@@ -590,6 +680,14 @@ public class TurnManager {
             default: System.out.println("ERROR: Invalid phase reached for Ai player.");
                 break;
         }
+    }
+
+    public boolean enoughManaToPerformAction(GameBoard gb, Card card){
+        return(gb.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0);
+    }
+
+    public void adjustPlayerManaAfterCardPlacement(GameBoard gb, Card card){
+        gb.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
     }
 
 

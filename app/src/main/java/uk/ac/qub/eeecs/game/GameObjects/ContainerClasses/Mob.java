@@ -52,7 +52,14 @@ public class Mob extends Sprite {
         this.mBitmap = CardBitmapFactory.returnMobBitmap(this,gameScreen);
         this.hasBeenUsed = false;
         this.equipCard = null;
-        //setEffectVolume(gameScreen);
+
+        try {
+            String soundAtkAssetName = this.name.toLowerCase() + "_attack";
+            this.attackSound = gameScreen.getGame().getAssetManager().getSound(this.name.toLowerCase() + "_attack");
+            setEffectVolume(gameScreen);
+        } catch(Exception e){
+            System.out.println("No SFXs for this mob type added yet");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,24 +71,10 @@ public class Mob extends Sprite {
      * @param gameScreen - Required to reference set volume level
      */
     private void setEffectVolume(GameScreen gameScreen){
-        damagedSound.setVolume(gameScreen.getGame().getVolume());
+        //damagedSound.setVolume(gameScreen.getGame().getVolume());
         attackSound.setVolume(gameScreen.getGame().getVolume());
-        deathSound.setVolume(gameScreen.getGame().getVolume());
+        //deathSound.setVolume(gameScreen.getGame().getVolume());
     }
-
-    /**
-     * Function to set position of mob
-     * @param x - x axis pos
-     * @param y - y axis pos
-     */
-//    public void setMobPosition(float x, float y){
-//        this.setPosition(x,y);
-//        this.mobBitmapDrawRect.set(
-//                (int) mBound.getLeft(),
-//                (int) mBound.getBottom(),
-//                (int) mBound.getRight(),
-//                (int) position.y);
-//    }
 
 
     /**
@@ -91,7 +84,12 @@ public class Mob extends Sprite {
 
         // Enemy Mob takes Damage
         targetedMob.decreaseHP(attackDamage);
-        ////attackSound.play();
+
+        new PopUpObject(targetedMob.position.x+70, this.position.y+70, getGameScreen(), 30,
+                "-" + attackDamage, 5, true);
+
+        if(this.attackSound != null)
+            this.attackSound.play();
 
         // Enemy Mob - Death/Damaged Sounds
         ////if(targetedMob.getHealthPoints() <= 0)
@@ -107,6 +105,12 @@ public class Mob extends Sprite {
 
         // Enemy Mob takes Damage
         targetedMob.decreaseHP(attackDamage);
+
+//        new PopUpObject(position.x+70, position.y-190, getGameScreen(), 30,
+//                "-" + attackDamage, 5, true);
+
+        new PopUpObject(targetedMob.position.x+70, this.position.y+70, getGameScreen(), 30,
+                "-" + attackDamage, 5, true);
         ////attackSound.play();
 
         // Enemy Mob - Death/Damaged Sounds
@@ -125,9 +129,6 @@ public class Mob extends Sprite {
      */
     private void decreaseHP(int damageInflicted){
         this.healthPoints -= damageInflicted;
-
-        new PopUpObject(position.x+70, position.y-190, getGameScreen(), 30,
-                "-" + damageInflicted, 5, true);
     }
 
 

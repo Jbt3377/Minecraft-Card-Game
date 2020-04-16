@@ -9,6 +9,7 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
@@ -39,7 +40,26 @@ public abstract class Game extends Fragment {
 
     public Card magnifiedCard;
     public Card getMagnifiedCard() { return magnifiedCard; }
-    public void setMagnifiedCard(Card magnifiedCard) {this.magnifiedCard = magnifiedCard;}
+    public boolean drawCard = false;
+    public boolean drawCard() {
+        return drawCard;
+    }
+    public void setDrawCard(boolean drawCard) {
+        this.drawCard = drawCard;
+    }
+
+    public void setMagnifiedCard(Card magnifiedCard, GameScreen gameScreen, CardStats cardStats) {
+        if (this.magnifiedCard == null) {
+            this.magnifiedCard = new Card(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen, cardStats);
+        }
+        this.magnifiedCard.setCardName(magnifiedCard.getCardName());
+        this.magnifiedCard.setCardDescription(magnifiedCard.getCardDescription());
+        this.magnifiedCard.setManaCost(magnifiedCard.getManaCost());
+        this.magnifiedCard.setWidth(magnifiedCard.getWidth()*3.2f);
+        this.magnifiedCard.setHeight(magnifiedCard.getHeight()*3.2f);
+        this.magnifiedCard.setBitmap(magnifiedCard.getBitmap());
+
+    }
 
     //Cards Selected variable
     boolean cardsSelected = false;
@@ -56,9 +76,9 @@ public abstract class Game extends Fragment {
     /**
      * The Game has two Players who play the game.
      */
-    private Human player1;
-    private Human player2;
-    private Ai ai;
+    public Human player1;
+    public Human player2;
+    public Ai ai;
 
     public Human getPlayer1() {
         return player1;
@@ -85,8 +105,8 @@ public abstract class Game extends Fragment {
      * Flags used to customise the setup phase
      */
 
-    private boolean isPlayer2Human;
-    private boolean isPlayer1First;
+    public boolean isPlayer2Human;
+    public boolean isPlayer1First;
 
     public boolean isPlayer2Human() {
         return isPlayer2Human;
@@ -104,10 +124,14 @@ public abstract class Game extends Fragment {
         isPlayer1First = player1First;
     }
 
+    public void setmDeckManager(DeckManager mDeckManager) {
+        this.mDeckManager = mDeckManager;
+    }
+
     /**
      * The Game has a DeckManager that stores all the cards available in the game.
      */
-    private DeckManager mDeckManager;
+    public DeckManager mDeckManager;
 
     public DeckManager getmDeckManager(){
         return mDeckManager;
@@ -356,7 +380,6 @@ public abstract class Game extends Fragment {
 
         mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
 
-
         mDeckManager = new DeckManager(mAssetManager.getAllCardStats());
 
         //////////////////////////////////////////////////////////////
@@ -368,6 +391,7 @@ public abstract class Game extends Fragment {
 
         this.isPlayer2Human = false;
         this.isPlayer1First = true;
+        this.getActivity().setVolumeControlStream(android.media.AudioManager.STREAM_MUSIC);
     }
 
     /*

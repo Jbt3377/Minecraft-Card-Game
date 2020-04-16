@@ -39,6 +39,14 @@ public class MainGameScreen extends GameScreen {
     // Background Image
     private GameObject boardBackground, player1Heart, player1Mana,player2Heart, player2Mana;
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
     // Game Board associated with Card Game
     private GameBoard gameBoard;
 
@@ -101,7 +109,7 @@ public class MainGameScreen extends GameScreen {
         //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         //mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-        mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
+        //mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
 
 
         gamePaused = false;
@@ -158,8 +166,8 @@ public class MainGameScreen extends GameScreen {
         magnificationButton = new ToggleButton(mScreenWidth * 0.06f, mScreenHeight * 0.08f,mScreenWidth/10,mScreenHeight /8,
                 "magnifyIcon", "magnifyIcon","magnifyIcon-active", "magnifyIcon-active" , this);
 
-        displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
-                "EndTurnDefault", this);
+//        displayAllCardsButton = new PushButton(mScreenWidth * 0.06f, mScreenHeight/3,mScreenWidth/10, mScreenHeight /8,
+//                "EndTurnDefault", this);
 
         float playerHeartIconXPos = mScreenWidth*0.85f, playerManaIconXPos = mScreenWidth*0.90f,
                 player1HeartAndManaYPos = (mScreenHeight*0.60f)+40, player2HeartAndManaYPos = (mScreenHeight*0.40f)-40;
@@ -237,7 +245,6 @@ public class MainGameScreen extends GameScreen {
         magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         pauseButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         endTurnButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-        displayAllCardsButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
         // Check 1 - Magnification Mode enabled
         if (magnificationButton.isToggledOn())
@@ -245,14 +252,7 @@ public class MainGameScreen extends GameScreen {
         else
             mGame.setMagnificationToggled(false);
 
-        // Check 2 - Game Screen Switch
-        if (displayAllCardsButton.isPushTriggered()){
-            //Game Screen Display
-            mGame.MenuScreentime = elapsedTime.totalTime;
-            mGame.getScreenManager().addScreen(new DisplayCardsScreen("CardsDisplay" ,mGame));
-        }
-
-        // Check 3 - Game Paused
+        // Check 2 - Game Paused
         if (pauseButton.isPushTriggered())
     gamePaused = true;
 
@@ -276,10 +276,6 @@ public class MainGameScreen extends GameScreen {
                 boardLayerViewport,
                 mDefaultScreenViewport);
 
-        //Draw displayAllCards button
-        displayAllCardsButton.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
     }
 
 
@@ -352,6 +348,7 @@ public class MainGameScreen extends GameScreen {
         } else
             pauseMenuUpdate(elapsedTime);
 
+            gameBoard.update();
 
     }
 
@@ -363,8 +360,9 @@ public class MainGameScreen extends GameScreen {
                 mDefaultScreenViewport);
 
         turnManager.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
-
         drawGameButtons(elapsedTime, graphics2D);
+
+        drawMagnifiedCard(elapsedTime, graphics2D);
 
         player1Heart.draw(elapsedTime, graphics2D);
         player1Mana.draw(elapsedTime, graphics2D);
@@ -398,24 +396,12 @@ public class MainGameScreen extends GameScreen {
                     mDefaultScreenViewport);
     }
 
-
-    /**
-     * Method used to draw cards from card collection - AB
-     */
-    private void displayCards(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-        //Draw the cards into cardLayerViewport - AB
-        for(int i = 0; i < numberOfCards; i++){
-            cardCollection.get(i).draw(elapsedTime, graphics2D,
-                    cardLayerViewport,
-                    mDefaultScreenViewport);
-        }
-    }
-
-
     public void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null) {
 
+        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null && mGame.drawCard()) {
+
+            mGame.getMagnifiedCard().draw(elapsedTime, graphics2D);
         }
 
     }
@@ -425,10 +411,11 @@ public class MainGameScreen extends GameScreen {
 
         if (magnificationButton.isToggledOn()) {
                 mGame.setMagnificationToggled(true);
-            }
-            else {
+
+        }
+        else {
                 mGame.setMagnificationToggled(false);
-            }
+        }
     }
 
 
@@ -480,14 +467,6 @@ public class MainGameScreen extends GameScreen {
 
         }
     }
-
-//    private void displayCardsButton(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-//
-//        //Draw displayAllCards button
-//        displayAllCardsButton.draw(elapsedTime, graphics2D,
-//                boardLayerViewport,
-//                mDefaultScreenViewport);
-//    }
 
     private void playBackgroundMusic() {
         AudioManager audioManager = getGame().getAudioManager();

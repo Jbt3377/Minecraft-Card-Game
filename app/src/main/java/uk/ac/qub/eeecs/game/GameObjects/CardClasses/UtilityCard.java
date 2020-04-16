@@ -8,12 +8,6 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 public class UtilityCard extends Card {
 
 
-    //Properties
-    boolean animationInProgress = false;
-    int utilityFlipTimer = 45;
-    boolean animationFinished = false;
-
-
     //Public constructors
     public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats) {
         super(x, y, gameScreen, cardStats);
@@ -29,7 +23,7 @@ public class UtilityCard extends Card {
 
 
     public void runCardAnimation(){
-        if(utilityFlipTimer == 0){
+        if(flipTimer == 0){
             setWidth(0);
             setHeight(0);
             this.setAnimationFinished(true);

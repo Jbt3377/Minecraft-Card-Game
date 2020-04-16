@@ -199,7 +199,7 @@
       "description": "Squeak"
     },
     {
-      "id" : 21,
+      "id" : 22,
       "type": "CharacterCard",
       "name": "Blaze",
       "health": 1,
@@ -208,7 +208,7 @@
       "description": "Huuughu"
     },
     {
-      "id" : 22,
+      "id" : 23,
       "type": "CharacterCard",
       "name": "Squid",
       "health": 1,
@@ -217,7 +217,7 @@
       "description": "Spleesh"
     },
     {
-      "id" : 23,
+      "id" : 24,
       "type": "CharacterCard",
       "name": "Super Creeper",
       "health": 1,
@@ -226,7 +226,7 @@
       "description": "Death"
     },
     {
-      "id" : 24,
+      "id" : 25,
       "type": "CharacterCard",
       "name": "Spider Jockey",
       "health": 1,
@@ -235,7 +235,7 @@
       "description": "Skittle skr"
     },
     {
-      "id" : 25,
+      "id" : 26,
       "type": "CharacterCard",
       "name": "Spider",
       "health": 1,
@@ -246,7 +246,7 @@
 
 
     {
-      "id": 26,
+      "id": 27,
       "type": "EquipCard",
       "name": "Double Swords",
       "manacost": 4,
@@ -255,7 +255,7 @@
     },
 
     {
-      "id": 27,
+      "id": 28,
       "type": "EquipCard",
       "name": "Trident",
       "manacost": 3,
@@ -264,7 +264,7 @@
     },
 
     {
-      "id": 28,
+      "id": 29,
       "type": "EquipCard",
       "name": "Sword",
       "manacost": 2,
@@ -273,7 +273,7 @@
     },
 
     {
-      "id": 29,
+      "id": 30,
       "type": "EquipCard",
       "name": "Bow",
       "manacost": 0,
@@ -281,7 +281,7 @@
       "effect_intensity": 1
     },
     {
-      "id": 30,
+      "id": 31,
       "type": "EquipCard",
       "name": "Crossbow",
       "manacost": 2,
@@ -289,7 +289,7 @@
       "effect_intensity": 5
     },
     {
-      "id": 31,
+      "id": 32,
       "type": "UtilityCard",
       "name": "Potion of Healing",
       "manacost": 2,
@@ -297,7 +297,7 @@
       "effect_intensity": 3
     },
     {
-      "id": 32,
+      "id": 33,
       "type": "UtilityCard",
       "name": "Potion of Damage",
       "manacost": 2,
@@ -305,7 +305,7 @@
       "effect_intensity": 3
     },
     {
-      "id": 33,
+      "id": 34,
       "type": "UtilityCard",
       "name": "Potion of Lesser Damage",
       "manacost": 1,
@@ -313,7 +313,7 @@
       "effect_intensity": 1
     },
     {
-      "id": 34,
+      "id": 35,
       "type": "UtilityCard",
       "name": "Potion of Extra Damage",
       "manacost": 4,
@@ -321,7 +321,7 @@
       "effect_intensity": 5
     },
     {
-      "id": 35,
+      "id": 36,
       "type": "UtilityCard",
       "name": "Potion of Extra Healing",
       "manacost": 4,

@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -57,8 +58,8 @@ public class PlayerHand {
     private void assignHandPositions(Boolean isPlayer1){
 
         if(isPlayer1) {
-            int xPosForCards = 130;     // Start X Pos for Human Cards
-            int yPosForCards = 400;     // Start Y Pos for Human Cards
+            int xPosForCards = 130;     // Start X Pos for Player 1 Cards
+            int yPosForCards = 400;     // Start Y Pos for Player 1 Cards
 
             for(int i=0; i<7; i++){
                 handPositionsIndex[i][0] = yPosForCards;
@@ -67,8 +68,8 @@ public class PlayerHand {
             }
         }else{
 
-            int xPosForCards = 1000;    // Start X Pos for Ai Cards
-            int yPosForCards = 800;     // Start Y Pos for Ai Cards
+            int xPosForCards = 1000;    // Start X Pos for Player 2 Cards
+            int yPosForCards = 800;     // Start Y Pos for Player 2 Cards
 
             for(int i=0; i<7; i++){
                 handPositionsIndex[i][0] = yPosForCards;
@@ -79,29 +80,31 @@ public class PlayerHand {
 
     }
 
-
     /**
      * Method will replenish a player's hand.
      * Adds up to 5 Character Cards and 2 Special Cards, while the deck has cards to draw.
      */
     public void replenishHand(){
 
-        // Count variable used to keep track of which card is being created. Used to look up the
-        // corresponding position co-ordinates.
-        int currentCard = 0;
-
-        // Determine how many cards of each type
+        int currentCardCount = 0;
         int currentNumOfCharacterCards = 0;
         int currentNumOfSpecialCards = 0;
+        int xPos = 0; int yPos = 1;
 
+        // For each card remaining in hand, update the position, pushing it left
         for(Card card: playerHand){
+            float newXPos = handPositionsIndex[currentCardCount][0];
+            float newYPos = handPositionsIndex[currentCardCount][1];
+            card.setPosition(newXPos, newYPos);
+
             if(card instanceof CharacterCard)
                 currentNumOfCharacterCards++;
             else
                 currentNumOfSpecialCards++;
+
+            currentCardCount++;
         }
 
-        int xPos = 0; int yPos = 1;
 
         // Replenish Character Cards
         for(int i = currentNumOfCharacterCards; i<5; i++) {
@@ -109,18 +112,16 @@ public class PlayerHand {
             try{
                 // Pop next Character Card Stat from Stack
                 CharacterCardStats nextCharCardStats = (CharacterCardStats)playersDeck.popNextCharacterCardStat();
-                CharacterCard nextCharCard = new CharacterCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, nextCharCardStats);
+                CharacterCard nextCharCard = new CharacterCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, nextCharCardStats);
                 playerHand.add(nextCharCard);
-            }catch(Exception e){
-                e.printStackTrace();
+                currentCardCount++;
+            }catch(EmptyStackException e){
+                System.out.println("No more Card Stats to draw!");
             }
-
-            currentCard++;
         }
 
-
         // Replenish Special Cards
-        for(int i=currentNumOfSpecialCards; i<2; i++) {
+        for(int i=currentCardCount; i<7; i++) {
 
             try{
                 // Pop next Special Card Stat from Stack
@@ -128,19 +129,19 @@ public class PlayerHand {
 
                 // Generate appropriate card type and add to hand
                 if (nextSpecialCardStats instanceof EquipCardStats) {
-                    EquipCard nextSpecialCard = new EquipCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
+                    EquipCard nextSpecialCard = new EquipCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
                     playerHand.add(nextSpecialCard);
                 }else if(nextSpecialCardStats instanceof UtilityCardStats) {
-                    UtilityCard nextSpecialCard = new UtilityCard(handPositionsIndex[currentCard][xPos], handPositionsIndex[currentCard][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
+                    UtilityCard nextSpecialCard = new UtilityCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
                     playerHand.add(nextSpecialCard);
                 }
-            }catch(Exception e){
-                e.printStackTrace();
+                currentCardCount++;
+            }catch(EmptyStackException e){
+                System.out.println("No more Card Stats to draw!");
             }
-
-            currentCard++;
         }
     }
+
 
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
