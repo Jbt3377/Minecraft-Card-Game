@@ -446,7 +446,7 @@ public class AssetManager {
                     String description = assets.getJSONObject(idx).getString("description");
                     int effect_intensity = assets.getJSONObject(idx).getInt("effect_intensity");
 
-                    EquipCardStats equipCardStats = new EquipCardStats(name,manacost,description,id);
+                    EquipCardStats equipCardStats = new EquipCardStats(name,manacost,description,id,effect_intensity);
                     allCardStats.add(equipCardStats);
 
                 }

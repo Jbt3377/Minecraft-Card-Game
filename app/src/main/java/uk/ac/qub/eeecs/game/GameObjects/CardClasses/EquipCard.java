@@ -6,6 +6,12 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 
 public class EquipCard extends Card {
 
+    int effect_intensity;
+    public int getEffect_intensity() {
+        return effect_intensity;
+    }
+
+
     /**
      * Public constructor for EquipCard object.
      *
@@ -18,6 +24,7 @@ public class EquipCard extends Card {
         super(x, y, gameScreen, cardStats);
         this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
         this.flipTimer = 30;
+        this.effect_intensity = cardStats.getEffect_intensity();
     }
 
     /**
@@ -28,12 +35,8 @@ public class EquipCard extends Card {
      * @param gameScreen - The GameScreen in which the card will be drawn.
      * @param cardStats  - The CardStats(name, hp, etc) for this card.
      * @param changeSize  - The scaling size for the card being magnified.
+     * @param effect_intensity - The amount that the mob's attack will be increased by.
      */
-    public EquipCard(float x, float y, GameScreen gameScreen, EquipCardStats cardStats, int changeSize) {
-        super(x, y, gameScreen, cardStats, changeSize);
-        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
-        this.flipTimer = 30;
-    }
 
 
     /**

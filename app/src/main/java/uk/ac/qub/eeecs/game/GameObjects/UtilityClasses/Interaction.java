@@ -324,7 +324,7 @@ public abstract class Interaction {
                                 mob.setEquipCard(card);
                                 if (mob.getEquipCard() != null) {
                                     System.out.println("Card is equipped");
-                                    mob.setAttackDamage(mob.getAttackDamage() + 4);
+                                    mob.setAttackDamage(mob.getAttackDamage() + mob.getEquipCard().getEffect_intensity());
                                     mob.updateMobBitmap();
                                     card.setAnimationInProgress(true);
                                     dObj.setOriginalXPos(mb.getX_location());

@@ -34,23 +34,6 @@ public class CharacterCard extends Card {
         this.mBitmap = CardBitmapFactory.returnBitmap(this, gameScreen);
     }
 
-    /**
-     * Overloaded constructor for CharacterCard object, used during magnification process.
-     *
-     * @param x          - X Co-ordinate for the card for drawing on screen.
-     * @param y          - Y Co-ordinate for the card for drawing on screen.
-     * @param gameScreen - The GameScreen in which the card will be drawn.
-     * @param cardStats  - The CardStats(name, hp, etc) for this card.
-     * @param changeSize - The scaling size for the card being magnified.
-     */
-    public CharacterCard(float x, float y, GameScreen gameScreen, CharacterCardStats cardStats, int changeSize) {
-        super(x, y, gameScreen, cardStats, changeSize);
-        this.mHP = cardStats.getHp();
-        this.mAttackDmg = cardStats.getAttack();
-        this.mEquipedCard = null;
-        this.mBitmap = CardBitmapFactory.returnBitmap(this, gameScreen);
-    }
-
 
     /////////////////////
     //Setters and Getters

@@ -17,12 +17,6 @@ public class UtilityCard extends Card {
         this.effect_intensity = cardStats.getEffect_intensity();
     }
 
-    public UtilityCard(float x, float y, GameScreen gameScreen, UtilityCardStats cardStats,int changeSize) {
-        super(x, y, gameScreen, cardStats, changeSize);
-        this.mBitmap = CardBitmapFactory.returnBitmap(this,gameScreen);
-        this.flipTimer = 30;
-    }
-
 
     public void runCardAnimation(){
         if(flipTimer == 0){
@@ -67,14 +61,6 @@ public class UtilityCard extends Card {
 
     public void setAnimationInProgress(boolean animationInProgress) {
         this.animationInProgress = animationInProgress;
-    }
-
-    public int getEffect_intensity() {
-        return effect_intensity;
-    }
-
-    public void setEffect_intensity(int effect_intensity) {
-        this.effect_intensity = effect_intensity;
     }
 
     public void damageEnemyHP(GameBoard gameBoard) {
