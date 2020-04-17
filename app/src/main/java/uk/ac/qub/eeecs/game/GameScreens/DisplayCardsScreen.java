@@ -69,12 +69,8 @@ public class DisplayCardsScreen extends GameScreen {
 
         displayedCardCollection = getCardCollection();
 
-
         setupViewPorts();
         setupBoardGameObjects();
-
-
-
 
     }
 
@@ -93,7 +89,6 @@ public class DisplayCardsScreen extends GameScreen {
 
         cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
         backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-
     }
 
     //Setting up objects for the gamescreen
