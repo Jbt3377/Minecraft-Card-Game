@@ -674,6 +674,11 @@
       "type": "Bitmap",
       "name": "ChangeDecks",
       "file": "img/changedecks.png"
+    },
+    {
+      "type": "Sound",
+      "name": "ButtonDefaultPush",
+      "file": "sound/ButtonDefaultPush.mp3"
     }
 
   ]

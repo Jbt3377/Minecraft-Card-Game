@@ -48,7 +48,7 @@ public class EquipCardTest {
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
         mainScreen = new MainGameScreen(game);
         game.getScreenManager().addScreen(mainScreen);
-        testEquipCardStats = new EquipCardStats("Bow", 0, "+1 Attack to equipped Mob", 30);
+        testEquipCardStats = new EquipCardStats("Bow", 0, "+1 Attack to equipped Mob", 30, 1);
     }
 
     @Test
