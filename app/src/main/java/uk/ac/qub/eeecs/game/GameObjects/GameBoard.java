@@ -148,10 +148,6 @@ public class GameBoard {
             container.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 
 
-        // Draw Hands
-        player1Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-        player2Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
-
         // Draw Mobs
         for(MobContainer mb : fieldContainers){
             if(!mb.isEmpty()) {
@@ -159,6 +155,9 @@ public class GameBoard {
             }
         }
 
+        // Draw Hands
+        player1Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+        player2Hand.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
 
     }
 

@@ -165,15 +165,9 @@ public class Mob extends Sprite {
 
     public Sound getDamagedSound(){ return damagedSound; }
 
-    public void setDamagedSound(Sound damagedSound){ this.damagedSound = damagedSound; }
-
     public Sound getAttackSound(){ return attackSound; }
 
-    public void setAttackSound(Sound attackSound){ this.attackSound = attackSound; }
-
     public Sound getDeathSound(){ return deathSound; }
-
-    public void setDeathSound(Sound deathSound){ this.deathSound = deathSound; }
 
     public String getName(){
         return this.name;
