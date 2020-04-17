@@ -35,6 +35,10 @@ public class OptionsScreen extends GameScreen {
     private float sfx;
     private float music;
     private PushButton volumeButton;
+    private float music1;
+    private float music2;
+    private float music3;
+    private float music4;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -87,6 +91,7 @@ public class OptionsScreen extends GameScreen {
         createPaints();
 
 
+
     }
 
 
@@ -104,32 +109,9 @@ public class OptionsScreen extends GameScreen {
         Input touchInputs = mGame.getInput();
         List<TouchEvent> input = touchInputs.getTouchEvents();
        //logic for the volume button (if)
-        if(volumeButton.isPushTriggered()){
 
-            if(volumecounter == 0){
-                mGame.getAudioManager().setSfxVolume(0.33f);
-                mGame.getAudioManager().setMusicVolume(0.33f);
-                mGame.getAudioManager().getSoundPool().autoPause();
-                volumecounter++;
-            }else if(volumecounter == 1){
+            volumebuttontriggred();
 
-                mGame.getAudioManager().setSfxVolume(0.67f);
-                mGame.getAudioManager().setMusicVolume(0.67f);
-
-                volumecounter++;
-            }else if(volumecounter == 2) {
-
-                mGame.getAudioManager().setSfxVolume(1);
-                mGame.getAudioManager().setMusicVolume(1);
-
-                volumecounter++;
-            } else if (volumecounter == 3) {
-                mGame.getAudioManager().setSfxVolume(0);
-                mGame.getAudioManager().setMusicVolume(0);
-                mGame.getAudioManager().getSoundPool().autoPause();
-                volumecounter = 0;
-            }
-        }
 
         fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
         mGame.setDisplayFps(fpsToggle.isToggledOn());
@@ -192,6 +174,10 @@ public class OptionsScreen extends GameScreen {
         // Draw Volume Button info
         graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+        graphics2D.drawText("music1: " + music1, (int) (mScreenWidth / 1.5), mScreenHeight/2, textPaintSettings);
+
+        graphics2D.drawText("music2: " + music2, (int) (mScreenWidth / 1.5), mScreenHeight/1, textPaintSettings);
+
 
 
 
@@ -292,4 +278,50 @@ public class OptionsScreen extends GameScreen {
                     getGame().getAssetManager().getMusic("MinecraftMusic"));
     }
 
+
+
+    public int getVolumecounter() {
+        return volumecounter;
+    }
+    public void setVolumeButton(int num){
+
+        this.volumecounter = num;
+    }
+
+    public void volumebuttontriggred(){
+
+        if(volumeButton.isPushTriggered()){
+        if(volumecounter == 0){
+            mGame.getAudioManager().setSfxVolume(0.33f);
+            mGame.getAudioManager().setMusicVolume(0.33f);
+            mGame.getAudioManager().getSoundPool().autoPause();
+            music1 = mGame.getAudioManager().getMusicVolume();
+            volumecounter++;
+        }else if(volumecounter == 1){
+
+            mGame.getAudioManager().setSfxVolume(0.67f);
+            mGame.getAudioManager().setMusicVolume(0.67f);
+            music2 = mGame.getAudioManager().getMusicVolume();
+            volumecounter++;
+        }else if(volumecounter == 2) {
+
+            mGame.getAudioManager().setSfxVolume(1);
+            mGame.getAudioManager().setMusicVolume(1);
+            music3 = mGame.getAudioManager().getMusicVolume();
+
+            volumecounter++;
+        } else if (volumecounter == 3) {
+            mGame.getAudioManager().setSfxVolume(0);
+            mGame.getAudioManager().setMusicVolume(0);
+            mGame.getAudioManager().getSoundPool().autoPause();
+            music4 = mGame.getAudioManager().getMusicVolume();
+            volumecounter = 0;
+        }
+        }
+
+    }
+
+    public PushButton getVolumeButton() {
+        return volumeButton;
+    }
 }
