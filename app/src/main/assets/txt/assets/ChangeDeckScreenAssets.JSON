@@ -23,6 +23,30 @@
       "type": "Bitmap",
       "name": "CustomDeckButton",
       "file": "img/customDeckButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "endchest1",
+      "file": "img/EnderChestAnimation/endchest1.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "endchest2",
+      "file": "img/EnderChestAnimation/endchest2.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "endchest3",
+      "file": "img/EnderChestAnimation/endchest3.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "endchest4",
+      "file": "img/EnderChestAnimation/endchest4.png"
     }
 
 
