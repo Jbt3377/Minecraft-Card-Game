@@ -413,17 +413,7 @@ public class MainGameScreen extends GameScreen {
 
     }
 
-    public void magnificationButton(ElapsedTime elapsedTime) {
-        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
-        if (magnificationButton.isToggledOn()) {
-                mGame.setMagnificationToggled(true);
-
-        }
-        else {
-                mGame.setMagnificationToggled(false);
-        }
-    }
 
 
     private void pauseMenuUpdate(ElapsedTime elapsedTime) {
