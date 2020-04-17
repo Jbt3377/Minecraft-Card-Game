@@ -1,9 +1,5 @@
 package uk.ac.qub.eeecs.game.GameObjects.ContainerClasses;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-
-import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
@@ -15,7 +11,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 public class Mob extends Sprite {
 
@@ -24,7 +19,7 @@ public class Mob extends Sprite {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int healthPoints, attackDamage;
-    private int id;
+    private int mobID;
     private String name;
     private Sound damagedSound, attackSound, deathSound;
     private boolean hasBeenUsed;
@@ -44,7 +39,7 @@ public class Mob extends Sprite {
         super(x_cor, y_cor, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
                 null, gameScreen);
 
-        this.id = Mob.nextID;
+        this.mobID = Mob.nextID;
         Mob.nextID++;
         this.name = characterCard.getCardName();
         this.healthPoints = characterCard.getmHP();
@@ -53,13 +48,7 @@ public class Mob extends Sprite {
         this.hasBeenUsed = false;
         this.equipCard = null;
 
-        try {
-            String soundAtkAssetName = this.name.toLowerCase() + "_attack";
-            this.attackSound = gameScreen.getGame().getAssetManager().getSound(this.name.toLowerCase() + "_attack");
-            setEffectVolume(gameScreen);
-        } catch(Exception e){
-            System.out.println("No SFXs for this mob type added yet");
-        }
+        fetchAudioAssets();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,12 +57,37 @@ public class Mob extends Sprite {
 
     /**
      * Function used to set/update volume level for mob sound effects
-     * @param gameScreen - Required to reference set volume level
      */
-    private void setEffectVolume(GameScreen gameScreen){
-        //damagedSound.setVolume(gameScreen.getGame().getVolume());
-        attackSound.setVolume(gameScreen.getGame().getVolume());
-        //deathSound.setVolume(gameScreen.getGame().getVolume());
+    private void setEffectVolume(){
+        damagedSound.setVolume(getGameScreen().getGame().getVolume());
+        attackSound.setVolume(getGameScreen().getGame().getVolume());
+        deathSound.setVolume(getGameScreen().getGame().getVolume());
+    }
+
+
+    /**
+     * Method fetches and sets mob sounds as relevant SFX
+     */
+    private void fetchAudioAssets(){
+
+        try {
+            // Fetch Attack SFX
+            String soundAtkAssetName = this.name.toLowerCase() + "_attack";
+            this.attackSound = getGameScreen().getGame().getAssetManager().getSound(soundAtkAssetName);
+
+            // Fetch Damaged SFX
+            String soundDmgAssetName = this.name.toLowerCase() + "_damaged";
+            this.damagedSound = getGameScreen().getGame().getAssetManager().getSound(soundDmgAssetName);
+
+            // Fetch Death SFX
+            String soundDthAssetName = this.name.toLowerCase() + "_death";
+            this.deathSound = getGameScreen().getGame().getAssetManager().getSound(soundDthAssetName);
+
+            // Set SFX Volume
+            setEffectVolume();
+        } catch(Exception e){
+            System.out.println("Missing SFX for Mob");
+        }
     }
 
 
@@ -88,44 +102,39 @@ public class Mob extends Sprite {
         new PopUpObject(targetedMob.position.x+70, this.position.y+70, getGameScreen(), 30,
                 "-" + attackDamage, 5, true);
 
-        if(this.attackSound != null)
-            this.attackSound.play();
-
-        // Enemy Mob - Death/Damaged Sounds
-        ////if(targetedMob.getHealthPoints() <= 0)
-        ////    targetedMob.getDeathSound().play();
+        // Play SFX for Attack Sequence
+        attackSequenceSFX(targetedMob);
 
         // Mob has attacked, can no longer be used this turn
         this.hasBeenUsed = true;
-        this.updateMobBitmap();
-    }
 
-
-    public void aiAttackTarget(Mob targetedMob) {
-
-        // Enemy Mob takes Damage
-        targetedMob.decreaseHP(attackDamage);
-
-//        new PopUpObject(position.x+70, position.y-190, getGameScreen(), 30,
-//                "-" + attackDamage, 5, true);
-
-        new PopUpObject(targetedMob.position.x+70, this.position.y+70, getGameScreen(), 30,
-                "-" + attackDamage, 5, true);
-        ////attackSound.play();
-
-        // Enemy Mob - Death/Damaged Sounds
-        ////if(targetedMob.getHealthPoints() <= 0)
-        ////    targetedMob.getDeathSound().play();
-
-        // Mob has attacked, can no longer be used this turn
-        this.hasBeenUsed = true;
+        // Update the HP value displayed of the mob
         this.updateMobBitmap();
     }
 
 
     /**
-     * Modifies the HP of the Mob
-     * @param damageInflicted - Pos/Neg integer input
+     * Method plays sequence of SFX for the attack sequence
+     */
+    private void attackSequenceSFX(Mob targetedMob){
+
+        // Attacking Mob - Play Attack Sound
+        if(this.attackSound != null)
+            this.attackSound.play();
+
+        // Targeted Mob - Play Death/Damaged Sounds
+        // TODO: Break in between SFX for one sound to play fully before another sound starts
+        /*
+        if(targetedMob.getHealthPoints() <= 0)
+            targetedMob.getDeathSound().play();
+        else
+            targetedMob.getDamagedSound().play();
+        */
+    }
+
+
+    /**
+     * Method decreases the HP of the Mob
      */
     private void decreaseHP(int damageInflicted){
         this.healthPoints -= damageInflicted;
@@ -170,7 +179,7 @@ public class Mob extends Sprite {
         return this.name;
     }
 
-    public int getId() { return id; }
+    public int getMobID() { return mobID; }
 
     public boolean hasBeenUsed() {
         return hasBeenUsed;

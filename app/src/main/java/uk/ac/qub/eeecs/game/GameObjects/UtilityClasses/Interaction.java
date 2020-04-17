@@ -1,6 +1,5 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -77,11 +76,11 @@ public abstract class Interaction {
                         Mob clickedMob = container.getContents();
                         if (clickedMob.getBound().contains(x_cor, y_cor) && !clickedMob.hasBeenUsed()) {
 
-                            int clickedMobID = clickedMob.getId();
+                            int clickedMobID = clickedMob.getMobID();
                             Mob currentlySelectedMob = (gameBoard.getActivePlayer()).getSelectedMob();
 
                             // Check for same mob selected twice, if so deselect
-                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getId() && !game.isMagnificationToggled())) {
+                            if ((currentlySelectedMob != null) && (clickedMobID == currentlySelectedMob.getMobID() && !game.isMagnificationToggled())) {
                                 clickedMob.setSelectedToAttack(false);
                                 clickedMob.updateMobBitmap();
                                 (gameBoard.getActivePlayer()).setSelectedMob(null);
