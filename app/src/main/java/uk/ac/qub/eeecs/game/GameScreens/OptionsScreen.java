@@ -32,6 +32,8 @@ public class OptionsScreen extends GameScreen {
     private int frameCount;
 
     private int volumecounter = 1;
+    private float sfx;
+    private float music;
     private PushButton volumeButton;
 
 
@@ -83,6 +85,8 @@ public class OptionsScreen extends GameScreen {
         if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
 
         createPaints();
+
+
     }
 
 
@@ -105,20 +109,24 @@ public class OptionsScreen extends GameScreen {
             if(volumecounter == 0){
                 mGame.getAudioManager().setSfxVolume(0.33f);
                 mGame.getAudioManager().setMusicVolume(0.33f);
+                mGame.getAudioManager().getSoundPool().autoPause();
                 volumecounter++;
             }else if(volumecounter == 1){
 
                 mGame.getAudioManager().setSfxVolume(0.67f);
                 mGame.getAudioManager().setMusicVolume(0.67f);
+
                 volumecounter++;
             }else if(volumecounter == 2) {
 
                 mGame.getAudioManager().setSfxVolume(1);
                 mGame.getAudioManager().setMusicVolume(1);
+
                 volumecounter++;
             } else if (volumecounter == 3) {
                 mGame.getAudioManager().setSfxVolume(0);
                 mGame.getAudioManager().setMusicVolume(0);
+                mGame.getAudioManager().getSoundPool().autoPause();
                 volumecounter = 0;
             }
         }
@@ -184,6 +192,7 @@ public class OptionsScreen extends GameScreen {
         // Draw Volume Button info
         graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+
 
 
         // Draw FPS if enabled

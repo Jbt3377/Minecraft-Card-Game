@@ -137,7 +137,7 @@ public abstract class Interaction {
         float touchOffsetX = 0.0f;
         float touchOffsetY = 0.0f;
             Card card;
-            game.getAudioManager().setSfxVolume(0.2f);
+
             for (TouchEvent t : touchEvents) {
                 float x_cor = t.x;
                 float y_cor = game.getScreenHeight() - t.y;
