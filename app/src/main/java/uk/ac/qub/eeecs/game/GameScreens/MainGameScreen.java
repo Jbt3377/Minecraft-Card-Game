@@ -125,7 +125,7 @@ public class MainGameScreen extends GameScreen {
 
         //Loading font
         mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
-        
+
     }
 
 

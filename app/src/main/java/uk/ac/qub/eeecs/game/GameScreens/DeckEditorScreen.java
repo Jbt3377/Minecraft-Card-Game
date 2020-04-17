@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import uk.ac.qub.eeecs.gage.Game;
+import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
@@ -115,6 +116,7 @@ public class DeckEditorScreen extends GameScreen {
         mGame.getAssetManager().loadAndAddBitmap("Clear_DeckButton","img/Clear_DeckButton.png");
         mGame.getAssetManager().loadAndAddBitmap("Save_Deck","img/Save_Deck.png");
         mGame.getAssetManager().loadAndAddBitmap("Save_Deck_Highlight","img/Save_Deck_Highlight.png");
+        mGame.getAssetManager().loadAndAddBitmap("DeckEditorBackground", "img/DeckEditorBackground.png");
 
         //Sound //zoom-in
         mGame.getAssetManager().loadAndAddSound("Card_Drop","sound/assetSoundEffects/deckEditorSoundEffects/Card_Drop.mp3");
@@ -126,10 +128,16 @@ public class DeckEditorScreen extends GameScreen {
     private void setupPaint(){
         //deck
         deckPaint = new Paint();
-        deckPaint.setTextSize(mScreenHeight / 30);
+        deckPaint.setTextSize(mScreenHeight / 48);
+        deckPaint.setARGB(255,255,255,255);
+        deckPaint.setTextAlign(Paint.Align.RIGHT);
+        deckPaint.setTypeface(MainActivity.minecraftRegFont);
 
         UIpaint = new Paint();
-        UIpaint.setTextSize(mScreenHeight / 20);
+        UIpaint.setTextSize(mScreenHeight / 22);
+        UIpaint.setARGB(255,255,255,255);
+        UIpaint.setTextAlign(Paint.Align.RIGHT);
+        UIpaint.setTypeface(MainActivity.minecraftRegFont);
 
         cardCounterPaint = new Paint();
         cardCounterPaint.setTextSize(mScreenHeight / 10);
@@ -170,6 +178,8 @@ public class DeckEditorScreen extends GameScreen {
     //Setting up objects for the gamescreen
     private void setupBoardGameObjects() {
 
+        background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("DeckEditorBackground"), this);
+
         setPositionCards();
 
 
@@ -209,7 +219,7 @@ public class DeckEditorScreen extends GameScreen {
         mReturnButton.setPlaySounds(true, true);
 
         leftButton = new PushButton(
-                mScreenWidth * 0.03f,
+                mScreenWidth * 0.02f,
                 mScreenHeight * 0.5f,
                 mScreenWidth * 0.03f,
                 mScreenHeight * 0.1f,
@@ -310,6 +320,10 @@ public class DeckEditorScreen extends GameScreen {
      */
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        background.draw(elapsedTime, graphics2D,
+                mDefaultLayerViewport,
+                mDefaultScreenViewport);
 
         //Limits the screen to 10 instances at once
         for(int i = numDisplay; i < numDisplay+10;i++){
@@ -442,13 +456,11 @@ public class DeckEditorScreen extends GameScreen {
                 RemoveCardButtons.get(i).draw(elapsedTime, graphics2D);
             }
         }
-
-        graphics2D.drawText("Deck: " + currentDeckSize+ "/" + MAX_DECK_SIZE, mScreenWidth * 0.8f, mScreenHeight * 0.04f, UIpaint);
     }
 
     private void drawDeckList(ElapsedTime elapsedTime, IGraphics2D graphics2D){
 
-        graphics2D.drawText("Deck: " + currentDeckSize+ "/" + MAX_DECK_SIZE, mScreenWidth * 0.8f, mScreenHeight * 0.04f, UIpaint);
+        graphics2D.drawText("Deck: " + currentDeckSize+ "/" + MAX_DECK_SIZE, mScreenWidth, mScreenHeight * 0.05f, UIpaint);
 
         for(int i = 0; i < deck.size(); i++){
             String nameOfCard = "";
@@ -457,7 +469,7 @@ public class DeckEditorScreen extends GameScreen {
                     nameOfCard = statsCollection.get(k).getName();
                 }
             }
-            graphics2D.drawText( nameOfCard , mScreenWidth * 0.8f, ((mScreenHeight / 30) * i) + (mScreenHeight * 0.08f), deckPaint);
+            graphics2D.drawText( nameOfCard , mScreenWidth, ((mScreenHeight / 29) * i) + (mScreenHeight * 0.1f), deckPaint);
         }
     }
 
@@ -520,6 +532,7 @@ public class DeckEditorScreen extends GameScreen {
                 //saveDeck - convert to stack
                 mGame.getmDeckManager().addDeck(deck);
                 audioManager.play(mGame.getAssetManager().getSound("Deck_Save"));
+                mGame.getmDeckManager().setupCustomDeck();
             }
         }
     }

@@ -50,6 +50,7 @@ public class CustomBoardScreen extends GameScreen {
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
+
         backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
         backButton.setPlaySounds(true);
 

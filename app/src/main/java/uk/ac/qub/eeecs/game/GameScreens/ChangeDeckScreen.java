@@ -178,7 +178,6 @@ public class ChangeDeckScreen extends GameScreen {
             if (mGame.getmDeckManager().isCustomDeckAdded()) {
                 selectedDeckButton = customDeckButton;
                 mGame.player1.setmSelectedDeckName("Custom Deck");
-                mGame.getmDeckManager().setupCustomDeck();
             } else {
                 mGame.MenuScreentime = elapsedTime.totalTime;
                 mGame.getScreenManager().addScreen(DeckEditor);
