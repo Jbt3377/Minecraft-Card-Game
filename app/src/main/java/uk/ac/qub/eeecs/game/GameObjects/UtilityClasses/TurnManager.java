@@ -333,6 +333,7 @@ public class TurnManager {
                         System.out.println("There is enough mana to place this card in the container. Moving card to mob container");
                         Mob mob = new Mob(mobContainer.getX_location(),mobContainer.getY_location(),gameBoard.getGameScreen(),characterCard);
                         mobContainer.placeCard(mob);
+                        gameBoard.getActivePlayersMobsOnBoard().add(mob);
 
                         System.out.println("Adjusting player mana after card placement");
                         adjustPlayerManaAfterCardPlacement(gameBoard,characterCard);
@@ -424,6 +425,8 @@ public class TurnManager {
                 // If mob died, remove from container
                 Mob containedMob = container.getContents();
                 if(containedMob.getHealthPoints() <= 0){
+                    //Remove the mob from the inactive player's activeMobsOnBoardArrayList.
+                    gameBoard.getInactivePlayersMobsOnBoard().remove(containedMob);
 
                     // Surplus Damage inflicted on player
                     if(containedMob.getHealthPoints()<0){
