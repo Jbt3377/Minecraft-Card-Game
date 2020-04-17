@@ -134,10 +134,8 @@ public abstract class Interaction {
     }
 
     public static void processCardMagnification(List<TouchEvent> touchEvents, Draggable dObj, Game game, PlayerHand playerHand) {
-        float touchOffsetX = 0.0f;
-        float touchOffsetY = 0.0f;
             Card card;
-            game.getAudioManager().setSfxVolume(0.2f);
+
             for (TouchEvent t : touchEvents) {
                 float x_cor = t.x;
                 float y_cor = game.getScreenHeight() - t.y;
@@ -163,7 +161,47 @@ public abstract class Interaction {
                     }
                 }
             }
-        }
+    }
+
+    public static void processMobMagnification(List<TouchEvent> touchEvents, Game game, MobContainer mobContainer) {
+
+        Card card = null;
+
+        for (TouchEvent t : touchEvents) {
+            float x_cor = t.x;
+            float y_cor = game.getScreenHeight() - t.y;
+
+
+            if (t.type == TouchEvent.TOUCH_DOWN && mobContainer.getBound().contains(x_cor, y_cor)) {
+                if (game.isMagnificationToggled()) {
+
+                    for (Card mobCard : game.getScreenManager().getCurrentScreen().getCardCollection()) {
+                        if (mobContainer.getContents().getName() == mobCard.getCardName()) {
+                            card = mobCard;
+                        }
+                    }
+
+                    game.setDrawCard(true);
+                    game.setMagnifiedCard(card, game.getScreenManager().getCurrentScreen(), card.getCardStats());
+                    game.getAudioManager().play(game.getAssetManager().getSound("zoom-in"));
+                }
+            }
+
+            if (t.type == TouchEvent.TOUCH_UP) {
+                if (game.isMagnificationToggled() ) {
+
+                    if (game.drawCard){
+                        game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
+                    }
+                    game.setDrawCard(false);;
+                }
+            }
+
+            }
+
+    }
+
+
 
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {

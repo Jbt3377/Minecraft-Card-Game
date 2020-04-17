@@ -9,11 +9,18 @@ import uk.ac.qub.eeecs.gage.engine.graphics.IRenderSurface;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 
 import android.app.Fragment;
 import android.graphics.Color;
@@ -551,15 +558,19 @@ public abstract class Game extends Fragment {
     public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
 
     public void setMagnifiedCard(Card magnifiedCard, GameScreen gameScreen, CardStats cardStats) {
-        if (this.magnifiedCard == null) {
-            this.magnifiedCard = new Card(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen, cardStats);
+
+        if (cardStats instanceof CharacterCardStats) {
+            this.magnifiedCard = new CharacterCard(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen,(CharacterCardStats) cardStats);
+        } else if (cardStats instanceof UtilityCardStats) {
+            this.magnifiedCard = new UtilityCard(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen,(UtilityCardStats) cardStats);
+        }else if (cardStats instanceof EquipCardStats) {
+            this.magnifiedCard = new EquipCard(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen,(EquipCardStats) cardStats);
         }
-        this.magnifiedCard.setCardName(magnifiedCard.getCardName());
-        this.magnifiedCard.setCardDescription(magnifiedCard.getCardDescription());
-        this.magnifiedCard.setManaCost(magnifiedCard.getManaCost());
+
+        this.magnifiedCard.setCardDescription(magnifiedCard.getCardName());
         this.magnifiedCard.setWidth(magnifiedCard.getWidth()*3.2f);
         this.magnifiedCard.setHeight(magnifiedCard.getHeight()*3.2f);
-        this.magnifiedCard.setBitmap(magnifiedCard.getBitmap());
+        this.magnifiedCard.setBitmap(CardBitmapFactory.returnBitmap(this.magnifiedCard,gameScreen));
 
     }
 

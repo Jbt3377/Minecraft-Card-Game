@@ -678,7 +678,7 @@
     {
       "type": "Sound",
       "name": "ButtonDefaultPush",
-      "file": "sound/ButtonDefaultPush.mp3"
+      "file": "sound/gage/button/ButtonPush.wav"
     }
 
   ]

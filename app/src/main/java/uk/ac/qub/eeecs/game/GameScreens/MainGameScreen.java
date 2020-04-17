@@ -261,7 +261,7 @@ public class MainGameScreen extends GameScreen {
 
         // Check 2 - Game Paused
         if (pauseButton.isPushTriggered())
-    gamePaused = true;
+         gamePaused = true;
 
 }
 
