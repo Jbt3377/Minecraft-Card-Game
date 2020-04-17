@@ -37,7 +37,7 @@ public class DeckEditorScreen extends GameScreen {
 
            // audioManager.play(getGameScreen().getGame().getAssetManager().getSound("ShipStart")
 
-    private final int MAX_DECK_SIZE = 30;                   //Max Card in deck
+    private final int MAX_DECK_SIZE = 20;                   //Max Card in deck
     private final int MAX_COUNT_COUNT = 3;                  //Max card count
 
     private int currentDeckSize = 0;                        //Deck Variables
