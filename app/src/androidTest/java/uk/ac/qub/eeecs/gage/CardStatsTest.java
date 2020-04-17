@@ -54,7 +54,7 @@ public class CardStatsTest {
     @Test
     public void testConstructor_EquipCardStats_variable() {
         //Setup
-        EquipCardStats testEquipCardStats = new EquipCardStats("Double Swords", 3, "+8 Attack to equipped Mob", 26);
+        EquipCardStats testEquipCardStats = new EquipCardStats("Double Swords", 3, "+8 Attack to equipped Mob", 26, 8);
         //Testing
         assertTrue(testEquipCardStats.getName().equals("Double Swords"));
         assertTrue(testEquipCardStats.getManacost() == 3);
@@ -65,7 +65,7 @@ public class CardStatsTest {
     @Test
     public void testConstructor_UtilityCardStats_variable() {
         //Setup
-        UtilityCardStats testUtilityCardStats = new UtilityCardStats("Potion of Extra Healing", 4, "Heal all by 5 HP", 35);
+        UtilityCardStats testUtilityCardStats = new UtilityCardStats("Potion of Extra Healing", 4, "Heal all by 5 HP", 35, 5);
         //Testing
         assertTrue(testUtilityCardStats.getName().equals("Potion of Extra Healing"));
         assertTrue(testUtilityCardStats.getManacost() == 4);

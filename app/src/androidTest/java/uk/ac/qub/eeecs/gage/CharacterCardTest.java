@@ -86,7 +86,7 @@ public class CharacterCardTest {
     public void CharacterCard_setmEquipedCard_Test(){
         //Setup
         CharacterCard characterCard = new CharacterCard(200, 400, mainScreen,testCharacterCardStats);
-        EquipCardStats equipCardStats = new EquipCardStats("Bow", 0, "+1 Attack to equipped Mob", 30 );
+        EquipCardStats equipCardStats = new EquipCardStats("Bow", 0, "+1 Attack to equipped Mob", 30 , 1);
         EquipCard equipCard = new EquipCard(100, 100, mainScreen, equipCardStats);
         //Testing
         characterCard.setmEquipedCard(equipCard);

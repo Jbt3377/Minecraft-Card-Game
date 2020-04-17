@@ -31,18 +31,6 @@ public abstract class Player {
     private Mob selectedMob;
     private Mob targetedMob;
 
-    private int selectedAiContainerIndex;
-    private int selectedAiCardToMoveIndex;
-
-    private boolean aiFinishedMoves;
-    private boolean aiFinishedAttacks;
-    private long animationTimer;
-    private int selectedMobToAttackIndex;
-    private int targetedMobIndex;
-
-
-    private ArrayList<Integer> aiCharacterCards = new ArrayList<Integer>();
-
     /////////////
     //Constructor
     /////////////
@@ -53,33 +41,9 @@ public abstract class Player {
         this.mPlayerMana = PLAYER_STARTING_MANA;
         this.mSelectedDeckName = selectedDeckName;
 
-        this.aiFinishedAttacks = false;
-        this.aiFinishedMoves = false;
         this.selectedCard = null;
         this.selectedMob = null;
         this.targetedMob = null;
-        this.selectedAiCardToMoveIndex = -1;
-        this.animationTimer = -1;
-        this.selectedMobToAttackIndex = 0;
-        this.selectedAiContainerIndex = 0;
-        this.selectedAiCardToMoveIndex = 0;
-    }
-
-    /////////
-    //Methods
-    /////////
-
-    public void resetAiProperties(){
-        this.aiFinishedAttacks = false;
-        this.aiFinishedMoves = false;
-        this.selectedCard = null;
-        this.selectedMob = null;
-        this.targetedMob = null;
-        this.selectedAiCardToMoveIndex = -1;
-        this.animationTimer = -1;
-        this.selectedMobToAttackIndex = 0;
-        this.selectedAiContainerIndex = 0;
-        this.selectedAiCardToMoveIndex = 0;
     }
 
 
@@ -124,65 +88,5 @@ public abstract class Player {
     public void setTargetedMob(Mob targetedMob) { this.targetedMob = targetedMob; }
 
     public void setTargetedMobNull(){ this.targetedMob = null;}
-
-    public int getSelectedAiContainerIndex() {
-        return selectedAiContainerIndex;
-    }
-
-    public void setSelectedAiContainerIndex(int selectedAiContainerIndex) {
-        this.selectedAiContainerIndex = selectedAiContainerIndex;
-    }
-
-    public int getSelectedAiCardToMoveIndex() {
-        return selectedAiCardToMoveIndex;
-    }
-
-    public void setSelectedAiCardToMoveIndex(int selectedAiCardToMoveIndex) {
-        this.selectedAiCardToMoveIndex = selectedAiCardToMoveIndex;
-    }
-    public ArrayList<Integer> getAiCharacterCards() {
-        return aiCharacterCards;
-    }
-
-
-    public boolean isAiFinishedMoves() {
-        return aiFinishedMoves;
-    }
-
-    public void setAiFinishedMoves(boolean aiFinishedMoves) {
-        this.aiFinishedMoves = aiFinishedMoves;
-    }
-
-    public boolean isAiFinishedAttacks() {
-        return aiFinishedAttacks;
-    }
-
-    public void setAiFinishedAttacks(boolean aiFinishedAttacks) {
-        this.aiFinishedAttacks = aiFinishedAttacks;
-    }
-
-    public long getAnimationTimer() {
-        return animationTimer;
-    }
-
-    public void setAnimationTimer(long animationTimer) {
-        this.animationTimer = animationTimer;
-    }
-
-    public int getSelectedMobToAttackIndex() {
-        return selectedMobToAttackIndex;
-    }
-
-    public void setSelectedMobToAttackIndex(int selectedMobToAttackIndex) {
-        this.selectedMobToAttackIndex = selectedMobToAttackIndex;
-    }
-
-    public int getTargetedMobIndex() {
-        return targetedMobIndex;
-    }
-
-    public void setTargetedMobIndex(int targetedMobIndex) {
-        this.targetedMobIndex = targetedMobIndex;
-    }
 
 }

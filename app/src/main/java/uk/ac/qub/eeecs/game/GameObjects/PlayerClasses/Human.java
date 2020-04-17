@@ -8,9 +8,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 
 public class Human extends Player {
-    /////////////
-    //Constructor
-    /////////////
 
     public Human(String selectedDeckName) {
         super(selectedDeckName);
