@@ -36,48 +36,28 @@ public class DisplayCardsScreen extends GameScreen {
     //to get back to the main screen
     private PushButton mReturnButton;
 
-
     //Variables for the display of cards
     private int numberOfColumns = 4; //Set the amount of columns to display
     private int numberOfRows; //Sets the amount of rows to display - Is calculated
 
-    //Sprite Size Change
-    private int changeSize = 2;
 
     //Distance Between Cards - PX
-    private float distanceBetweenColumns = mGame.getScreenWidth()*0.2f;
-    private float distanceBetweenRows = mGame.getScreenHeight()*0.6f;
+    private float distanceBetweenColumns;
+    private float distanceBetweenRows;
 
     // Viewports
-    private LayerViewport backgroundLayerViewport;
+    private LayerViewport backgroundLayerViewport, cardLayerViewport;
 
     // Background Image
     private GameObject backgroundBackground;
 
-    //Define a viewport for the cards
-    private LayerViewport cardLayerViewport;
-    private ScreenViewport screenViewport;
-
-    //Variables for scroll limiter method and starting cardLayerStartingCor_y
-    private int cardLayerStartingCor_y = 400;
     private int sizeOfRows;
-    private int card_layerDiffernce = sizeOfRows-cardLayerStartingCor_y;
 
-
-    //Debugging Variables
-    private float touchOffsetX;
+    //For calculates off set
     private float touchOffsetY = 0.0f;
-    private float mAccelerationY = 0.0f;
 
-    private ArrayList<Card> displayedCardCollection = new ArrayList<>();
+    private ArrayList<Card> displayedCardCollection;
 
-    // DisplayCardsScreen
-    private PushButton allCardsButton, mobCardsButton, equipCardsButton, utilityCardsButton, showUnowned;
-
-
-    private int test = 0;
-
-    private Paint fpsPaint = new Paint();
 
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
@@ -86,33 +66,38 @@ public class DisplayCardsScreen extends GameScreen {
 
     public DisplayCardsScreen(String screenName, Game game) {
         super("CardsDisplay", game);
+
+        displayedCardCollection = getCardCollection();
+
+
         setupViewPorts();
         setupBoardGameObjects();
+
+
+
+
     }
 
 
     //Setting up view ports for the gamescreen
     private void setupViewPorts() {
-        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
-
         //Setup boardLayerViewport
-        float screenWidth = mGame.getScreenWidth();
-        float screenHeight = mGame.getScreenHeight();
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
+
+        mDefaultScreenViewport.set( 0, 0, screenWidth, screenHeight);
+        mDefaultLayerViewport.set(screenWidth/2, screenHeight/2, screenWidth/2, screenHeight/2);
+
+
+
+
         cardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
         backgroundLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
-        screenViewport = new ScreenViewport(0,0,(int) screenWidth,(int)screenHeight);
+
     }
 
     //Setting up objects for the gamescreen
     private void setupBoardGameObjects() {
-
-
-        //Adds all the cards in the game into a collection of an arraylist;
-//        addCardsToCardCollection();
-//        addCardsToCardCollection();
-//        addCardsToCardCollection();
-//        addCardsToCardCollection();
-//        addCardsToCardCollection();
 
         //Calculates the rows required for being displayed
         calculateAmountOfRows();
@@ -133,18 +118,14 @@ public class DisplayCardsScreen extends GameScreen {
         mReturnButton.setPlaySounds(true, true);
 
 
-        displayedCardCollection = getCardCollection();
+
+        //Set Size of Cards
         for (int i = 0; i < displayedCardCollection.size(); i++) {
-            displayedCardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.8f);
-            displayedCardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.8f);
-            // cardCollection.get(i).setHeight(mDefaultLayerViewport.getHeight() * 1.3f);
-            //            cardCollection.get(i).setWidth(mDefaultLayerViewport.getWidth() * 0.55f);
+            displayedCardCollection.get(i).setHeight(mScreenHeight * 0.55f);
+            displayedCardCollection.get(i).setWidth(mScreenWidth * 0.22f);
         }
 
 
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.RIGHT);
     }
 
     //Update requirements
@@ -169,9 +150,6 @@ public class DisplayCardsScreen extends GameScreen {
 
     private void movingBackground(){
         float offset = cardLayerViewport.y;
-
-        //backgorund y / card view size
-        float calculate = mGame.getScreenHeight() / sizeOfRows;
         //the total number of pixels it needs to move
         backgroundLayerViewport.y = offset * 0.3f;
     }
@@ -192,24 +170,10 @@ public class DisplayCardsScreen extends GameScreen {
                 cardLayerViewport.y = t.y + touchOffsetY;
             }
 
-            //Resets off set after lifting finger
-            if (t.type == TouchEvent.TOUCH_UP) {
-                touchOffsetY = 0.0f;
-            }
-
             //private ArrayList<Card> cardCollection = new ArrayList<>();
             //Sets the off set from the touch and card layer
             if (t.type == TouchEvent.TOUCH_DOWN) {
                 touchOffsetY = cardLayerViewport.y - t.y;
-            }
-
-            if (t.type == TouchEvent.TOUCH_SINGLE_TAP){
-
-                for (Card x : getCardCollection()) {
-                    if (x.getBound().contains(t.x, t.y)) {
-                        test++;
-                    }
-                }
             }
         }
     }
@@ -223,12 +187,9 @@ public class DisplayCardsScreen extends GameScreen {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-
         backgroundBackground.draw(elapsedTime, graphics2D,
                 backgroundLayerViewport,
                 mDefaultScreenViewport);
-
-        //drawAllButtons(elapsedTime,graphics2D);
 
         //Displays Cards
         displayAllCards(elapsedTime, graphics2D);
@@ -238,16 +199,6 @@ public class DisplayCardsScreen extends GameScreen {
         mReturnButton.draw(elapsedTime, graphics2D,
                 mDefaultLayerViewport, mDefaultScreenViewport);
 
-
-
-        graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
-//        //graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
-        graphics2D.drawText("touchOffsetY: " + test, mScreenWidth * 0.9f, mScreenHeight * 0.08f, fpsPaint);
-//
-//// Debug Draw (Keep)
-////        graphics2D.drawText("cardlayerviewpoint: " + cardLayerViewport.y, mScreenWidth * 1f, mScreenHeight * 0.05f, fpsPaint);
-////        graphics2D.drawText("touchOffsetY: " + touchOffsetY, mScreenWidth * 1f, mScreenHeight * 0.08f, fpsPaint);
-
     }
 
 
@@ -256,6 +207,12 @@ public class DisplayCardsScreen extends GameScreen {
 
     //Method allows future development and flexibility
     private void calculateAmountOfRows(){
+
+        //Between Cards
+        distanceBetweenRows = mDefaultLayerViewport.getHeight()*    0.6f;
+        distanceBetweenColumns = mDefaultLayerViewport.getWidth()*  0.25f;
+
+
         //Variables for the display of cards
         int cardCollectionTrueSize = getCardCollection().size() + 1;
         numberOfRows = (cardCollectionTrueSize / numberOfColumns); //Needs to be calculated
@@ -272,12 +229,17 @@ public class DisplayCardsScreen extends GameScreen {
         for(int i = 0; i < getCardCollection().size(); i++){
             displayedCardCollection.get(i).draw(elapsedTime, graphics2D,
                     cardLayerViewport,
-                    screenViewport);
+                    mDefaultScreenViewport);
         }
     }
 
 
     private void setPositionCards() {
+
+        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //* 1f;
+        float card_start_y = mDefaultLayerViewport.getHeight() * 0.8f; // * 1f;
+
+
         int count = 0;
         for(int i = 0; i < numberOfRows; i++){
             //Calculation for y_cor to be placed in game
@@ -288,7 +250,7 @@ public class DisplayCardsScreen extends GameScreen {
                 float x = j * distanceBetweenColumns;
 
                 if(count<getCardCollection().size()){
-                    getCardCollection().get(count).setPosition((cardLayerViewport.x/3) + x, (cardLayerViewport.y) - y);
+                    getCardCollection().get(count).setPosition(card_start_x + x, card_start_y - y);
                 }
                 count++;
             }
@@ -300,126 +262,12 @@ public class DisplayCardsScreen extends GameScreen {
     private void scrollLimiter(){
 
         //Keeping the cardLayerViewport (All the cards) displayed
-        if(cardLayerViewport.y<=cardLayerStartingCor_y-sizeOfRows){
-            cardLayerViewport.y=cardLayerStartingCor_y-sizeOfRows;
+        if(cardLayerViewport.y<=distanceBetweenRows-sizeOfRows){
+            cardLayerViewport.y=distanceBetweenRows-sizeOfRows;
         }
         if
-        (cardLayerViewport.y>=cardLayerStartingCor_y){
-           cardLayerViewport.y=cardLayerStartingCor_y;
+        (cardLayerViewport.y>=distanceBetweenRows){
+           cardLayerViewport.y=distanceBetweenRows;
         }
-
     }
-
-
-
-
-
-
-//    // private PushButton allCardsButton, mobCardsButton, equipCardsButton, utilityCardsButton, showUnowned;
-//    private void setUpButtons(){
-//
-//        float height = 0.90f; //Top side of the screen
-//        float width = 0.10f; //Left side of the screen
-//
-//
-//        float buttonSizeWidth = mDefaultLayerViewport.getWidth() * 0.075f;
-//        float buttonSizeHeight = mDefaultLayerViewport.getHeight() * 0.10f;
-//
-//        //"All" Cards Button
-//        allCardsButton = new PushButton(
-//                mDefaultLayerViewport.getWidth() * width,
-//                mDefaultLayerViewport.getHeight() * height,
-//                buttonSizeWidth,
-//                buttonSizeHeight,
-//                "BackButton", "BackButton", this);
-//
-//        //"Mod" Cards Button
-//        mobCardsButton = new PushButton(
-//                mDefaultLayerViewport.getWidth() * (width + 0.1f),
-//                mDefaultLayerViewport.getHeight() * height,
-//                buttonSizeWidth,
-//                buttonSizeHeight,
-//                "BackButton", "BackButton", this);
-//
-//
-//        //"Equip" Cards Button
-//        equipCardsButton = new PushButton(
-//                mDefaultLayerViewport.getWidth() * (width + 0.2f),
-//                mDefaultLayerViewport.getHeight() * height,
-//                buttonSizeWidth,
-//                buttonSizeHeight,
-//                "BackButton", "BackButton", this);
-//
-//        //"Utility" Cards Button
-//        utilityCardsButton = new PushButton(
-//                mDefaultLayerViewport.getWidth() * (width + 0.3f),
-//                mDefaultLayerViewport.getHeight() * height,
-//                buttonSizeWidth,
-//                buttonSizeHeight,
-//                "BackButton", "BackButton", this);
-//
-//
-//        //"Back" Button
-//        mBackButton = new PushButton(
-//                mDefaultLayerViewport.getWidth() * 0.95f,
-//                mDefaultLayerViewport.getHeight() * 0.10f,
-//                mDefaultLayerViewport.getWidth() * 0.075f,
-//                mDefaultLayerViewport.getHeight() * 0.10f,
-//                "BackButton", "BackButton", this);
-//        mBackButton.setPlaySounds(true, true);
-//
-//
-//
-//    }
-//
-//    private void runTimeAllButtons(ElapsedTime elapsedTime){
-//
-//        //Back Button
-//        mBackButton.update(elapsedTime);
-//        if (mBackButton.isPushTriggered())
-//            mGame.getScreenManager().removeScreen(this);
-//
-//        //All Cards Button
-//        allCardsButton.update(elapsedTime);
-//        if (allCardsButton.isPushTriggered()){
-//
-//        }
-//
-//        //Mob Cards Button
-//        mobCardsButton.update(elapsedTime);
-//        if (mobCardsButton.isPushTriggered()){
-//
-//        }
-//
-//        //Equip Cards Button
-//        equipCardsButton.update(elapsedTime);
-//        if (equipCardsButton.isPushTriggered()){
-//
-//        }
-//
-//        //Utility Cards Button
-//        utilityCardsButton.update(elapsedTime);
-//        if (utilityCardsButton.isPushTriggered()){
-//
-//        }
-//    }
-//
-//    private void drawAllButtons(ElapsedTime elapsedTime, IGraphics2D graphics2D){
-//        mBackButton.draw(elapsedTime, graphics2D,
-//                mDefaultLayerViewport, mDefaultScreenViewport);
-//
-//        allCardsButton.draw(elapsedTime, graphics2D,
-//                mDefaultLayerViewport, mDefaultScreenViewport);
-//
-//        mobCardsButton.draw(elapsedTime, graphics2D,
-//                mDefaultLayerViewport, mDefaultScreenViewport);
-//
-//        equipCardsButton.draw(elapsedTime, graphics2D,
-//                mDefaultLayerViewport, mDefaultScreenViewport);
-//
-//        utilityCardsButton.draw(elapsedTime, graphics2D,
-//                mDefaultLayerViewport, mDefaultScreenViewport);
-//
-//
-//    }
 }
