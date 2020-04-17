@@ -92,21 +92,8 @@ public class RulesScreen extends GameScreen {
         boardBackground.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-
-        graphics2D.drawText("Rules", mScreenWidth /2, mScreenHeight * 0.1f, titlePaint);
-
-
-        graphics2D.drawText("Play/Place character or mob cards on the board.", mScreenWidth/8, mScreenHeight-800, textPaintSettings);
-        graphics2D.drawText("Once you attack, you cant place any more cards.", mScreenWidth/8, mScreenHeight-700 , textPaintSettings);
-        graphics2D.drawText("Surplus damage inflicted to a mob will carry over and damage", mScreenWidth/8, mScreenHeight-600, textPaintSettings);
-        graphics2D.drawText("the player.", mScreenWidth/8, mScreenHeight-550, textPaintSettings);
-        graphics2D.drawText("Utility Cards can be used to affect you/the opponents mobs.", mScreenWidth/8, mScreenHeight-450, textPaintSettings);
-        graphics2D.drawText("Equipment Cards can be used to buff the stats of one of your mobs", mScreenWidth/8, mScreenHeight-350, textPaintSettings);
-        graphics2D.drawText("your mobs.", mScreenWidth/8, mScreenHeight-300, textPaintSettings);
-        graphics2D.drawText("Try to get the opponents health to 0", mScreenWidth/8, mScreenHeight-200, textPaintSettings);
-        graphics2D.drawText("HAVE FUN", mScreenWidth/2, mScreenHeight-50, titlePaint);
-
-
+        
+        DrawRules(elapsedTime,graphics2D);
         // Draw the back button
         mReturnButton.draw(elapsedTime, graphics2D,
                 mDefaultLayerViewport, mDefaultScreenViewport);
@@ -152,5 +139,20 @@ public class RulesScreen extends GameScreen {
             audioManager.playMusic(
                     //Changed string name to new background music
                     getGame().getAssetManager().getMusic("MinecraftMusic"));
+    }
+    public void DrawRules(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+
+        graphics2D.drawText("Rules", mScreenWidth /2, mScreenHeight * 0.1f, titlePaint);
+
+
+        graphics2D.drawText("Play/Place character or mob cards on the board.", mScreenWidth/8, mScreenHeight-800, textPaintSettings);
+        graphics2D.drawText("Once you attack, you cant place any more cards.", mScreenWidth/8, mScreenHeight-700 , textPaintSettings);
+        graphics2D.drawText("Surplus damage inflicted to a mob will carry over and damage", mScreenWidth/8, mScreenHeight-600, textPaintSettings);
+        graphics2D.drawText("the player.", mScreenWidth/8, mScreenHeight-550, textPaintSettings);
+        graphics2D.drawText("Utility Cards can be used to affect you/the opponents mobs.", mScreenWidth/8, mScreenHeight-450, textPaintSettings);
+        graphics2D.drawText("Equipment Cards can be used to buff the stats of one of your mobs", mScreenWidth/8, mScreenHeight-350, textPaintSettings);
+        graphics2D.drawText("your mobs.", mScreenWidth/8, mScreenHeight-300, textPaintSettings);
+        graphics2D.drawText("Try to get the opponents health to 0", mScreenWidth/8, mScreenHeight-200, textPaintSettings);
+        graphics2D.drawText("HAVE FUN", mScreenWidth/2, mScreenHeight-50, titlePaint);
     }
 }
