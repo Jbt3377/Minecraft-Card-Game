@@ -303,7 +303,7 @@
     {
       "type": "Bitmap",
       "name": "EndTurnDefault",
-      "file": "img/BlueButton.png"
+      "file": "img/EndTurnButtonDefault.png"
     },
 
     {
@@ -333,7 +333,7 @@
     {
       "type": "Bitmap",
       "name": "EndTurnActive",
-      "file": "img/BlueButtonActive.png"
+      "file": "img/EndTurnButtonActive.png"
     },
 
     {
@@ -678,7 +678,7 @@
     {
       "type": "Sound",
       "name": "ButtonDefaultPush",
-      "file": "sound/ButtonDefaultPush.mp3"
+      "file": "sound/gage/button/ButtonPush.wav"
     }
 
   ]

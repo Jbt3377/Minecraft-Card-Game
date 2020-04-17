@@ -265,6 +265,12 @@ public class GameBoard {
             }
         }
 
+        for (MobContainer mobContainer : getFieldContainers()) {
+            if (mobContainer.getContents() != null) {
+                Interaction.processMobMagnification(input, gameScreen.getGame(), mobContainer);
+            }
+        }
+
     }
 
 
