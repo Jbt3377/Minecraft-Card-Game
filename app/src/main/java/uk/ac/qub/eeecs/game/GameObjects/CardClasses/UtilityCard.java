@@ -136,6 +136,7 @@ public class UtilityCard extends Card {
 
     public void weakenEnemyMobs(GameBoard gameBoard) {
         MobContainer.ContainerType contTypeOfEnemy;
+        int baseAttack;
         mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("splash_potion"));
         if (gameBoard.isPlayer1Turn()) {
             contTypeOfEnemy = MobContainer.ContainerType.TOP_PLAYER;
@@ -145,7 +146,11 @@ public class UtilityCard extends Card {
         for (MobContainer mobContainer : gameBoard.getFieldContainers()) {
             if (mobContainer.getContents() != null) {
                 if (mobContainer.getContType() == contTypeOfEnemy) {
-                    mobContainer.getContents().setAttackDamage(mobContainer.getContents().getAttackDamage() - this.effect_intensity);
+                    baseAttack = mobContainer.getContents().getAttackDamage() - this.effect_intensity;
+                    if (baseAttack < 0) {
+                        baseAttack = 0;
+                    }
+                    mobContainer.getContents().setAttackDamage(baseAttack);
                     mobContainer.getContents().updateMobBitmap();
                 }
             }
