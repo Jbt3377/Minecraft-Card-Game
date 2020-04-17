@@ -7,8 +7,8 @@ public class Ai extends Player {
     private int selectedAiContainerIndex;
     private int selectedAiCardToMoveIndex;
 
-    private boolean aiFinishedMoves;
     private boolean aiFinishedAttacks;
+    private boolean aiFinishedMoves;
     private long animationTimer;
     private int selectedMobToAttackIndex;
     private int targetedMobIndex;
@@ -22,11 +22,12 @@ public class Ai extends Player {
         this.selectedMobToAttackIndex = 0;
         this.selectedAiContainerIndex = 0;
         this.selectedAiCardToMoveIndex = 0;
+        this.targetedMobIndex = 0;
     }
 
-    /////////
-    //Methods
-    /////////
+    //////////
+    // Methods
+    //////////
 
     public void resetAiProperties(){
         this.aiFinishedAttacks = false;
@@ -41,20 +42,8 @@ public class Ai extends Player {
     // Getters & Setters
     ////////////////////
 
-    public int getSelectedAiContainerIndex() {
-        return selectedAiContainerIndex;
-    }
-
-    public void setSelectedAiContainerIndex(int selectedAiContainerIndex) {
-        this.selectedAiContainerIndex = selectedAiContainerIndex;
-    }
-
-    public int getSelectedAiCardToMoveIndex() {
-        return selectedAiCardToMoveIndex;
-    }
-
-    public void setSelectedAiCardToMoveIndex(int selectedAiCardToMoveIndex) {
-        this.selectedAiCardToMoveIndex = selectedAiCardToMoveIndex;
+    public boolean isAiFinishedAttacks() {
+        return aiFinishedAttacks;
     }
 
     public boolean isAiFinishedMoves() {
@@ -63,10 +52,6 @@ public class Ai extends Player {
 
     public void setAiFinishedMoves(boolean aiFinishedMoves) {
         this.aiFinishedMoves = aiFinishedMoves;
-    }
-
-    public boolean isAiFinishedAttacks() {
-        return aiFinishedAttacks;
     }
 
     public long getAnimationTimer() {
@@ -83,6 +68,22 @@ public class Ai extends Player {
 
     public void setSelectedMobToAttackIndex(int selectedMobToAttackIndex) {
         this.selectedMobToAttackIndex = selectedMobToAttackIndex;
+    }
+
+    public int getSelectedAiContainerIndex() {
+        return selectedAiContainerIndex;
+    }
+
+    public void setSelectedAiContainerIndex(int selectedAiContainerIndex) {
+        this.selectedAiContainerIndex = selectedAiContainerIndex;
+    }
+
+    public int getSelectedAiCardToMoveIndex() {
+        return selectedAiCardToMoveIndex;
+    }
+
+    public void setSelectedAiCardToMoveIndex(int selectedAiCardToMoveIndex) {
+        this.selectedAiCardToMoveIndex = selectedAiCardToMoveIndex;
     }
 
     public int getTargetedMobIndex() {

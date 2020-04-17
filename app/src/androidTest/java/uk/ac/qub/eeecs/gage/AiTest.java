@@ -13,13 +13,8 @@ import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
-import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
-import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 import static junit.framework.Assert.assertNull;
@@ -35,7 +30,6 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class AiTest {
 
-    private MainGameScreen mainScreen;
     private Ai testAi;
 
     @Before
@@ -52,7 +46,7 @@ public class AiTest {
         game.mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
         game.getAssetManager().loadAssets("txt/assets/MobSounds.JSON");
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
-        mainScreen = new MainGameScreen(game);
+        MainGameScreen mainScreen = new MainGameScreen(game);
         game.getScreenManager().addScreen(mainScreen);
 
         testAi = new Ai("Steve's Arsenal");
@@ -76,6 +70,7 @@ public class AiTest {
         assertEquals(testAi.getSelectedMobToAttackIndex(), 0);
         assertEquals(testAi.getSelectedAiContainerIndex(), 0);
         assertEquals(testAi.getSelectedAiCardToMoveIndex(), 0);
+        assertEquals(testAi.getTargetedMobIndex(), 0);
     }
 
     @Test
@@ -116,8 +111,14 @@ public class AiTest {
 
     @Test
     public void test_resetAiProperties() {
-        testAi.setTargetedMobIndex(4);
-        assertEquals(testAi.getTargetedMobIndex(), 4);
+        testAi.resetAiProperties();
+
+        assertFalse(testAi.isAiFinishedAttacks());
+        assertFalse(testAi.isAiFinishedMoves());
+        assertEquals(testAi.getAnimationTimer(), -1);
+        assertEquals(testAi.getSelectedMobToAttackIndex(), 0);
+        assertEquals(testAi.getSelectedAiContainerIndex(), 0);
+        assertEquals(testAi.getSelectedAiCardToMoveIndex(), 0);
     }
 
 

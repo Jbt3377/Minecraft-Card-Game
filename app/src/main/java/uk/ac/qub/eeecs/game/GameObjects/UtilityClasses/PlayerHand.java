@@ -162,9 +162,6 @@ public class PlayerHand {
                 Interaction.processDragEvents(input, cardInHand, gameScreen.getGame());
             }
         }
-
-        // TODO: Will add the snap back functionality for when cards released in an invalid region
-
     }
 
 
