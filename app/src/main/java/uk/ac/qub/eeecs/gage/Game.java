@@ -34,13 +34,9 @@ public abstract class Game extends Fragment {
 
     //Magnification Feature Properties
     private boolean magnificationToggle;
-
-    public boolean isMagnificationToggled() { return magnificationToggle; }
-    public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
-
     public Card magnifiedCard;
-    public Card getMagnifiedCard() { return magnifiedCard; }
     public boolean drawCard = false;
+
     public boolean drawCard() {
         return drawCard;
     }
@@ -48,18 +44,9 @@ public abstract class Game extends Fragment {
         this.drawCard = drawCard;
     }
 
-    public void setMagnifiedCard(Card magnifiedCard, GameScreen gameScreen, CardStats cardStats) {
-        if (this.magnifiedCard == null) {
-            this.magnifiedCard = new Card(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen, cardStats);
-        }
-        this.magnifiedCard.setCardName(magnifiedCard.getCardName());
-        this.magnifiedCard.setCardDescription(magnifiedCard.getCardDescription());
-        this.magnifiedCard.setManaCost(magnifiedCard.getManaCost());
-        this.magnifiedCard.setWidth(magnifiedCard.getWidth()*3.2f);
-        this.magnifiedCard.setHeight(magnifiedCard.getHeight()*3.2f);
-        this.magnifiedCard.setBitmap(magnifiedCard.getBitmap());
+    public Card getMagnifiedCard() { return magnifiedCard; }
 
-    }
+
 
     //Cards Selected variable
     boolean cardsSelected = false;
@@ -555,6 +542,25 @@ public abstract class Game extends Fragment {
      */
     public void notifyDrawCompleted() {
         mLoop.notifyDrawCompleted();
+    }
+
+    // /////////////////////////////////////////////////////////////////////////
+    // Magnification Methods
+    // /////////////////////////////////////////////////////////////////////////
+    public boolean isMagnificationToggled() { return magnificationToggle; }
+    public void setMagnificationToggled(boolean magnificationToggle) { this.magnificationToggle = magnificationToggle; }
+
+    public void setMagnifiedCard(Card magnifiedCard, GameScreen gameScreen, CardStats cardStats) {
+        if (this.magnifiedCard == null) {
+            this.magnifiedCard = new Card(getScreenWidth() / 2, getScreenHeight() / 2, gameScreen, cardStats);
+        }
+        this.magnifiedCard.setCardName(magnifiedCard.getCardName());
+        this.magnifiedCard.setCardDescription(magnifiedCard.getCardDescription());
+        this.magnifiedCard.setManaCost(magnifiedCard.getManaCost());
+        this.magnifiedCard.setWidth(magnifiedCard.getWidth()*3.2f);
+        this.magnifiedCard.setHeight(magnifiedCard.getHeight()*3.2f);
+        this.magnifiedCard.setBitmap(magnifiedCard.getBitmap());
+
     }
 
     // /////////////////////////////////////////////////////////////////////////

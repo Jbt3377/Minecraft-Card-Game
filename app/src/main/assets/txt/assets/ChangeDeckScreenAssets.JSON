@@ -1,0 +1,31 @@
+{
+  "assets": [
+
+    {
+      "type": "Bitmap",
+      "name": "ChangeDeckScreenBackground",
+      "file": "img/ChangeDeckScreenBackground.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "LeftArrow",
+      "file": "img/GameButtons/LeftArrow.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "DeckButton",
+      "file": "img/deckButton.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "CustomDeckButton",
+      "file": "img/customDeckButton.png"
+    }
+
+
+
+  ]
+}

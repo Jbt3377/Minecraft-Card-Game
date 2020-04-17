@@ -669,6 +669,11 @@
       "type": "Sound",
       "name": "zoom-out",
       "file": "sound/assetSoundEffects/zoom-out.mp3"
+    },
+    {
+      "type": "Bitmap",
+      "name": "ChangeDecks",
+      "file": "img/changedecks.png"
     }
 
   ]

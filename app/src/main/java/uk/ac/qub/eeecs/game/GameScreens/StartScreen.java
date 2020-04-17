@@ -17,11 +17,6 @@ import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
-import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
-import uk.ac.qub.eeecs.game.miscDemos.DemoMenuScreen;
-import uk.ac.qub.eeecs.game.platformDemo.PlatformDemoScreen;
-import uk.ac.qub.eeecs.game.platformDemo.Player;
-import uk.ac.qub.eeecs.game.spaceDemo.SpaceshipDemoScreen;
 
 /**
  * An exceedingly basic menu screen with a couple of touch buttons
@@ -47,11 +42,13 @@ public class StartScreen extends GameScreen {
     private LayerViewport backgroundLayerViewport;
     private ScreenViewport backgroundScreenViewport;
     private PushButton mBoardButton;
-    private CustomBoardScreen customBoardScreen;
+    private CustomBoardScreen CustomBoardScreen;
     private PushButton mDeckEditorButton;
     private DeckEditorScreen DeckEditor;
     private PushButton mAllCards;
     private DisplayCardsScreen DisplayAllCards;
+    private ChangeDeckScreen ChangeDeck;
+    private PushButton mChangeDeckButton;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -117,13 +114,18 @@ public class StartScreen extends GameScreen {
         mAllCards= new PushButton(screenWidth/1.7f,screenHeight/4,screenWidth/5.9f,screenHeight/9.5f, "CardCollectionButton", "CardCollectionButton", this);
         mAllCards.setPlaySounds(true, true);
 
+        //Button to view change deck screen
+        mChangeDeckButton = new PushButton(screenWidth / 1.10f, screenHeight / 2.7f, screenWidth / 6.3f, screenHeight/ 6.5f, "ChangeDecks",  this);
+        mChangeDeckButton.setPlaySounds(true, true);
+
 
         //has to be inside the Constructor to create a game screen
         Rules = new RulesScreen("Rules", game);
         Options = new OptionsScreen("OptionsScreen", game);
         DeckEditor = new DeckEditorScreen("DeckEditor", game);
         DisplayAllCards = new DisplayCardsScreen("CardsDisplay", game);
-        customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        ChangeDeck = new ChangeDeckScreen("changeDeck", game);
 
     }
 
@@ -157,6 +159,7 @@ public class StartScreen extends GameScreen {
             mBoardButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
             mAllCards.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
             mDeckEditorButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
+            mChangeDeckButton.update(elapsedTime, backgroundLayerViewport, mDefaultScreenViewport);
 
 
             if (mCardDemoButton.isPushTriggered()){
@@ -179,7 +182,7 @@ public class StartScreen extends GameScreen {
             if (mBoardButton.isPushTriggered()) {
                 mGame.MenuScreentime = elapsedTime.totalTime;
                 stopBackGroundMusic();
-                mGame.getScreenManager().addScreen(customBoardScreen);
+                mGame.getScreenManager().addScreen(CustomBoardScreen);
             }
             if (mDeckEditorButton.isPushTriggered()) {
                 mGame.MenuScreentime = elapsedTime.totalTime;
@@ -190,6 +193,11 @@ public class StartScreen extends GameScreen {
                 mGame.MenuScreentime = elapsedTime.totalTime;
                 stopBackGroundMusic();
                 mGame.getScreenManager().addScreen(DisplayAllCards);
+            }
+            if (mChangeDeckButton.isPushTriggered()) {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                stopBackGroundMusic();
+                mGame.getScreenManager().addScreen(ChangeDeck);
             }
 
         }
@@ -213,6 +221,7 @@ public class StartScreen extends GameScreen {
         mBoardButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
         mAllCards.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
         mDeckEditorButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
+        mChangeDeckButton.draw(elapsedTime, graphics2D,backgroundLayerViewport, mDefaultScreenViewport);
 
         if(mGame.isDisplayFps())
             graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint());

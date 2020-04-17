@@ -53,6 +53,8 @@ public class DeckManager {
         int[] predefinedDeck2 = new int[] {3,4,5,6,8,10,14,15,16,17,21,22,23,25,28,29,33,35,36};
         int[] predefinedDeck3 = new int[] {1,2,3,5,6,8,10,11,14,15,18,19,21,24,28,29,30,33,35};
         int[] predefinedDeck4 = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+        int[] predefinedDeck5 = new int[] {5,2,7,2,2,3,3,3,7,10,7,9,9,15,15,16,35,35,30,30};
+
 
         // Include predefined decks in the Defined Deck store
         definedDeckStore.put("Steve's Arsenal", predefinedDeck0);
@@ -60,6 +62,7 @@ public class DeckManager {
         definedDeckStore.put("Bane of Herobrine", predefinedDeck2);
         definedDeckStore.put("Old McDonald's Farm", predefinedDeck3);
         definedDeckStore.put("Hefty Bois", predefinedDeck4);
+        definedDeckStore.put("The End", predefinedDeck5);
 
     }
 
