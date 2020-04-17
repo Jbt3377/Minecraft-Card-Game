@@ -115,7 +115,7 @@ public class StartScreen extends GameScreen {
         mAllCards.setPlaySounds(true, true);
 
         //Button to view change deck screen
-        mChangeDeckButton = new PushButton(screenWidth / 1.10f, screenHeight / 2.7f, screenWidth / 6.3f, screenHeight/ 6.5f, "ChangeDecks",  this);
+        mChangeDeckButton = new PushButton(screenWidth / 1.10f, screenHeight / 2.7f, screenWidth / 8.2f, screenHeight/ 4.9f, "ChangeDecks",  this);
         mChangeDeckButton.setPlaySounds(true, true);
 
 
