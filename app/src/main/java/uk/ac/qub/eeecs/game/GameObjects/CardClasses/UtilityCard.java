@@ -100,14 +100,8 @@ public class UtilityCard extends Card {
                     mobContainer.getContents().setHealthPoints(mobContainer.getContents().getHealthPoints() - this.effect_intensity);
                     mobContainer.getContents().updateMobBitmap();
                     if( mobContainer.getContents().getHealthPoints() <= 0){
-                        //Remove the mob from the inactive player's activeMobsOnBoardArrayList.
                         gameBoard.getInactivePlayersMobsOnBoard().remove( mobContainer.getContents());
 
-                        // Surplus Damage inflicted on player
-                        if( mobContainer.getContents().getHealthPoints()<0){
-                            int surplusDamage = Math.abs( mobContainer.getContents().getHealthPoints());
-                            gameBoard.decreaseInactivePlayerHP(surplusDamage);
-                        }
                         mobContainer.emptyContainer();
                     }
                 }
