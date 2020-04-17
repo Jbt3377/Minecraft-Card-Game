@@ -64,4 +64,5 @@ public abstract class CardStats {
     public int getId() {
         return id;
     }
+
 }

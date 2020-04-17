@@ -830,5 +830,7 @@ public abstract class Game extends Fragment {
             renderThread = new Thread(this);
             renderThread.start();
         }
+
+
     }
 }
