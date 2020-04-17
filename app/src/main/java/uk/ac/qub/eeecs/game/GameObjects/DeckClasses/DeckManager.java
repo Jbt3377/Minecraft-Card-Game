@@ -20,6 +20,8 @@ public class DeckManager {
 
     // A store of every Deck and the Cards which make up that associated Deck
     private HashMap<String, int[]> definedDeckStore;
+    private int[] customDeck;
+    private boolean customDeckAdded = false;
 
 
     ///////////////
@@ -33,6 +35,7 @@ public class DeckManager {
         definedDeckStore = new HashMap<String, int[]>();
 
         setupPredefinedDecks();
+
 
     }
 
@@ -54,7 +57,6 @@ public class DeckManager {
         int[] predefinedDeck3 = new int[] {1,2,3,5,6,8,10,11,14,15,18,19,21,24,28,29,30,33,35};
         int[] predefinedDeck4 = new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         int[] predefinedDeck5 = new int[] {5,2,7,2,2,3,3,3,7,10,7,9,9,15,15,16,35,35,30,30};
-        int[] customDeck = new int[] {};
 
         // Include predefined decks in the Defined Deck store
         definedDeckStore.put("Steve's Arsenal", predefinedDeck0);
@@ -137,17 +139,26 @@ public class DeckManager {
     public void addDeck(ArrayList<Integer> customDeckList) {
 
         ArrayList<Integer> deckList = customDeckList;
-        int[] deckID = new int[deckList.size()];
+        int[] newCustomDeck = new int[deckList.size()];
 
         int count = 0;
         for (Integer x : deckList){
-            deckID[count++] = x.intValue();
+            newCustomDeck[count++] = x;
         }
 
-        String name = "Custom Deck";
-        definedDeckStore.put("name", deckID);
+        this.customDeck = newCustomDeck;
+        this.customDeckAdded = true;
     }
 
+    public void setupCustomDeck() {
+        if (customDeckAdded == true) {
+            definedDeckStore.put("Custom Deck", customDeck);
+        }
+    }
+
+    public boolean isCustomDeckAdded() {
+        return customDeckAdded;
+    }
 }
 
 

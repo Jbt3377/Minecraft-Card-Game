@@ -27,6 +27,7 @@ public class ChangeDeckScreen extends GameScreen {
     private String deckOption6 = "The End";
     private GameObject[] chestAnimationStates;
     private int frames;
+    private DeckEditorScreen DeckEditor;
 
     public ChangeDeckScreen(String screenName, Game game) {
         super("changeDeckScreen", game);
@@ -68,6 +69,8 @@ public class ChangeDeckScreen extends GameScreen {
         backButton.setPlaySounds(true);
 
         selectedDeckButton = deckButton1;
+
+        DeckEditor = new DeckEditorScreen("DeckEditor", game);
     }
 
     public void selectedDeckPointer(){
@@ -172,11 +175,14 @@ public class ChangeDeckScreen extends GameScreen {
             mGame.player1.setmSelectedDeckName(deckOption6);
         }
         if (customDeckButton.isPushTriggered()) {
-            selectedDeckButton = customDeckButton;
-
-            //Not Implemented
-            //mGame.player1.setmSelectedDeckName("Custom Deck");
-            mGame.player1.setmSelectedDeckName(deckOption1);
+            if (mGame.getmDeckManager().isCustomDeckAdded()) {
+                selectedDeckButton = customDeckButton;
+                mGame.player1.setmSelectedDeckName("Custom Deck");
+                mGame.getmDeckManager().setupCustomDeck();
+            } else {
+                mGame.MenuScreentime = elapsedTime.totalTime;
+                mGame.getScreenManager().addScreen(DeckEditor);
+            }
         }
     }
 
