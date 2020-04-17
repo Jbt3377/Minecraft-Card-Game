@@ -584,19 +584,19 @@
 
     {
       "type": "Bitmap",
-      "name": "Potion of Extra Damage",
+      "name": "Potion of Extra Harming",
       "file": "img/card_potion_of_extra_damage.png"
     },
 
     {
       "type": "Bitmap",
-      "name": "Potion of Lesser Damage",
+      "name": "Potion of Lesser Harming",
       "file": "img/card_potion_of_lesser_damage.png"
     },
 
     {
       "type": "Bitmap",
-      "name": "Potion of Damage",
+      "name": "Potion of Harming",
       "file": "img/card_potion_of_damage.png"
     },
 
@@ -679,7 +679,42 @@
       "type": "Sound",
       "name": "ButtonDefaultPush",
       "file": "sound/gage/button/ButtonPush.wav"
-    }
+    },
 
+    {
+      "type": "Sound",
+      "name": "splash_potion",
+      "file": "sound/assetSoundEffects/splash_potion.mp3"
+    },
+
+    {
+      "type": "Sound",
+      "name": "potion",
+      "file": "sound/assetSoundEffects/potion.mp3"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Splash Potion of Weakness",
+      "file": "img/card_splash_weakness.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Splash Potion of Strength",
+      "file": "img/card_splash_strength.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Splash Potion of Harming",
+      "file": "img/card_splash_damage.png"
+    },
+
+    {
+      "type": "Bitmap",
+      "name": "Splash Potion of Healing",
+      "file": "img/card_splash_healing.png"
+    }
   ]
 }
