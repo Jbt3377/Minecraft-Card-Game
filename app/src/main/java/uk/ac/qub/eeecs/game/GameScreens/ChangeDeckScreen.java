@@ -25,7 +25,8 @@ public class ChangeDeckScreen extends GameScreen {
     private String deckOption4 = "Old McDonald's Farm";
     private String deckOption5 = "Hefty Bois";
     private String deckOption6 = "The End";
-
+    private GameObject[] chestAnimationStates;
+    private int frames;
 
     public ChangeDeckScreen(String screenName, Game game) {
         super("changeDeckScreen", game);
@@ -59,7 +60,9 @@ public class ChangeDeckScreen extends GameScreen {
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
-
+        chestAnimationStates = new GameObject[4];
+        setupAnimationStates();
+        frames = 0;
 
         backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
         backButton.setPlaySounds(true);
@@ -79,6 +82,57 @@ public class ChangeDeckScreen extends GameScreen {
     public void update(ElapsedTime elapsedTime) {
 
 
+        updateButtons(elapsedTime);
+
+        selectedDeckPointer();
+
+        if(frames<64) frames++;
+        else frames=0;
+    }
+
+
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+
+        int width = mGame.getScreenWidth();
+        int height = mGame.getScreenHeight();
+
+        background.draw(elapsedTime, graphics2D,
+                boardLayerViewport,
+                mDefaultScreenViewport);
+
+        drawButtonsWithText(elapsedTime, graphics2D);
+
+        int states;
+        if(frames<14) states = 0;
+        else if(frames<28) states = 1;
+        else if(frames<42) states = 2;
+        else states = 3;
+
+        chestAnimationStates[states].draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
+
+    }
+
+    private void drawButtonsWithText(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        backButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton1.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton2.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton3.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton4.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton5.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        deckButton6.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        customDeckButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        selectedDeckPointer.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+
+        graphics2D.drawText(deckOption1,  deckButton1.position.x, deckButton1.position.y / 3.2f, textFont);
+        graphics2D.drawText(deckOption2,  deckButton2.position.x, deckButton2.position.y / 3.2f, textFont);
+        graphics2D.drawText(deckOption3,  deckButton3.position.x, deckButton3.position.y / 1.23f, textFont);
+        graphics2D.drawText(deckOption4,  deckButton4.position.x, deckButton4.position.y / 1.23f, textFont);
+        graphics2D.drawText(deckOption5,  deckButton5.position.x, deckButton5.position.y * 1.86f, textFont);
+        graphics2D.drawText(deckOption6,  deckButton6.position.x, deckButton6.position.y * 5.48f, textFont);
+
+    }
+
+    private void updateButtons(ElapsedTime elapsedTime) {
         backButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         deckButton1.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         deckButton2.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
@@ -124,39 +178,17 @@ public class ChangeDeckScreen extends GameScreen {
             //mGame.player1.setmSelectedDeckName("Custom Deck");
             mGame.player1.setmSelectedDeckName(deckOption1);
         }
-
-        selectedDeckPointer();
     }
 
-
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-
-        int width = mGame.getScreenWidth();
-        int height = mGame.getScreenHeight();
-
-        background.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
-                mDefaultScreenViewport);
-
-        backButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton1.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton2.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton3.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton4.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton5.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        deckButton6.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        customDeckButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        selectedDeckPointer.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-
-        graphics2D.drawText(deckOption1,  deckButton1.position.x, deckButton1.position.y / 3.2f, textFont);
-        graphics2D.drawText(deckOption2,  deckButton2.position.x, deckButton2.position.y / 3.2f, textFont);
-        graphics2D.drawText(deckOption3,  deckButton3.position.x, deckButton3.position.y / 1.23f, textFont);
-        graphics2D.drawText(deckOption4,  deckButton4.position.x, deckButton4.position.y / 1.23f, textFont);
-        graphics2D.drawText(deckOption5,  deckButton5.position.x, deckButton5.position.y * 1.86f, textFont);
-        graphics2D.drawText(deckOption6,  deckButton6.position.x, deckButton6.position.y * 5.48f, textFont);
-
+    public void setupAnimationStates() {
+        GameObject state1 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6.6f, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest1"), this);
+        this.chestAnimationStates[0] = state1;
+        GameObject state2 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6.4f, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest2"), this);
+        this.chestAnimationStates[1] = state2;
+        GameObject state3 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6.2f, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest3"), this);
+        this.chestAnimationStates[2] = state3;
+        GameObject state4 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest4"), this);
+        this.chestAnimationStates[3] = state4;
     }
-
-
 }
 
