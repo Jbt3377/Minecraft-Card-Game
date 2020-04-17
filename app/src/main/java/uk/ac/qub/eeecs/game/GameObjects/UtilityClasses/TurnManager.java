@@ -111,9 +111,6 @@ public class TurnManager {
         // Replenish Player's Hand
         gameBoard.getActivePlayerHand().replenishHand();
 
-//        this.isPlayer1Turn = !isPlayer1Turn;
-//        gameBoard.setIsPlayer1Turn(isPlayer1Turn);
-
         // Increment Turn Counter
         mainGameScreen.setTurnNumber(mainGameScreen.getTurnNumber() + 1);
 
