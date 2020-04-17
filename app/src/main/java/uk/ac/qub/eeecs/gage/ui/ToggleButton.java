@@ -65,6 +65,10 @@ public class ToggleButton extends Button {
      */
     protected Sound mOffTriggerSound;
 
+    protected boolean onTriggerPlay = false;
+
+    protected boolean offTriggerPlay = false;
+
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
@@ -106,6 +110,7 @@ public class ToggleButton extends Button {
                 ? null : assetManager.getSound(onTriggerSound);
         mOffTriggerSound = (offTriggerSound == null)
                 ? null : assetManager.getSound(offTriggerSound);
+        setupSounds(onTriggerSound, offTriggerSound);
     }
 
     /**
@@ -226,4 +231,32 @@ public class ToggleButton extends Button {
             mBitmap = mOffBitmap;
         }
     }
+
+    private void setupSounds(String triggerOnSound, String triggerOffSound) {
+        //if (pushSound != null || releaseSound != null) {
+        // Load in the default button sounds
+        AssetManager assetManager = mGameScreen.getGame().getAssetManager();
+        assetManager.loadAndAddSound(
+                "ButtonDefaultPush",
+                "sound/gage/button/ButtonPush.wav");
+        assetManager.loadAndAddSound(
+                "ButtonDefaultRelease",
+                "sound/gage/button/ButtonRelease.wav");
+        // Set appropriate sound
+        mOnTriggerSound = assetManager.getSound(
+                (triggerOnSound == null) ? "ButtonDefaultPush" : triggerOnSound);
+        mOffTriggerSound = assetManager.getSound(
+                (triggerOffSound == null) ? "ButtonDefaultRelease" : triggerOffSound);
+
+        // If specific sounds have been specified then assume sounds are to be played
+        onTriggerPlay = triggerOnSound != null;
+        offTriggerPlay = triggerOffSound != null;
+        //}
+    }
+
+    public void setSounds(Sound onSound, Sound offSound) {
+        mOnTriggerSound = onSound;
+        mOffTriggerSound = offSound;
+    }
+
 }

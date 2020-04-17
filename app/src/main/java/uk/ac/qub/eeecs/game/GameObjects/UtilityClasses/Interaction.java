@@ -143,7 +143,7 @@ public abstract class Interaction {
                 float y_cor = game.getScreenHeight() - t.y;
 
                 if (t.type == TouchEvent.TOUCH_DOWN && dObj.getBoundingBox().contains(x_cor, y_cor)) {
-                    if (game.isMagnificationToggled() && game.isCardsSelected()) {
+                    if (game.isMagnificationToggled()) {
                         int index = playerHand.getPlayerHand().indexOf(dObj);
                             card = playerHand.getPlayerHand().get(index);
 
@@ -164,44 +164,6 @@ public abstract class Interaction {
                 }
             }
         }
-
-    //TODO - Mob Container Magnification
-//    public static void processMobMagnification(List<TouchEvent> touchEvents, MobContainer mobContainer, Game game) {
-//        float touchOffsetX = 0.0f;
-//        float touchOffsetY = 0.0f;
-//        int i = 1;
-//        Card card = null;
-//
-//
-//        for (TouchEvent t : touchEvents) {
-//            float x_cor = t.x;
-//            float y_cor = game.getScreenHeight() - t.y;
-//
-//            if (t.type == TouchEvent.TOUCH_DOWN && mobContainer.getBound().contains(x_cor, y_cor) && mobContainer.getContents() != null) {
-//                if (game.isMagnificationToggled()) {
-//
-//                    Mob mob = mobContainer.getContents();
-//
-//
-//                    for (Card cardC : game.getScreenManager().getCurrentScreen().getCardCollection()) {
-//                        if (cardC.getCardName() == mob.getName()) {
-//                            game.setDrawCard(true);
-//                            game.setMagnifiedCard(cardC, game.getScreenManager().getCurrentScreen(), cardC.getCardStats());
-//
-//                        }
-//                    }
-//
-//
-//                }
-//            }
-//
-//            if (t.type == TouchEvent.TOUCH_UP && mobContainer.getBound().contains(x_cor, y_cor)) {
-//                if (game.isMagnificationToggled()) {
-//                    game.setDrawCard(false);
-//                }
-//            }
-//        }
-//    }
 
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
@@ -362,7 +324,7 @@ public abstract class Interaction {
                                 mob.setEquipCard(card);
                                 if (mob.getEquipCard() != null) {
                                     System.out.println("Card is equipped");
-                                    mob.setAttackDamage(mob.getAttackDamage() + 4);
+                                    mob.setAttackDamage(mob.getAttackDamage() + mob.getEquipCard().getEffect_intensity());
                                     mob.updateMobBitmap();
                                     card.setAnimationInProgress(true);
                                     dObj.setOriginalXPos(mb.getX_location());

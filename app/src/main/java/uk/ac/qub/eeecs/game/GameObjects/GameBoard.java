@@ -265,11 +265,6 @@ public class GameBoard {
                 Interaction.processCardMagnification(input, card, gameScreen.getGame(), player2Hand);
             }
         }
-        //TODO - Mob Container Magnification
-//        for (MobContainer mobContainer : getFieldContainers()) {
-//                Interaction.processMobMagnification(input, mobContainer, gameScreen.getGame());
-//
-//        }
 
     }
 

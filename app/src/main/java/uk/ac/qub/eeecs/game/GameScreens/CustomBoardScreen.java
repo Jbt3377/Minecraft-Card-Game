@@ -32,8 +32,6 @@ public class CustomBoardScreen extends GameScreen {
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
 
         //Loading Assets
-        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
-        mGame.getAssetManager().loadAndAddBitmap("CustomiseScreenBackground","img/CustomiseScreenBackground.png");
         mGame.getAssetManager().loadAssets("txt/assets/CustomiseBackgroundScreenAssets.JSON");
 
         background =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
@@ -52,13 +50,8 @@ public class CustomBoardScreen extends GameScreen {
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
-        backButton = new PushButton(
-                screenWidth* 0.1f,
-                screenHeight* 0.9f,
-                screenWidth /6.5f,
-                screenHeight /10,
-                "BackButton", this);
-        backButton.setPlaySounds(true, true);
+        backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
+        backButton.setPlaySounds(true);
 
     }
 

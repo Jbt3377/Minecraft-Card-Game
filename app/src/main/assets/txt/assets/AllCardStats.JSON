@@ -293,7 +293,7 @@
       "type": "UtilityCard",
       "name": "Potion of Healing",
       "manacost": 2,
-      "description": "Heal all by 3 HP",
+      "description": "Heal by 3 HP",
       "effect_intensity": 3
     },
     {
@@ -301,7 +301,7 @@
       "type": "UtilityCard",
       "name": "Potion of Damage",
       "manacost": 2,
-      "description": "Damage all by 3 HP",
+      "description": "Damage by 3 HP",
       "effect_intensity": 3
     },
     {
@@ -309,7 +309,7 @@
       "type": "UtilityCard",
       "name": "Potion of Lesser Damage",
       "manacost": 1,
-      "description": "Damage all by 1 HP",
+      "description": "Damage by 1 HP",
       "effect_intensity": 1
     },
     {
@@ -317,7 +317,7 @@
       "type": "UtilityCard",
       "name": "Potion of Extra Damage",
       "manacost": 4,
-      "description": "Damage all by 5 HP",
+      "description": "Damage by 5 HP",
       "effect_intensity": 5
     },
     {
@@ -325,7 +325,7 @@
       "type": "UtilityCard",
       "name": "Potion of Extra Healing",
       "manacost": 4,
-      "description": "Heal all by 5 HP",
+      "description": "Heal by 5 HP",
       "effect_intensity": 5
     }
 
