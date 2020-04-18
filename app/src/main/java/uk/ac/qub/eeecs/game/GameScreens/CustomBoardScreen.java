@@ -17,32 +17,53 @@ public class CustomBoardScreen extends GameScreen {
     private PushButton backButton, leftBoardChange, rightBoardChange;
     private GameObject background, gameBoardDisplay;
     private LayerViewport boardLayerViewport;
+
+    public int getBoardCounter() {
+        return boardCounter;
+    }
+
     private int boardCounter = 0;
     private Paint textFont;
     private String boardText = "Spruce Game Board";
 
 
+    public PushButton getBackButton() {
+        return backButton;
+    }
+
+    public PushButton getLeftBoardChange() {
+        return leftBoardChange;
+    }
+
+    public PushButton getRightBoardChange() {
+        return rightBoardChange;
+    }
+
     public CustomBoardScreen(String screenName, Game game) {
         super("customBoardScreen", game);
 
+        //Setting Screen Variables for later use
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
 
+        //Setting up Viewports
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
         boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
 
         //Loading Assets
         mGame.getAssetManager().loadAssets("txt/assets/CustomiseBackgroundScreenAssets.JSON");
 
+        //Setting up Game Objects
         background =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
         gameBoardDisplay = new GameObject(screenWidth/2, screenHeight/1.8f, screenWidth/1.8f, screenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
-
         leftBoardChange = new PushButton(screenWidth/7.2f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "LeftArrow", this);
         rightBoardChange = new PushButton(screenWidth/1.16f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "RightArrow", this);
         leftBoardChange.setPlaySounds(true);
         rightBoardChange.setPlaySounds(true);
+        backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
+        backButton.setPlaySounds(true);
 
-
+        //Setting up Paint
         textFont = new Paint();
         textFont.setTextSize(mScreenHeight / 16);
         textFont.setARGB(255, 255, 255, 255);
@@ -50,16 +71,10 @@ public class CustomBoardScreen extends GameScreen {
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
 
-
-        backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
-        backButton.setPlaySounds(true);
-
     }
 
-
-
     public void update(ElapsedTime elapsedTime) {
-
+        //Updating Objects
         leftBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         rightBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
         backButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
@@ -68,6 +83,7 @@ public class CustomBoardScreen extends GameScreen {
         gameBoardDisplay.update(elapsedTime);
         gameBoardDisplay.setBitmap(getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()));
 
+        //If Buttons are Pushed Events
         if (leftBoardChange.isPushTriggered()) {
             if (boardCounter <= 2 && boardCounter != 0) {
                 boardCounter--;
@@ -84,7 +100,6 @@ public class CustomBoardScreen extends GameScreen {
             }
         }
 
-
         if (backButton.isPushTriggered()){
             mGame.getScreenManager().removeScreen(this);
         }
@@ -94,6 +109,7 @@ public class CustomBoardScreen extends GameScreen {
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
+        //Drawing Game Objects
         int width = mGame.getScreenWidth();
         int height = mGame.getScreenHeight();
 
@@ -113,6 +129,7 @@ public class CustomBoardScreen extends GameScreen {
     }
 
     public void boardSetter(int boardCounter) {
+        //Sets the shown gameboard that would then be used in the MainGameScreen
         if (boardCounter == 0) {
             mGame.setGameboardBackground("SpruceGameBoard");
             boardText = "Spruce Game Board";

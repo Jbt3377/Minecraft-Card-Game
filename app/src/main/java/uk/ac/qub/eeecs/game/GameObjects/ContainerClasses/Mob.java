@@ -120,7 +120,7 @@ public class Mob extends Sprite {
 
         // Attacking Mob - Play Attack Sound
         if(this.attackSound != null)
-            this.attackSound.play();
+            getGameScreen().getGame().getAudioManager().play(this.attackSound);
 
         // Targeted Mob - Play Death/Damaged Sounds
         // TODO: Break in between SFX for one sound to play fully before another sound starts
