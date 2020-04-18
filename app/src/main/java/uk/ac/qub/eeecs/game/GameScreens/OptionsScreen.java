@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 import java.util.List;
 
@@ -174,9 +175,7 @@ public class OptionsScreen extends GameScreen {
         // Draw Volume Button info
         graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
-        graphics2D.drawText("music1: " + music1, (int) (mScreenWidth / 1.5), mScreenHeight/2, textPaintSettings);
 
-        graphics2D.drawText("music2: " + music2, (int) (mScreenWidth / 1.5), mScreenHeight/1, textPaintSettings);
 
 
 
@@ -219,24 +218,12 @@ public class OptionsScreen extends GameScreen {
     /**
      * Method sets up Paint objects required for different levels of text on screen
      */
-    private void createPaints(){
-        titlePaint = new Paint();
-        titlePaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        titlePaint.setTextSize(mScreenHeight / 16);
-        titlePaint.setTextAlign(Paint.Align.CENTER);
-        titlePaint.setColor(Color.WHITE);
+    public void createPaints(){
 
-        textPaintSettings = new Paint();
-        textPaintSettings.setTypeface(mGame.getAssetManager().getFont("MinecraftRegFont"));
-        textPaintSettings.setTextSize(mScreenHeight / 24);
-        textPaintSettings.setTextAlign(Paint.Align.LEFT);
-        textPaintSettings.setColor(Color.WHITE);
 
-        fpsPaint = new Paint();
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.CENTER);
-        fpsPaint.setColor(Color.WHITE);
+        titlePaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 16);
+        textPaintSettings = createAPaint("Left","White","MinecrafterFont",mScreenHeight / 24);
+        fpsPaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 30);
     }
 
     /**
@@ -301,7 +288,7 @@ public class OptionsScreen extends GameScreen {
 
             mGame.getAudioManager().setSfxVolume(0.67f);
             mGame.getAudioManager().setMusicVolume(0.67f);
-            music2 = mGame.getAudioManager().getMusicVolume();
+            music2 = 0.67f;
             volumecounter++;
         }else if(volumecounter == 2) {
 
@@ -324,4 +311,68 @@ public class OptionsScreen extends GameScreen {
     public PushButton getVolumeButton() {
         return volumeButton;
     }
+
+    public float getMusic1() {
+        return music1;
+    }
+    public float getMusic2() {
+        return music2;
+    }
+    public float getMusic3() {
+        return music3;
+    }
+    public float getMusic4() {
+        return music4;
+    }
+
+    public Paint getTitlePaint() {
+        return titlePaint;
+    }
+
+    public float getScreenHeight(){
+
+        return mScreenHeight;
+    }
+
+    public float getScreenWidth(){
+
+        return mScreenWidth;
+    }
+
+
+    public Paint createAPaint(String Postion,String colour,String assetName,float size){
+
+        Paint TextPaint = new Paint();
+        TextPaint.setTypeface(mGame.getAssetManager().getFont(assetName));
+        TextPaint.setTextSize(size);
+
+
+        if (Postion.equalsIgnoreCase("Center"))
+            TextPaint.setTextAlign(Paint.Align.CENTER);
+        else if (Postion.equalsIgnoreCase("Right"))
+            TextPaint.setTextAlign(Paint.Align.RIGHT);
+        else if (Postion.equalsIgnoreCase("Left"))
+            TextPaint.setTextAlign(Paint.Align.LEFT);
+
+        else TextPaint.setTextAlign(Paint.Align.CENTER);
+
+
+         if (colour.equalsIgnoreCase("Black"))
+            TextPaint.setColor(Color.BLACK);
+        else if (colour.equalsIgnoreCase("Blue"))
+            TextPaint.setColor(Color.BLUE);
+        else if (colour.equalsIgnoreCase("Red"))
+            TextPaint.setColor(Color.RED);
+        else if (colour.equalsIgnoreCase("Green"))
+            TextPaint.setColor(Color.GREEN);
+        else if (colour.equalsIgnoreCase("Yellow"))
+            TextPaint.setColor(Color.YELLOW);
+        else if (colour.equalsIgnoreCase("Purple"))
+            TextPaint.setColor(Color.MAGENTA);
+        else TextPaint.setColor(Color.WHITE);
+
+
+        return TextPaint;
+    }
+
 }

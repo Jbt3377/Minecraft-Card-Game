@@ -498,7 +498,19 @@ public class MainGameScreen extends GameScreen {
         this.endTurnButton = endTurnButton;
     }
 
+    public boolean isGamePaused() {
+        return gamePaused;
     }
+
+    public PushButton getUnpauseButton() {
+        return unpauseButton;
+    }
+
+    public PushButton getpauseButton() {
+        return pauseButton;
+    }
+
+}
 
 
 
