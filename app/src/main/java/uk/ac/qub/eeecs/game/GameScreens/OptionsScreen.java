@@ -174,9 +174,7 @@ public class OptionsScreen extends GameScreen {
         // Draw Volume Button info
         graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
-        graphics2D.drawText("music1: " + music1, (int) (mScreenWidth / 1.5), mScreenHeight/2, textPaintSettings);
 
-        graphics2D.drawText("music2: " + music2, (int) (mScreenWidth / 1.5), mScreenHeight/1, textPaintSettings);
 
 
 
@@ -301,7 +299,7 @@ public class OptionsScreen extends GameScreen {
 
             mGame.getAudioManager().setSfxVolume(0.67f);
             mGame.getAudioManager().setMusicVolume(0.67f);
-            music2 = mGame.getAudioManager().getMusicVolume();
+            music2 = 0.67f;
             volumecounter++;
         }else if(volumecounter == 2) {
 
@@ -323,5 +321,18 @@ public class OptionsScreen extends GameScreen {
 
     public PushButton getVolumeButton() {
         return volumeButton;
+    }
+
+    public float getMusic1() {
+        return music1;
+    }
+    public float getMusic2() {
+        return music2;
+    }
+    public float getMusic3() {
+        return music3;
+    }
+    public float getMusic4() {
+        return music4;
     }
 }
