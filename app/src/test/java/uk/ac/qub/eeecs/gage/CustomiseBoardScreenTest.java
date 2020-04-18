@@ -1,13 +1,9 @@
 package uk.ac.qub.eeecs.gage;
 
-import android.content.Context;
-import android.graphics.Paint;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -16,13 +12,9 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
-import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
-import uk.ac.qub.eeecs.gage.engine.io.FileIO;
-import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.GameScreens.CustomBoardScreen;
-import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
