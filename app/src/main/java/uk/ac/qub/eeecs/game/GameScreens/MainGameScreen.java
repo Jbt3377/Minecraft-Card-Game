@@ -261,7 +261,7 @@ public class MainGameScreen extends GameScreen {
 
         // Check 2 - Game Paused
         if (pauseButton.isPushTriggered())
-    gamePaused = true;
+         gamePaused = true;
 
 }
 
@@ -413,17 +413,7 @@ public class MainGameScreen extends GameScreen {
 
     }
 
-    public void magnificationButton(ElapsedTime elapsedTime) {
-        magnificationButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
 
-        if (magnificationButton.isToggledOn()) {
-                mGame.setMagnificationToggled(true);
-
-        }
-        else {
-                mGame.setMagnificationToggled(false);
-        }
-    }
 
 
     private void pauseMenuUpdate(ElapsedTime elapsedTime) {
@@ -508,7 +498,19 @@ public class MainGameScreen extends GameScreen {
         this.endTurnButton = endTurnButton;
     }
 
+    public boolean isGamePaused() {
+        return gamePaused;
     }
+
+    public PushButton getUnpauseButton() {
+        return unpauseButton;
+    }
+
+    public PushButton getpauseButton() {
+        return pauseButton;
+    }
+
+}
 
 
 

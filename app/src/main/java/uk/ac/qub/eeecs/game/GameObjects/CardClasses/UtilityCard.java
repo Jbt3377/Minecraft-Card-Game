@@ -2,6 +2,8 @@ package uk.ac.qub.eeecs.game.GameObjects.CardClasses;
 
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.CardContainer;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.MobContainer;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardBitmapFactory;
 
@@ -43,6 +45,17 @@ public class UtilityCard extends Card {
             case 35 :
                 damageEnemyHP(gameBoard);
                 break;
+            case 37:
+                damageEnemyMobs(gameBoard);
+                break;
+            case 38:
+                healAllyMobs(gameBoard);
+                break;
+            case 39 :
+                weakenEnemyMobs(gameBoard);
+                break;
+            case 40:
+                strengthenAllyMobs(gameBoard);
         }
     }
 
@@ -64,11 +77,97 @@ public class UtilityCard extends Card {
     }
 
     public void damageEnemyHP(GameBoard gameBoard) {
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("potion"));
         gameBoard.getInactivePlayer().setmPlayerHealth(gameBoard.getInactivePlayer().getmPlayerHealth() - this.effect_intensity);
     }
 
     public void healPlayerHP(GameBoard gameBoard) {
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("potion"));
         gameBoard.getActivePlayer().setmPlayerHealth(gameBoard.getActivePlayer().getmPlayerHealth() + this.effect_intensity);
+    }
+
+    public void damageEnemyMobs(GameBoard gameBoard) {
+        MobContainer.ContainerType contTypeOfEnemy;
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("splash_potion"));
+        if (gameBoard.isPlayer1Turn()) {
+            contTypeOfEnemy = MobContainer.ContainerType.TOP_PLAYER;
+        } else {
+            contTypeOfEnemy = MobContainer.ContainerType.BOTTOM_PLAYER;
+        }
+        for (MobContainer mobContainer : gameBoard.getFieldContainers()) {
+            if (mobContainer.getContents() != null) {
+                if (mobContainer.getContType() == contTypeOfEnemy) {
+                    mobContainer.getContents().setHealthPoints(mobContainer.getContents().getHealthPoints() - this.effect_intensity);
+                    mobContainer.getContents().updateMobBitmap();
+                    if( mobContainer.getContents().getHealthPoints() <= 0){
+                        gameBoard.getInactivePlayersMobsOnBoard().remove( mobContainer.getContents());
+
+                        mobContainer.emptyContainer();
+                    }
+                }
+            }
+        }
+    }
+
+    public void healAllyMobs(GameBoard gameBoard) {
+        MobContainer.ContainerType contTypeOfPlayer;
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("splash_potion"));
+        if (gameBoard.isPlayer1Turn()) {
+            contTypeOfPlayer = MobContainer.ContainerType.BOTTOM_PLAYER;
+        } else {
+            contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
+        }
+        for (MobContainer mobContainer : gameBoard.getFieldContainers()) {
+            if (mobContainer.getContents() != null) {
+                if (mobContainer.getContType() == contTypeOfPlayer) {
+                    mobContainer.getContents().setHealthPoints(mobContainer.getContents().getHealthPoints() + this.effect_intensity);
+                    mobContainer.getContents().updateMobBitmap();
+
+                }
+            }
+        }
+    }
+
+    public void weakenEnemyMobs(GameBoard gameBoard) {
+        MobContainer.ContainerType contTypeOfEnemy;
+        int baseAttack;
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("splash_potion"));
+        if (gameBoard.isPlayer1Turn()) {
+            contTypeOfEnemy = MobContainer.ContainerType.TOP_PLAYER;
+        } else {
+            contTypeOfEnemy = MobContainer.ContainerType.BOTTOM_PLAYER;
+        }
+        for (MobContainer mobContainer : gameBoard.getFieldContainers()) {
+            if (mobContainer.getContents() != null) {
+                if (mobContainer.getContType() == contTypeOfEnemy) {
+                    baseAttack = mobContainer.getContents().getAttackDamage() - this.effect_intensity;
+                    if (baseAttack < 0) {
+                        baseAttack = 0;
+                    }
+                    mobContainer.getContents().setAttackDamage(baseAttack);
+                    mobContainer.getContents().updateMobBitmap();
+                }
+            }
+        }
+    }
+
+    public void strengthenAllyMobs(GameBoard gameBoard) {
+        MobContainer.ContainerType contTypeOfPlayer;
+        mGameScreen.getGame().getAudioManager().play(mGameScreen.getGame().getAssetManager().getSound("splash_potion"));
+        if (gameBoard.isPlayer1Turn()) {
+            contTypeOfPlayer = MobContainer.ContainerType.BOTTOM_PLAYER;
+        } else {
+            contTypeOfPlayer = MobContainer.ContainerType.TOP_PLAYER;
+        }
+        for (MobContainer mobContainer : gameBoard.getFieldContainers()) {
+            if (mobContainer.getContents() != null) {
+                if (mobContainer.getContType() == contTypeOfPlayer) {
+                    mobContainer.getContents().setAttackDamage(mobContainer.getContents().getAttackDamage() + this.effect_intensity);
+                    mobContainer.getContents().updateMobBitmap();
+
+                }
+            }
+        }
     }
 
 }

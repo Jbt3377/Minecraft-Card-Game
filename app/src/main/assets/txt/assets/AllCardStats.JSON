@@ -14,8 +14,8 @@
       "type": "CharacterCard",
       "name": "Dragon",
       "health": 20,
-      "attack": 6,
-      "manacost": 6,
+      "attack": 10,
+      "manacost": 4,
       "description": "Flame"
     },
     {
@@ -292,42 +292,75 @@
       "id": 32,
       "type": "UtilityCard",
       "name": "Potion of Healing",
-      "manacost": 2,
-      "description": "Heal by 3 HP",
-      "effect_intensity": 3
+      "manacost": 1,
+      "description": "Heal by 2 HP",
+      "effect_intensity": 2
     },
     {
       "id": 33,
       "type": "UtilityCard",
-      "name": "Potion of Damage",
-      "manacost": 2,
-      "description": "Damage by 3 HP",
-      "effect_intensity": 3
+      "name": "Potion of Harming",
+      "manacost": 1,
+      "description": "Damage by 2 HP",
+      "effect_intensity": 2
     },
     {
       "id": 34,
       "type": "UtilityCard",
-      "name": "Potion of Lesser Damage",
-      "manacost": 1,
+      "name": "Potion of Lesser Harming",
+      "manacost": 0,
       "description": "Damage by 1 HP",
       "effect_intensity": 1
     },
     {
       "id": 35,
       "type": "UtilityCard",
-      "name": "Potion of Extra Damage",
-      "manacost": 4,
-      "description": "Damage by 5 HP",
-      "effect_intensity": 5
+      "name": "Potion of Extra Harming",
+      "manacost": 2,
+      "description": "Damage by 4 HP",
+      "effect_intensity": 4
     },
     {
       "id": 36,
       "type": "UtilityCard",
       "name": "Potion of Extra Healing",
-      "manacost": 4,
-      "description": "Heal by 5 HP",
-      "effect_intensity": 5
+      "manacost": 2,
+      "description": "Heal by 4 HP",
+      "effect_intensity": 4
+    },
+    {
+      "id": 37,
+      "type": "UtilityCard",
+      "name": "Splash Potion of Harming",
+      "manacost": 2,
+      "description": "Damage mobs by 2 HP",
+      "effect_intensity": 2
+    },
+    {
+      "id": 38,
+      "type": "UtilityCard",
+      "name": "Splash Potion of Healing",
+      "manacost": 2,
+      "description": "Heal mobs by 2 HP",
+      "effect_intensity": 2
+    },
+    {
+      "id": 39,
+      "type": "UtilityCard",
+      "name": "Splash Potion of Weakness",
+      "manacost": 2,
+      "description": "Weaken mobs by 2",
+      "effect_intensity": 2
+    },
+    {
+      "id": 40,
+      "type": "UtilityCard",
+      "name": "Splash Potion of Strength",
+      "manacost": 2,
+      "description": "Strengthen mobs by 2",
+      "effect_intensity": 2
     }
+
 
   ]
 

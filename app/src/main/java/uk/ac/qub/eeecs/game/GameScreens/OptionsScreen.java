@@ -3,6 +3,7 @@ package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 import java.util.List;
 
@@ -32,7 +33,13 @@ public class OptionsScreen extends GameScreen {
     private int frameCount;
 
     private int volumecounter = 1;
+    private float sfx;
+    private float music;
     private PushButton volumeButton;
+    private float music1;
+    private float music2;
+    private float music3;
+    private float music4;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -83,6 +90,9 @@ public class OptionsScreen extends GameScreen {
         if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
 
         createPaints();
+
+
+
     }
 
 
@@ -100,28 +110,9 @@ public class OptionsScreen extends GameScreen {
         Input touchInputs = mGame.getInput();
         List<TouchEvent> input = touchInputs.getTouchEvents();
        //logic for the volume button (if)
-        if(volumeButton.isPushTriggered()){
 
-            if(volumecounter == 0){
-                mGame.getAudioManager().setSfxVolume(0.33f);
-                mGame.getAudioManager().setMusicVolume(0.33f);
-                volumecounter++;
-            }else if(volumecounter == 1){
+            volumebuttontriggred();
 
-                mGame.getAudioManager().setSfxVolume(0.67f);
-                mGame.getAudioManager().setMusicVolume(0.67f);
-                volumecounter++;
-            }else if(volumecounter == 2) {
-
-                mGame.getAudioManager().setSfxVolume(1);
-                mGame.getAudioManager().setMusicVolume(1);
-                volumecounter++;
-            } else if (volumecounter == 3) {
-                mGame.getAudioManager().setSfxVolume(0);
-                mGame.getAudioManager().setMusicVolume(0);
-                volumecounter = 0;
-            }
-        }
 
         fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
         mGame.setDisplayFps(fpsToggle.isToggledOn());
@@ -186,6 +177,9 @@ public class OptionsScreen extends GameScreen {
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
 
 
+
+
+
         // Draw FPS if enabled
         if(mGame.isDisplayFps())
             graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint);
@@ -224,24 +218,12 @@ public class OptionsScreen extends GameScreen {
     /**
      * Method sets up Paint objects required for different levels of text on screen
      */
-    private void createPaints(){
-        titlePaint = new Paint();
-        titlePaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        titlePaint.setTextSize(mScreenHeight / 16);
-        titlePaint.setTextAlign(Paint.Align.CENTER);
-        titlePaint.setColor(Color.WHITE);
+    public void createPaints(){
 
-        textPaintSettings = new Paint();
-        textPaintSettings.setTypeface(mGame.getAssetManager().getFont("MinecraftRegFont"));
-        textPaintSettings.setTextSize(mScreenHeight / 24);
-        textPaintSettings.setTextAlign(Paint.Align.LEFT);
-        textPaintSettings.setColor(Color.WHITE);
 
-        fpsPaint = new Paint();
-        fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
-        fpsPaint.setTextSize(mScreenHeight / 30);
-        fpsPaint.setTextAlign(Paint.Align.CENTER);
-        fpsPaint.setColor(Color.WHITE);
+        titlePaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 16);
+        textPaintSettings = createAPaint("Left","White","MinecrafterFont",mScreenHeight / 24);
+        fpsPaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 30);
     }
 
     /**
@@ -281,6 +263,116 @@ public class OptionsScreen extends GameScreen {
             audioManager.playMusic(
                     //Changed string name to new background music
                     getGame().getAssetManager().getMusic("MinecraftMusic"));
+    }
+
+
+
+    public int getVolumecounter() {
+        return volumecounter;
+    }
+    public void setVolumeButton(int num){
+
+        this.volumecounter = num;
+    }
+
+    public void volumebuttontriggred(){
+
+        if(volumeButton.isPushTriggered()){
+        if(volumecounter == 0){
+            mGame.getAudioManager().setSfxVolume(0.33f);
+            mGame.getAudioManager().setMusicVolume(0.33f);
+            mGame.getAudioManager().getSoundPool().autoPause();
+            music1 = mGame.getAudioManager().getMusicVolume();
+            volumecounter++;
+        }else if(volumecounter == 1){
+
+            mGame.getAudioManager().setSfxVolume(0.67f);
+            mGame.getAudioManager().setMusicVolume(0.67f);
+            music2 = 0.67f;
+            volumecounter++;
+        }else if(volumecounter == 2) {
+
+            mGame.getAudioManager().setSfxVolume(1);
+            mGame.getAudioManager().setMusicVolume(1);
+            music3 = mGame.getAudioManager().getMusicVolume();
+
+            volumecounter++;
+        } else if (volumecounter == 3) {
+            mGame.getAudioManager().setSfxVolume(0);
+            mGame.getAudioManager().setMusicVolume(0);
+            mGame.getAudioManager().getSoundPool().autoPause();
+            music4 = mGame.getAudioManager().getMusicVolume();
+            volumecounter = 0;
+        }
+        }
+
+    }
+
+    public PushButton getVolumeButton() {
+        return volumeButton;
+    }
+
+    public float getMusic1() {
+        return music1;
+    }
+    public float getMusic2() {
+        return music2;
+    }
+    public float getMusic3() {
+        return music3;
+    }
+    public float getMusic4() {
+        return music4;
+    }
+
+    public Paint getTitlePaint() {
+        return titlePaint;
+    }
+
+    public float getScreenHeight(){
+
+        return mScreenHeight;
+    }
+
+    public float getScreenWidth(){
+
+        return mScreenWidth;
+    }
+
+
+    public Paint createAPaint(String Postion,String colour,String assetName,float size){
+
+        Paint TextPaint = new Paint();
+        TextPaint.setTypeface(mGame.getAssetManager().getFont(assetName));
+        TextPaint.setTextSize(size);
+
+
+        if (Postion.equalsIgnoreCase("Center"))
+            TextPaint.setTextAlign(Paint.Align.CENTER);
+        else if (Postion.equalsIgnoreCase("Right"))
+            TextPaint.setTextAlign(Paint.Align.RIGHT);
+        else if (Postion.equalsIgnoreCase("Left"))
+            TextPaint.setTextAlign(Paint.Align.LEFT);
+
+        else TextPaint.setTextAlign(Paint.Align.CENTER);
+
+
+         if (colour.equalsIgnoreCase("Black"))
+            TextPaint.setColor(Color.BLACK);
+        else if (colour.equalsIgnoreCase("Blue"))
+            TextPaint.setColor(Color.BLUE);
+        else if (colour.equalsIgnoreCase("Red"))
+            TextPaint.setColor(Color.RED);
+        else if (colour.equalsIgnoreCase("Green"))
+            TextPaint.setColor(Color.GREEN);
+        else if (colour.equalsIgnoreCase("Yellow"))
+            TextPaint.setColor(Color.YELLOW);
+        else if (colour.equalsIgnoreCase("Purple"))
+            TextPaint.setColor(Color.MAGENTA);
+        else TextPaint.setColor(Color.WHITE);
+
+
+        return TextPaint;
     }
 
 }
