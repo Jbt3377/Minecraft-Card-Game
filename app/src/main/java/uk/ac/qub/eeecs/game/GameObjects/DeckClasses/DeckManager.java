@@ -15,13 +15,15 @@ public class DeckManager {
     //Properties
     ////////////
 
-    // List containing all card stat objects
+    // Store of all Card Stats in the Game
     private ArrayList<CardStats> allCardStats;
 
-    // A store of every Deck and the Cards which make up that associated Deck
+    // A store of every Deck and the Card Stat id's which make up the associated Deck
     private HashMap<String, int[]> definedDeckStore;
+
+    //
     private int[] customDeck;
-    private boolean customDeckAdded = false;
+    private boolean customDeckAdded;
 
 
     ///////////////
@@ -31,8 +33,9 @@ public class DeckManager {
     public DeckManager(ArrayList<CardStats> allCardStats) {
 
         this.allCardStats = new ArrayList<>(allCardStats);
+        this.customDeckAdded = false;
 
-        definedDeckStore = new HashMap<String, int[]>();
+        definedDeckStore = new HashMap<>();
 
         setupPredefinedDecks();
 
@@ -108,7 +111,6 @@ public class DeckManager {
     }
 
 
-
     /**
      * Method constructs and returns a requested deck
      * @param deckName - Deck Requested
@@ -120,16 +122,16 @@ public class DeckManager {
         Stack<CardStats> characterCardStatsStack = new Stack<>();
         Stack<CardStats> specialCardStatsStack = new Stack<>();
 
-        // Array of cardIDs identify the cards of a deck
+        // Fetch the Card Id's of a specified deck
         int[] cardIDs = definedDeckStore.get(deckName);
 
-        // Get Card Stats for each Card ID in the deck
+        // Get Associated Card Stats for each Card ID in the deck
         getCardStatsUsingCardIDs(cardIDs, characterCardStatsStack, specialCardStatsStack);
 
         // Shuffle Deck (Randomise Card Order)
         shuffleDeck(characterCardStatsStack, specialCardStatsStack);
 
-        // Assign constructed Stacks to the Deck's Stacks
+        // Populate deck with the Card Stats Objects
         deck.setCharacterCardStatsStack(characterCardStatsStack);
         deck.setSpecialCardStatsStack(specialCardStatsStack);
 
@@ -151,7 +153,7 @@ public class DeckManager {
     }
 
     public void setupCustomDeck() {
-        if (customDeckAdded == true) {
+        if (customDeckAdded) {
             definedDeckStore.put("Custom Deck", customDeck);
         }
     }

@@ -65,8 +65,8 @@ public class Card extends Sprite implements Draggable {
      */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
-        this.manaCost = cardStats.getManacost();
         this.cardID = cardStats.getId();
+        this.manaCost = cardStats.getManacost();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
         this.cardStats = cardStats;

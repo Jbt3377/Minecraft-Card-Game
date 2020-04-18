@@ -26,7 +26,7 @@ import static org.junit.Assert.*;
 /**
  * Mob class tests
  *
- * Created by Josh Beatty
+ * Created by Josh
  */
 @RunWith(AndroidJUnit4.class)
 public class MobTest {
@@ -51,6 +51,10 @@ public class MobTest {
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
         mainScreen = new MainGameScreen(game);
         game.getScreenManager().addScreen(mainScreen);
+    }
+
+    @Test
+    public void test_MobConstructor() {
 
         String name = "Cow";
         int manaCost = 3;
@@ -63,10 +67,6 @@ public class MobTest {
         CharacterCard testCharacterCard = new CharacterCard(500, 600, mainScreen, testCharacterCardStats);
         testMob = new Mob(500, 600, mainScreen, testCharacterCard);
 
-    }
-
-    @Test
-    public void test_MobConstructor() {
         assertTrue((testMob.getBound().x == 500) && (testMob.getBound().y == 600));
         assertFalse((testMob.getBound().x == 1000) && (testMob.getBound().y == 400));
         assertEquals(testMob.getHealthPoints(), 10);

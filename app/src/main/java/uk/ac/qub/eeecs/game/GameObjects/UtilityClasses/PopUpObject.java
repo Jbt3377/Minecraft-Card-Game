@@ -22,9 +22,7 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TextAlignmentUtil;
 
 /**
  * Prompt class drawn using overlapping images, text and buttons.
- *
  */
-
 public class PopUpObject extends Sprite {
 
     // /////////////////////////////////////////////////////////////////////////
@@ -35,28 +33,11 @@ public class PopUpObject extends Sprite {
     private String textInput;
     private Paint textPaint;
     private boolean movingPopUp;
-    private int movementSpeed = 0;
+    private int movementSpeed;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Constructor for image popup
-     * @param bitmap - popup image
-     */
-    public PopUpObject(float x, float y, Bitmap bitmap, GameScreen gameScreen, int displayTime) {
-        super(x, y, bitmap, gameScreen);
-
-        this.displayTime = displayTime;
-        this.textInput = null;
-        this.movingPopUp = false;
-
-        setupTextPaint(gameScreen);
-        gameScreen.popUpObjects.add(this);
-
-    }
-
 
     /**
      * Constructor for image popup with overlaying text
@@ -71,6 +52,7 @@ public class PopUpObject extends Sprite {
         this.displayTime = displayTime;
         this.textInput = textInput;
         this.movingPopUp = false;
+        this.movementSpeed = 0;
 
         TextAlignmentUtil util = new TextAlignmentUtil(10, textAlignment.CENTRE);
         this.textInput = util.alignText(textInput);
@@ -84,12 +66,11 @@ public class PopUpObject extends Sprite {
     /**
      * Constructor for moving text
      * @param textInput - text to display on screen
-     * @param goingUp - bool determines direction of movement
+     * @param goingUp - boolean flag determines direction of movement
      */
     public PopUpObject(float x, float y, GameScreen gameScreen, int displayTime, String textInput,
                        int movementSpeed, boolean goingUp) {
 
-        // Bitmap temporary - testing
         super(x, y, gameScreen.getGame().getAssetManager().getBitmap("Potion of Healing"), gameScreen);
 
         this.displayTime = displayTime;
@@ -178,8 +159,7 @@ public class PopUpObject extends Sprite {
      * Method used to setup text paint
      * @param gameScreen Used for accessing gameScreen dimensions
      */
-    public void setupTextPaint(GameScreen gameScreen){
-
+    private void setupTextPaint(GameScreen gameScreen){
         textPaint = new Paint();
         textPaint.setTypeface(MainActivity.minecraftRegFont);
         textPaint.setTextSize(gameScreen.getGame().getScreenWidth() * 0.030f);

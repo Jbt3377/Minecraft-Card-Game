@@ -14,31 +14,28 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
 
 public class MobContainer extends Sprite implements Container {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////
     // Properties
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////
 
     private boolean isEmpty;
     private Mob containedMob;
     public enum ContainerType{ BOTTOM_PLAYER, TOP_PLAYER, UTILITY_CARD}
     private ContainerType contType;
 
-
-
     private float x_location;
     private float y_location;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
     // Constructor
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
 
     public MobContainer(float x, float y, ContainerType contType, GameScreen gameScreen){
-
-        // Not ready for use: need to create graphics for field/slot
         super(x, y,
                 gameScreen.getGame().getScreenWidth() * 0.104f * 1.17f,
                 gameScreen.getGame().getScreenHeight() * 0.185f * 1.17f,
                 gameScreen.getGame().getAssetManager().getBitmap("ItemFrame"), gameScreen);
+
         this.isEmpty = true;
         this.containedMob = null;
         this.contType = contType;
@@ -50,27 +47,22 @@ public class MobContainer extends Sprite implements Container {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
     // Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
 
     /**
-     * Method to occupy Container with placed Card. Creates Mob for Card.
-
-     * @return - Indicates if Card can be dropped inside the container
+     * Method to occupy Container with placed Mob
+     * @return - Indicates if mob was dropped inside the container
      */
     public boolean placeCard(Mob mob){
 
         if (isEmpty) {
             containedMob = mob;
             isEmpty = false;
-
-            // ToDo: Overlay Mob bitmap on container
-
             return true;
         } else
             return false;
-
     }
 
     /**
@@ -145,19 +137,8 @@ public class MobContainer extends Sprite implements Container {
         return x_location;
     }
 
-    public void setX_location(float x_location) {
-        this.x_location = x_location;
-    }
-
     public float getY_location() {
         return y_location;
     }
 
-    public void setY_location(float y_location) {
-        this.y_location = y_location;
-    }
-
-    public Mob getContainedMob(){
-        return containedMob;
-    }
 }

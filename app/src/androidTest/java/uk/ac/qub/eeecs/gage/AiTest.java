@@ -13,6 +13,9 @@ import uk.ac.qub.eeecs.gage.engine.ScreenManager;
 import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
+import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
@@ -23,13 +26,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Mob class tests
+ * Ai class tests
  *
  * Created by Josh Beatty
  */
 @RunWith(AndroidJUnit4.class)
 public class AiTest {
 
+    private MainGameScreen mainScreen;
     private Ai testAi;
 
     @Before
@@ -46,7 +50,7 @@ public class AiTest {
         game.mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
         game.getAssetManager().loadAssets("txt/assets/MobSounds.JSON");
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
-        MainGameScreen mainScreen = new MainGameScreen(game);
+        mainScreen = new MainGameScreen(game);
         game.getScreenManager().addScreen(mainScreen);
 
         testAi = new Ai("Steve's Arsenal");
@@ -71,6 +75,75 @@ public class AiTest {
         assertEquals(testAi.getSelectedAiContainerIndex(), 0);
         assertEquals(testAi.getSelectedAiCardToMoveIndex(), 0);
         assertEquals(testAi.getTargetedMobIndex(), 0);
+    }
+
+    @Test
+    public void test_setPlayerHealth() {
+        testAi.setmPlayerHealth(50);
+        assertEquals(testAi.getmPlayerHealth(),50);
+    }
+
+    @Test
+    public void test_setPlayerMana() {
+        testAi.setmPlayerMana(4);
+        assertEquals(testAi.getmPlayerMana(),4);
+    }
+
+    @Test
+    public void test_setSelectedDeckName() {
+        testAi.setmSelectedDeckName("Bane of Herobrine");
+        assertEquals(testAi.getmSelectedDeckName(),"Bane of Herobrine");
+    }
+
+    @Test
+    public void test_setSelectedCard() {
+        CharacterCardStats dogCardStats = new CharacterCardStats("Dog", 1, "Woof", 12, 1, 1);
+        CharacterCard dogCard = new CharacterCard(500, 600, mainScreen, dogCardStats);
+
+        testAi.setSelectedCard(dogCard);
+        assertEquals(testAi.getSelectedCard(),dogCard);
+    }
+
+    @Test
+    public void test_setSelectedMob() {
+        CharacterCardStats dogCardStats = new CharacterCardStats("Dog", 1, "Woof", 12, 1, 1);
+        CharacterCard dogCard = new CharacterCard(500, 600, mainScreen, dogCardStats);
+        Mob testMob = new Mob(500, 600, mainScreen, dogCard);
+
+        testAi.setSelectedMob(testMob);
+        assertEquals(testAi.getSelectedMob(),testMob);
+    }
+
+    @Test
+    public void test_setTargetedMob() {
+        CharacterCardStats catCardStat = new CharacterCardStats("Cat", 1, "Meow", 16, 1, 2);
+        CharacterCard catCard = new CharacterCard(500, 600, mainScreen, catCardStat);
+        Mob testMob = new Mob(500, 600, mainScreen, catCard);
+
+        testAi.setTargetedMob(testMob);
+        assertEquals(testAi.getTargetedMob(),testMob);
+    }
+
+    @Test
+    public void test_setSelectedMobNull() {
+        CharacterCardStats catCardStat = new CharacterCardStats("Cat", 1, "Meow", 16, 1, 2);
+        CharacterCard catCard = new CharacterCard(500, 600, mainScreen, catCardStat);
+        Mob testMob = new Mob(500, 600, mainScreen, catCard);
+
+        testAi.setSelectedMob(testMob);
+        testAi.setSelectedMobNull();
+        assertNull(testAi.getSelectedMob());
+    }
+
+    @Test
+    public void test_setTargetedMobNull() {
+        CharacterCardStats catCardStat = new CharacterCardStats("Cat", 1, "Meow", 16, 1, 2);
+        CharacterCard catCard = new CharacterCard(500, 600, mainScreen, catCardStat);
+        Mob testMob = new Mob(500, 600, mainScreen, catCard);
+
+        testAi.setTargetedMob(testMob);
+        testAi.setTargetedMobNull();
+        assertNull(testAi.getTargetedMob());
     }
 
     @Test
@@ -108,6 +181,7 @@ public class AiTest {
         testAi.setTargetedMobIndex(4);
         assertEquals(testAi.getTargetedMobIndex(), 4);
     }
+
 
     @Test
     public void test_resetAiProperties() {
