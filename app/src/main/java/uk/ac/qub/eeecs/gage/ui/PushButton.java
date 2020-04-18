@@ -252,9 +252,9 @@ public class PushButton extends Button {
     protected void updateTriggerActions(TouchEvent touchEvent, Vector2 touchLocation) {
         // Play an appropriate sound
         if(touchEvent.type == TouchEvent.TOUCH_DOWN && mPlayPushSound)
-            mPushSound.play();
+            getGameScreen().getGame().getAudioManager().play(mPushSound);
         else if(touchEvent.type == TouchEvent.TOUCH_UP && mPlayReleaseSound)
-            mReleaseSound.play();
+            getGameScreen().getGame().getAudioManager().play(mReleaseSound);
 
         // Trigger if the appropriate touch up or touch down has occurred
         if ((!mTriggerOnRelease && touchEvent.type == TouchEvent.TOUCH_DOWN) ||

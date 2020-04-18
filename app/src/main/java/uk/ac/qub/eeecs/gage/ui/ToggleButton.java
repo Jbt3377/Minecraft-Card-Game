@@ -173,11 +173,11 @@ public class ToggleButton extends Button {
             if (mButtonState == ButtonState.OFF) {
                 setToggled(true);
                 if (mOnTriggerSound != null)
-                    mOnTriggerSound.play();
+                    getGameScreen().getGame().getAudioManager().play(mOnTriggerSound);
             } else {
                 setToggled(false);
                 if (mOffTriggerSound != null)
-                    mOffTriggerSound.play();
+                    getGameScreen().getGame().getAudioManager().play(mOffTriggerSound);
             }
         }
     }
