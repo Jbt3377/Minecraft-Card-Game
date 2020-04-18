@@ -1,6 +1,7 @@
 package uk.ac.qub.eeecs.gage;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -14,6 +15,8 @@ import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.GameScreens.OptionsScreen;
+import android.graphics.Paint;
+
 import static org.junit.Assert.*;
 
 
@@ -170,5 +173,39 @@ public class OptionsScreenTest {
         assertTrue(val == 1);
     }
 //all volume methods and algorithm run as expected
+
+@Test
+//testing the paints to make sure they are as expected and being set up correctly
+    public void PaintTypeTest_True(){
+
+         Typeface painttype = optionsScreen.getTitlePaint().getTypeface();
+
+         assertTrue(painttype == game.getAssetManager().getFont("MinecrafterFont"));
+
+    }
+    @Test
+//testing the paints to make sure they are as expected and being set up correctly
+    public void PaintTypeTest_false(){
+
+        Typeface painttype = optionsScreen.getTitlePaint().getTypeface();
+
+        assertFalse(painttype == game.getAssetManager().getFont("MinecraftRegFont"));
+
+    }
+    @Test
+    //testing paint method created to create paints easily (more user/programmer friendly)
+    public void PaintSetupMethod_Test(){
+
+        //proof that the method works compares it to a paint that is already set up with the same values
+        float size = optionsScreen.getScreenHeight();
+        Paint testpaint = optionsScreen.createAPaint("Center" ,"White","MinecrafterFont",size/16);
+
+        assertTrue(testpaint.getColor() == optionsScreen.getTitlePaint().getColor() );
+
+
+    }
+
+
+
 
 }
