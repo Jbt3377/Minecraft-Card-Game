@@ -200,12 +200,20 @@ public class OptionsScreenTest {
         float size = optionsScreen.getScreenHeight();
         Paint testpaint = optionsScreen.createAPaint("Center" ,"White","MinecrafterFont",size/16);
 
-        assertTrue(testpaint.getColor() == optionsScreen.getTitlePaint().getColor() );
-
-
+        assertTrue(testpaint.getColor() == optionsScreen.getTitlePaint().getColor());
     }
 
+    @Test
+    //testing paint method created to create paints easily (more user/programmer friendly)
+    public void PaintSetupMethod_Test_invalid(){
 
+        //proof that the method works compares it to a paint that is already set up with the same values
+        float size = optionsScreen.getScreenHeight();
+        //changed colour to show that testpaint is not the same and is a diffrent but valid paint
+        Paint testpaint = optionsScreen.createAPaint("Center" ,"Black","MinecrafterFont",size/16);
+
+        assertFalse(testpaint.getColor() == optionsScreen.getTitlePaint().getColor());
+    }
 
 
 }
