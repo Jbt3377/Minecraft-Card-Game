@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
     public class UtilityCardTest {
     private Context context;
     private DemoGame game;
-    private MainGameScreen mainScreen;
+    private MainGameScreen mainGameScreen;
     private UtilityCardStats testUtilityCardStats;
     private GameBoard gameBoard;
 
@@ -47,8 +47,8 @@ import static org.junit.Assert.*;
         game.mAssetManager.loadAssets("txt/assets/CustomiseBackgroundScreenAssets.JSON");
         game.mAssetManager.customLoadCard("txt/assets/AllCardStats.JSON");
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
-        mainScreen = new MainGameScreen(game);
-        game.getScreenManager().addScreen(mainScreen);
+        mainGameScreen = new MainGameScreen(game);
+        game.getScreenManager().addScreen(mainGameScreen);
         gameBoard = new GameBoard(game.getPlayer1(), game.getPlayer2(), game.getScreenManager().getCurrentScreen());
         testUtilityCardStats = new UtilityCardStats("Potion of Healing", 0, "Heal by 2 HP", 32, 2);
 
@@ -57,7 +57,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_Constructor_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         assertTrue(utilityCard.position.x == 100);
         assertTrue(utilityCard.position.y == 100);
@@ -66,7 +66,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_runCardAnimation_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         assertTrue(utilityCard.getWidth() != 0);
         assertTrue(utilityCard.getHeight() != 0);
@@ -83,7 +83,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_isAnimationInProgress_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         assertFalse(utilityCard.isAnimationInProgress());
     }
@@ -91,7 +91,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_setAnimationInProgress_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         utilityCard.setAnimationInProgress(true);
         assertTrue(utilityCard.isAnimationInProgress() == true);
@@ -100,7 +100,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_isAnimationFinished_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         assertFalse(utilityCard.isAnimationFinished());
     }
@@ -108,7 +108,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_setAnimationFinished_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         utilityCard.setAnimationFinished(true);
         assertTrue(utilityCard.isAnimationFinished());
@@ -117,7 +117,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_damageEnemyHP_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         int originalEnemyHP = gameBoard.getInactivePlayer().getmPlayerHealth();
         utilityCard.damageEnemyHP(gameBoard);
@@ -127,7 +127,7 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_healPlayerHP_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
         //Testing
         int originalAllyHP = gameBoard.getActivePlayer().getmPlayerHealth();
         utilityCard.healPlayerHP(gameBoard);
@@ -137,13 +137,13 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_damageEnemyMobs_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
 
         CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
-        CharacterCard characterCardTester = new CharacterCard(100, 100, mainScreen, characterCardStatsTester);
-        Mob mobTester = new Mob(100, 100, mainScreen, characterCardTester);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
 
-        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainScreen);
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainGameScreen);
         gameBoard.getFieldContainers().add(mobContainerTester);
         mobContainerTester.placeCard(mobTester);
 
@@ -158,13 +158,13 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_healAllyMobs_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
 
         CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
-        CharacterCard characterCardTester = new CharacterCard(100, 100, mainScreen, characterCardStatsTester);
-        Mob mobTester = new Mob(100, 100, mainScreen, characterCardTester);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
 
-        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainScreen);
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainGameScreen);
         gameBoard.getFieldContainers().add(mobContainerTester);
         mobContainerTester.placeCard(mobTester);
 
@@ -179,13 +179,13 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_weakenEnemyMobs_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
 
         CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
-        CharacterCard characterCardTester = new CharacterCard(100, 100, mainScreen, characterCardStatsTester);
-        Mob mobTester = new Mob(100, 100, mainScreen, characterCardTester);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
 
-        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainScreen);
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainGameScreen);
         gameBoard.getFieldContainers().add(mobContainerTester);
         mobContainerTester.placeCard(mobTester);
 
@@ -200,13 +200,13 @@ import static org.junit.Assert.*;
     @Test
     public void UtilityCard_strengthenAllyMobs_Test() {
         //Setup
-        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
 
         CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
-        CharacterCard characterCardTester = new CharacterCard(100, 100, mainScreen, characterCardStatsTester);
-        Mob mobTester = new Mob(100, 100, mainScreen, characterCardTester);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
 
-        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainScreen);
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainGameScreen);
         gameBoard.getFieldContainers().add(mobContainerTester);
         mobContainerTester.placeCard(mobTester);
 
