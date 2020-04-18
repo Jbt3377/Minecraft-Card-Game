@@ -350,7 +350,7 @@ public abstract class Interaction {
                     if ((!mb.isEmpty()) && mb.getContType() == contTypeOfPlayer && mb.getBound().contains(x_cor, y_cor)) {
                         System.out.println("An equip card is over an occupied container");
 
-                        Mob mob = mb.getContainedMob();
+                        Mob mob = mb.getContents();
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         EquipCard card = (EquipCard) gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 

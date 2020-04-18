@@ -1,5 +1,6 @@
 package uk.ac.qub.eeecs.game.GameObjects.DeckClasses;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CardStats;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
@@ -20,7 +21,7 @@ public class Deck {
 
     ///////////////
     //Constructors
-    //////////////
+    ///////////////
 
     /** Constructor **/
     public Deck(){
@@ -35,15 +36,15 @@ public class Deck {
     }
 
 
-    ///////////////
-    //Methods
-    //////////////
+    ///////////
+    // Methods
+    ///////////
 
     public CardStats popNextCharacterCardStat(){
 
-        if(characterCardStatsStack.peek() != null){
+        try{
             return characterCardStatsStack.pop();
-        }else{
+        }catch(EmptyStackException ese){
             return null;
         }
     }
@@ -51,17 +52,16 @@ public class Deck {
 
     public CardStats popNextSpecialCardStat(){
 
-        if(specialCardStatsStack.peek() != null){
+        try{
             return specialCardStatsStack.pop();
-        }else{
+        }catch(EmptyStackException ese){
             return null;
         }
     }
 
-
-    /////////////////////
-    //Setters and Getters
-    /////////////////////
+    ///////////////////////
+    // Setters and Getters
+    ///////////////////////
 
     public Stack<CardStats> getCharacterCardStatsStack() {
         return characterCardStatsStack;

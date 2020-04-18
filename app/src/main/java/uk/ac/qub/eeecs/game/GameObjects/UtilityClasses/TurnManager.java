@@ -603,11 +603,7 @@ public class TurnManager {
 
         aiPlayer.setmPlayerMana(aiPlayer.getmPlayerMana() + 4);
 
-
         aiPlayer.resetAiProperties();
-
-
-
 
         // Update Boolean flags accordingly
         this.isPlayer1Turn = !isPlayer1Turn;
