@@ -26,20 +26,16 @@ public class OptionsScreen extends GameScreen {
     private PushButton mReturnButton;
     private GameObject boardBackground;
     private LayerViewport boardLayerViewport;
-    private Paint titlePaint, textPaintSettings, fpsPaint;
+    private Paint titlePaint, textPaintSettings, fpsPaint, Testpaint;
     private GameObject humanAvatar, aiAvatar, selectPlayer1First, selectPlayer2First;
     private ToggleButton fpsToggle;
     private GameObject[] helmetStates;
     private int frameCount;
 
     private int volumecounter = 1;
-    private float sfx;
-    private float music;
     private PushButton volumeButton;
-    private float music1;
-    private float music2;
-    private float music3;
-    private float music4;
+    private float music1,music2,music3,music4;
+    private float sfx1,sfx2,sfx3,sfx4;
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -224,6 +220,7 @@ public class OptionsScreen extends GameScreen {
         titlePaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 16);
         textPaintSettings = createAPaint("Left","White","MinecrafterFont",mScreenHeight / 24);
         fpsPaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 30);
+
     }
 
     /**
@@ -283,18 +280,22 @@ public class OptionsScreen extends GameScreen {
             mGame.getAudioManager().setMusicVolume(0.33f);
             mGame.getAudioManager().getSoundPool().autoPause();
             music1 = mGame.getAudioManager().getMusicVolume();
+            sfx1 = mGame.getAudioManager().getSfxVolume();
             volumecounter++;
         }else if(volumecounter == 1){
 
             mGame.getAudioManager().setSfxVolume(0.67f);
             mGame.getAudioManager().setMusicVolume(0.67f);
             music2 = 0.67f;
+            sfx2 = mGame.getAudioManager().getSfxVolume();
+
             volumecounter++;
         }else if(volumecounter == 2) {
 
             mGame.getAudioManager().setSfxVolume(1);
             mGame.getAudioManager().setMusicVolume(1);
             music3 = mGame.getAudioManager().getMusicVolume();
+            sfx3 = mGame.getAudioManager().getSfxVolume();
 
             volumecounter++;
         } else if (volumecounter == 3) {
@@ -302,6 +303,7 @@ public class OptionsScreen extends GameScreen {
             mGame.getAudioManager().setMusicVolume(0);
             mGame.getAudioManager().getSoundPool().autoPause();
             music4 = mGame.getAudioManager().getMusicVolume();
+            sfx4 = mGame.getAudioManager().getSfxVolume();
             volumecounter = 0;
         }
         }
@@ -325,8 +327,29 @@ public class OptionsScreen extends GameScreen {
         return music4;
     }
 
+    public float getSfx1() {
+        return sfx1;
+    }
+
+    public float getSfx2() {
+        return sfx2;
+    }
+
+    public float getSfx3() {
+        return sfx3;
+    }
+
+    public float getSfx4() {
+        return sfx4;
+    }
+
     public Paint getTitlePaint() {
         return titlePaint;
+    }
+
+    public Paint getTestPaint(){
+
+        return Testpaint;
     }
 
     public float getScreenHeight(){

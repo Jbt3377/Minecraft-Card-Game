@@ -1,10 +1,8 @@
 package uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses;
 
 public class UtilityCardStats extends CardStats {
-
+    //Properties
     private int effect_intensity;
-
-
 
     /**
      * Public constructor for UtilityCardStats object.
