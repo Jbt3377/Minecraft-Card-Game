@@ -1,16 +1,11 @@
 package uk.ac.qub.eeecs.game.GameObjects.ContainerClasses;
 
-import java.util.List;
-
-import uk.ac.qub.eeecs.gage.Game;
-import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.EquipCard;
+import uk.ac.qub.eeecs.game.GameObjects.CardClasses.UtilityCard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.Draggable;
-
 
 public class MobContainer extends Sprite implements Container {
 
@@ -18,13 +13,13 @@ public class MobContainer extends Sprite implements Container {
     // Properties
     /////////////
 
-    private boolean isEmpty;
-    private Mob containedMob;
     public enum ContainerType{ BOTTOM_PLAYER, TOP_PLAYER, UTILITY_CARD}
-    private ContainerType contType;
 
     private float x_location;
     private float y_location;
+    private boolean isEmpty;
+    private Mob containedMob;
+    private ContainerType contType;
 
     //////////////
     // Constructor
@@ -73,49 +68,50 @@ public class MobContainer extends Sprite implements Container {
         this.containedMob = null;
     }
 
+    /**
+     * Method used to determine if an Draggable Object can be dropped into the container
+     * @param dObj - Draggable object, such as a card
+     * @return Boolean flag indicating if it can be placed into container of this type and condition
+     */
+    public boolean checkCharacterEquipCanBeDropped(Draggable dObj) {
 
-    public boolean checkForNewContents(List<TouchEvent> input, Draggable dObj) {
+        float dObjCurrentXPos = dObj.getCurrentXPosition();
+        float dObjCurrentYPos = dObj.getCurrentYPosition();
 
-        if (this.contType == ContainerType.BOTTOM_PLAYER && isEmpty()) {
-            for (TouchEvent event : input) {
+        if(dObj instanceof CharacterCard)
+            return (this.contType != ContainerType.UTILITY_CARD && isEmpty() &&
+                    mBound.contains(dObjCurrentXPos, dObjCurrentYPos));
 
-                float x_cor = event.x;
-                float y_cor = convertYAxisToLayerView(event.y);
-
-                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
-                    return true;
+        else if(dObj instanceof EquipCard && this.containedMob != null) {
+            try{
+                if(containedMob.getEquipCard() == null) {
+                    return (this.contType != ContainerType.UTILITY_CARD && !isEmpty() &&
+                            mBound.contains(dObjCurrentXPos, dObjCurrentYPos));
                 }
+                return false;
+            }catch (Exception e) {
+                return false;
             }
 
-        }else if(this.contType == ContainerType.TOP_PLAYER && isEmpty()){
-
-            for (TouchEvent event : input) {
-
-                float x_cor = event.x;
-                float y_cor = convertYAxisToLayerView(event.y);
-
-                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
-                    return true;
-                }
-            }
-
-        }
-    return false;
+        }else
+            return false;
     }
 
-    public boolean checkForUtilityCard(List<TouchEvent> input, Draggable dObj){
-        if (this.contType == ContainerType.UTILITY_CARD && isEmpty()) {
-            for (TouchEvent event : input) {
+    /**
+     * Method used to determine if a Draggable Object can be dropped into the container
+     * @param dObj - Draggable object, such as a card
+     * @return Boolean flag indicating if it can be placed into utility container type and condition
+     */
+    public boolean checkUtilityCanBeDropped(Draggable dObj){
 
-                float x_cor = event.x;
-                float y_cor = convertYAxisToLayerView(event.y);
+        float dObjCurrentXPos = dObj.getCurrentXPosition();
+        float dObjCurrentYPos = dObj.getCurrentYPosition();
 
-                if (mBound.contains(dObj.getCurrentXPosition(), dObj.getCurrentYPosition())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        if(dObj instanceof UtilityCard)
+            return (this.contType == ContainerType.UTILITY_CARD && isEmpty() &&
+                    mBound.contains(dObjCurrentXPos, dObjCurrentYPos));
+        else
+            return false;
     }
 
 
@@ -131,7 +127,9 @@ public class MobContainer extends Sprite implements Container {
         return containedMob;
     }
 
-    public ContainerType getContType() { return contType; }
+    public ContainerType getContType() {
+        return contType;
+    }
 
     public float getX_location() {
         return x_location;

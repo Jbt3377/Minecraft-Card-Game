@@ -59,7 +59,7 @@ public class CustomBoardScreen extends GameScreen {
         background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
         gameBoardDisplay = new GameObject(mScreenWidth/2, mScreenHeight/1.8f, mScreenWidth/1.8f, mScreenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
         leftBoardChange = new PushButton(mScreenWidth/7.2f, mScreenHeight/6.7f, mScreenWidth/9, mScreenHeight/7, "LeftArrow", this);
-        rightBoardChange = new PushButton(mScreenWidth/7.2f, mScreenHeight/6.7f, mScreenWidth/9, mScreenHeight/7, "RightArrow", this);
+        rightBoardChange = new PushButton(mScreenWidth/1.16f, mScreenHeight/6.7f, mScreenWidth/9, mScreenHeight/7, "RightArrow", this);
         leftBoardChange.setPlaySounds(true);
         rightBoardChange.setPlaySounds(true);
         backButton = new PushButton(mScreenWidth* 0.1f, mScreenHeight* 0.9f, mScreenWidth /6.5f, mScreenHeight /10, "BackButton", this);
@@ -67,8 +67,6 @@ public class CustomBoardScreen extends GameScreen {
 
         //Setting up Paint
         textFont = new Paint();
-
-
     }
 
     public void update(ElapsedTime elapsedTime) {
