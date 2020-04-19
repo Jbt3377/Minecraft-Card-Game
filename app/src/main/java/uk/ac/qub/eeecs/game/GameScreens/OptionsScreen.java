@@ -325,9 +325,9 @@ public class OptionsScreen extends GameScreen {
         return fpsToggle;
     }
 
-    public boolean getFpsDrawn(){
+    public float getFps(){
 
-        return fpsDrawn;
+        return fps;
     }
 
     public Paint getFpsPaint() {

@@ -48,5 +48,13 @@ public class FPStest {
     assertTrue(paused);
 
     }
+    @Test
+
+    //Test to check if the fps variable is properly set to the method the game functions use
+    public void FpsTestButton1(){
+
+        assertTrue(optionsScreen.getFps()==game.getAverageFramesPerSecond());
+
+    }
 
 }
