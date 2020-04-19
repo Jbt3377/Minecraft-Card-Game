@@ -85,6 +85,8 @@ public class MainGameScreen extends GameScreen {
     private Sprite pauseScreen;
     private Paint pausePaint;
     public boolean gamePaused;
+    public boolean testvariable;
+
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -497,6 +499,8 @@ public class MainGameScreen extends GameScreen {
     public PushButton getpauseButton() {
         return pauseButton;
     }
+
+
 
 }
 

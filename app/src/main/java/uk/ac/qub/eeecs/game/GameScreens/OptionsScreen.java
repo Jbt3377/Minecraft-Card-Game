@@ -29,6 +29,8 @@ public class OptionsScreen extends GameScreen {
     private Paint titlePaint, textPaintSettings, fpsPaint, Testpaint;
     private GameObject humanAvatar, aiAvatar, selectPlayer1First, selectPlayer2First;
     private ToggleButton fpsToggle;
+    private boolean fpsDrawn;
+    int fps;
     private GameObject[] helmetStates;
     private int frameCount;
 
@@ -178,7 +180,11 @@ public class OptionsScreen extends GameScreen {
 
         // Draw FPS if enabled
         if(mGame.isDisplayFps())
+
             graphics2D.drawText("fps: " + fps, mScreenWidth * 0.9f, mScreenHeight * 0.05f, fpsPaint);
+
+
+
 
         // Draw relevant animation state
         int helmetStateToDraw;
@@ -312,6 +318,20 @@ public class OptionsScreen extends GameScreen {
 
     public PushButton getVolumeButton() {
         return volumeButton;
+    }
+
+    public ToggleButton getFpsToggleButton(){
+
+        return fpsToggle;
+    }
+
+    public boolean getFpsDrawn(){
+
+        return fpsDrawn;
+    }
+
+    public Paint getFpsPaint() {
+        return fpsPaint;
     }
 
     public float getMusic1() {
