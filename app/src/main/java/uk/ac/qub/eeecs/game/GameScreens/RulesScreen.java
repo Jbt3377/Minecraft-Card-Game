@@ -28,8 +28,6 @@ public class RulesScreen extends GameScreen {
     private GameObject boardBackground;
     private LayerViewport boardLayerViewport;
     private Paint titlePaint, textPaintSettings, textPaintHuman, textPaintAi, fpsPaint;
-    private GameObject humanAvatar, aiAvatar;
-    private ToggleButton fpsToggle;
     int fps;
 
     // /////////////////////////////////////////////////////////////////////////
