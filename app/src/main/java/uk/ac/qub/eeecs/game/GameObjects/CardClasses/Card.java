@@ -65,8 +65,8 @@ public class Card extends Sprite implements Draggable {
      */
     public Card(float x, float y, GameScreen gameScreen, CardStats cardStats) {
         super(x, y, DEFAULT_CARD_WIDTH, DEFAULT_CARD_HEIGHT, null, gameScreen);
-        this.manaCost = cardStats.getManacost();
         this.cardID = cardStats.getId();
+        this.manaCost = cardStats.getManacost();
         this.cardName = cardStats.getName();
         this.cardDescription = cardStats.getDescText();
         this.cardStats = cardStats;
@@ -121,20 +121,25 @@ public class Card extends Sprite implements Draggable {
      */
     public void cardMoveXAnimation(float desiredXLoc) {
         //Phase 1 - Fastest Movement
+        int largeMoveInXDirection = 20;
+        int smallMoveInXDirection = 1;
+        float positionDifference;
+
+
         if (this.position.x > desiredXLoc) {
-            float positionDifference = this.position.x - desiredXLoc;
+            positionDifference = this.position.x - desiredXLoc;
             if (positionDifference > (positionDifference * 0.10)) {
-                setNewPosition(this.position.x - 20, this.position.y);
+                setNewPosition(this.position.x - largeMoveInXDirection, this.position.y);
             } else {
-                setNewPosition(this.position.x - 1, this.position.y);
+                setNewPosition(this.position.x - smallMoveInXDirection, this.position.y);
             }
         }
         if (this.position.x < desiredXLoc) {
-            float positionDifference = desiredXLoc - this.position.x;
+            positionDifference = desiredXLoc - this.position.x;
             if (positionDifference > (positionDifference * 0.10)) {
-                setNewPosition(this.position.x + 20, this.position.y);
+                setNewPosition(this.position.x + largeMoveInXDirection, this.position.y);
             } else {
-                setNewPosition(this.position.x + 1, this.position.y);
+                setNewPosition(this.position.x + smallMoveInXDirection, this.position.y);
             }
         }
     }

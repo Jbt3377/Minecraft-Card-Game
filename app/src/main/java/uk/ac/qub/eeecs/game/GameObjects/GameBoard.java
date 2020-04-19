@@ -89,8 +89,8 @@ public class GameBoard {
         setupContainers();
 
         // Initialise Hands
-        player1Hand = new PlayerHand(this.player1, this.player1Deck, true, gameScreen);
-        player2Hand = new PlayerHand(this.player2, this.player2Deck, false, gameScreen);
+        player1Hand = new PlayerHand(this.player1Deck, true, gameScreen);
+        player2Hand = new PlayerHand(this.player2Deck, false, gameScreen);
 
         //Initialise both player's Mob ArrayList
         player1MobsOnBoard = new ArrayList<>();
@@ -151,7 +151,7 @@ public class GameBoard {
         // Draw Mobs
         for(MobContainer mb : fieldContainers){
             if(!mb.isEmpty()) {
-                mb.getContainedMob().draw(elapsedTime, graphics2D, layerViewport, screenViewport);
+                mb.getContents().draw(elapsedTime, graphics2D, layerViewport, screenViewport);
             }
         }
 

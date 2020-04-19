@@ -461,9 +461,6 @@ public class AssetManager {
                     allCardStats.add(utilityCardStats);
 
                 }
-                else{
-                    //This statement shouldn't be reached.
-                }
 
 
 
