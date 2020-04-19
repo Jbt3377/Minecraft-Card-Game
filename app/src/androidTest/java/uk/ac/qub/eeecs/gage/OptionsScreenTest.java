@@ -63,9 +63,13 @@ public class OptionsScreenTest {
         int pt2 = optionsScreen.getVolumecounter();
 
         float val = optionsScreen.getMusic2();
+        float Sfxval = optionsScreen.getSfx2();
+
 
         assertTrue(pt2 == 2);
         assertTrue(val == 0.67f );
+        assertTrue(Sfxval == 0.67f );
+
 
     }
     @Test
@@ -80,9 +84,12 @@ public class OptionsScreenTest {
         int pt3 = optionsScreen.getVolumecounter();
 
         float val = optionsScreen.getMusic3();
+        float Sfxval = optionsScreen.getSfx3();
+
 
         assertTrue(pt3 == 3);
         assertTrue(val == 1f );
+        assertTrue(Sfxval == 1f );
     }
     @Test
     //counter will be reset
@@ -102,11 +109,13 @@ public class OptionsScreenTest {
         int pt1_ = optionsScreen.getVolumecounter();
 
         float val = optionsScreen.getMusic4();
+        float Sfxval = optionsScreen.getSfx4();
 
 
 
         assertTrue(pt0 == 0);
         assertTrue(val == 0f );
+        assertTrue(Sfxval == 0f );
     }
     @Test
     //testing the boundary of reset
@@ -169,13 +178,16 @@ public class OptionsScreenTest {
         int pt2_ = optionsScreen.getVolumecounter();
 
         float val = optionsScreen.getMusic3();
+        float Sfxval = optionsScreen.getSfx3();
+
 
         assertTrue(val == 1);
+        assertTrue(Sfxval == 1);
     }
 //all volume methods and algorithm run as expected
 
 @Test
-//testing the paints to make sure they are as expected and being set up correctly
+//testing the paints to make sure they are as expected and being set up with valid information
     public void PaintTypeTest_True(){
 
          Typeface painttype = optionsScreen.getTitlePaint().getTypeface();
@@ -184,7 +196,7 @@ public class OptionsScreenTest {
 
     }
     @Test
-//testing the paints to make sure they are as expected and being set up correctly
+//testing the paints to make sure they are as expected and being set up with invalid information
     public void PaintTypeTest_false(){
 
         Typeface painttype = optionsScreen.getTitlePaint().getTypeface();

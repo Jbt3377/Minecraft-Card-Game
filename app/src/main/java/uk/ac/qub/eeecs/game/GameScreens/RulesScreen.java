@@ -32,8 +32,6 @@ public class RulesScreen extends GameScreen {
     private ToggleButton fpsToggle;
     int fps;
 
-    private int volumecounter = 1;
-    private PushButton volumeButton;
     // /////////////////////////////////////////////////////////////////////////
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
