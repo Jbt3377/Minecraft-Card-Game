@@ -14,7 +14,6 @@ import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.io.FileIO;
 import uk.ac.qub.eeecs.game.DemoGame;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.CharacterCard;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.DeckManager;
 import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
