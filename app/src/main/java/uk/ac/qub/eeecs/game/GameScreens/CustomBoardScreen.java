@@ -17,8 +17,7 @@ import uk.ac.qub.eeecs.gage.world.GameScreen;
 
 public class CustomBoardScreen extends GameScreen {
 
-    private PushButton backButton, leftBoardChange, rightBoardChange;
-    private GameObject background, gameBoardDisplay;
+    private GameObject background, gameBoardDisplay,backButton, leftBoardChange, rightBoardChange;;
 
     public int getBoardCounter() {
         return boardCounter;
@@ -33,13 +32,13 @@ public class CustomBoardScreen extends GameScreen {
 
     private String boardText = "Spruce Game Board";
 
-    public PushButton getBackButton() {
+    public GameObject getBackButton() {
         return backButton;
     }
-    public PushButton getLeftBoardChange() {
+    public GameObject getLeftBoardChange() {
         return leftBoardChange;
     }
-    public PushButton getRightBoardChange() {
+    public GameObject getRightBoardChange() {
         return rightBoardChange;
     }
 
@@ -58,12 +57,10 @@ public class CustomBoardScreen extends GameScreen {
         //Setting up Game Objects
         background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
         gameBoardDisplay = new GameObject(mScreenWidth/2, mScreenHeight/1.8f, mScreenWidth/1.8f, mScreenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
-        leftBoardChange = new PushButton(mScreenWidth/7.2f, mScreenHeight/6.7f, mScreenWidth/9, mScreenHeight/7, "LeftArrow", this);
-        rightBoardChange = new PushButton(mScreenWidth/7.2f, mScreenHeight/6.7f, mScreenWidth/9, mScreenHeight/7, "RightArrow", this);
-        leftBoardChange.setPlaySounds(true);
-        rightBoardChange.setPlaySounds(true);
-        backButton = new PushButton(mScreenWidth* 0.1f, mScreenHeight* 0.9f, mScreenWidth /6.5f, mScreenHeight /10, "BackButton", this);
-        backButton.setPlaySounds(true);
+        leftBoardChange = new GameObject(mScreenWidth/7.2f, mScreenHeight/1.175f, mScreenWidth/9, mScreenHeight/7, getGame().getAssetManager().getBitmap("LeftArrow"), this);
+        rightBoardChange = new GameObject(mScreenWidth/1.16f, mScreenHeight/1.175f, mScreenWidth/9, mScreenHeight/7, getGame().getAssetManager().getBitmap("RightArrow"), this);
+        backButton = new GameObject(mScreenWidth* 0.1f, mScreenHeight/11, mScreenWidth /6.5f, mScreenHeight /10, getGame().getAssetManager().getBitmap("BackButton"), this);
+
 
         //Setting up Paint
         textFont = new Paint();
@@ -84,25 +81,34 @@ public class CustomBoardScreen extends GameScreen {
 
         List<TouchEvent> touchEvents = input.getTouchEvents();
         if (touchEvents.size() > 0) {
-            //If Buttons are Pushed Events
-            if (leftBoardChange.isPushTriggered()) {
-                if (boardCounter <= 2 && boardCounter != 0) {
-                    boardCounter--;
-                } else if (boardCounter == 0) {
-                    boardCounter = 2;
-                }
-            }
+            for (TouchEvent t : touchEvents) {
+                float x_cor = t.x;
+                float y_cor = t.y;
 
-            if (rightBoardChange.isPushTriggered()) {
-                if (boardCounter >= 0 && boardCounter < 2) {
-                    boardCounter++;
-                } else if (boardCounter >= 2) {
-                    boardCounter = 0;
+                //If Buttons are Pushed Events
+                if (t.type == TouchEvent.TOUCH_UP && leftBoardChange.getBound().contains(x_cor, y_cor)){
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    if (boardCounter <= 2 && boardCounter != 0) {
+                        boardCounter--;
+                    } else if (boardCounter == 0) {
+                        boardCounter = 2;
+                    }
                 }
-            }
 
-            if (backButton.isPushTriggered()) {
-                mGame.getScreenManager().removeScreen(this);
+                if (t.type == TouchEvent.TOUCH_UP && rightBoardChange.getBound().contains(x_cor, y_cor)) {
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    if (boardCounter >= 0 && boardCounter < 2) {
+                        boardCounter++;
+                    } else if (boardCounter >= 2) {
+                        boardCounter = 0;
+                    }
+                }
+
+                if (t.type == TouchEvent.TOUCH_UP && backButton.getBound().contains(x_cor, y_cor)) {
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    mGame.getScreenManager().removeScreen(this);
+
+                }
             }
         }
 
@@ -121,9 +127,9 @@ public class CustomBoardScreen extends GameScreen {
 
         gameBoardDisplay.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
 
-        leftBoardChange.draw(elapsedTime,graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
-        rightBoardChange.draw(elapsedTime,graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
-        backButton.draw(elapsedTime,graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
+        leftBoardChange.draw(elapsedTime,graphics2D);
+        rightBoardChange.draw(elapsedTime,graphics2D);
+        backButton.draw(elapsedTime,graphics2D);
 
         textFont.setTextSize(mGame.getScreenHeight() / 16);
         textFont.setARGB(255, 255, 255, 255);

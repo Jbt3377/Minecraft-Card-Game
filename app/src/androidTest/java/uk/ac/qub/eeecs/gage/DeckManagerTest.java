@@ -93,8 +93,40 @@ public class DeckManagerTest {
         assertArrayEquals(constructedDeckContents, predefinedDeck0);
     }
 
+    /**
+     * test_addDeck, test_setupCustomDeck(), test_isCustomDeckAdded()
+     * Created Samuel Brown
+     */
 
-    //TODO: Test Methods for; test_addDeck(), test_setupCustomDeck(), test_isCustomDeckAdded()
+    @Test
+    public void test_addDeck() {
+        //Generating testDeck
+        ArrayList<Integer> testDeck = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            testDeck.add(i);
+        }
+        testDeckManager.addDeck(testDeck);
+        assertTrue(testDeck.size() > 0);
+    }
 
+    @Test
+    public void test_setupCustomDeck() {
+        //Generating testDeck
+        ArrayList<Integer> testDeck = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            testDeck.add(i);
+        }
+        testDeckManager.addDeck(testDeck);
+        testDeckManager.setupCustomDeck();
+
+
+
+        assertNotNull(testDeckManager.getDefinedDeckStore().get("Custom Deck"));
+    }
+
+    @Test
+    public void test_isCustomDeckAdded() {
+        assertFalse(testDeckManager.isCustomDeckAdded());
+    }
 
 }

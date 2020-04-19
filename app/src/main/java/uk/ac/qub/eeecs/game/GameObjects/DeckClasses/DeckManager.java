@@ -20,6 +20,9 @@ public class DeckManager {
 
     // A store of every Deck and the Card Stat id's which make up the associated Deck
     private HashMap<String, int[]> definedDeckStore;
+    public HashMap<String, int[]> getDefinedDeckStore() {
+        return definedDeckStore;
+    }
 
     //
     private int[] customDeck;

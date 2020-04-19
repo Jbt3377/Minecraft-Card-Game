@@ -12,6 +12,7 @@ import java.util.List;
 import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.ScreenManager;
+import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.input.Input;
 import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.game.GameScreens.CustomBoardScreen;
@@ -32,7 +33,8 @@ import static org.junit.Assert.*;
     private Input input = mock(Input.class);
     @Mock
     private ElapsedTime elapsedTime = mock(ElapsedTime.class);
-
+    @Mock
+    private AudioManager audioManager = mock(AudioManager.class);
 
     @Before
     public void setup() {
@@ -42,6 +44,7 @@ import static org.junit.Assert.*;
         ScreenManager screenManager = new ScreenManager(game);
         when(game.getScreenManager()).thenReturn(screenManager);
         when(game.getInput()).thenReturn(input);
+        when(game.getAudioManager()).thenReturn(audioManager);
 
     }
 
@@ -60,6 +63,7 @@ import static org.junit.Assert.*;
 
         customBoardScreen.update(elapsedTime);
         assertNotEquals(0, customBoardScreen.getBoardCounter());
+
     }
 
     @Test
