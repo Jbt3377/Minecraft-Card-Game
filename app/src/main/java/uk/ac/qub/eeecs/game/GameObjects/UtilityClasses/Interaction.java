@@ -201,9 +201,6 @@ public abstract class Interaction {
 
     }
 
-
-
-
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
         float touchOffsetX = 0.0f;
         float touchOffsetY = 0.0f;

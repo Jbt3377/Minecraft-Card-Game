@@ -2,15 +2,8 @@ package uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses;
 
 public class EquipCardStats extends CardStats {
 
-    int effect_intensity;
-    public int getEffect_intensity() {
-        return effect_intensity;
-    }
-    public void setEffect_intensity(int effect_intensity) {
-        this.effect_intensity = effect_intensity;
-    }
-
-
+    //Properties
+    private int effect_intensity;
 
     /**
      * Public constructor for EquipCardStats object.
@@ -21,6 +14,13 @@ public class EquipCardStats extends CardStats {
      */
     public EquipCardStats(String name, int manaCost, String descText, int id, int effect_intensity) {
         super(name, manaCost, descText, id);
+        this.effect_intensity = effect_intensity;
+    }
+
+    public int getEffect_intensity() {
+        return effect_intensity;
+    }
+    public void setEffect_intensity(int effect_intensity) {
         this.effect_intensity = effect_intensity;
     }
 
