@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="csc2044-45-1920-g24/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/csc2044-45-1920-g24.iml" filepath="$PROJECT_DIR$/.idea/csc2044-45-1920-g24.iml" group="csc2044-45-1920-g24" />
+      <module fileurl="file://$PROJECT_DIR$/csc2044-45-1920-g24.iml" filepath="$PROJECT_DIR$/csc2044-45-1920-g24.iml" />
     </modules>
   </component>
 </project>

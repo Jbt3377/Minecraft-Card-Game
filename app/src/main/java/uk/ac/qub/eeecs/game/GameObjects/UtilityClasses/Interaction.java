@@ -237,7 +237,7 @@ public abstract class Interaction {
             if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
                 for (MobContainer mb : gameBoard.getFieldContainers()) {
 
-                    if (mb.checkForNewContents(touchEvents, dObj) && mb.getContType() == contTypeOfPlayer) {
+                    if (mb.checkCharacterEquipCanBeDropped(dObj) && mb.getContType() == contTypeOfPlayer) {
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
@@ -288,7 +288,7 @@ public abstract class Interaction {
             }
 
             if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
-                if (gameBoard.getUtilityCardContainer().checkForUtilityCard(touchEvents, dObj)) {
+                if (gameBoard.getUtilityCardContainer().checkUtilityCanBeDropped(dObj)) {
                     int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                     Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
