@@ -1,6 +1,5 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -15,8 +14,6 @@ import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 
 public abstract class Interaction {
-
-
 
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game) {
 
@@ -136,75 +133,6 @@ public abstract class Interaction {
         }
     }
 
-    public static void processCardMagnification(List<TouchEvent> touchEvents, Draggable dObj, Game game, PlayerHand playerHand) {
-            Card card;
-
-            for (TouchEvent t : touchEvents) {
-                float x_cor = t.x;
-                float y_cor = game.getScreenHeight() - t.y;
-
-                if (t.type == TouchEvent.TOUCH_DOWN && dObj.getBoundingBox().contains(x_cor, y_cor)) {
-                    if (game.isMagnificationToggled()) {
-                        int index = playerHand.getPlayerHand().indexOf(dObj);
-                            card = playerHand.getPlayerHand().get(index);
-
-                            game.setDrawCard(true);
-                            game.setMagnifiedCard(card, game.getScreenManager().getCurrentScreen(), card.getCardStats());
-                            game.getAudioManager().play(game.getAssetManager().getSound("zoom-in"));
-                    }
-                }
-
-                if (t.type == TouchEvent.TOUCH_UP) {
-                    if (game.isMagnificationToggled() ) {
-
-                        if (game.drawCard){
-                            game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
-                        }
-                        game.setDrawCard(false);;
-                    }
-                }
-            }
-    }
-
-    public static void processMobMagnification(List<TouchEvent> touchEvents, Game game, MobContainer mobContainer, ArrayList<Card> cardCollection) {
-
-        Card card = null;
-
-        for (TouchEvent t : touchEvents) {
-            float x_cor = t.x;
-            float y_cor = game.getScreenHeight() - t.y;
-
-
-            if (t.type == TouchEvent.TOUCH_DOWN && mobContainer.getBound().contains(x_cor, y_cor)) {
-                if (game.isMagnificationToggled()) {
-
-                    for (Card mobCard : cardCollection) {
-                        if (mobContainer.getContents().getName() == mobCard.getCardName()) {
-                            card = mobCard;
-                        }
-                    }
-
-                    game.setDrawCard(true);
-                    game.setMagnifiedCard(card, game.getScreenManager().getCurrentScreen(), card.getCardStats());
-                    game.getAudioManager().play(game.getAssetManager().getSound("zoom-in"));
-                }
-            }
-
-            if (t.type == TouchEvent.TOUCH_UP) {
-                if (game.isMagnificationToggled() ) {
-
-                    if (game.drawCard){
-                        game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
-                    }
-                    game.setDrawCard(false);;
-                }
-            }
-
-            }
-
-    }
-
-
 
 
     public static void moveCardToContainer(List<TouchEvent> touchEvents, Draggable dObj, Game game, GameBoard gameBoard) {
@@ -240,7 +168,7 @@ public abstract class Interaction {
             if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
                 for (MobContainer mb : gameBoard.getFieldContainers()) {
 
-                    if (mb.checkForNewContents(touchEvents, dObj) && mb.getContType() == contTypeOfPlayer) {
+                    if (mb.checkCharacterEquipCanBeDropped(dObj) && mb.getContType() == contTypeOfPlayer) {
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
@@ -291,7 +219,7 @@ public abstract class Interaction {
             }
 
             if (t.type == TouchEvent.TOUCH_UP && dObj.getHasBeenSelected()) {
-                if (gameBoard.getUtilityCardContainer().checkForUtilityCard(touchEvents, dObj)) {
+                if (gameBoard.getUtilityCardContainer().checkUtilityCanBeDropped(dObj)) {
                     int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                     Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 
@@ -353,7 +281,7 @@ public abstract class Interaction {
                     if ((!mb.isEmpty()) && mb.getContType() == contTypeOfPlayer && mb.getBound().contains(x_cor, y_cor)) {
                         System.out.println("An equip card is over an occupied container");
 
-                        Mob mob = mb.getContainedMob();
+                        Mob mob = mb.getContents();
                         int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(dObj);
                         EquipCard card = (EquipCard) gameBoard.getActivePlayerHand().getPlayerHand().get(index);
 

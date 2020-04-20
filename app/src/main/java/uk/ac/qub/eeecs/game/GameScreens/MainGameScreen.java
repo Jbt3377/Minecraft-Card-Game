@@ -85,6 +85,8 @@ public class MainGameScreen extends GameScreen {
     private Sprite pauseScreen;
     private Paint pausePaint;
     public boolean gamePaused;
+    public boolean testvariable;
+
 
 
     ////////////////////////////////////////////////////////////////////////////
@@ -465,18 +467,6 @@ public class MainGameScreen extends GameScreen {
         }
     }
 
-    private void playBackgroundMusic() {
-        AudioManager audioManager = getGame().getAudioManager();
-        if(!audioManager.isMusicPlaying())
-            audioManager.playMusic(
-                    //Changed string name to new background music
-                    getGame().getAssetManager().getMusic("MinecraftMusic"));
-    }
-
-    private void stopBackGroundMusic(){
-        AudioManager audioManager = getGame().getAudioManager();
-        audioManager.stopMusic();
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Getters & Setters
@@ -509,6 +499,8 @@ public class MainGameScreen extends GameScreen {
     public PushButton getpauseButton() {
         return pauseButton;
     }
+
+
 
 }
 

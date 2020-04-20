@@ -3,20 +3,21 @@ package uk.ac.qub.eeecs.game.GameScreens;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.List;
+
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
+import uk.ac.qub.eeecs.gage.engine.input.Input;
+import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
-import uk.ac.qub.eeecs.gage.world.LayerViewport;
 
 public class CustomBoardScreen extends GameScreen {
 
-    private PushButton backButton, leftBoardChange, rightBoardChange;
-    private GameObject background, gameBoardDisplay;
-    private LayerViewport boardLayerViewport;
+    private GameObject background, gameBoardDisplay,backButton, leftBoardChange, rightBoardChange;;
 
     public int getBoardCounter() {
         return boardCounter;
@@ -24,84 +25,91 @@ public class CustomBoardScreen extends GameScreen {
 
     private int boardCounter = 0;
     private Paint textFont;
+
+    public String getBoardText() {
+        return boardText;
+    }
+
     private String boardText = "Spruce Game Board";
 
-
-    public PushButton getBackButton() {
+    public GameObject getBackButton() {
         return backButton;
     }
-
-    public PushButton getLeftBoardChange() {
+    public GameObject getLeftBoardChange() {
         return leftBoardChange;
     }
-
-    public PushButton getRightBoardChange() {
+    public GameObject getRightBoardChange() {
         return rightBoardChange;
     }
 
     public CustomBoardScreen(String screenName, Game game) {
         super("customBoardScreen", game);
 
-        //Setting Screen Variables for later use
         int screenWidth = mGame.getScreenWidth();
         int screenHeight = mGame.getScreenHeight();
 
-        //Setting up Viewports
-        mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
-        boardLayerViewport = new LayerViewport(screenWidth/2,screenHeight/2,screenWidth/2,screenHeight/2);
+        mDefaultScreenViewport.set( 0, 0, screenWidth, screenHeight);
+        mDefaultLayerViewport.set(screenWidth/2, screenHeight/2, screenWidth/2, screenHeight/2);
 
         //Loading Assets
         mGame.getAssetManager().loadAssets("txt/assets/CustomiseBackgroundScreenAssets.JSON");
 
         //Setting up Game Objects
-        background =  new GameObject(screenWidth/2, screenHeight/2, screenWidth, screenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
-        gameBoardDisplay = new GameObject(screenWidth/2, screenHeight/1.8f, screenWidth/1.8f, screenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
-        leftBoardChange = new PushButton(screenWidth/7.2f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "LeftArrow", this);
-        rightBoardChange = new PushButton(screenWidth/1.16f, screenHeight/6.7f, screenWidth/9, screenHeight/7, "RightArrow", this);
-        leftBoardChange.setPlaySounds(true);
-        rightBoardChange.setPlaySounds(true);
-        backButton = new PushButton(screenWidth* 0.1f, screenHeight* 0.9f, screenWidth /6.5f, screenHeight /10, "BackButton", this);
-        backButton.setPlaySounds(true);
+        background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("CustomiseScreenBackground"), this);
+        gameBoardDisplay = new GameObject(mScreenWidth/2, mScreenHeight/1.8f, mScreenWidth/1.8f, mScreenHeight/1.8f, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
+        leftBoardChange = new GameObject(mScreenWidth/7.2f, mScreenHeight/1.175f, mScreenWidth/9, mScreenHeight/7, getGame().getAssetManager().getBitmap("LeftArrow"), this);
+        rightBoardChange = new GameObject(mScreenWidth/1.16f, mScreenHeight/1.175f, mScreenWidth/9, mScreenHeight/7, getGame().getAssetManager().getBitmap("RightArrow"), this);
+        backButton = new GameObject(mScreenWidth* 0.1f, mScreenHeight/11, mScreenWidth /6.5f, mScreenHeight /10, getGame().getAssetManager().getBitmap("BackButton"), this);
+
 
         //Setting up Paint
         textFont = new Paint();
-        textFont.setTextSize(mScreenHeight / 16);
-        textFont.setARGB(255, 255, 255, 255);
-        textFont.setTypeface(MainActivity.minecraftRegFont);
-        textFont.setColor(Color.WHITE);
-        textFont.setTextAlign(Paint.Align.CENTER);
+
 
     }
 
     public void update(ElapsedTime elapsedTime) {
+        Input input = mGame.getInput();
         //Updating Objects
-        leftBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-        rightBoardChange.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
-        backButton.update(elapsedTime, boardLayerViewport, mDefaultScreenViewport);
+        leftBoardChange.update(elapsedTime);
+        rightBoardChange.update(elapsedTime);
+        backButton.update(elapsedTime);
 
         boardSetter(boardCounter);
         gameBoardDisplay.update(elapsedTime);
         gameBoardDisplay.setBitmap(getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()));
 
-        //If Buttons are Pushed Events
-        if (leftBoardChange.isPushTriggered()) {
-            if (boardCounter <= 2 && boardCounter != 0) {
-                boardCounter--;
-            } else if (boardCounter == 0) {
-                boardCounter = 2;
-            }
-        }
+        List<TouchEvent> touchEvents = input.getTouchEvents();
+        if (touchEvents.size() > 0) {
+            for (TouchEvent t : touchEvents) {
+                float x_cor = t.x;
+                float y_cor = t.y;
 
-        if (rightBoardChange.isPushTriggered()) {
-            if (boardCounter >= 0 && boardCounter < 2) {
-                boardCounter++;
-            } else if (boardCounter >= 2) {
-                boardCounter = 0;
-            }
-        }
+                //If Buttons are Pushed Events
+                if (t.type == TouchEvent.TOUCH_UP && leftBoardChange.getBound().contains(x_cor, y_cor)){
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    if (boardCounter <= 2 && boardCounter != 0) {
+                        boardCounter--;
+                    } else if (boardCounter == 0) {
+                        boardCounter = 2;
+                    }
+                }
 
-        if (backButton.isPushTriggered()){
-            mGame.getScreenManager().removeScreen(this);
+                if (t.type == TouchEvent.TOUCH_UP && rightBoardChange.getBound().contains(x_cor, y_cor)) {
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    if (boardCounter >= 0 && boardCounter < 2) {
+                        boardCounter++;
+                    } else if (boardCounter >= 2) {
+                        boardCounter = 0;
+                    }
+                }
+
+                if (t.type == TouchEvent.TOUCH_UP && backButton.getBound().contains(x_cor, y_cor)) {
+                    mGame.getAudioManager().play(mGame.getAssetManager().getSound("ButtonDefaultPush"));
+                    mGame.getScreenManager().removeScreen(this);
+
+                }
+            }
         }
 
     }
@@ -114,14 +122,20 @@ public class CustomBoardScreen extends GameScreen {
         int height = mGame.getScreenHeight();
 
         background.draw(elapsedTime, graphics2D,
-                boardLayerViewport,
+                mDefaultLayerViewport,
                 mDefaultScreenViewport);
 
-        gameBoardDisplay.draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        gameBoardDisplay.draw(elapsedTime, graphics2D, mDefaultLayerViewport, mDefaultScreenViewport);
 
-        leftBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        rightBoardChange.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
-        backButton.draw(elapsedTime,graphics2D, boardLayerViewport, mDefaultScreenViewport);
+        leftBoardChange.draw(elapsedTime,graphics2D);
+        rightBoardChange.draw(elapsedTime,graphics2D);
+        backButton.draw(elapsedTime,graphics2D);
+
+        textFont.setTextSize(mGame.getScreenHeight() / 16);
+        textFont.setARGB(255, 255, 255, 255);
+        textFont.setTypeface(MainActivity.minecraftRegFont);
+        textFont.setColor(Color.WHITE);
+        textFont.setTextAlign(Paint.Align.CENTER);
 
         graphics2D.drawText(boardText,  mScreenWidth / 2f, mScreenHeight * 0.88f, textFont);
 

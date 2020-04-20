@@ -29,7 +29,10 @@ public class TurnManager {
         INACTIVE, SETUP, PREP, MOVE, BATTLE, END
     }
 
+    /////////////
     // Properties
+    /////////////
+
     private GameBoard gameBoard;
     private Phase player1PhaseFlag;
     private Phase player2PhaseFlag;
@@ -38,7 +41,10 @@ public class TurnManager {
     private Game game;
     private List<TouchEvent> input;
 
+    //////////////
     // Constructor
+    //////////////
+
     public TurnManager(GameBoard gameBoard, MainGameScreen mainGameScreen, Game game) {
         this.gameBoard = gameBoard;
         this.player1PhaseFlag = Phase.SETUP;
@@ -47,6 +53,9 @@ public class TurnManager {
         this.game = game;
     }
 
+    ////////////////////////
+    // Draw & Update Methods
+    ////////////////////////
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
         gameBoard.draw(elapsedTime, graphics2D, layerViewport, screenViewport);
@@ -59,6 +68,7 @@ public class TurnManager {
         if (player1PhaseFlag == Phase.SETUP && player2PhaseFlag == Phase.SETUP)
             phaseSetup();
 
+        // Decide which phase check method to call based of player type
         if (isPlayer1Turn)
             phaseCheckHuman(player1PhaseFlag);
         else {
@@ -71,10 +81,13 @@ public class TurnManager {
 
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////
     // Phase Methods
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////
 
+    /**
+     * Method processes setup for the beginning of a match
+     */
     private void phaseSetup() {
 
         // Replenish both Player's Hands
@@ -90,6 +103,7 @@ public class TurnManager {
         gameBoard.getPlayer2().setmPlayerHealth(PLAYER_STARTING_HEALTH);
         gameBoard.getPlayer2().setmPlayerMana(PLAYER_STARTING_MANA);
 
+        // Determine which player goes first based off Player First Setting
         boolean isPlayer1First = gameBoard.getGameScreen().getGame().isPlayer1First();
         if(isPlayer1First) {
             player1PhaseFlag = Phase.MOVE;
@@ -106,6 +120,9 @@ public class TurnManager {
         addStartTurnPopup();
     }
 
+    /**
+     * Method runs process to begin a Human Turn
+     */
     private void phasePrepHuman() {
 
         // Replenish Player's Hand
@@ -126,6 +143,9 @@ public class TurnManager {
         addStartTurnPopup();
     }
 
+    /**
+     * Method runs process to begin a Ai Turn
+     */
     private void phasePrepAi(){
 
         // Replenish Player's Hand
@@ -141,19 +161,28 @@ public class TurnManager {
         addStartTurnPopup();
     }
 
+    /**
+     * Method runs series of checks for Human Move Phase
+     *
+     * Human can; move and place character and equip cards, can use utility cards.
+     * Switches to Battle Phase when opponent mob targeted
+     * Switches to End Phase if End Turn Button clicked
+     */
     private void phaseMoveHuman() {
 
-        // Check for card drops in container
+        // Check for Cards dropped in Containers
         for (int i = 0; i < gameBoard.getActivePlayerHand().getPlayerHand().size(); i++) {
             Card card;
             card = gameBoard.getActivePlayerHand().getPlayerHand().get(i);
 
+            // Depending on the card dropped, runs appropriate process
             if(card instanceof CharacterCard){
                 Interaction.moveCardToContainer(input, card, game, gameBoard);
             }
-
             else if(card instanceof EquipCard){
+
                 Interaction.moveEquipCardToContainer(input, card, game, gameBoard);
+
                 EquipCard equipCard = (EquipCard) card;
                 if(equipCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
@@ -166,50 +195,41 @@ public class TurnManager {
                 }
             }
             else if(card instanceof UtilityCard){
+
                 Interaction.moveUtilityCardToContainer(input,card,game,gameBoard);
+
                 UtilityCard utilityCard = (UtilityCard) card;
                 if(utilityCard.isAnimationInProgress()){
                     System.out.println("Reached this animation line of code");
                     utilityCard.runCardAnimation();
                 }
-
                 if(utilityCard.isAnimationFinished()) {
                     int index = gameBoard.getActivePlayerHand().getPlayerHand().indexOf(utilityCard);
                     utilityCard.runUtilityEffect(gameBoard);
                     gameBoard.getActivePlayerHand().getPlayerHand().remove(index);
                     gameBoard.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
                 }
-
-
             }
-
-
-
         }
 
+
+        // Detect Mob Selection - green/red outline (Selected and Targeted Mobs)
         Interaction.processMobSelection(input, game, gameBoard);
 
 
-        // Check for mob selection
-
-
         // Check if targeted mob selected, if so, switch to battle phase
-        if (gameBoard.getActivePlayer() instanceof Human) {
-            if ((gameBoard.getActivePlayer()).getTargetedMob() != null) {
-                if(isPlayer1Turn) {
-                    player1PhaseFlag = Phase.BATTLE;
-                    player2PhaseFlag = Phase.INACTIVE;
-                }else{
-                    player1PhaseFlag = Phase.INACTIVE;
-                    player2PhaseFlag = Phase.BATTLE;
-                }
+        if ((gameBoard.getActivePlayer()).getTargetedMob() != null) {
+            if(isPlayer1Turn) {
+                player1PhaseFlag = Phase.BATTLE;
+                player2PhaseFlag = Phase.INACTIVE;
+            }else{
+                player1PhaseFlag = Phase.INACTIVE;
+                player2PhaseFlag = Phase.BATTLE;
             }
         }
 
-        // Check for end turn button clicked
+        // Check if end turn button clicked, if so, switch to end phase
         if (mainGameScreen.getEndTurnButton().isPushTriggered()) {
-
-            // Update Phases Accordingly
             if(isPlayer1Turn){
                 player1PhaseFlag = Phase.END;
                 player2PhaseFlag = Phase.INACTIVE;
@@ -220,89 +240,11 @@ public class TurnManager {
         }
     }
 
-    private void phaseMoveAi(){
-            System.out.println("AI Move Phase");
 
-            Ai aiPlayer = (Ai)gameBoard.getPlayer2();
-
-            if(aiPlayer.isAiFinishedMoves()){
-                System.out.println("Ending move phase for AI");
-                player1PhaseFlag = Phase.INACTIVE;
-                player2PhaseFlag = Phase.BATTLE;
-            }
-
-
-            ArrayList<MobContainer> aiMobContainers = new ArrayList<MobContainer>();
-            for (MobContainer mb : gameBoard.getFieldContainers()) {
-                if (mb.getContType() == MobContainer.ContainerType.TOP_PLAYER) {
-                    aiMobContainers.add(mb);
-                }
-            }
-
-            int aiContainerIndex = aiPlayer.getSelectedAiContainerIndex();
-            if (aiContainerIndex < aiMobContainers.size()) {
-                System.out.println("aiContainerIndex is less than container.size");
-                //Establish there is a free container
-                if (aiMobContainers.get(aiContainerIndex).isEmpty()) {
-                    System.out.println("This container is free. Container index: " + aiPlayer.getSelectedAiContainerIndex());
-                    MobContainer mc = aiMobContainers.get(aiContainerIndex);
-
-                    //Compile a list of the integers of index of CharacterCards
-                    ArrayList<Integer> characterCardsIndexList = new ArrayList<>();
-                    int chosenIndex;
-                    Random rand = new Random();
-                    //Establish if a card is currently selected
-                    if (aiPlayer.getSelectedAiCardToMoveIndex() == -1) {
-                        characterCardsIndexList.clear();
-                        for (int i = 0; i < gameBoard.getActivePlayerHand().getPlayerHand().size(); i++) {
-                            if (gameBoard.getActivePlayerHand().getPlayerHand().get(i) instanceof CharacterCard) {
-                                characterCardsIndexList.add(i);
-                            }
-                        }
-                        chosenIndex = rand.nextInt(characterCardsIndexList.size());
-                        aiPlayer.setSelectedAiCardToMoveIndex(chosenIndex);
-                    } else {
-                        chosenIndex = aiPlayer.getSelectedAiCardToMoveIndex();
-                    }
-                    aiPlayer.setSelectedAiCardToMoveIndex(chosenIndex);
-                    Card card = gameBoard.getActivePlayerHand().getPlayerHand().get(chosenIndex);
-                    System.out.println("Chosen index: " + chosenIndex);
-                    if (card instanceof CharacterCard) {
-                        if (aiPlayer.getmPlayerMana() - card.getManaCost() >= 0) {
-                            //Begin moving the card towards the target if not in  correct place
-                            if ((card.readyToTurnToMob(mc.getX_location(), mc.getY_location()))) {
-                                Mob mob = new Mob(mc.getX_location(), mc.getY_location(), gameBoard.getGameScreen(), (CharacterCard) card);
-                                System.out.println("PLAYING THIS CARD");
-                                aiMobContainers.get(aiContainerIndex).placeCard(mob);
-                                gameBoard.getActivePlayersMobsOnBoard().add(mob);
-                                aiPlayer.setmPlayerMana(aiPlayer.getmPlayerMana() - card.getManaCost());
-                                gameBoard.getActivePlayerHand().getPlayerHand().remove(chosenIndex);
-                                aiPlayer.setSelectedAiCardToMoveIndex(-1);
-                                aiPlayer.setSelectedAiContainerIndex(aiPlayer.getSelectedAiContainerIndex() + 1);
-                            } else {
-                                if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveXAnimation(mc.getX_location());
-                                }
-                                if (!card.readyToTurnToMob(mc.getX_location(), mc.getY_location())) {
-                                    card.cardMoveYAnimation(mc.getY_location());
-                                }
-                            }
-
-                        }else{
-                            aiPlayer.setSelectedAiContainerIndex(aiPlayer.getSelectedAiContainerIndex() + 1);
-                        }
-                    }
-                }else{
-                    aiPlayer.setSelectedAiContainerIndex(aiPlayer.getSelectedAiContainerIndex() + 1);
-                }
-            }else{
-
-                aiPlayer.setAiFinishedMoves(true);
-            }
-        }
-
+    /**
+     * Method runs process of moving Ai Character Cards onto board as part of the AI Move Phase
+     */
     private void phaseMoveAiCharacterCards() {
-        System.out.println("MOVE CHARACTER CARD PHASE");
         //Creating a temporary ArrayList to store AI field containers
         ArrayList<MobContainer> freeAiMobContainers = new ArrayList<>();
         for (MobContainer mb : gameBoard.getFieldContainers()) {
@@ -350,6 +292,9 @@ public class TurnManager {
         player2PhaseFlag = Phase.BATTLE;
         }
 
+    /**
+     * Method runs process of moving Ai Utility Cards onto board as part of the AI Move Phase
+     */
     private void phaseMoveAiUtilityCards(){
         System.out.println("MOVE UTILITY CARD PHASE");
         //Creating a temporary ArrayList to store the AI's UtilityCards
@@ -376,21 +321,25 @@ public class TurnManager {
 
                     System.out.println("Utility card used. Now removing card from hand and temp list.");
 
-
                     utilityCardArrayList.remove(i);
                     gameBoard.getActivePlayerHand().getPlayerHand().remove(utilityCard);
 
                 }else{
                     System.out.println("There is not enough mana to place this card. Trying another card");
                 }
-
-
         }
         System.out.println("Ending PHASE MOVE AI, going to PHASE BATTLE AI");
         player1PhaseFlag = Phase.INACTIVE;
         player2PhaseFlag = Phase.BATTLE;
     }
 
+    /**
+     * Method runs series of checks for Human Battle Phase
+     *
+     * Human can; select and attack opponent mobs.
+     * Switches to End Turn Phase when end turn button clicked
+     * Switches to End Game Phase if opponent's health reaches 0
+     */
     private void phaseBattleHuman() {
 
         // Check for mob selection
@@ -402,7 +351,7 @@ public class TurnManager {
         // Check if selected mob and targeted mob not null
         if((currentlySelectedMob != null) && (currentlyTargetedMob != null)){
 
-            // Run attack sequence (!!!)
+            // Run attack sequence
             currentlySelectedMob.attackTarget(currentlyTargetedMob);
             currentlySelectedMob.setSelectedToAttack(false);
             currentlySelectedMob.updateMobBitmap();
@@ -421,7 +370,8 @@ public class TurnManager {
                 // If mob died, remove from container
                 Mob containedMob = container.getContents();
                 if(containedMob.getHealthPoints() <= 0){
-                    //Remove the mob from the inactive player's activeMobsOnBoardArrayList.
+
+                    //Remove the mob from the inactive player's mobs on board.
                     gameBoard.getInactivePlayersMobsOnBoard().remove(containedMob);
 
                     // Surplus Damage inflicted on player
@@ -453,6 +403,9 @@ public class TurnManager {
 
     }
 
+    /**
+     * Method runs process of attacking opponent mobs
+     */
     private void phaseBattleAi() {
         System.out.println("Ai battle phase reached");
 
@@ -532,7 +485,7 @@ public class TurnManager {
                 }
 
                 if(gameBoard.getInactivePlayer().getmPlayerHealth() <=0) {
-                    phaseGameAiEnded();
+                    phaseGameEnded();
                 }
 
 
@@ -554,6 +507,9 @@ public class TurnManager {
 
     }
 
+    /**
+     * Method runs process of tidy up after a Human Turn
+     */
     private void phaseEndHuman() {
 
         // Clear mob selections (remove green outline)
@@ -562,20 +518,18 @@ public class TurnManager {
             gameBoard.getActivePlayer().getSelectedMob().setHasBeenUsed(false);
             gameBoard.getActivePlayer().getSelectedMob().updateMobBitmap();
         } catch(NullPointerException np){
-            System.out.println("Ohh NO!");
+            System.out.println("Pass - No Mobs were selected");
         }
 
         // Reset selected and targeted mobs to null
         (gameBoard.getActivePlayer()).setSelectedMobNull();
         (gameBoard.getActivePlayer()).setTargetedMobNull();
 
-
         // Reset hasBeenUsed status for all player's mobs
         for (Mob playerMob : gameBoard.getActivePlayersMobsOnBoard()) {
             playerMob.setHasBeenUsed(false);
             playerMob.updateMobBitmap();
         }
-
 
         // Update Phases accordingly
         if(isPlayer1Turn){
@@ -594,66 +548,43 @@ public class TurnManager {
         gameBoard.setIsPlayer1Turn(isPlayer1Turn);
     }
 
-    private void phaseEndAi() {
 
-        Ai aiPlayer = (Ai)gameBoard.getActivePlayer();
+    /**
+     * Method runs process of tidy up after an Ai Turn
+     */
+    private void phaseEndAi() {
 
         player1PhaseFlag = Phase.PREP;
         player2PhaseFlag = Phase.INACTIVE;
 
+        Ai aiPlayer = (Ai)gameBoard.getActivePlayer();
         aiPlayer.setmPlayerMana(aiPlayer.getmPlayerMana() + 4);
 
-
+        // Reset Ai Properties
         aiPlayer.resetAiProperties();
-
-
-
 
         // Update Boolean flags accordingly
         this.isPlayer1Turn = !isPlayer1Turn;
         gameBoard.setIsPlayer1Turn(isPlayer1Turn);
     }
 
-    private void phaseGameAiEnded(){
-        Game mGame = gameBoard.getGameScreen().getGame();
+
+    /**
+     * Method runs tidy up process when match ends
+     */
+    private void phaseGameEnded(){
         player1PhaseFlag = Phase.INACTIVE;
         player2PhaseFlag = Phase.INACTIVE;
-
-
-        String msg = "Ai Wins!";
-
-        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,
-                mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
-                50, msg);
-
     }
 
-    private void phaseGameEnded(){
-
-        Game mGame = gameBoard.getGameScreen().getGame();
-
-        // Display winner notification
-        String msg;
-        if(isPlayer1Turn)
-            if(gameBoard.getPlayer2() instanceof Human)
-                msg = "Player 1 Wins!";
-            else
-                msg = "You Win!";
-        else
-            if(gameBoard.getPlayer2() instanceof Human)
-                msg = "Player 2 Wins!";
-            else
-                msg = "Opponent Wins!";
-
-        new PopUpObject(mGame.getScreenWidth() / 2, mGame.getScreenHeight() / 2,
-                mGame.getAssetManager().getBitmap("PopupSign"), gameBoard.getGameScreen(),
-                50, msg);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////
     // Phase Check Methods
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////
 
+    /**
+     * Method determines which phase the current Human is in during their turn
+     * @param playerPhaseFlag - Flag indicates which phase process/checks to call
+     */
     private void phaseCheckHuman(Phase playerPhaseFlag) {
         switch (playerPhaseFlag) {
             case PREP: phasePrepHuman();
@@ -669,6 +600,9 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Method determines which series of processes/checks to run for the Ai Turn
+     */
     private void phaseCheckAi() {
         switch (player2PhaseFlag) {
             case PREP: phasePrepAi();
@@ -685,20 +619,16 @@ public class TurnManager {
         }
     }
 
-    public boolean enoughManaToPerformAction(GameBoard gb, Card card){
-        return(gb.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0);
-    }
-
-    public void adjustPlayerManaAfterCardPlacement(GameBoard gb, Card card){
-        gb.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
-    }
-
+    ///////////////
+    // Misc Methods
+    ///////////////
 
     /**
      * Method displays a popup message informing the player who's turn it is
-     * TODO: Custom message based of type of player (Human/AI)
      */
     private void addStartTurnPopup(){
+
+        // Determine text of popup message
         String msg;
         if(gameBoard.getPlayer2() instanceof Human) {
             if (isPlayer1Turn) msg = "Player 1 Turn";
@@ -714,8 +644,13 @@ public class TurnManager {
                 50, msg);
     }
 
+    private boolean enoughManaToPerformAction(GameBoard gb, Card card){
+        return(gb.getActivePlayer().getmPlayerMana() - card.getManaCost() >= 0);
+    }
 
-
+    private void adjustPlayerManaAfterCardPlacement(GameBoard gb, Card card){
+        gb.getActivePlayer().setmPlayerMana(gameBoard.getActivePlayer().getmPlayerMana() - card.getManaCost());
+    }
 
 
 }

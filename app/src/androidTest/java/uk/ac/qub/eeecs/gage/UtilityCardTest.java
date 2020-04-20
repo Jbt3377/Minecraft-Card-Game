@@ -25,7 +25,10 @@ import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * UtilityCard Tests
+ * Created Samuel Brown
+ */
 @RunWith(AndroidJUnit4.class)
     public class UtilityCardTest {
     private Context context;

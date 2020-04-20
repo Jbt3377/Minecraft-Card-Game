@@ -23,9 +23,9 @@ import uk.ac.qub.eeecs.game.GameScreens.MainGameScreen;
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 /**
- * Mob class tests
+ * Human class tests
  *
- * Created by Josh Beatty
+ * Created by Josh
  */
 @RunWith(AndroidJUnit4.class)
 public class HumanTest {
