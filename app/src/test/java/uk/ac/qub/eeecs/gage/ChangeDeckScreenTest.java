@@ -24,6 +24,10 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
 
+/**
+ * ChangeDeckScreen Tests
+ * Created Samuel Brown
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ChangeDeckScreenTest {
 

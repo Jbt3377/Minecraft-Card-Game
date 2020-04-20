@@ -22,6 +22,10 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
 
+/**
+ * CustomBoardScreen Tests
+ * Created Samuel Brown
+ */
 @RunWith(MockitoJUnitRunner.class)
     public class CustomiseBoardScreenTest {
 
@@ -49,9 +53,6 @@ import static org.junit.Assert.*;
     }
 
 
-    //These next two Tests fail due to a calculation, spent too long on finding where and how
-    //Looked through debug for 3+ hours and only found it was to do with a button calculation
-    //No idea how to fix
     @Test
     public void CustomBoardScreen_rightArrowPushed_Test() {
         CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);

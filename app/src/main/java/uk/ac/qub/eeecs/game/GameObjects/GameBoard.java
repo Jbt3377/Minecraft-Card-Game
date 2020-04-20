@@ -272,7 +272,7 @@ public class GameBoard {
             for (Card card : player2Hand.getPlayerHand()) {
                 if (card != null) {
                     if (t.type == TouchEvent.TOUCH_DOWN && card.getBoundingBox().contains(x_cor, y_cor)) {
-                        processCardMagnification(card, gameScreen.getGame(), player2Hand);
+                        processCardMagnification(card, gameScreen.getGame(), player1Hand);
                     } else if (t.type == TouchEvent.TOUCH_UP) {
                         processCardMagnificationRelease(gameScreen.getGame());
                     }
@@ -313,8 +313,20 @@ public class GameBoard {
         this.player2 = player2;
     }
 
+    public Deck getPlayer1Deck() {
+        return player1Deck;
+    }
+
     public void setPlayer1Deck(Deck player1Deck) {
         this.player1Deck = player1Deck;
+    }
+
+    public Deck getPlayer2Deck() {
+        return player2Deck;
+    }
+
+    public void setPlayer2Deck(Deck player2Deck) {
+        this.player2Deck = player2Deck;
     }
 
     public PlayerHand getPlayer1Hand() {
