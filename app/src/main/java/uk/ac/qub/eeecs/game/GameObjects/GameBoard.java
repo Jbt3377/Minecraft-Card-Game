@@ -87,7 +87,7 @@ public class GameBoard {
 
     private void commonConstructorSetup() {
 
-        cardCollection = CardCollection.getAllCardCollection(gameScreen.getGame().getScreenManager().getCurrentScreen(), gameScreen.getGame().getAssetManager().getAllCardStats());
+        cardCollection = CardCollection.getAllCardCollection(gameScreen, gameScreen.getGame().getAssetManager().getAllCardStats());
 
         this.fieldContainers = new ArrayList<>();
 

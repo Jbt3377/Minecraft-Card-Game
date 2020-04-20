@@ -53,7 +53,7 @@ public class DisplayCardScreenTest {
 
     @Test
     public void ScrollScreen_MoveDown(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float posX = 0;
         float posY = -1000.0f;
 
@@ -67,7 +67,7 @@ public class DisplayCardScreenTest {
     }
     @Test
     public void ScrollScreen_MoveUp(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float posX = 0;
         float posY = 1000.0f;
 
@@ -83,7 +83,7 @@ public class DisplayCardScreenTest {
 
     @Test
     public void ScrollScreen_NoMove(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float originalValue = displayCardsScreen.getCardLayerViewport().y;
         displayCardsScreen.update(elapsedTime);
         float afterValue = displayCardsScreen.getCardLayerViewport().y;
@@ -92,7 +92,7 @@ public class DisplayCardScreenTest {
 
     @Test
     public void MovingBackgroundTest(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float posX = 0;
         float posY = displayCardsScreen.getCardLayerViewport().y;
 
@@ -109,7 +109,7 @@ public class DisplayCardScreenTest {
 
     @Test
     public void scrollLimiterTest_Down(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float posYCardLayerViewport = -1000.0f;
         displayCardsScreen.getCardLayerViewport().y = posYCardLayerViewport;
         float originalValue = displayCardsScreen.getCardLayerViewport().y;
@@ -122,7 +122,7 @@ public class DisplayCardScreenTest {
 
     @Test
     public void scrollLimiterTest_Up(){
-        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen("CardsDisplay", game);
+        DisplayCardsScreen displayCardsScreen = new DisplayCardsScreen(game);
         float posYCardLayerViewport = 1000.0f;
         displayCardsScreen.getCardLayerViewport().y = posYCardLayerViewport;
         float originalValue = displayCardsScreen.getCardLayerViewport().y;
