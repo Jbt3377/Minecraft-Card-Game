@@ -98,5 +98,4 @@ public class PopupTest {
         assertFalse(testPopup.position.x == 600);
         assertFalse(testPopup.position.y == 400);
     }
-
 }
