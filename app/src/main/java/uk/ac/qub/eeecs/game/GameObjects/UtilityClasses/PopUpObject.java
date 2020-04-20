@@ -1,48 +1,47 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import uk.ac.qub.eeecs.gage.MainActivity;
-import uk.ac.qub.eeecs.gage.engine.AssetManager;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TextAlignmentUtil;
 
 /**
- * Prompt class drawn using overlapping images, text and buttons.
+ * Utility Class used to draw static and moving images and text on screen
  */
 public class PopUpObject extends Sprite {
 
-    // /////////////////////////////////////////////////////////////////////////
+    /////////////
     // Properties
-    // /////////////////////////////////////////////////////////////////////////
+    /////////////
 
     private int displayTime;
     private String textInput;
     private Paint textPaint;
-    private boolean movingPopUp;
+    private boolean isMovingPopUp;
     private int movementSpeed;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////
     // Constructors
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////
 
     /**
-     * Constructor for image popup with overlaying text
-     * @param bitmap - popup image
-     * @param textInput - overlaying text
+     * Public Constructor for image popup with overlaying text
+     *
+     * @param x           - X Coordinate of popup
+     * @param y           - Y Coordinate of popup
+     * @param bitmap      - Popup image
+     * @param gameScreen  - Game screen to which the popup should be displayed
+     * @param displayTime - Length of time the popup is displayed on screen
+     * @param textInput   - Overlaying text
      */
     public PopUpObject(float x, float y, Bitmap bitmap, GameScreen gameScreen, int displayTime,
                        String textInput) {
@@ -51,21 +50,25 @@ public class PopUpObject extends Sprite {
 
         this.displayTime = displayTime;
         this.textInput = textInput;
-        this.movingPopUp = false;
+        this.isMovingPopUp = false;
         this.movementSpeed = 0;
 
         TextAlignmentUtil util = new TextAlignmentUtil(10, textAlignment.CENTRE);
         this.textInput = util.alignText(textInput);
 
-        setupTextPaint(gameScreen);
+        setupTextPaint();
         gameScreen.popUpObjects.add(this);
 
     }
 
-
     /**
-     * Constructor for moving text
-     * @param textInput - text to display on screen
+     * Public Overload Constructor for moving text popup
+     *
+     * @param x           - X Coordinate of popup
+     * @param y           - Y Coordinate of popup
+     * @param gameScreen  - Game screen to which the popup should be displayed
+     * @param displayTime - Length of time the popup is displayed on screen
+     * @param textInput   - Overlaying text
      * @param goingUp - boolean flag determines direction of movement
      */
     public PopUpObject(float x, float y, GameScreen gameScreen, int displayTime, String textInput,
@@ -74,10 +77,10 @@ public class PopUpObject extends Sprite {
         super(x, y, gameScreen.getGame().getAssetManager().getBitmap("Potion of Healing"), gameScreen);
 
         this.displayTime = displayTime;
-        this.movingPopUp = true;
+        this.isMovingPopUp = true;
         this.textInput = textInput;
 
-        setupTextPaint(gameScreen);
+        setupTextPaint();
 
         if (goingUp)
             this.movementSpeed = -movementSpeed;
@@ -88,9 +91,9 @@ public class PopUpObject extends Sprite {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
     // Update & Draw Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
 
 
     @Override
@@ -110,7 +113,7 @@ public class PopUpObject extends Sprite {
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
-        if (!movingPopUp) {
+        if (!isMovingPopUp) {
 
             // Draw: Image
             super.draw(elapsedTime, graphics2D);
@@ -122,6 +125,7 @@ public class PopUpObject extends Sprite {
                 Set<Integer> setOfYCoOrdinates = new HashSet<>();
                 int numOfLines = lines.length;
 
+                // Determine distance between each line
                 int yCoordinateCount, upper;
                 if(numOfLines % 2 == 0){
                     yCoordinateCount = 40;
@@ -131,6 +135,7 @@ public class PopUpObject extends Sprite {
                     upper = numOfLines+1;
                 }
 
+                // Set Y Coordinates for each line of text
                 for (int i = 0; i < (upper / 2); i++) {
                     setOfYCoOrdinates.add(yCoordinateCount);
                     setOfYCoOrdinates.add(yCoordinateCount - yCoordinateCount * 2);
@@ -140,6 +145,7 @@ public class PopUpObject extends Sprite {
                 Set<Integer> sortedTreeSet = new TreeSet<>(setOfYCoOrdinates);
                 Iterator treeSetIter = sortedTreeSet.iterator();
 
+                // Draw each line of text
                 for(String line: lines)
                     graphics2D.drawText(line, position.x, position.y + ((int)treeSetIter.next()), textPaint);
             }
@@ -151,25 +157,18 @@ public class PopUpObject extends Sprite {
 
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
     // Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
 
     /**
      * Method used to setup text paint
-     * @param gameScreen Used for accessing gameScreen dimensions
      */
-    private void setupTextPaint(GameScreen gameScreen){
+    private void setupTextPaint(){
         textPaint = new Paint();
         textPaint.setTypeface(MainActivity.minecraftRegFont);
-        textPaint.setTextSize(gameScreen.getGame().getScreenWidth() * 0.030f);
+        textPaint.setTextSize(mGameScreen.getGame().getScreenWidth() * 0.030f);
         textPaint.setTextAlign(Paint.Align.CENTER);
-
     }
-
-
-
-
-
 
 }

@@ -47,7 +47,6 @@ public class DeckEditorScreen extends GameScreen {
 
     private ArrayList<GameObject> RemoveCardButtons;        //RemoveCardButtons/Object
 
-
     //Variables for the display of cards - test
     private int numberOfColumns;                            //Number of columns for display
     private int numberOfRows;                               //Number of rows for display
@@ -77,10 +76,8 @@ public class DeckEditorScreen extends GameScreen {
         this.numberOfPage = cardCollection.size()/10 + 1; //Calculation for developing number of pages displayed
 
         loadAssets();
-        setupViewPorts();
         setupBoardGameObjects();
     }
-
 
     private void loadAssets(){
         //Loading Assets
@@ -98,6 +95,67 @@ public class DeckEditorScreen extends GameScreen {
         mGame.getAssetManager().loadAndAddSound("Card_Select","sound/assetSoundEffects/deckEditorSoundEffects/Card_Select.mp3");
         mGame.getAssetManager().loadAndAddSound("Deck_Drop","sound/assetSoundEffects/deckEditorSoundEffects/Deck_Drop.mp3");
         mGame.getAssetManager().loadAndAddSound("Flip_Page","sound/assetSoundEffects/deckEditorSoundEffects/Flip_Page.mp3");
+    }
+
+    //Setting up objects for the gamescreen
+    private void setupBoardGameObjects() {
+
+        setupViewPorts();
+        background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("DeckEditorBackground"), this);
+        setCardPositions();
+
+        //Set Size of Cards
+        for (int i = 0; i < cardCollection.size(); i++) {
+            cardCollection.get(i).setHeight(mScreenHeight * 0.35f);
+            cardCollection.get(i).setWidth(mScreenWidth * 0.12f);
+        }
+
+        for(int i = 0; i < cardCollection.size(); i++){
+
+            GameObject temp = new GameObject(
+                    mScreenWidth * 0.06f + (cardCollection.get(i).getCurrentXPosition()),
+                    mScreenHeight * 0.19f  + (cardCollection.get(i).getCurrentYPosition()),
+                    mScreenWidth * 0.03f,
+                    mScreenHeight * 0.06f,
+                    getGame().getAssetManager().getBitmap("RemoveCardButton"),
+                    this);
+            RemoveCardButtons.add(temp);
+        }
+        setupButtons();
+    }
+
+    /**
+     * SetPositionCards
+     *
+     * Sets up the positions of the cards collection
+     */
+    private void setCardPositions() {
+        //Starting Point
+        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //Starting Coordinates X
+        float card_start_y = mDefaultLayerViewport.getHeight() * 0.3f; //Starting Coordinates Y
+
+        //
+        distanceBetweenRows = mDefaultLayerViewport.getHeight()*    0.43f;
+        distanceBetweenColumns = mDefaultLayerViewport.getWidth()*  0.14f;
+
+        int count = 0;
+        for(int k = 0; k < numberOfPage; k++) {
+
+            for (int j = 0; j < numberOfColumns; j++) {
+                //Calculation for y_cor to be placed in game
+                float x = j * distanceBetweenColumns;
+
+                for (int i = 0; i < numberOfRows; i++) {
+                    //Calculation for x_cor to be placed in game
+                    float y = i * distanceBetweenRows;
+
+                    if (count < cardCollection.size()) {
+                        cardCollection.get(count).setPosition(card_start_x + x,  card_start_y + y);
+                    }
+                    count++;
+                }
+            }
+        }
     }
 
     private void setupPaint(){
@@ -129,42 +187,7 @@ public class DeckEditorScreen extends GameScreen {
 
     }
 
-    private void setupViewPorts() {
-        //Setup boardLayerViewport
-        int screenWidth = mGame.getScreenWidth();
-        int screenHeight = mGame.getScreenHeight();
-
-        mDefaultScreenViewport.set( 0, 0, screenWidth, screenHeight);
-        mDefaultLayerViewport.set(screenWidth/2, screenHeight/2, screenWidth/2, screenHeight/2);
-    }
-
-    //Setting up objects for the gamescreen
-    private void setupBoardGameObjects() {
-
-        background =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap("DeckEditorBackground"), this);
-        setCardPosition();
-
-        //Set Size of Cards
-        for (int i = 0; i < cardCollection.size(); i++) {
-            cardCollection.get(i).setHeight(mScreenHeight * 0.35f);
-            cardCollection.get(i).setWidth(mScreenWidth * 0.12f);
-        }
-
-        for(int i = 0; i < cardCollection.size(); i++){
-
-            GameObject temp = new GameObject(
-                    mScreenWidth * 0.06f + (cardCollection.get(i).getCurrentXPosition()),
-                    mScreenHeight * 0.19f  + (cardCollection.get(i).getCurrentYPosition()),
-                    mScreenWidth * 0.03f,
-                    mScreenHeight * 0.06f,
-                    getGame().getAssetManager().getBitmap("RemoveCardButton"),
-                    this);
-            RemoveCardButtons.add(temp);
-        }
-        setupButtons();
-    }
-
-    public void setupButtons(){
+    private void setupButtons(){
         saveDeckButton = new PushButton(
                 mScreenWidth * 0.12f,
                 mScreenHeight * 0.95f,
@@ -202,54 +225,133 @@ public class DeckEditorScreen extends GameScreen {
                 "Clear_DeckButton", this);
     }
 
-        @Override
+    private void setupViewPorts() {
+        //Setup boardLayerViewport
+        int screenWidth = mGame.getScreenWidth();
+        int screenHeight = mGame.getScreenHeight();
+
+        mDefaultScreenViewport.set( 0, 0, screenWidth, screenHeight);
+        mDefaultLayerViewport.set(screenWidth/2, screenHeight/2, screenWidth/2, screenHeight/2);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Update & Draw Methods
+    ////////////////////////////////////////////////////////////////////////////
+
+    @Override
     public void update(ElapsedTime elapsedTime) {
 
-            processTouchEvents(elapsedTime);
+        processTouchEvents();
 
-            if(deck.size() == MAX_DECK_SIZE){
-                saveDeckButton.update(elapsedTime);
-                if (saveDeckButton.isPushTriggered()) {
-                    saveDeck();
+        if(deck.size() == MAX_DECK_SIZE){
+            saveDeckButton.update(elapsedTime);
+            if (saveDeckButton.isPushTriggered()) {
+                saveDeck();
+            }
+        }
+
+        returnButton.update(elapsedTime);
+        if (returnButton.isPushTriggered()){
+            mGame.getScreenManager().removeScreen(this);
+        }
+        if (numDisplay > 9) {
+            leftButton.update(elapsedTime);
+            leftButtonTrigger();
+        }
+        if (numDisplay + 10 < cardCollection.size()) {
+            rightButton.update(elapsedTime);
+            rightButtonTrigger();
+        }
+        if(deck.size() > 0){
+            clearDeckButton.update(elapsedTime);
+            clearDeckButtonTrigger();
+        }
+    }
+
+    /**
+     * Draw the deck editor
+     */
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        setupPaint();
+        background.draw(elapsedTime, graphics2D,
+                mDefaultLayerViewport,
+                mDefaultScreenViewport);
+
+        drawWithinDisplayRange(elapsedTime,graphics2D);
+        drawDeckList(graphics2D);
+
+        //Return Button
+        returnButton.draw(elapsedTime, graphics2D,
+                mDefaultLayerViewport, mDefaultScreenViewport);
+
+        //Left Button
+        if (numDisplay > 9) {
+            leftButton.draw(elapsedTime, graphics2D,
+                    mDefaultLayerViewport, mDefaultScreenViewport);
+        }
+
+        //Right Button Button Draw
+        if (numDisplay + 10 < cardCollection.size()) {
+            rightButton.draw(elapsedTime, graphics2D ,
+                    mDefaultLayerViewport, mDefaultScreenViewport);
+        }
+
+        //Save Deck Button Draw
+        if(deck.size() == MAX_DECK_SIZE){
+            saveDeckButton.draw(elapsedTime, graphics2D ,
+                    mDefaultLayerViewport, mDefaultScreenViewport);
+        }
+
+        //Clear Deck Button Draw
+        if(deck.size() > 0){
+            clearDeckButton.draw(elapsedTime, graphics2D ,
+                    mDefaultLayerViewport, mDefaultScreenViewport);
+        }
+    }
+
+    //Listens and takes in user inputs
+    private void processTouchEvents() {
+        // Get access to the input manager held by the game engine
+        Input input = mGame.getInput();
+
+        // Process any touch events occurring since the last update
+        // Get any touch events that have occurred since the last update
+        List<TouchEvent> touchEventList = input.getTouchEvents();
+
+        if (touchEventList.size() > 0) {
+
+            //Listening for the user inputs
+            for (TouchEvent t : touchEventList) {
+                float x_cor = t.x;
+                float y_cor = t.y;
+
+                if (t.type == TouchEvent.TOUCH_SINGLE_TAP) {
+                    for (int i = numDisplay; i < numDisplay + 10; i++) {
+                        if (i < cardCollection.size()) {
+                            if (cardCollection.get(i).getBoundingBox().contains(x_cor, y_cor)) {
+                                //Check to add to deck
+                                if (checkCardCountLimit(i)) {
+                                    if(deck.size() < MAX_DECK_SIZE) { //Keeps inside deck range - Cap
+                                        incrementCardCounter(i);
+                                        addCardToDeck(cardCollection.get(i));
+                                    }
+                                }
+                            }
+
+                            if (RemoveCardButtons.get(i).getBound().contains(x_cor, y_cor)) {
+                                for (int j = 0; j < deck.size(); j++) {
+                                    if (cardCollection.get(i).getCardID() == deck.get(j)) {
+                                        decrementCardCounter(i);
+                                        removeCardFromDeck(j);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            returnButton.update(elapsedTime);
-            if (returnButton.isPushTriggered()){
-                mGame.getScreenManager().removeScreen(this);
-            }
-            if (numDisplay > 9) {
-                leftButton.update(elapsedTime);
-                leftButtonTrigger();
-            }
-            if (numDisplay + 10 < cardCollection.size()) {
-                rightButton.update(elapsedTime);
-                rightButtonTrigger();
-            }
-            if(deck.size() > 0){
-                clearDeckButton.update(elapsedTime);
-                clearDeckButtonTrigger();
-            }
-    }
-
-    public void leftButtonTrigger(){
-        if (leftButton.isPushTriggered()) {
-            numDisplay -= 10;
-            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Flip_Page")); //Play Sounds
-        }
-    }
-
-    public void rightButtonTrigger(){
-        if (rightButton.isPushTriggered()) {
-            numDisplay += 10;
-            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Flip_Page")); //Play Sounds
-        }
-    }
-
-    public void clearDeckButtonTrigger(){
-        if (clearDeckButton.isPushTriggered()) {
-            clearDeck();
-            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Deck_Drop")); //Play Sounds
         }
     }
 
@@ -295,84 +397,7 @@ public class DeckEditorScreen extends GameScreen {
         }
     }
 
-    /**
-     * Draw the deck editor
-     */
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        setupPaint();
-        background.draw(elapsedTime, graphics2D,
-                mDefaultLayerViewport,
-                mDefaultScreenViewport);
-
-        drawWithinDisplayRange(elapsedTime,graphics2D);
-        drawDeckList(elapsedTime, graphics2D);
-
-        //Return Button
-        returnButton.draw(elapsedTime, graphics2D,
-                mDefaultLayerViewport, mDefaultScreenViewport);
-
-        //Left Button
-        if (numDisplay > 9) {
-            leftButton.draw(elapsedTime, graphics2D,
-                    mDefaultLayerViewport, mDefaultScreenViewport);
-        }
-
-        //Right Button Button Draw
-        if (numDisplay + 10 < cardCollection.size()) {
-            rightButton.draw(elapsedTime, graphics2D ,
-                    mDefaultLayerViewport, mDefaultScreenViewport);
-        }
-
-        //Save Deck Button Draw
-        if(deck.size() == MAX_DECK_SIZE){
-            saveDeckButton.draw(elapsedTime, graphics2D ,
-                    mDefaultLayerViewport, mDefaultScreenViewport);
-        }
-
-        //Clear Deck Button Draw
-        if(deck.size() > 0){
-            clearDeckButton.draw(elapsedTime, graphics2D ,
-                    mDefaultLayerViewport, mDefaultScreenViewport);
-        }
-    }
-
-    /**
-     * SetPositionCards
-     *
-     * Sets up the positions of the cards collection
-     */
-    private void setCardPosition() {
-        //Starting Point
-        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //Starting Coordinates X
-        float card_start_y = mDefaultLayerViewport.getHeight() * 0.3f; //Starting Coordinates Y
-
-        //
-        distanceBetweenRows = mDefaultLayerViewport.getHeight()*    0.43f;
-        distanceBetweenColumns = mDefaultLayerViewport.getWidth()*  0.14f;
-
-        int count = 0;
-        for(int k = 0; k < numberOfPage; k++) {
-
-            for (int j = 0; j < numberOfColumns; j++) {
-                //Calculation for y_cor to be placed in game
-                float x = j * distanceBetweenColumns;
-
-                for (int i = 0; i < numberOfRows; i++) {
-                    //Calculation for x_cor to be placed in game
-                    float y = i * distanceBetweenRows;
-
-                    if (count < cardCollection.size()) {
-                        cardCollection.get(count).setPosition(card_start_x + x,  card_start_y + y);
-                    }
-                    count++;
-                }
-            }
-        }
-    }
-
-
-    private void drawDeckList(ElapsedTime elapsedTime, IGraphics2D graphics2D){
+    private void drawDeckList(IGraphics2D graphics2D){
 
         graphics2D.drawText("Deck: " + deck.size()+ "/" + MAX_DECK_SIZE, mScreenWidth, mScreenHeight * 0.05f, interfacePaint);
 
@@ -387,52 +412,39 @@ public class DeckEditorScreen extends GameScreen {
         }
     }
 
-
-    //Listens and takes in user inputs
-    private void processTouchEvents(ElapsedTime elapsedTime) {
-        // Get access to the input manager held by the game engine
-        Input input = mGame.getInput();
-
-        // Process any touch events occurring since the last update
-        // Get any touch events that have occurred since the last update
-        List<TouchEvent> touchEventList = input.getTouchEvents();
-
-        if (touchEventList.size() > 0) {
-
-            //Listening for the user inputs
-            for (TouchEvent t : touchEventList) {
-                float x_cor = t.x;
-                float y_cor = t.y;
-
-                if (t.type == TouchEvent.TOUCH_SINGLE_TAP) {
-                    for (int i = numDisplay; i < numDisplay + 10; i++) {
-                        if (i < cardCollection.size()) {
-                            if (cardCollection.get(i).getBoundingBox().contains(x_cor, y_cor)) {
-                                //Check to add to deck
-                                if (checkCardCountLimit(i)) {
-                                    if(deck.size() < MAX_DECK_SIZE) { //Keeps inside deck range - Cap
-                                        incrementCardCounter(i);
-                                        addCardToDeck(cardCollection.get(i));
-                                    }
-                                }
-                            }
-
-                            if (RemoveCardButtons.get(i).getBound().contains(x_cor, y_cor)) {
-                                for (int j = 0; j < deck.size(); j++) {
-                                    if (cardCollection.get(i).getCardID() == deck.get(j)) {
-                                        decrementCardCounter(i);
-                                        removeCardFromDeck(j);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    ////////////////////////////////////////////////////////////////////////////
+    // Card counter methods
+    ////////////////////////////////////////////////////////////////////////////
+    private void decrementCardCounter(int index){
+        cardCount[index]--;
     }
 
+    private void incrementCardCounter(int index){
+        cardCount[index]++;
+    }
+
+    private boolean checkCardCountLimit(int index){
+        if(cardCount[index] < MAX_COUNT_COUNT){ //Card Limit
+            return true;
+        }
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Deck Methods
+    ////////////////////////////////////////////////////////////////////////////
+    public void clearDeck(){
+        deck = new ArrayList<>(); //Clear all ID's of deck
+        cardCount = new int[cardCollection.size()]; //Clear counters
+    }
+
+    public void saveDeck() {
+        //saveDeck - convert to stack
+        mGame.getmDeckManager().addDeck(deck);
+        mGame.getAudioManager().play(mGame.getAssetManager().getSound("Deck_Save"));
+        mGame.getmDeckManager().setupCustomDeck();
+
+    }
 
     public void removeCardFromDeck(int cardLocation){
         deck.remove(cardLocation);
@@ -445,31 +457,26 @@ public class DeckEditorScreen extends GameScreen {
     }
 
 
-    public void decrementCardCounter(int index){
-        cardCount[index]--;
-    }
-    public void incrementCardCounter(int index){
-        cardCount[index]++;
-    }
-    public boolean checkCardCountLimit(int index){
-        if(cardCount[index] < MAX_COUNT_COUNT){ //Card Limit
-            return true;
+    //Button Triggers
+    public void leftButtonTrigger(){
+        if (leftButton.isPushTriggered()) {
+            numDisplay -= 10;
+            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Flip_Page")); //Play Sounds
         }
-        return false;
     }
 
-
-    public void clearDeck(){
-        deck = new ArrayList<>(); //Clear all ID's of deck
-        cardCount = new int[cardCollection.size()]; //Clear counters
+    public void rightButtonTrigger(){
+        if (rightButton.isPushTriggered()) {
+            numDisplay += 10;
+            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Flip_Page")); //Play Sounds
+        }
     }
 
-    public void saveDeck() {
-        //saveDeck - convert to stack
-        mGame.getmDeckManager().addDeck(deck);
-        mGame.getAudioManager().play(mGame.getAssetManager().getSound("Deck_Save"));
-        mGame.getmDeckManager().setupCustomDeck();
-
+    public void clearDeckButtonTrigger(){
+        if (clearDeckButton.isPushTriggered()) {
+            clearDeck();
+            mGame.getAudioManager().play(mGame.getAssetManager().getSound("Deck_Drop")); //Play Sounds
+        }
     }
 
 
@@ -490,13 +497,8 @@ public class DeckEditorScreen extends GameScreen {
         return this.rightButton;
     }
 
-
-
     public ArrayList<Card> getCardCollection() {
         return cardCollection;
     }
-
-
-
 
 }
