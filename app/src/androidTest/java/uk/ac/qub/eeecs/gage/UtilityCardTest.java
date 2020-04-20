@@ -221,10 +221,129 @@ import static org.junit.Assert.*;
         assertTrue(mobContainerTester.getContents().getAttackDamage() > originalMobAttack);
     }
 
-//    @Test
-//    public void UtilityCard_runUtilityEffect_Test() {
-//        //Setup
-//        UtilityCard utilityCard = new UtilityCard(100, 100, mainScreen, testUtilityCardStats);
-//
-//    }
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_32_36_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+        utilityCard.setCardID(32);
+        int originalAllyHP = gameBoard.getActivePlayer().getmPlayerHealth();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(gameBoard.getActivePlayer().getmPlayerHealth() != originalAllyHP);
+        utilityCard.setCardID(32);
+        originalAllyHP = gameBoard.getActivePlayer().getmPlayerHealth();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(gameBoard.getActivePlayer().getmPlayerHealth() != originalAllyHP);
+    }
+
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_33_34_35_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+        utilityCard.setCardID(33);
+        int originalEnemyHP = gameBoard.getInactivePlayer().getmPlayerHealth();
+        //Testing
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(gameBoard.getInactivePlayer().getmPlayerHealth() != originalEnemyHP);
+
+        //Setup
+        utilityCard.setCardID(34);
+        originalEnemyHP = gameBoard.getInactivePlayer().getmPlayerHealth();
+        //Testing
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(gameBoard.getInactivePlayer().getmPlayerHealth() != originalEnemyHP);
+
+        //Setup
+        utilityCard.setCardID(35);
+        originalEnemyHP = gameBoard.getInactivePlayer().getmPlayerHealth();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(gameBoard.getInactivePlayer().getmPlayerHealth() != originalEnemyHP);
+    }
+
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_37_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+
+        CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
+
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainGameScreen);
+        gameBoard.getFieldContainers().add(mobContainerTester);
+        mobContainerTester.placeCard(mobTester);
+        utilityCard.setCardID(37);
+
+        //Testing
+        assertTrue(mobContainerTester.getContents() != null);
+        assertFalse(gameBoard.isPlayer1Turn());
+        int originalMobHP = mobContainerTester.getContents().getHealthPoints();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(mobContainerTester.getContents().getHealthPoints() < originalMobHP);
+    }
+
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_38_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+
+        CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
+
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainGameScreen);
+        gameBoard.getFieldContainers().add(mobContainerTester);
+        mobContainerTester.placeCard(mobTester);
+        utilityCard.setCardID(38);
+
+        //Testing
+        assertTrue(mobContainerTester.getContents() != null);
+        assertFalse(gameBoard.isPlayer1Turn());
+        int originalMobHP = mobContainerTester.getContents().getHealthPoints();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(mobContainerTester.getContents().getHealthPoints() > originalMobHP);
+    }
+
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_39_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+
+        CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
+
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.BOTTOM_PLAYER, mainGameScreen);
+        gameBoard.getFieldContainers().add(mobContainerTester);
+        mobContainerTester.placeCard(mobTester);
+        utilityCard.setCardID(39);
+
+        //Testing
+        assertTrue(mobContainerTester.getContents() != null);
+        assertFalse(gameBoard.isPlayer1Turn());
+        int originalMobAttack = mobContainerTester.getContents().getAttackDamage();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(mobContainerTester.getContents().getAttackDamage() < originalMobAttack);
+    }
+
+    @Test
+    public void UtilityCard_runUtilityEffectCardID_40_Test() {
+        //Setup
+        UtilityCard utilityCard = new UtilityCard(100, 100, mainGameScreen, testUtilityCardStats);
+
+        CharacterCardStats characterCardStatsTester = new CharacterCardStats("Dragon", 2, "Its a dragon", 5, 10, 20);
+        CharacterCard characterCardTester = new CharacterCard(100, 100, mainGameScreen, characterCardStatsTester);
+        Mob mobTester = new Mob(100, 100, mainGameScreen, characterCardTester);
+
+        MobContainer mobContainerTester = new MobContainer(100,100, MobContainer.ContainerType.TOP_PLAYER, mainGameScreen);
+        gameBoard.getFieldContainers().add(mobContainerTester);
+        mobContainerTester.placeCard(mobTester);
+        utilityCard.setCardID(40);
+
+        //Testing
+        assertTrue(mobContainerTester.getContents() != null);
+        assertFalse(gameBoard.isPlayer1Turn());
+        int originalMobAttack = mobContainerTester.getContents().getAttackDamage();
+        utilityCard.runUtilityEffect(gameBoard);
+        assertTrue(mobContainerTester.getContents().getAttackDamage() > originalMobAttack);
+    }
 }
