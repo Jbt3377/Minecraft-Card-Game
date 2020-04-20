@@ -51,6 +51,7 @@ public class AiTest {
         game.getAssetManager().loadAssets("txt/assets/MobSounds.JSON");
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
         mainScreen = new MainGameScreen(game);
+        System.out.println("HEre------------------------------");
         game.getScreenManager().addScreen(mainScreen);
 
         testAi = new Ai("Steve's Arsenal");

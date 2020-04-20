@@ -35,7 +35,7 @@ public class RulesScreen extends GameScreen {
     // /////////////////////////////////////////////////////////////////////////
 
 
-    public RulesScreen(String screenName, Game game) {
+    public RulesScreen(Game game) {
         super("Rules", game);
 
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());

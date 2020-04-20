@@ -1,7 +1,6 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
@@ -19,9 +18,6 @@ import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.CharacterCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.EquipCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.CardStatsClasses.UtilityCardStats;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
-import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Player;
 
 public class PlayerHand {
 
@@ -34,6 +30,14 @@ public class PlayerHand {
     // Constructor
     //////////////
 
+    /**
+     * Public constructor for Player Hand/
+     *
+     * @param playersDeck - Deck Object containing all Card Stats that can be used throughout match.
+     * @param isPlayer1   - Boolean Flag used to determine the default card co-ordinates to populate
+     *                      the handPositionsIndex.
+     * @param gameScreen  - GameScreen to which the cards in hand will be drawn
+     */
     public PlayerHand(Deck playersDeck, Boolean isPlayer1, GameScreen gameScreen){
 
         this.playersDeck = playersDeck;
@@ -51,8 +55,11 @@ public class PlayerHand {
     //////////
 
     /**
-     * Method will identify if the Hand belongs to the Human or Ai and will set the card positions
-     * on screen accordingly.
+     * Method will identify if the Hand belongs to the Human or Ai and will create an index of
+     * the card default positions for the player.
+     *
+     * @param isPlayer1 - Used to determine the default card co-ordinates to place in the
+     *                    co-ordinates index.
      */
     private void assignHandPositions(Boolean isPlayer1){
 
@@ -76,7 +83,6 @@ public class PlayerHand {
                 yPosForCards+=200;
             }
         }
-
     }
 
     /**
@@ -101,7 +107,6 @@ public class PlayerHand {
             currentCardCount++;
         }
 
-
         // Replenish Character Cards
         for(int i = currentNumOfCharacterCards; i<5; i++) {
 
@@ -110,7 +115,8 @@ public class PlayerHand {
                 CharacterCardStats nextCharCardStats = (CharacterCardStats)playersDeck.popNextCharacterCardStat();
 
                 // Inflate Card Object using popped Card Stats & add to Hand
-                CharacterCard nextCharCard = new CharacterCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, nextCharCardStats);
+                CharacterCard nextCharCard = new CharacterCard(handPositionsIndex[currentCardCount][xPos],
+                        handPositionsIndex[currentCardCount][yPos], gameScreen, nextCharCardStats);
                 playerHand.add(nextCharCard);
                 currentCardCount++;
 
@@ -128,10 +134,15 @@ public class PlayerHand {
 
                 // Inflate Card Object using popped Card Stats & add to Hand
                 if (nextSpecialCardStats instanceof EquipCardStats) {
-                    EquipCard nextSpecialCard = new EquipCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, (EquipCardStats) nextSpecialCardStats);
+                    EquipCard nextSpecialCard = new EquipCard(handPositionsIndex[currentCardCount][xPos],
+                            handPositionsIndex[currentCardCount][yPos], gameScreen,
+                            (EquipCardStats) nextSpecialCardStats);
                     playerHand.add(nextSpecialCard);
+
                 }else if(nextSpecialCardStats instanceof UtilityCardStats) {
-                    UtilityCard nextSpecialCard = new UtilityCard(handPositionsIndex[currentCardCount][xPos], handPositionsIndex[currentCardCount][yPos], gameScreen, (UtilityCardStats) nextSpecialCardStats);
+                    UtilityCard nextSpecialCard = new UtilityCard(handPositionsIndex[currentCardCount][xPos],
+                            handPositionsIndex[currentCardCount][yPos], gameScreen,
+                            (UtilityCardStats) nextSpecialCardStats);
                     playerHand.add(nextSpecialCard);
                 }
                 currentCardCount++;
@@ -144,7 +155,7 @@ public class PlayerHand {
 
 
     /**
-     * Method draws each Card in Hand in Player's hand positions
+     * Method draws each Card in Hand in base hand positions
      */
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
                      LayerViewport layerViewport, ScreenViewport screenViewport){
@@ -168,13 +179,10 @@ public class PlayerHand {
         }
     }
 
-
-    ////////////////////
-    // Getters & Setters
-    ////////////////////
+    //////////
+    // Getters
+    //////////
 
     public ArrayList<Card> getPlayerHand() { return playerHand; }
-
-
 
 }

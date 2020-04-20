@@ -120,12 +120,12 @@ public class StartScreen extends GameScreen {
 
 
         //has to be inside the Constructor to create a game screen
-        Rules = new RulesScreen("Rules", game);
-        Options = new OptionsScreen("OptionsScreen", game);
-        DeckEditor = new DeckEditorScreen("DeckEditor", game);
-        DisplayAllCards = new DisplayCardsScreen("CardsDisplay", game);
-        CustomBoardScreen = new CustomBoardScreen("customBoardScreen", game);
-        ChangeDeck = new ChangeDeckScreen("changeDeck", game);
+        Rules = new RulesScreen(game);
+        Options = new OptionsScreen(game);
+        DeckEditor = new DeckEditorScreen(game);
+        DisplayAllCards = new DisplayCardsScreen(game);
+        CustomBoardScreen = new CustomBoardScreen(game);
+        ChangeDeck = new ChangeDeckScreen(game);
 
     }
 

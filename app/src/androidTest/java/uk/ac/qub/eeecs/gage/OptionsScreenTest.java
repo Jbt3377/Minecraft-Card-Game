@@ -19,7 +19,10 @@ import android.graphics.Paint;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Option Screen Tests
+ * Created Dawson Mckee
+ */
 @RunWith(AndroidJUnit4.class)
 public class OptionsScreenTest {
     private Context context;
@@ -36,7 +39,7 @@ public class OptionsScreenTest {
         game.mScreenManager = new ScreenManager(game);
         game.mAudioManager = new AudioManager(game);
         game.mAssetManager.loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
-      optionsScreen = new OptionsScreen("OptionsScreen" , game);
+        optionsScreen = new OptionsScreen(game);
         game.getScreenManager().addScreen(optionsScreen);
 
     }
@@ -46,7 +49,7 @@ public class OptionsScreenTest {
     public void VolumeButton_Test(){
 
         float val = optionsScreen.getMusic2();
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         assertTrue(pt1 == 1);
 
         assertTrue(val == 0.0 );
@@ -57,10 +60,10 @@ public class OptionsScreenTest {
     public void VolumeButton_Test2(){
 
 
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
 
         float val = optionsScreen.getMusic2();
         float Sfxval = optionsScreen.getSfx2();
@@ -75,13 +78,13 @@ public class OptionsScreenTest {
     @Test
    // button will then be pressed and go to 2
     public void VolumeButton_Test3(){
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt3 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt3 = optionsScreen.getVolumeCounter();
 
         float val = optionsScreen.getMusic3();
         float Sfxval = optionsScreen.getSfx3();
@@ -94,19 +97,19 @@ public class OptionsScreenTest {
     @Test
     //counter will be reset
     public void VolumeButton_Test4(){
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt3 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt3 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt0 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt0 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt1_ = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt1_ = optionsScreen.getVolumeCounter();
 
         float val = optionsScreen.getMusic4();
         float Sfxval = optionsScreen.getSfx4();
@@ -121,16 +124,16 @@ public class OptionsScreenTest {
     //testing the boundary of reset
     public void VolumeButton_fail(){
 
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt3 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt3 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt0 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt0 = optionsScreen.getVolumeCounter();
       //this is to prove that the counter resets with the logic
         assertFalse(pt0 == 4);
     }
@@ -138,19 +141,19 @@ public class OptionsScreenTest {
     public void VolumeButton_test_volume_boundary(){
 //this changes as expexcted due to how gage sets up default values
         //button after reset volume
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt3 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt3 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt0 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt0 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt1_ = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt1_ = optionsScreen.getVolumeCounter();
 
         float val = optionsScreen.getMusic2();
 
@@ -160,22 +163,22 @@ public class OptionsScreenTest {
 @Test
     public void VolumeButton_test_volume2(){
 
-        int pt1 = optionsScreen.getVolumecounter();
+        int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt3 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt3 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt0 = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt0 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt1_ = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt1_ = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
-        optionsScreen.volumebuttontriggred();
-        int pt2_ = optionsScreen.getVolumecounter();
+        optionsScreen.updateVolumeLevel();
+        int pt2_ = optionsScreen.getVolumeCounter();
 
         float val = optionsScreen.getMusic3();
         float Sfxval = optionsScreen.getSfx3();

@@ -87,7 +87,7 @@ public class GameBoard {
 
     private void commonConstructorSetup() {
 
-        cardCollection = CardCollection.getAllCardCollection(gameScreen.getGame().getScreenManager().getCurrentScreen(), gameScreen.getGame().getAssetManager().getAllCardStats());
+        cardCollection = CardCollection.getAllCardCollection(gameScreen, gameScreen.getGame().getAssetManager().getAllCardStats());
 
         this.fieldContainers = new ArrayList<>();
 
@@ -142,10 +142,9 @@ public class GameBoard {
 
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
     // Update & Draw Methods
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
 
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
@@ -170,9 +169,9 @@ public class GameBoard {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////
     // General Getter & Setter Methods
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////
 
     public final Player getActivePlayer() {
         if (isPlayer1Turn)
@@ -278,7 +277,7 @@ public class GameBoard {
             for (Card card : player2Hand.getPlayerHand()) {
                 if (card != null) {
                     if (t.type == TouchEvent.TOUCH_DOWN && card.getBoundingBox().contains(x_cor, y_cor)) {
-                        processCardMagnification(card, gameScreen.getGame(), player2Hand);
+                        processCardMagnification(card, gameScreen.getGame(), player1Hand);
                     } else if (t.type == TouchEvent.TOUCH_UP) {
                         processCardMagnificationRelease(gameScreen.getGame());
                     }
@@ -319,8 +318,20 @@ public class GameBoard {
         this.player2 = player2;
     }
 
+    public Deck getPlayer1Deck() {
+        return player1Deck;
+    }
+
     public void setPlayer1Deck(Deck player1Deck) {
         this.player1Deck = player1Deck;
+    }
+
+    public Deck getPlayer2Deck() {
+        return player2Deck;
+    }
+
+    public void setPlayer2Deck(Deck player2Deck) {
+        this.player2Deck = player2Deck;
     }
 
     public PlayerHand getPlayer1Hand() {
@@ -379,7 +390,7 @@ public class GameBoard {
         this.utilityCardContainer = utilityCardContainer;
     }
 
-    public static void processCardMagnification(Draggable dObj, Game game, PlayerHand playerHand) {
+    public void processCardMagnification(Draggable dObj, Game game, PlayerHand playerHand) {
         Card card;
         if (game.isMagnificationToggled()) {
             int index = playerHand.getPlayerHand().indexOf(dObj);
@@ -391,21 +402,20 @@ public class GameBoard {
         }
     }
 
-    public static void processCardMagnificationRelease(Game game) {
+    public void processCardMagnificationRelease(Game game) {
         if (game.isMagnificationToggled()) {
             if (game.drawCard) {
                 game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
             }
             game.setDrawCard(false);
-            ;
         }
     }
 
-    public static void processMobMagnification(Game game, MobContainer mobContainer) {
+    public void processMobMagnification(Game game, MobContainer mobContainer) {
 
         Card card = null;
         if (game.isMagnificationToggled()) {
-            for (Card mobCard : game.getScreenManager().getCurrentScreen().getCardCollection()) {
+            for (Card mobCard : cardCollection) {
                 if (mobContainer.getContents().getName() == mobCard.getCardName()) {
                     card = mobCard;
                 }
@@ -417,7 +427,7 @@ public class GameBoard {
         }
     }
 
-    public static void processMobMagnificationRelease(Game game) {
+    public void processMobMagnificationRelease(Game game) {
         if (game.isMagnificationToggled()) {
             if (game.drawCard) {
                 game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));

@@ -24,6 +24,10 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
 
+/**
+ * ChangeDeckScreen Tests
+ * Created Samuel Brown
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ChangeDeckScreenTest {
 
@@ -56,7 +60,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton1Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton1().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton1().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -71,7 +75,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton2Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton2().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton2().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -86,7 +90,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton3Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton3().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton3().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -101,7 +105,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton4Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton4().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton4().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -116,7 +120,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton5Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton5().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton5().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -131,7 +135,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_deckButton6Pushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getDeckButton6().position.x;
         float buttonPositionY = changeDeckScreen.getDeckButton6().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -146,7 +150,7 @@ public class ChangeDeckScreenTest {
 
     @Test
     public void ChangeDeckScreen_customDeckButtonPushed_Test() {
-        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen("customBoardScreen", game);
+        ChangeDeckScreen changeDeckScreen = new ChangeDeckScreen(game);
         float buttonPositionX = changeDeckScreen.getCustomDeckButton().position.x;
         float buttonPositionY = changeDeckScreen.getCustomDeckButton().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);

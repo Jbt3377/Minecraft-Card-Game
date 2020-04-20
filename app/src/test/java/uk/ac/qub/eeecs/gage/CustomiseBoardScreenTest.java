@@ -22,6 +22,10 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
 
+/**
+ * CustomBoardScreen Tests
+ * Created Samuel Brown
+ */
 @RunWith(MockitoJUnitRunner.class)
     public class CustomiseBoardScreenTest {
 
@@ -49,12 +53,9 @@ import static org.junit.Assert.*;
     }
 
 
-    //These next two Tests fail due to a calculation, spent too long on finding where and how
-    //Looked through debug for 3+ hours and only found it was to do with a button calculation
-    //No idea how to fix
     @Test
     public void CustomBoardScreen_rightArrowPushed_Test() {
-        CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen customBoardScreen = new CustomBoardScreen(game);
         float buttonPositionX = customBoardScreen.getRightBoardChange().position.x;
         float buttonPositionY = customBoardScreen.getRightBoardChange().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -68,7 +69,7 @@ import static org.junit.Assert.*;
 
     @Test
     public void CustomBoardScreen_leftArrowPushed_Test() {
-        CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen customBoardScreen = new CustomBoardScreen(game);
         float buttonPositionX = customBoardScreen.getLeftBoardChange().position.x;
         float buttonPositionY = customBoardScreen.getLeftBoardChange().position.y;
         List touchEvents = setupTouchEvents(buttonPositionX, buttonPositionY);
@@ -81,7 +82,7 @@ import static org.junit.Assert.*;
 
     @Test
     public void CustomBoardScreen_boardSetter_toSpruceGameBoard_Test() {
-        CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen customBoardScreen = new CustomBoardScreen(game);
         String testText = "Spruce Game Board";
         int testBoardCounter = 0;
         customBoardScreen.boardSetter(testBoardCounter);
@@ -91,7 +92,7 @@ import static org.junit.Assert.*;
 
     @Test
     public void CustomBoardScreen_boardSetter_toStoneGameBoard_Test() {
-        CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen customBoardScreen = new CustomBoardScreen(game);
         String testText = "Stone Game Board";
         int testBoardCounter = 1;
         customBoardScreen.boardSetter(testBoardCounter);
@@ -100,7 +101,7 @@ import static org.junit.Assert.*;
 
     @Test
     public void CustomBoardScreen_boardSetter_toQuartzGameBoard_Test() {
-        CustomBoardScreen customBoardScreen = new CustomBoardScreen("customBoardScreen", game);
+        CustomBoardScreen customBoardScreen = new CustomBoardScreen(game);
         String testText = "Quartz Game Board";
         int testBoardCounter = 2;
         customBoardScreen.boardSetter(testBoardCounter);
