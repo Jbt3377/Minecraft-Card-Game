@@ -19,7 +19,10 @@ import android.graphics.Paint;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * Option Screen Tests
+ * Created Dawson Mckee
+ */
 @RunWith(AndroidJUnit4.class)
 public class OptionsScreenTest {
     private Context context;

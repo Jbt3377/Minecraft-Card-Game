@@ -37,7 +37,7 @@ public class ChangeDeckScreen extends GameScreen {
 
 
 
-    public ChangeDeckScreen(String screenName, Game game) {
+    public ChangeDeckScreen(Game game) {
         super("changeDeckScreen", game);
 
         int screenWidth = game.getScreenWidth();
@@ -73,7 +73,7 @@ public class ChangeDeckScreen extends GameScreen {
         frames = 0;
 
         //Creating a Deck Editor screen to allow it to be displayed later
-        DeckEditor = new DeckEditorScreen("DeckEditor", game);
+        DeckEditor = new DeckEditorScreen(game);
     }
 
 

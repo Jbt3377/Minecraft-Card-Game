@@ -18,21 +18,6 @@ public class UtilityCard extends Card {
         this.effect_intensity = cardStats.getEffect_intensity();
     }
 
-
-    public void runCardAnimation(){
-        if(flipTimer == 0){
-            setWidth(0);
-            setHeight(0);
-            this.setAnimationFinished(true);
-        }
-        else{
-            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - flipTimer)));
-            setHeight(DEFAULT_CARD_HEIGHT - (scale * (FLIP_TIME - flipTimer)));
-        }
-
-        flipTimer--;
-    }
-
     public void runUtilityEffect(GameBoard gameBoard){
         switch(this.getCardID()) {
             case 32 :
@@ -56,23 +41,6 @@ public class UtilityCard extends Card {
             case 40:
                 strengthenAllyMobs(gameBoard);
         }
-    }
-
-    public boolean isAnimationFinished() {
-        return animationFinished;
-    }
-
-    public void setAnimationFinished(boolean animationFinished) {
-        this.animationFinished = animationFinished;
-    }
-
-
-    public boolean isAnimationInProgress() {
-        return animationInProgress;
-    }
-
-    public void setAnimationInProgress(boolean animationInProgress) {
-        this.animationInProgress = animationInProgress;
     }
 
     public void damageEnemyHP(GameBoard gameBoard) {
@@ -167,6 +135,37 @@ public class UtilityCard extends Card {
                 }
             }
         }
+    }
+
+    public void runCardAnimation(){
+        if(flipTimer == 0){
+            setWidth(0);
+            setHeight(0);
+            this.setAnimationFinished(true);
+        }
+        else{
+            setWidth(DEFAULT_CARD_WIDTH - (scale * (FLIP_TIME - flipTimer)));
+            setHeight(DEFAULT_CARD_HEIGHT - (scale * (FLIP_TIME - flipTimer)));
+        }
+
+        flipTimer--;
+    }
+
+    public boolean isAnimationFinished() {
+        return animationFinished;
+    }
+
+    public void setAnimationFinished(boolean animationFinished) {
+        this.animationFinished = animationFinished;
+    }
+
+
+    public boolean isAnimationInProgress() {
+        return animationInProgress;
+    }
+
+    public void setAnimationInProgress(boolean animationInProgress) {
+        this.animationInProgress = animationInProgress;
     }
 
 }
