@@ -1,5 +1,6 @@
 package uk.ac.qub.eeecs.game.GameObjects.UtilityClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.qub.eeecs.gage.Game;
@@ -14,6 +15,8 @@ import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Human;
 
 public abstract class Interaction {
+
+
 
     public static void processDragEvents(List<TouchEvent> touchEvents, Draggable dObj, Game game) {
 
@@ -163,7 +166,7 @@ public abstract class Interaction {
             }
     }
 
-    public static void processMobMagnification(List<TouchEvent> touchEvents, Game game, MobContainer mobContainer) {
+    public static void processMobMagnification(List<TouchEvent> touchEvents, Game game, MobContainer mobContainer, ArrayList<Card> cardCollection) {
 
         Card card = null;
 
@@ -175,7 +178,7 @@ public abstract class Interaction {
             if (t.type == TouchEvent.TOUCH_DOWN && mobContainer.getBound().contains(x_cor, y_cor)) {
                 if (game.isMagnificationToggled()) {
 
-                    for (Card mobCard : game.getScreenManager().getCurrentScreen().getCardCollection()) {
+                    for (Card mobCard : cardCollection) {
                         if (mobContainer.getContents().getName() == mobCard.getCardName()) {
                             card = mobCard;
                         }

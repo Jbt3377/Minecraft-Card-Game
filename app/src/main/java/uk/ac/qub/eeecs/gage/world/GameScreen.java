@@ -87,22 +87,8 @@ public abstract class GameScreen {
         return mDefaultScreenViewport;
     }
 
-
     protected float mScreenWidth, mScreenHeight;
     protected int fps;
-
-
-
-    // List containing all card stat objects
-    private ArrayList<CardStats> allCardStats;
-
-
-    //All the cards that will be displayed
-    private ArrayList<Card> cardCollection = new ArrayList<>();
-
-    public ArrayList<Card> getCardCollection() {
-        return cardCollection;
-    }
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -131,9 +117,6 @@ public abstract class GameScreen {
         popUpObjects = new CopyOnWriteArrayList<>();
 
         mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
-        allCardStats = mGame.getAssetManager().getAllCardStats();
-        addCardsToCardCollection();
-
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -194,27 +177,4 @@ public abstract class GameScreen {
                 popup.draw(elapsedTime, graphics2D);
         }
     }
-
-    //Adds all the cards that exist into cardCollection
-    private void addCardsToCardCollection(){
-        //Logical Adds the cards depending on the "type" of card
-        for(CardStats x : allCardStats){
-            //CharacterCardStats check
-            if(x instanceof CharacterCardStats){
-                CharacterCard card = new CharacterCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (CharacterCardStats)x);
-                cardCollection.add(card);
-            }
-            //UtilityCardStats check
-            if(x instanceof UtilityCardStats){
-                UtilityCard card = new UtilityCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (UtilityCardStats)x);
-                cardCollection.add(card);
-            }
-            //EquipCardStats check
-            if(x instanceof EquipCardStats){
-                EquipCard card = new EquipCard(getDefaultLayerViewport().x, getDefaultLayerViewport().y, this, (EquipCardStats)x);
-                cardCollection.add(card);
-            }
-        }
-    }
-
 }

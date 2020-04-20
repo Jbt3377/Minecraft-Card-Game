@@ -8,6 +8,7 @@ import uk.ac.qub.eeecs.gage.engine.input.TouchEvent;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.ScreenViewport;
 import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
+import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.CardCollection;
 import uk.ac.qub.eeecs.game.GameObjects.ContainerClasses.Mob;
 import uk.ac.qub.eeecs.game.GameObjects.DeckClasses.Deck;
 import uk.ac.qub.eeecs.game.GameObjects.PlayerClasses.Ai;
@@ -55,6 +56,9 @@ public class GameBoard {
 
     private List<TouchEvent> input;
 
+
+    private ArrayList<Card> cardCollection;
+
     //////////////
     //Constructor
     /////////////
@@ -66,6 +70,8 @@ public class GameBoard {
         this.gameScreen = gameScreen;
 
         commonConstructorSetup();
+
+
 
     }
 
@@ -80,6 +86,8 @@ public class GameBoard {
     }
 
     private void commonConstructorSetup(){
+
+        cardCollection = CardCollection.getAllCardCollection(gameScreen.getGame().getScreenManager().getCurrentScreen(), gameScreen.getGame().getAssetManager().getAllCardStats());
 
         this.fieldContainers = new ArrayList<>();
 
@@ -267,7 +275,7 @@ public class GameBoard {
 
         for (MobContainer mobContainer : getFieldContainers()) {
             if (mobContainer.getContents() != null) {
-                Interaction.processMobMagnification(input, gameScreen.getGame(), mobContainer);
+                Interaction.processMobMagnification(input, gameScreen.getGame(), mobContainer, cardCollection );
             }
         }
 
