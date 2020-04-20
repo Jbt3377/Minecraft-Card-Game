@@ -3,104 +3,64 @@ package uk.ac.qub.eeecs.game.GameScreens;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.ArrayList;
-
 import uk.ac.qub.eeecs.gage.Game;
 import uk.ac.qub.eeecs.gage.MainActivity;
 import uk.ac.qub.eeecs.gage.engine.ElapsedTime;
-import uk.ac.qub.eeecs.gage.engine.audio.AudioManager;
 import uk.ac.qub.eeecs.gage.engine.audio.Sound;
 import uk.ac.qub.eeecs.gage.engine.graphics.IGraphics2D;
 import uk.ac.qub.eeecs.gage.ui.PushButton;
 import uk.ac.qub.eeecs.gage.ui.ToggleButton;
-import uk.ac.qub.eeecs.gage.util.Vector2;
 import uk.ac.qub.eeecs.gage.world.GameObject;
 import uk.ac.qub.eeecs.gage.world.GameScreen;
 import uk.ac.qub.eeecs.gage.world.LayerViewport;
 import uk.ac.qub.eeecs.gage.world.Sprite;
-import uk.ac.qub.eeecs.game.GameObjects.CardClasses.Card;
 import uk.ac.qub.eeecs.game.GameObjects.GameBoard;
 import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.TurnManager;
 
 
 /**
- * Starter class for Card game stories
- *
- * @version 1.0
+ * MainGameScreen - Class containing the card game and bulk of functionality
  */
 public class MainGameScreen extends GameScreen {
 
-    ////////////////////////////////////////////////////////////////////////////
+    /////////////
     // Properties
-    ////////////////////////////////////////////////////////////////////////////
+    /////////////
 
-    // Viewports
-    private LayerViewport boardLayerViewport, cardLayerViewport;
+    private LayerViewport boardLayerViewport;
 
-    // Background Image
-    private GameObject boardBackground, player1Heart, player1Mana,player2Heart, player2Mana;
-
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
-    public void setGameBoard(GameBoard gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    // Game Board associated with Card Game
+    private GameObject boardBackground, player1Heart, player1Mana, player2Heart, player2Mana;
     private GameBoard gameBoard;
-
-    //Turn Manager for the Gameboard
     private TurnManager turnManager;
 
-
-
-    // MainGameScreen
-    private PushButton endTurnButton, displayAllCardsButton, pauseButton;
+    private PushButton endTurnButton, pauseButton;
     private ToggleButton magnificationButton, fpsToggle;
-    //Toggle Sound
-    Sound triggerSound = mGame.getAssetManager().getSound("ButtonDefaultPush");
 
-    // DisplayCardsScreen
-    private DisplayCardsScreen ViewCards;
-
-    //Defined an arraylist for the collection of cards
-    private ArrayList<Card> cardCollection = new ArrayList<>();
-    private int numberOfCards = 4;
-
-    //Turn Number Counter
-    private Paint dialogueTextPaint;
-    private Vector2 textPosition;
-
-    int fps;
-
-    //Turn Number Counter
+    private Sound triggerSound = mGame.getAssetManager().getSound("ButtonDefaultPush");
+    private int fps;
     private int turnNumber = 1;
 
 
-    //Pause menu
+    // Pause menu //
     private PushButton unpauseButton, exitButton,volumeButton;
     private int volumecounter = 1;
     private Sprite pauseScreen;
     private Paint pausePaint;
-    public boolean gamePaused;
-    public boolean testvariable;
+    private boolean gamePaused;
 
 
-
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////
     // Constructor
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////
 
     /**
-     * Create the Card Game Screen
-     * @param game Game to which this screen belongs
+     * Public constructor for Main Card Game
+     * @param game - Game to which this screen belongs
      */
     public MainGameScreen(Game game) {
         super("CardScreen", game);
 
-        // GameBoard Constructor dependent on  type of opponent selected
+        // GameBoard Constructor dependent on type of opponent selected
         if(game.isPlayer2Human())
             gameBoard = new GameBoard(game.getPlayer1(), game.getPlayer2(), this);
         else
@@ -110,58 +70,40 @@ public class MainGameScreen extends GameScreen {
         turnManager = new TurnManager(gameBoard,this, game);
 
 
-        // Load the various images used by the cards
-        //mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
-
-        //mGame.getAssetManager().loadCard("txt/assets/MinecraftCardGameScreenCards.JSON");
-        //mGame.getAssetManager().loadAndAddMusic("MinecraftMusic","sound/MinecraftMusic.mp3");
-
-
-        gamePaused = false;
+        this.gamePaused = false;
 
         setupViewPorts();
 
         createPauseWindow();
 
         setupBoardGameObjects();
-
-        //Loading font
-        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
-
     }
 
 
-
-    // /////////////////////////////////////////////////////////////////////////
+    //////////
     // Methods
-    // /////////////////////////////////////////////////////////////////////////
+    //////////
 
     /**
      * Setup a full screen viewport for drawing to the entire screen and then
      * setup a board game viewport into the 'world' of the created game objects.
-     * Also created a cardLayerViewport for future use
      */
     private void setupViewPorts() {
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
 
         //Setup boardLayerViewport - MMC
         boardLayerViewport = new LayerViewport(mScreenWidth/2,mScreenHeight/2,mScreenWidth/2,mScreenHeight/2);
-        cardLayerViewport = new LayerViewport(mScreenWidth/2,mScreenHeight/2,mScreenWidth/2,mScreenHeight/2);
     }
 
-
+    /**
+     * Method sets up the bulk of the game objects for the Main Game Screen
+     */
     private void setupBoardGameObjects() {
 
-        // Creates list of card objects
-        //addCardsToList();
-
-        // Set position of card objects
-        //setPositionCards();
-
-        // Setup boardBackGround image - MMC
+        // Setup boardBackGround image
         boardBackground =  new GameObject(mScreenWidth/2, mScreenHeight/2, mScreenWidth, mScreenHeight, getGame().getAssetManager().getBitmap(mGame.getGameboardBackground()), this);
 
-        // Buttons;
+        // Buttons
         endTurnButton = new PushButton(mScreenWidth * 0.90f, mScreenHeight/2,mScreenWidth/10, mScreenHeight/10,
                 "EndTurnDefault", "EndTurnActive", this);
 
@@ -174,24 +116,21 @@ public class MainGameScreen extends GameScreen {
 
         magnificationButton.setSounds(triggerSound, triggerSound);
 
-
+        // Player HP and Mana Icons
         float playerHeartIconXPos = mScreenWidth*0.85f, playerManaIconXPos = mScreenWidth*0.90f,
                 player1HeartAndManaYPos = (mScreenHeight*0.60f)+40, player2HeartAndManaYPos = (mScreenHeight*0.40f)-40;
-
 
         player1Heart = new GameObject(playerHeartIconXPos, player1HeartAndManaYPos,130, 140, mGame.getAssetManager().getBitmap("Heart"), this);
         player1Mana = new GameObject(playerManaIconXPos, player1HeartAndManaYPos,150, 160, mGame.getAssetManager().getBitmap("BottleOEnchanting"), this);
         player2Heart = new GameObject(playerHeartIconXPos, player2HeartAndManaYPos,130, 140, mGame.getAssetManager().getBitmap("Heart"), this);
         player2Mana = new GameObject(playerManaIconXPos, player2HeartAndManaYPos,150, 160, mGame.getAssetManager().getBitmap("BottleOEnchanting"), this);
-
-
-
     }
 
 
+    /**
+     * Method sets up the Game Objects associated with the Pause Screen
+     */
     private void createPauseWindow() {
-
-        // Instantiate pause screen and buttons
 
         pauseScreen =  new Sprite(mScreenWidth / 2, mScreenHeight / 2, mScreenWidth / 1.1f,
                 mScreenHeight / 1.1f, getGame().getAssetManager().getBitmap("PauseMenu"), this);
@@ -218,7 +157,6 @@ public class MainGameScreen extends GameScreen {
 
         if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
 
-
         // Setting up some paints
         pausePaint = new Paint();
         pausePaint.setTextSize(mScreenWidth * 0.0469f);
@@ -229,7 +167,10 @@ public class MainGameScreen extends GameScreen {
     }
 
 
-    public void drawPauseMenu(ElapsedTime elapsedTime,IGraphics2D graphics2D){
+    /**
+     * Method used to draw the pause menu when game paused
+     */
+    private void drawPauseMenu(ElapsedTime elapsedTime,IGraphics2D graphics2D){
 
         pauseScreen.draw(elapsedTime, graphics2D);
         graphics2D.drawText("GAME PAUSED", (int) (mScreenWidth / 2.75), mScreenHeight * 0.2037f, pausePaint);
@@ -237,17 +178,15 @@ public class MainGameScreen extends GameScreen {
         graphics2D.drawText("Volume:", (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
         graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 3.3), mScreenHeight * 0.55f, pausePaint);
 
-
-
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         unpauseButton.draw(elapsedTime, graphics2D,boardLayerViewport,mDefaultScreenViewport);
         exitButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
     }
 
+
     /**
      * Method updates buttons and deals with the result of their altered states
-     * @param elapsedTime
      */
     private void updateGameButtons(ElapsedTime elapsedTime){
 
@@ -264,18 +203,15 @@ public class MainGameScreen extends GameScreen {
         // Check 2 - Game Paused
         if (pauseButton.isPushTriggered())
          gamePaused = true;
-
 }
 
 
     /**
      * Method draws game buttons
-     * @param elapsedTime
-     * @param graphics2D
      */
     private void drawGameButtons(ElapsedTime elapsedTime, IGraphics2D graphics2D){
 
-        // Draw endTurnButton into boardLayerViewport - MMC
+        // Draw endTurnButton into boardLayerViewport
         endTurnButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
@@ -284,13 +220,12 @@ public class MainGameScreen extends GameScreen {
         magnificationButton.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
                 mDefaultScreenViewport);
-
     }
 
 
     /**
      * Method to setup a paint style for turn counter
-     * @return paint for turn text
+     * @return - Paint for turn text
      */
     private Paint createTurnTextPaint(){
 
@@ -303,6 +238,10 @@ public class MainGameScreen extends GameScreen {
 
     }
 
+    /**
+     * Method to setup a paint style for player stats
+     * @return - Paint for player stats
+     */
     private Paint statsTextPaint(){
         Paint statsTextPaint = new Paint();
         statsTextPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -312,6 +251,10 @@ public class MainGameScreen extends GameScreen {
         return statsTextPaint;
     }
 
+    /**
+     * Method to setup a paint style for fps counter
+     * @return - Paint for fps counter
+     */
     private Paint fpsPaint(){
         Paint fpsPaint = new Paint();
         fpsPaint.setTypeface(mGame.getAssetManager().getFont("MinecrafterFont"));
@@ -321,7 +264,12 @@ public class MainGameScreen extends GameScreen {
         return fpsPaint;
     }
 
-    public void checkEndGame(){
+
+    /**
+     * Method checks for end game (Player Health less than 0) and switches
+     * to End Game Screen if detected.
+     */
+    private void checkEndGame(){
         if (gameBoard.getPlayer1().getmPlayerHealth() <= 0) {
             EndGameScreen endGameScreen = new EndGameScreen(getGame(), gameBoard);
             mGame.getScreenManager().addScreen(endGameScreen);
@@ -336,9 +284,9 @@ public class MainGameScreen extends GameScreen {
 
 
 
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
     // Update & Draw Methods
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
 
     @Override
     public void update(ElapsedTime elapsedTime) {
@@ -357,7 +305,7 @@ public class MainGameScreen extends GameScreen {
         } else
             pauseMenuUpdate(elapsedTime);
 
-            gameBoard.update();
+        gameBoard.update();
 
     }
 
@@ -373,12 +321,13 @@ public class MainGameScreen extends GameScreen {
 
         drawMagnifiedCard(elapsedTime, graphics2D);
 
+        // Draw player and opponent life points and mana icons
         player1Heart.draw(elapsedTime, graphics2D);
         player1Mana.draw(elapsedTime, graphics2D);
         player2Heart.draw(elapsedTime, graphics2D);
         player2Mana.draw(elapsedTime, graphics2D);
 
-        //Draw player and opponent life points and mana points
+        // Draw player and opponent life points and mana points
         graphics2D.drawText("" + gameBoard.getPlayer1().getmPlayerHealth(), (int) (mScreenWidth * 0.85f), mScreenHeight * 0.645f, statsTextPaint());
         graphics2D.drawText("" + gameBoard.getPlayer1().getmPlayerMana(), (int) (mScreenWidth * 0.902f), mScreenHeight * 0.683f, statsTextPaint());
         graphics2D.drawText("" + gameBoard.getPlayer2().getmPlayerHealth(), (int) (mScreenWidth * 0.85f), mScreenHeight * 0.37f, statsTextPaint());
@@ -395,7 +344,6 @@ public class MainGameScreen extends GameScreen {
 
         drawPopUps(elapsedTime, graphics2D);
 
-
         // Draw Pause Menu / Pause Button - Depending on if game is paused
         if (gamePaused)
             drawPauseMenu(elapsedTime,graphics2D);
@@ -405,19 +353,17 @@ public class MainGameScreen extends GameScreen {
                     mDefaultScreenViewport);
     }
 
-    public void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-
-
-        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null && mGame.drawCard()) {
-
+    /**
+     * Method draws enlarged card if magnification conditions met
+     */
+    private void drawMagnifiedCard(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        if (mGame.isMagnificationToggled() && mGame.getMagnifiedCard() != null && mGame.drawCard())
             mGame.getMagnifiedCard().draw(elapsedTime, graphics2D);
-        }
-
     }
 
-
-
-
+    /**
+     * Method updates objects associated with pause screen
+     */
     private void pauseMenuUpdate(ElapsedTime elapsedTime) {
         if (mGame.getInput().getTouchEvents().size() > 0) {
 
@@ -441,8 +387,8 @@ public class MainGameScreen extends GameScreen {
                 mGame.getScreenManager().removeScreen(this);
             }
 
+            // Game volume levels updated accordingly
             if(volumeButton.isPushTriggered()){
-
                 if(volumecounter == 0){
                     mGame.getAudioManager().setSfxVolume(0.33f);
                     mGame.getAudioManager().setMusicVolume(0.33f);
@@ -468,9 +414,9 @@ public class MainGameScreen extends GameScreen {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////
     // Getters & Setters
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////
 
     public int getTurnNumber() {
         return turnNumber;
@@ -500,14 +446,4 @@ public class MainGameScreen extends GameScreen {
         return pauseButton;
     }
 
-
-
 }
-
-
-
-
-
-
-
-

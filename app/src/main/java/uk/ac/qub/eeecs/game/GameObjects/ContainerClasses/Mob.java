@@ -14,9 +14,9 @@ import uk.ac.qub.eeecs.game.GameObjects.UtilityClasses.PopUpObject;
 
 public class Mob extends Sprite {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////
     // Properties
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////
 
     private int healthPoints, attackDamage;
     private int mobID;
@@ -25,22 +25,28 @@ public class Mob extends Sprite {
     private boolean hasBeenUsed;
     private static int nextID = 0;
     private boolean isSelectedToAttack;
-
     private EquipCard equipCard;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
     // Constructor
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
 
-
+    /**
+     * Public constructor for Mob
+     * @param x_cor         - X Co-Ordinate for the Mob to be drawn on screen
+     * @param y_cor         - Y Co-Ordinate for the Mob to be drawn on screen
+     * @param gameScreen    - GameScreen to which the Mob will be drawn
+     * @param characterCard - Character Card used to spawn the Mob, and used to fetch Name, Atk and
+     *                          and Hp values
+     */
     public Mob(float x_cor, float y_cor, GameScreen gameScreen, CharacterCard characterCard) {
 
-        // Creates sprite
         super(x_cor, y_cor, gameScreen.getGame().getScreenWidth() * 0.104f, gameScreen.getGame().getScreenHeight() * 0.185f,
                 null, gameScreen);
 
         this.mobID = Mob.nextID;
         Mob.nextID++;
+
         this.name = characterCard.getCardName();
         this.healthPoints = characterCard.getmHP();
         this.attackDamage = characterCard.getmAttackDmg();
@@ -51,19 +57,18 @@ public class Mob extends Sprite {
         fetchAudioAssets();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
     // Methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////
 
     /**
-     * Function used to set/update volume level for mob sound effects
+     * Method used to set/update volume level for mob sound effects
      */
     private void setEffectVolume(){
         damagedSound.setVolume(getGameScreen().getGame().getVolume());
         attackSound.setVolume(getGameScreen().getGame().getVolume());
         deathSound.setVolume(getGameScreen().getGame().getVolume());
     }
-
 
     /**
      * Method fetches and sets mob sounds as relevant SFX
@@ -90,9 +95,8 @@ public class Mob extends Sprite {
         }
     }
 
-
     /**
-     * Process of attacking an opponent card
+     * Method run the process of attacking an opponent mob
      */
     public void attackTarget(Mob targetedMob) {
 
@@ -103,7 +107,7 @@ public class Mob extends Sprite {
                 "-" + attackDamage, 5, true);
 
         // Play SFX for Attack Sequence
-        attackSequenceSFX(targetedMob);
+        attackSequenceSFX();
 
         // Mob has attacked, can no longer be used this turn
         this.hasBeenUsed = true;
@@ -112,26 +116,16 @@ public class Mob extends Sprite {
         this.updateMobBitmap();
     }
 
-
     /**
      * Method plays sequence of SFX for the attack sequence
      */
-    private void attackSequenceSFX(Mob targetedMob){
+    private void attackSequenceSFX(){
 
         // Attacking Mob - Play Attack Sound
         if(this.attackSound != null)
             getGameScreen().getGame().getAudioManager().play(this.attackSound);
 
-        // Targeted Mob - Play Death/Damaged Sounds
-        // TODO: Break in between SFX for one sound to play fully before another sound starts
-        /*
-        if(targetedMob.getHealthPoints() <= 0)
-            targetedMob.getDeathSound().play();
-        else
-            targetedMob.getDamagedSound().play();
-        */
     }
-
 
     /**
      * Method decreases the HP of the Mob
@@ -141,19 +135,18 @@ public class Mob extends Sprite {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
     // Draw Method
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////
 
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D, LayerViewport layerViewport, ScreenViewport screenViewport) {
         super.draw(elapsedTime, graphics2D,layerViewport, screenViewport);
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////
     // Getters & Setters
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////
 
     public int getHealthPoints(){ return healthPoints; }
 
@@ -173,7 +166,9 @@ public class Mob extends Sprite {
         return this.name;
     }
 
-    public int getMobID() { return mobID; }
+    public int getMobID() {
+        return mobID;
+    }
 
     public boolean hasBeenUsed() {
         return hasBeenUsed;
@@ -202,6 +197,5 @@ public class Mob extends Sprite {
     public void setEquipCard(EquipCard equipCard) {
         this.equipCard = equipCard;
     }
-
 
 }

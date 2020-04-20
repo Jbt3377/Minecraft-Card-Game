@@ -35,7 +35,7 @@ public class FPStest {
         game.mAssetManager = new AssetManager(game);
         game.mScreenManager = new ScreenManager(game);
         game.mAudioManager = new AudioManager(game);
-        optionsScreen = new OptionsScreen("OptionsScreen",game);
+        optionsScreen = new OptionsScreen(game);
         game.getScreenManager().addScreen(optionsScreen);
 
     }

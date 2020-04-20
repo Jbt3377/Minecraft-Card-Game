@@ -91,8 +91,6 @@ public class PlayerHandTest {
         helperTest_confirmCardTypeCount(testPlayerHand, 5, 2);
     }
 
-
-
     @Test
     public void test_replenishHandWhenEmpty(){
 
@@ -111,8 +109,6 @@ public class PlayerHandTest {
         helperTest_confirmCardTypeCount(testPlayerHand,5, 2);
     }
 
-
-
     @Test
     public void test_replenishHandWhenFull(){
 
@@ -130,8 +126,6 @@ public class PlayerHandTest {
         helperTest_confirmHandFull(testPlayerHand);
         helperTest_confirmCardTypeCount(testPlayerHand, 5, 2);
     }
-
-
 
     @Test
     public void test_replenishHandWhenMaxCharacterCards(){
@@ -160,8 +154,6 @@ public class PlayerHandTest {
         helperTest_confirmHandFull(testPlayerHand);
     }
 
-
-
     @Test
     public void test_replenishHandWhenMaxSpecialCards(){
 
@@ -188,8 +180,6 @@ public class PlayerHandTest {
         helperTest_confirmCardTypeCount(testPlayerHand, 5, 2);
         helperTest_confirmHandFull(testPlayerHand);
     }
-
-
 
     @Test
     public void test_replenishHandHalfFull(){
