@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Ai class tests
  *
- * Created by Josh Beatty
+ * Created by Josh
  */
 @RunWith(AndroidJUnit4.class)
 public class AiTest {
@@ -51,7 +51,6 @@ public class AiTest {
         game.getAssetManager().loadAssets("txt/assets/MobSounds.JSON");
         game.mDeckManager = new DeckManager(game.mAssetManager.getAllCardStats());
         mainScreen = new MainGameScreen(game);
-        System.out.println("HEre------------------------------");
         game.getScreenManager().addScreen(mainScreen);
 
         testAi = new Ai("Steve's Arsenal");
