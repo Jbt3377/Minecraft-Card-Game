@@ -82,7 +82,7 @@ public class DisplayCardsScreen extends GameScreen {
                 getGame().getAssetManager().getBitmap("BookShelfBackground"), this);
 
         //Sets up the position of cards
-        setCardPosition();
+        setCardPositions();
 
         //Back button setup
         mReturnButton = new PushButton(
@@ -101,10 +101,54 @@ public class DisplayCardsScreen extends GameScreen {
     }
 
     /**
+     * SetPositionCards
+     *
+     * Sets up the positions of the cards collection
+     */
+    private void setCardPositions() {
+        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //Starting Coordinates X
+        float card_start_y = mDefaultLayerViewport.getHeight() * 0.8f; //Starting Coordinates Y
+
+        int count = 0; //used to keep count of cards increment
+        for(int i = 0; i < numberOfRows; i++){
+            float y = i * distanceBetweenRows;
+
+            for(int j = 0; j < numberOfColumns; j++){
+                float x = j * distanceBetweenColumns;
+                if(count<displayedCardCollection.size()){
+                    displayedCardCollection.get(count).setPosition(card_start_x + x, card_start_y - y);
+                }
+                count++;
+            }
+        }
+    }
+
+    //Method allows future development and flexibility
+    private void calculateAmountOfRows(){
+        //Between Cards
+        distanceBetweenRows = mDefaultLayerViewport.getHeight()*    0.6f;
+        distanceBetweenColumns = mDefaultLayerViewport.getWidth()*  0.25f;
+
+        //Variables for the display of cards
+        int cardCollectionTrueSize = displayedCardCollection.size() + 1;
+        numberOfRows = (cardCollectionTrueSize / numberOfColumns); //Needs to be calculated
+
+        if((cardCollectionTrueSize % numberOfColumns)>0){
+            numberOfRows++; //if there is a reminder, add 1 to row size to full display
+        }
+        sizeOfRows = (int)distanceBetweenRows * (numberOfRows-1); //Calculate the pixels size - -1 due to +1 from above line of code
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Update & Draw Methods
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
      * Update
      *
      * @param elapsedTime Elapsed time information for the frame
      */
+    @Override
     public void update(ElapsedTime elapsedTime) {
         processTouchEvents();
         scrollLimiter();
@@ -113,6 +157,45 @@ public class DisplayCardsScreen extends GameScreen {
         mReturnButton.update(elapsedTime);
         if (mReturnButton.isPushTriggered()){
             mGame.getScreenManager().removeScreen(this);
+        }
+    }
+
+    /**
+     * Draw the screen
+     *
+     * @param elapsedTime Elapsed time information
+     * @param graphics2D  Graphics instance
+     */
+    @Override
+    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
+        backgroundBackground.draw(elapsedTime, graphics2D,
+                backgroundLayerViewport,
+                mDefaultScreenViewport);
+
+        //Displays Cards
+        displayAllCards(elapsedTime, graphics2D);
+
+        //Draw the back button
+        mReturnButton.draw(elapsedTime, graphics2D,
+                mDefaultLayerViewport, mDefaultScreenViewport);
+
+    }
+
+    /**
+     * ScrollLimiter
+     *
+     * These are the bounds in which card layer viewport (holding all the cards) will kept.
+     * Keeps the display of cards from leaving bounds
+     */
+    private void scrollLimiter(){
+
+        //Top Side Limiter
+        if(cardLayerViewport.y>=distanceBetweenRows){
+            cardLayerViewport.y=distanceBetweenRows;
+        }
+        //Bottom Side Limiter
+        else if(cardLayerViewport.y<=distanceBetweenRows-sizeOfRows + (mScreenHeight*0.4f)){
+            cardLayerViewport.y=distanceBetweenRows-sizeOfRows + (mScreenHeight*0.4f);
         }
     }
 
@@ -146,43 +229,6 @@ public class DisplayCardsScreen extends GameScreen {
     }
 
     /**
-     * Draw the screen
-     *
-     * @param elapsedTime Elapsed time information
-     * @param graphics2D  Graphics instance
-     */
-    @Override
-    public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
-        backgroundBackground.draw(elapsedTime, graphics2D,
-                backgroundLayerViewport,
-                mDefaultScreenViewport);
-
-        //Displays Cards
-        displayAllCards(elapsedTime, graphics2D);
-
-        //Draw the back button
-        mReturnButton.draw(elapsedTime, graphics2D,
-                mDefaultLayerViewport, mDefaultScreenViewport);
-
-    }
-
-    //Method allows future development and flexibility
-    private void calculateAmountOfRows(){
-        //Between Cards
-        distanceBetweenRows = mDefaultLayerViewport.getHeight()*    0.6f;
-        distanceBetweenColumns = mDefaultLayerViewport.getWidth()*  0.25f;
-
-        //Variables for the display of cards
-        int cardCollectionTrueSize = displayedCardCollection.size() + 1;
-        numberOfRows = (cardCollectionTrueSize / numberOfColumns); //Needs to be calculated
-
-        if((cardCollectionTrueSize % numberOfColumns)>0){
-            numberOfRows++; //if there is a reminder, add 1 to row size to full display
-        }
-        sizeOfRows = (int)distanceBetweenRows * (numberOfRows-1); //Calculate the pixels size - -1 due to +1 from above line of code
-    }
-
-    /**
      * Display All Cards
      *
      * Displays all cards in the screen
@@ -198,47 +244,8 @@ public class DisplayCardsScreen extends GameScreen {
         }
     }
 
-    /**
-     * SetPositionCards
-     *
-     * Sets up the positions of the cards collection
-     */
-    private void setCardPosition() {
-        float card_start_x = mDefaultLayerViewport.getWidth() * 0.12f ; //Starting Coordinates X
-        float card_start_y = mDefaultLayerViewport.getHeight() * 0.8f; //Starting Coordinates Y
 
-        int count = 0; //used to keep count of cards increment
-        for(int i = 0; i < numberOfRows; i++){
-            float y = i * distanceBetweenRows;
-
-            for(int j = 0; j < numberOfColumns; j++){
-                float x = j * distanceBetweenColumns;
-                if(count<displayedCardCollection.size()){
-                    displayedCardCollection.get(count).setPosition(card_start_x + x, card_start_y - y);
-                }
-                count++;
-            }
-        }
-    }
-
-    /**
-     * ScrollLimiter
-     *
-     * These are the bounds in which card layer viewport (holding all the cards) will kept.
-     * Keeps the display of cards from leaving bounds
-     */
-    public void scrollLimiter(){
-
-        //Top Side Limiter
-        if(cardLayerViewport.y>=distanceBetweenRows){
-            cardLayerViewport.y=distanceBetweenRows;
-        }
-        //Bottom Side Limiter
-        else if(cardLayerViewport.y<=distanceBetweenRows-sizeOfRows + (mScreenHeight*0.4f)){
-            cardLayerViewport.y=distanceBetweenRows-sizeOfRows + (mScreenHeight*0.4f);
-        }
-    }
-
+    //Getters
     public LayerViewport getCardLayerViewport() {
         return cardLayerViewport;
     }
@@ -246,6 +253,5 @@ public class DisplayCardsScreen extends GameScreen {
     public LayerViewport getBackgroundLayerViewport() {
         return backgroundLayerViewport;
     }
-
 
 }
