@@ -19,10 +19,7 @@ import android.graphics.Paint;
 
 import static org.junit.Assert.*;
 
-/**
- * Option Screen Tests
- * Created Dawson Mckee
- */
+
 @RunWith(AndroidJUnit4.class)
 public class OptionsScreenTest {
     private Context context;
@@ -39,7 +36,8 @@ public class OptionsScreenTest {
         game.mScreenManager = new ScreenManager(game);
         game.mAudioManager = new AudioManager(game);
         game.mAssetManager.loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
-        optionsScreen = new OptionsScreen(game);
+        game.mAssetManager.loadAndAddFont("MinecraftFont","Minecrafter.ttf");
+        optionsScreen = new OptionsScreen( game);
         game.getScreenManager().addScreen(optionsScreen);
 
     }
@@ -76,7 +74,7 @@ public class OptionsScreenTest {
 
     }
     @Test
-   // button will then be pressed and go to 2
+    // button will then be pressed and go to 2
     public void VolumeButton_Test3(){
         int pt1 = optionsScreen.getVolumeCounter();
         optionsScreen.getVolumeButton().buttonPushed(true);
@@ -134,7 +132,7 @@ public class OptionsScreenTest {
         optionsScreen.getVolumeButton().buttonPushed(true);
         optionsScreen.updateVolumeLevel();
         int pt0 = optionsScreen.getVolumeCounter();
-      //this is to prove that the counter resets with the logic
+        //this is to prove that the counter resets with the logic
         assertFalse(pt0 == 4);
     }
     @Test
@@ -160,7 +158,7 @@ public class OptionsScreenTest {
         assertTrue(val==0.67f);
 
     }
-@Test
+    @Test
     public void VolumeButton_test_volume2(){
 
         int pt1 = optionsScreen.getVolumeCounter();
@@ -189,13 +187,13 @@ public class OptionsScreenTest {
     }
 //all volume methods and algorithm run as expected
 
-@Test
+    @Test
 //testing the paints to make sure they are as expected and being set up with valid information
     public void PaintTypeTest_True(){
 
-         Typeface painttype = optionsScreen.getTitlePaint().getTypeface();
+        Typeface painttype = optionsScreen.getTitlePaint().getTypeface();
 
-         assertTrue(painttype == game.getAssetManager().getFont("MinecrafterFont"));
+        assertTrue(painttype == game.getAssetManager().getFont("MinecraftFont"));
 
     }
     @Test
@@ -213,7 +211,7 @@ public class OptionsScreenTest {
 
         //proof that the method works compares it to a paint that is already set up with the same values
         float size = optionsScreen.getScreenHeight();
-        Paint testpaint = optionsScreen.createAPaint("Center" ,"White","MinecrafterFont",size/16);
+        Paint testpaint = optionsScreen.createAPaint("Center" ,"White","MinecraftFont",size/16);
 
         assertTrue(testpaint.getColor() == optionsScreen.getTitlePaint().getColor());
     }
@@ -225,7 +223,7 @@ public class OptionsScreenTest {
         //proof that the method works compares it to a paint that is already set up with the same values
         float size = optionsScreen.getScreenHeight();
         //changed colour to show that testpaint is not the same and is a diffrent but valid paint
-        Paint testpaint = optionsScreen.createAPaint("Center" ,"Black","MinecrafterFont",size/16);
+        Paint testpaint = optionsScreen.createAPaint("Center" ,"Black","MinecraftFont",size/16);
 
         assertFalse(testpaint.getColor() == optionsScreen.getTitlePaint().getColor());
     }

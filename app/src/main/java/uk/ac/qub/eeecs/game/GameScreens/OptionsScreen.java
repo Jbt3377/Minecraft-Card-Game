@@ -211,9 +211,9 @@ public class OptionsScreen extends GameScreen {
      * Method sets up Paint objects required for different levels of text on screen
      */
     private void createPaints(){
-        titlePaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 16);
+        titlePaint = createAPaint("Center","White","MinecraftFont",mScreenHeight / 16);
         textPaintSettings = createAPaint("Left","White","MinecraftRegFont",mScreenHeight / 24);
-        fpsPaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 30);
+        fpsPaint = createAPaint("Center","White","MinecraftFont",mScreenHeight / 30);
     }
 
     /**
