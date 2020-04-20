@@ -142,10 +142,9 @@ public class GameBoard {
 
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
     // Update & Draw Methods
-    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////
 
 
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D,
@@ -170,9 +169,9 @@ public class GameBoard {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////
     // General Getter & Setter Methods
-    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////
 
     public final Player getActivePlayer() {
         if (isPlayer1Turn)
@@ -379,7 +378,7 @@ public class GameBoard {
         this.utilityCardContainer = utilityCardContainer;
     }
 
-    public static void processCardMagnification(Draggable dObj, Game game, PlayerHand playerHand) {
+    public void processCardMagnification(Draggable dObj, Game game, PlayerHand playerHand) {
         Card card;
         if (game.isMagnificationToggled()) {
             int index = playerHand.getPlayerHand().indexOf(dObj);
@@ -391,21 +390,20 @@ public class GameBoard {
         }
     }
 
-    public static void processCardMagnificationRelease(Game game) {
+    public void processCardMagnificationRelease(Game game) {
         if (game.isMagnificationToggled()) {
             if (game.drawCard) {
                 game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));
             }
             game.setDrawCard(false);
-            ;
         }
     }
 
-    public static void processMobMagnification(Game game, MobContainer mobContainer) {
+    public void processMobMagnification(Game game, MobContainer mobContainer) {
 
         Card card = null;
         if (game.isMagnificationToggled()) {
-            for (Card mobCard : game.getScreenManager().getCurrentScreen().getCardCollection()) {
+            for (Card mobCard : cardCollection) {
                 if (mobContainer.getContents().getName() == mobCard.getCardName()) {
                     card = mobCard;
                 }
@@ -417,7 +415,7 @@ public class GameBoard {
         }
     }
 
-    public static void processMobMagnificationRelease(Game game) {
+    public void processMobMagnificationRelease(Game game) {
         if (game.isMagnificationToggled()) {
             if (game.drawCard) {
                 game.getAudioManager().play(game.getAssetManager().getSound("zoom-out"));

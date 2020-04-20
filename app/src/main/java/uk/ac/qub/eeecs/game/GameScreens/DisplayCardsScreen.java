@@ -47,7 +47,7 @@ public class DisplayCardsScreen extends GameScreen {
     // Constructors
     // /////////////////////////////////////////////////////////////////////////
 
-    public DisplayCardsScreen(String screenName, Game game) {
+    public DisplayCardsScreen(Game game) {
         super("CardsDisplay", game);
         this.displayedCardCollection =  CardCollection.getAllCardCollection(this,game.getAssetManager().getAllCardStats());
         numberOfColumns = 4;

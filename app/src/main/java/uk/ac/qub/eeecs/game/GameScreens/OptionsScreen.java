@@ -3,7 +3,6 @@ package uk.ac.qub.eeecs.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class OptionsScreen extends GameScreen {
     private PushButton mReturnButton;
     private GameObject boardBackground;
     private LayerViewport boardLayerViewport;
-    private Paint titlePaint, textPaintSettings, fpsPaint, Testpaint;
+    private Paint titlePaint, textPaintSettings, fpsPaint;
     private GameObject humanAvatar, aiAvatar, selectPlayer1First, selectPlayer2First;
     private ToggleButton fpsToggle;
     private boolean fpsDrawn;
@@ -34,25 +33,22 @@ public class OptionsScreen extends GameScreen {
     private GameObject[] helmetStates;
     private int frameCount;
 
-    private int volumecounter = 1;
+    private int volumeCounter = 1;
     private PushButton volumeButton;
     private float music1,music2,music3,music4;
     private float sfx1,sfx2,sfx3,sfx4;
 
 
-    // /////////////////////////////////////////////////////////////////////////
+    ///////////////
     // Constructors
-    // /////////////////////////////////////////////////////////////////////////
+    ///////////////
 
 
-    public OptionsScreen(String screenName, Game game) {
+    public OptionsScreen(Game game) {
         super("OptionsScreen", game);
 
         mDefaultScreenViewport.set( 0, 0, mGame.getScreenWidth(), mGame.getScreenHeight());
         boardLayerViewport = new LayerViewport(mScreenWidth/2,mScreenHeight/2,mScreenWidth/2,mScreenHeight/2);
-        mGame.getAssetManager().loadAndAddFont("MinecrafterFont", "font/Minecrafter.ttf");
-        mGame.getAssetManager().loadAndAddBitmap("OptionsScreenBackground","img/GameScreen Backgrounds/OptionsScreenBackground.png");
-        mGame.getAssetManager().loadAssets("txt/assets/MinecraftCardGameScreenAssets.JSON");
 
         this.frameCount = 0;
         this.helmetStates = new GameObject[4];
@@ -72,7 +68,6 @@ public class OptionsScreen extends GameScreen {
         volumeButton = new PushButton(mScreenWidth / 1.38f, mScreenHeight* 0.5500f,mScreenWidth* 0.13f, mScreenHeight* 0.18f,
                 "VolumeButton",  this);
 
-
         // Opponent Selection Objects
         humanAvatar = new Sprite(mScreenWidth/2 *0.75f, mScreenHeight/3, game.getAssetManager().getBitmap("human_avatar"), this);
         aiAvatar = new Sprite(mScreenWidth/2, mScreenHeight/3, game.getAssetManager().getBitmap("ai_avatar"), this);
@@ -88,11 +83,11 @@ public class OptionsScreen extends GameScreen {
         if(mGame.isDisplayFps()) fpsToggle.setToggled(true);
 
         createPaints();
-
-
-
     }
 
+    ////////////////////////
+    // Draw & Update Methods
+    ////////////////////////
 
     @Override
     public void update(ElapsedTime elapsedTime) {
@@ -100,20 +95,18 @@ public class OptionsScreen extends GameScreen {
         playBackgroundMusic();
         fps = (int) mGame.getAverageFramesPerSecond();
 
-        volumeButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
         mReturnButton.update(elapsedTime);
         if (mReturnButton.isPushTriggered())
             mGame.getScreenManager().removeScreen(this);
 
+        fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
+        volumeButton.update(elapsedTime ,boardLayerViewport,mDefaultScreenViewport);
+        mGame.setDisplayFps(fpsToggle.isToggledOn());
+        updateVolumeLevel();
+
+
         Input touchInputs = mGame.getInput();
         List<TouchEvent> input = touchInputs.getTouchEvents();
-       //logic for the volume button (if)
-
-            volumebuttontriggred();
-
-
-        fpsToggle.update(elapsedTime,boardLayerViewport,mDefaultScreenViewport);
-        mGame.setDisplayFps(fpsToggle.isToggledOn());
 
         for (TouchEvent t : input) {
             float x_cor = t.x;
@@ -140,9 +133,7 @@ public class OptionsScreen extends GameScreen {
 
     }
 
-    /**
-     * Draw the menu screen
-     */
+
     @Override
     public void draw(ElapsedTime elapsedTime, IGraphics2D graphics2D) {
 
@@ -170,12 +161,10 @@ public class OptionsScreen extends GameScreen {
         // Draw FPS Selection
         graphics2D.drawText("FPS Counter:", mScreenWidth/8, mScreenHeight*0.9f, textPaintSettings);
         fpsToggle.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
+
         // Draw Volume Button info
-        graphics2D.drawText("Volume: " + volumecounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
+        graphics2D.drawText("Volume: " + volumeCounter, (int) (mScreenWidth / 1.5), mScreenHeight/3, textPaintSettings);
         volumeButton.draw(elapsedTime, graphics2D, boardLayerViewport,mDefaultScreenViewport);
-
-
-
 
 
         // Draw FPS if enabled
@@ -193,7 +182,6 @@ public class OptionsScreen extends GameScreen {
         else if(frameCount<12) helmetStateToDraw = 2;
         else helmetStateToDraw = 3;
 
-        System.out.println(frameCount);
         helmetStates[helmetStateToDraw].draw(elapsedTime, graphics2D, boardLayerViewport, mDefaultScreenViewport);
 
         // Draw the back button
@@ -201,12 +189,14 @@ public class OptionsScreen extends GameScreen {
                 mDefaultLayerViewport, mDefaultScreenViewport);
     }
 
+    //////////
+    // Methods
+    //////////
 
     /**
      * Method sets up each helmet state as a game object and stores in an array of animation states
      */
     private void setupHelmetStates(){
-
         GameObject helmetState1 = new GameObject(mScreenWidth/2 *0.75f, mScreenHeight *0.35f, 250, 250, getGame().getAssetManager().getBitmap("HelmetState1"), this);
         this.helmetStates[0] = helmetState1;
         GameObject helmetState2 = new GameObject(mScreenWidth/2 *0.75f, mScreenHeight *0.35f, 250, 250, getGame().getAssetManager().getBitmap("HelmetState2"), this);
@@ -220,13 +210,10 @@ public class OptionsScreen extends GameScreen {
     /**
      * Method sets up Paint objects required for different levels of text on screen
      */
-    public void createPaints(){
-
-
+    private void createPaints(){
         titlePaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 16);
-        textPaintSettings = createAPaint("Left","White","MinecrafterFont",mScreenHeight / 24);
+        textPaintSettings = createAPaint("Left","White","MinecraftRegFont",mScreenHeight / 24);
         fpsPaint = createAPaint("Center","White","MinecrafterFont",mScreenHeight / 30);
-
     }
 
     /**
@@ -250,7 +237,6 @@ public class OptionsScreen extends GameScreen {
      * is set to have the first turn
      */
     private void updateAnimationCoOrdinates(){
-
         for(GameObject helmetState: this.helmetStates){
 
             if(mGame.isPlayer1First())
@@ -269,52 +255,50 @@ public class OptionsScreen extends GameScreen {
     }
 
 
-
-    public int getVolumecounter() {
-        return volumecounter;
-    }
-    public void setVolumeButton(int num){
-
-        this.volumecounter = num;
-    }
-
-    public void volumebuttontriggred(){
+    /**
+     * Method will set the Music and SFX levels to the level currently set by volume control
+     */
+    public void updateVolumeLevel(){
 
         if(volumeButton.isPushTriggered()){
-        if(volumecounter == 0){
-            mGame.getAudioManager().setSfxVolume(0.33f);
-            mGame.getAudioManager().setMusicVolume(0.33f);
-            mGame.getAudioManager().getSoundPool().autoPause();
-            music1 = mGame.getAudioManager().getMusicVolume();
-            sfx1 = mGame.getAudioManager().getSfxVolume();
-            volumecounter++;
-        }else if(volumecounter == 1){
+            if(volumeCounter == 0){
+                mGame.getAudioManager().setSfxVolume(0.33f);
+                mGame.getAudioManager().setMusicVolume(0.33f);
+                mGame.getAudioManager().getSoundPool().autoPause();
+                music1 = mGame.getAudioManager().getMusicVolume();
+                sfx1 = mGame.getAudioManager().getSfxVolume();
+                volumeCounter++;
+            }else if(volumeCounter == 1){
 
-            mGame.getAudioManager().setSfxVolume(0.67f);
-            mGame.getAudioManager().setMusicVolume(0.67f);
-            music2 = 0.67f;
-            sfx2 = mGame.getAudioManager().getSfxVolume();
+                mGame.getAudioManager().setSfxVolume(0.67f);
+                mGame.getAudioManager().setMusicVolume(0.67f);
+                music2 = 0.67f;
+                sfx2 = mGame.getAudioManager().getSfxVolume();
 
-            volumecounter++;
-        }else if(volumecounter == 2) {
+                volumeCounter++;
+            }else if(volumeCounter == 2) {
 
-            mGame.getAudioManager().setSfxVolume(1);
-            mGame.getAudioManager().setMusicVolume(1);
-            music3 = mGame.getAudioManager().getMusicVolume();
-            sfx3 = mGame.getAudioManager().getSfxVolume();
+                mGame.getAudioManager().setSfxVolume(1);
+                mGame.getAudioManager().setMusicVolume(1);
+                music3 = mGame.getAudioManager().getMusicVolume();
+                sfx3 = mGame.getAudioManager().getSfxVolume();
 
-            volumecounter++;
-        } else if (volumecounter == 3) {
-            mGame.getAudioManager().setSfxVolume(0);
-            mGame.getAudioManager().setMusicVolume(0);
-            mGame.getAudioManager().getSoundPool().autoPause();
-            music4 = mGame.getAudioManager().getMusicVolume();
-            sfx4 = mGame.getAudioManager().getSfxVolume();
-            volumecounter = 0;
-        }
+                volumeCounter++;
+            } else if (volumeCounter == 3) {
+                mGame.getAudioManager().setSfxVolume(0);
+                mGame.getAudioManager().setMusicVolume(0);
+                mGame.getAudioManager().getSoundPool().autoPause();
+                music4 = mGame.getAudioManager().getMusicVolume();
+                sfx4 = mGame.getAudioManager().getSfxVolume();
+                volumeCounter = 0;
+            }
         }
 
     }
+
+    ////////////////////
+    // Getters & Setters
+    ////////////////////
 
     public PushButton getVolumeButton() {
         return volumeButton;
@@ -367,19 +351,16 @@ public class OptionsScreen extends GameScreen {
         return titlePaint;
     }
 
-    public Paint getTestPaint(){
-
-        return Testpaint;
-    }
-
     public float getScreenHeight(){
-
         return mScreenHeight;
     }
 
     public float getScreenWidth(){
-
         return mScreenWidth;
+    }
+
+    public int getVolumeCounter() {
+        return volumeCounter;
     }
 
 
@@ -396,7 +377,6 @@ public class OptionsScreen extends GameScreen {
             TextPaint.setTextAlign(Paint.Align.RIGHT);
         else if (Postion.equalsIgnoreCase("Left"))
             TextPaint.setTextAlign(Paint.Align.LEFT);
-
         else TextPaint.setTextAlign(Paint.Align.CENTER);
 
 

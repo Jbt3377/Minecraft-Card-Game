@@ -42,7 +42,7 @@ public class CustomBoardScreen extends GameScreen {
         return rightBoardChange;
     }
 
-    public CustomBoardScreen(String screenName, Game game) {
+    public CustomBoardScreen(Game game) {
         super("customBoardScreen", game);
 
         int screenWidth = mGame.getScreenWidth();

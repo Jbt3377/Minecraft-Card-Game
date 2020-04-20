@@ -33,9 +33,7 @@ public class ChangeDeckScreen extends GameScreen {
     private int frames;
     private DeckEditorScreen DeckEditor;
 
-
-
-    public ChangeDeckScreen(String screenName, Game game) {
+    public ChangeDeckScreen(Game game) {
         super("changeDeckScreen", game);
 
         int screenWidth = mGame.getScreenWidth();
@@ -67,7 +65,7 @@ public class ChangeDeckScreen extends GameScreen {
 
         backButton = new GameObject(screenWidth* 0.1f, screenHeight/11, screenWidth /6.5f, screenHeight /10, getGame().getAssetManager().getBitmap("BackButton"), this);
 
-        DeckEditor = new DeckEditorScreen("DeckEditor", game);
+        DeckEditor = new DeckEditorScreen(game);
     }
 
 
@@ -88,9 +86,6 @@ public class ChangeDeckScreen extends GameScreen {
         textFont.setTypeface(MainActivity.minecraftRegFont);
         textFont.setColor(Color.WHITE);
         textFont.setTextAlign(Paint.Align.CENTER);
-
-        int width = mGame.getScreenWidth();
-        int height = mGame.getScreenHeight();
 
         background.draw(elapsedTime, graphics2D,
                 boardLayerViewport,
@@ -203,7 +198,7 @@ public class ChangeDeckScreen extends GameScreen {
         }
     }
 
-    public void setupAnimationStates() {
+    private void setupAnimationStates() {
         GameObject state1 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6.6f, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest1"), this);
         this.chestAnimationStates[0] = state1;
         GameObject state2 = new GameObject(mScreenWidth/2.7f, mScreenHeight/6.4f, mScreenWidth/4, mScreenHeight/2, getGame().getAssetManager().getBitmap("endchest2"), this);

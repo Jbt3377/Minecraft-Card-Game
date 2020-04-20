@@ -61,7 +61,7 @@ public class DeckEditorScreen extends GameScreen {
     // /////////////////////////////////////////////////////////////////////////
 
 
-    public DeckEditorScreen(String screenName, Game game) {
+    public DeckEditorScreen(Game game) {
         super("DeckEditor", game);
 
         this.cardCollection = CardCollection.getAllCardCollection(this,game.getAssetManager().getAllCardStats());; //All cards in the game

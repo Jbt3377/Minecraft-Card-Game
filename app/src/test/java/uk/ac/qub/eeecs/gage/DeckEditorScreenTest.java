@@ -73,7 +73,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testRemoveCardFromDeck(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         //Set up
         int testDeckSize = 20;
         int index = 5;
@@ -88,7 +88,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testAddCardToDeck(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
 
         int testDeckSize = 0;
 
@@ -104,7 +104,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testRightButton_LargeCardCollection(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 30; //COLLECTION SIZE
 
         float posX = deckEditorScreen.getRightButton().position.x;
@@ -124,7 +124,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testRightButton_SmallCardCollect() {
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 1; //COLLECTION SIZE
         float posX = deckEditorScreen.getRightButton().position.x;
         float posY = deckEditorScreen.getRightButton().position.y;
@@ -143,7 +143,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testRightButton_NoCardCollection() {
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 0; //COLLECTION SIZE
         float posX = deckEditorScreen.getRightButton().position.x;
         float posY = deckEditorScreen.getRightButton().position.y;
@@ -162,7 +162,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testLeftButton_LargeCardCollection(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 30; //COLLECTION SIZE
 
         float posX = deckEditorScreen.getLeftButton().position.x;
@@ -182,7 +182,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testLeftButton_SmallCardCollect() {
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 1; //COLLECTION SIZE
         float posX = deckEditorScreen.getLeftButton().position.x;
         float posY = deckEditorScreen.getLeftButton().position.y;
@@ -201,7 +201,7 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testLeftButton_NoCardCollect() {
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         int cardCollectionSize = 0; //COLLECTION SIZE
         float posX = deckEditorScreen.getLeftButton().position.x;
         float posY = deckEditorScreen.getLeftButton().position.y;
@@ -220,14 +220,14 @@ public class DeckEditorScreenTest{
 
     @Test
     public void testClearDeck_NoDeck(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         deckEditorScreen.clearDeck();
         assertEquals(deckEditorScreen.getDeck().size(),0.0f,0.0f);
     }
 
     @Test
     public void testClearDeck_FullDeck(){
-        DeckEditorScreen deckEditorScreen = new DeckEditorScreen("DeckEditor", game);
+        DeckEditorScreen deckEditorScreen = new DeckEditorScreen(game);
         for(int i = 0; i <deckEditorScreen.getDeck().size(); i++){
             deckEditorScreen.addCardToDeck(cTest);
         }
@@ -243,7 +243,7 @@ public class DeckEditorScreenTest{
         touchEvent.x = touchX;
         touchEvent.y = touchY;
 
-        List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
+        List<TouchEvent> touchEvents = new ArrayList<>();
         touchEvents.add(touchEvent);
         return touchEvents;
     }
@@ -255,7 +255,7 @@ public class DeckEditorScreenTest{
         touchEvent.x = touchX;
         touchEvent.y = touchY;
 
-        List<TouchEvent> touchEvents = new ArrayList<TouchEvent>();
+        List<TouchEvent> touchEvents = new ArrayList<>();
         touchEvents.add(touchEvent);
         return touchEvents;
     }
