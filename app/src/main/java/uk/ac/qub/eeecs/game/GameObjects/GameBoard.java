@@ -277,7 +277,7 @@ public class GameBoard {
             for (Card card : player2Hand.getPlayerHand()) {
                 if (card != null) {
                     if (t.type == TouchEvent.TOUCH_DOWN && card.getBoundingBox().contains(x_cor, y_cor)) {
-                        processCardMagnification(card, gameScreen.getGame(), player1Hand);
+                        processCardMagnification(card, gameScreen.getGame(), player2Hand);
                     } else if (t.type == TouchEvent.TOUCH_UP) {
                         processCardMagnificationRelease(gameScreen.getGame());
                     }
